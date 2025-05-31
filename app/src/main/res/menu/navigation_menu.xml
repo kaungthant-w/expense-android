@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@android:drawable/ic_menu_mylocation"
+            android:title="🏠 Home" />
+        
+        <item
+            android:id="@+id/nav_summary"
+            android:icon="@android:drawable/ic_menu_info_details"
+            android:title="📊 Summary" />
+        
+        <item
+            android:id="@+id/nav_analytics"
+            android:icon="@android:drawable/ic_menu_sort_by_size"
+            android:title="📈 Analytics" />
+        
+        <item
+            android:id="@+id/nav_all_list"
+            android:icon="@android:drawable/ic_menu_agenda"
+            android:title="📋 All List" />
+        
+        <item
+            android:id="@+id/nav_history"
+            android:icon="@android:drawable/ic_menu_recent_history"
+            android:title="🗃️ History" />
+        
+        <item
+            android:id="@+id/nav_currency_exchange"
+            android:icon="@android:drawable/ic_menu_manage"
+            android:title="💱 Currency Exchange" />
+    </group>
+    
+    <group android:id="@+id/group_settings">
+        <item
+            android:id="@+id/nav_settings"
+            android:icon="@android:drawable/ic_menu_preferences"
+            android:title="⚙️ Settings" />
+        
+        <item
+            android:id="@+id/nav_feedback"
+            android:icon="@android:drawable/ic_menu_send"
+            android:title="💬 Feedback" />
+    </group>
+    
+</menu>

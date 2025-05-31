@@ -4,28 +4,36 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.view.MenuItem
 import android.widget.Button
 import android.widget.EditText
 import android.widget.RadioGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.navigation.NavigationView
 
-class FeedbackActivity : AppCompatActivity() {
+class FeedbackActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     
     private lateinit var radioGroupRating: RadioGroup
     private lateinit var editTextFeedback: EditText
     private lateinit var editTextEmail: EditText
     private lateinit var buttonSubmit: Button
+    private lateinit var fabMenu: FloatingActionButton
+    private lateinit var drawerLayout: DrawerLayout
+    private lateinit var navigationView: NavigationView
     
     override fun onCreate(savedInstanceState: Bundle?) {
         applyTheme()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_feedback)
-        
-        setupActionBar()
+          setupActionBar()
         initViews()
         setupClickListeners()
+        setupNavigationDrawer()
     }
     
     private fun applyTheme() {
@@ -43,18 +51,31 @@ class FeedbackActivity : AppCompatActivity() {
         supportActionBar?.title = "💬 Feedback"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
-    
-    private fun initViews() {
+      private fun initViews() {
         radioGroupRating = findViewById(R.id.radioGroupRating)
         editTextFeedback = findViewById(R.id.editTextFeedback)
         editTextEmail = findViewById(R.id.editTextEmail)
         buttonSubmit = findViewById(R.id.buttonSubmit)
+        fabMenu = findViewById(R.id.fabMenu)
+        drawerLayout = findViewById(R.id.drawer_layout)
+        navigationView = findViewById(R.id.navigation_view)
     }
     
     private fun setupClickListeners() {
         buttonSubmit.setOnClickListener {
             submitFeedback()
         }
+    }
+    
+    private fun setupNavigationDrawer() {
+        navigationView.setNavigationItemSelectedListener(this)
+        
+        fabMenu.setOnClickListener {
+            drawerLayout.openDrawer(GravityCompat.START)
+        }
+        
+        // Set feedback as checked
+        navigationView.setCheckedItem(R.id.nav_feedback)
     }
     
     private fun submitFeedback() {
@@ -124,5 +145,54 @@ class FeedbackActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         finish()
         return true
+    }
+    
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.nav_home -> {
+                startActivity(Intent(this, MainActivity::class.java))
+                finish()
+            }
+            R.id.nav_summary -> {
+                startActivity(Intent(this, SummaryActivity::class.java))
+                finish()
+            }
+            R.id.nav_analytics -> {
+                startActivity(Intent(this, AnalyticsActivity::class.java))
+                finish()
+            }
+            R.id.nav_all_list -> {
+                startActivity(Intent(this, AllListActivity::class.java))
+                finish()
+            }
+            R.id.nav_history -> {
+                startActivity(Intent(this, HistoryActivity::class.java))
+                finish()
+            }
+            R.id.nav_currency_exchange -> {
+                startActivity(Intent(this, CurrencyExchangeActivity::class.java))
+                finish()
+            }
+            R.id.nav_settings -> {
+                startActivity(Intent(this, SettingsActivity::class.java))
+                finish()
+            }
+            R.id.nav_feedback -> {
+                // Already on feedback, just close drawer
+                drawerLayout.closeDrawer(GravityCompat.START)
+                return true
+            }
+        }
+        
+        drawerLayout.closeDrawer(GravityCompat.START)
+        return true
+    }
+    
+    override fun onBackPressed() {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START)
+        } else {
+            super.onBackPressed()
+        }
     }
 }

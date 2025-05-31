@@ -10,7 +10,7 @@ class CurrencyManager private constructor(private val context: Context) {
     companion object {
         const val CURRENCY_USD = "USD"
         const val CURRENCY_MMK = "MMK"
-        const val DEFAULT_EXCHANGE_RATE = 2100.0 // Default MMK per USD
+        const val DEFAULT_EXCHANGE_RATE = 3600.0 // Default MMK per USD
         
         private const val PREFS_NAME = "currency_prefs"
         private const val KEY_CURRENT_CURRENCY = "current_currency"

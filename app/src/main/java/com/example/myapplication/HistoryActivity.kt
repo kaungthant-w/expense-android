@@ -1,39 +1,51 @@
 package com.example.myapplication
 
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.navigation.NavigationView
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.text.SimpleDateFormat
 import java.util.*
 
-class HistoryActivity : AppCompatActivity() {
+class HistoryActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     
     private lateinit var recyclerView: RecyclerView
     private lateinit var historyAdapter: HistoryAdapter
     private val deletedExpenses = mutableListOf<ExpenseItem>()
     private lateinit var sharedPreferences: SharedPreferences
     private val gson = Gson()
-      
-    override fun onCreate(savedInstanceState: Bundle?) {
+    
+    // Navigation Drawer components
+    private lateinit var drawerLayout: DrawerLayout
+    private lateinit var navigationView: NavigationView
+    private lateinit var fabMenu: FloatingActionButton
+        override fun onCreate(savedInstanceState: Bundle?) {
         applyTheme()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_history)
         
         setupActionBar()
         initViews()
+        setupNavigationDrawer()
         setupSharedPreferences()
         setupRecyclerView()
         loadDeletedExpenses()
@@ -45,16 +57,33 @@ class HistoryActivity : AppCompatActivity() {
         // This ensures we always show the latest deleted data
         loadDeletedExpenses()
     }
-    
-    private fun setupActionBar() {
+      private fun setupActionBar() {
         supportActionBar?.title = "🗃️ Deleted Items History"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
     
     private fun initViews() {
+        drawerLayout = findViewById(R.id.drawerLayout)
+        navigationView = findViewById(R.id.navigationView)
+        fabMenu = findViewById(R.id.fabMenu)
         recyclerView = findViewById(R.id.recyclerViewHistory)
     }
-      private fun setupSharedPreferences() {
+    
+    private fun setupNavigationDrawer() {
+        val toggle = ActionBarDrawerToggle(
+            this, drawerLayout, null,
+            R.string.navigation_drawer_open, R.string.navigation_drawer_close
+        )
+        drawerLayout.addDrawerListener(toggle)
+        toggle.syncState()
+        
+        navigationView.setNavigationItemSelectedListener(this)
+        
+        fabMenu.setOnClickListener {
+            drawerLayout.openDrawer(GravityCompat.START)
+        }    }
+    
+    private fun setupSharedPreferences() {
         sharedPreferences = getSharedPreferences("expense_prefs", Context.MODE_PRIVATE)
     }
       private fun setupRecyclerView() {
@@ -203,12 +232,50 @@ class HistoryActivity : AppCompatActivity() {
             ThemeActivity.THEME_LIGHT -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
             ThemeActivity.THEME_DARK -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
             ThemeActivity.THEME_SYSTEM -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
-        }
-    }
+        }    }
     
     override fun onSupportNavigateUp(): Boolean {
         finish()
         return true
+    }
+    
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.nav_home -> {
+                startActivity(Intent(this, MainActivity::class.java))
+            }
+            R.id.nav_summary -> {
+                startActivity(Intent(this, SummaryActivity::class.java))
+            }
+            R.id.nav_analytics -> {
+                startActivity(Intent(this, AnalyticsActivity::class.java))
+            }
+            R.id.nav_all_list -> {
+                startActivity(Intent(this, AllListActivity::class.java))
+            }
+            R.id.nav_history -> {
+                // Already in this activity, just close drawer
+            }
+            R.id.nav_currency_exchange -> {
+                startActivity(Intent(this, CurrencyExchangeActivity::class.java))
+            }
+            R.id.nav_settings -> {
+                startActivity(Intent(this, SettingsActivity::class.java))
+            }
+            R.id.nav_feedback -> {
+                startActivity(Intent(this, FeedbackActivity::class.java))
+            }
+        }
+        drawerLayout.closeDrawer(GravityCompat.START)
+        return true
+    }
+    
+    override fun onBackPressed() {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START)
+        } else {
+            super.onBackPressed()
+        }
     }
 }
 

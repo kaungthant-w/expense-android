@@ -3,18 +3,30 @@ package com.example.myapplication
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.MenuItem
+import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.cardview.widget.CardView
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.navigation.NavigationView
 
-class SettingsActivity : AppCompatActivity() {
+class SettingsActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     
-    override fun onCreate(savedInstanceState: Bundle?) {
+    // Navigation Drawer components
+    private lateinit var drawerLayout: DrawerLayout
+    private lateinit var navigationView: NavigationView
+    private lateinit var fabMenu: FloatingActionButton
+      override fun onCreate(savedInstanceState: Bundle?) {
         applyTheme()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
         
         setupActionBar()
+        initViews()
+        setupNavigationDrawer()
         setupClickListeners()
     }
     
@@ -28,10 +40,30 @@ class SettingsActivity : AppCompatActivity() {
             ThemeActivity.THEME_SYSTEM -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
         }
     }
-    
-    private fun setupActionBar() {
+      private fun setupActionBar() {
         supportActionBar?.title = "⚙️ Settings"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    }
+    
+    private fun initViews() {
+        drawerLayout = findViewById(R.id.drawerLayout)
+        navigationView = findViewById(R.id.navigationView)
+        fabMenu = findViewById(R.id.fabMenu)
+    }
+    
+    private fun setupNavigationDrawer() {
+        val toggle = ActionBarDrawerToggle(
+            this, drawerLayout, null,
+            R.string.navigation_drawer_open, R.string.navigation_drawer_close
+        )
+        drawerLayout.addDrawerListener(toggle)
+        toggle.syncState()
+        
+        navigationView.setNavigationItemSelectedListener(this)
+        
+        fabMenu.setOnClickListener {
+            drawerLayout.openDrawer(GravityCompat.START)
+        }
     }
       private fun setupClickListeners() {
         // Theme Settings Card
@@ -48,9 +80,47 @@ class SettingsActivity : AppCompatActivity() {
             startActivity(Intent(this, FeedbackActivity::class.java))
         }
     }
-    
-    override fun onSupportNavigateUp(): Boolean {
+      override fun onSupportNavigateUp(): Boolean {
         finish()
         return true
+    }
+    
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.nav_home -> {
+                startActivity(Intent(this, MainActivity::class.java))
+            }
+            R.id.nav_summary -> {
+                startActivity(Intent(this, SummaryActivity::class.java))
+            }
+            R.id.nav_analytics -> {
+                startActivity(Intent(this, AnalyticsActivity::class.java))
+            }
+            R.id.nav_all_list -> {
+                startActivity(Intent(this, AllListActivity::class.java))
+            }
+            R.id.nav_history -> {
+                startActivity(Intent(this, HistoryActivity::class.java))
+            }
+            R.id.nav_currency_exchange -> {
+                startActivity(Intent(this, CurrencyExchangeActivity::class.java))
+            }
+            R.id.nav_settings -> {
+                // Already in this activity, just close drawer
+            }
+            R.id.nav_feedback -> {
+                startActivity(Intent(this, FeedbackActivity::class.java))
+            }
+        }
+        drawerLayout.closeDrawer(GravityCompat.START)
+        return true
+    }
+    
+    override fun onBackPressed() {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START)
+        } else {
+            super.onBackPressed()
+        }
     }
 }

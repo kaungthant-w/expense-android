@@ -1,13 +1,13 @@
 package com.example.myapplication
 
-import android.app.Activity
-import android.util.Log
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
+import android.view.MenuItem
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -15,18 +15,25 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.appcompat.widget.Toolbar
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.navigation.NavigationView
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.text.SimpleDateFormat
 import java.util.*
 
-class MainActivity : AppCompatActivity() {private lateinit var editTextName: EditText
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+
+    private lateinit var editTextName: EditText
     private lateinit var editTextPrice: EditText
     private lateinit var editTextDescription: EditText
     private lateinit var editTextDate: EditText
@@ -40,16 +47,24 @@ class MainActivity : AppCompatActivity() {private lateinit var editTextName: Edi
     private val expenseList = mutableListOf<ExpenseItem>()
     private lateinit var sharedPreferences: SharedPreferences
     private val gson = Gson()
-    private lateinit var fabMain: FloatingActionButton
-    private var fabMenuOverlay: View? = null    // Activity result launcher for expense detail activity
+    private lateinit var toolbar: Toolbar
+    
+    // Navigation Drawer components
+    private lateinit var drawerLayout: DrawerLayout
+    private lateinit var navigationView: NavigationView
+    private lateinit var drawerToggle: ActionBarDrawerToggle
+    private lateinit var fabMenu: FloatingActionButton
+    
+    // Activity result launcher for expense detail activity
     private val expenseDetailLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
-        if (result.resultCode == RESULT_OK) {            val data = result.data
-            val shouldDelete = data?.getBooleanExtra("delete_expense", false) ?: false
+        if (result.resultCode == RESULT_OK) {
+            val deleteData = result.data
+            val shouldDelete = deleteData?.getBooleanExtra("delete_expense", false) ?: false
             if (shouldDelete) {
                 // Handle delete from detail activity - no confirmation needed as it was already confirmed
-                val expenseId = data?.getLongExtra("expense_id", -1L) ?: -1L
+                val expenseId = deleteData?.getLongExtra("expense_id", -1L) ?: -1L
                 if (expenseId != -1L) {
                     // Find the expense in the list and soft delete it directly
                     val position = expenseList.indexOfFirst { it.id == expenseId }
@@ -67,22 +82,22 @@ class MainActivity : AppCompatActivity() {private lateinit var editTextName: Edi
                         
                         // Save the deleted expense specifically
                         saveDeletedExpense(expenseToDelete)
-                        
                         Toast.makeText(this, "💾 Expense moved to history. Check History to restore.", Toast.LENGTH_LONG).show()
                     }
-                }            } else {
+                }
+            } else {
                 // Handle save/edit from detail activity
-                val data = result.data
-                if (data != null) {
-                    val expenseId = data.getLongExtra("expense_id", -1L)
-                    val isNewExpense = data.getBooleanExtra("is_new_expense", false)
+                val activityResult = result.data
+                if (activityResult != null) {
+                    val expenseId = activityResult.getLongExtra("expense_id", -1L)
+                    val isNewExpense = activityResult.getBooleanExtra("is_new_expense", false)
                     
                     if (expenseId != -1L) {
-                        val name = data.getStringExtra("expense_name") ?: ""
-                        val price = data.getDoubleExtra("expense_price", 0.0)
-                        val description = data.getStringExtra("expense_description") ?: ""
-                        val date = data.getStringExtra("expense_date") ?: ""
-                        val time = data.getStringExtra("expense_time") ?: ""
+                        val name = activityResult.getStringExtra("expense_name") ?: ""
+                        val price = activityResult.getDoubleExtra("expense_price", 0.0)
+                        val description = activityResult.getStringExtra("expense_description") ?: ""
+                        val date = activityResult.getStringExtra("expense_date") ?: ""
+                        val time = activityResult.getStringExtra("expense_time") ?: ""
                         
                         if (isNewExpense) {
                             // Add new expense
@@ -122,23 +137,24 @@ class MainActivity : AppCompatActivity() {private lateinit var editTextName: Edi
             }
         }
     }
-      // Activity result launcher for history activity
+    
+    // Activity result launcher for history activity
     private val historyActivityLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
-    ) { result ->
+    ) { _ ->
         // Refresh the expense list when returning from history activity
         // This will update the main list in case any expenses were restored
         loadExpenses()
     }
-      // Activity result launcher for all list activity
+    
+    // Activity result launcher for all list activity
     private val allListActivityLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
-    ) { result ->
+    ) { _ ->
         // Refresh the expense list when returning from all list activity
         // This will update the main list in case any expenses were restored
-        loadExpenses()    }
-    
-    override fun onCreate(savedInstanceState: Bundle?) {
+        loadExpenses()
+    }    override fun onCreate(savedInstanceState: Bundle?) {
         // Apply theme before calling super.onCreate()
         applyTheme()
         super.onCreate(savedInstanceState)
@@ -148,9 +164,16 @@ class MainActivity : AppCompatActivity() {private lateinit var editTextName: Edi
         setupSharedPreferences()
         setupRecyclerView()
         setupClickListeners()
-        setupFabMenu()
+        setupToolbar()
+        setupNavigationDrawer()
         setCurrentDateTime()
         loadExpenses()
+    }
+    
+    override fun onPostCreate(savedInstanceState: Bundle?) {
+        super.onPostCreate(savedInstanceState)
+        // Sync the toggle state after onRestoreInstanceState has occurred
+        drawerToggle.syncState()
     }
     
     override fun onResume() {
@@ -161,18 +184,19 @@ class MainActivity : AppCompatActivity() {private lateinit var editTextName: Edi
     }
     
     private fun initViews() {
-        editTextName = findViewById(R.id.editTextName)
-        editTextPrice = findViewById(R.id.editTextPrice)
-        editTextDescription = findViewById(R.id.editTextDescription)
-        editTextDate = findViewById(R.id.editTextDate)
-        editTextTime = findViewById(R.id.editTextTime)
-        addButton = findViewById(R.id.buttonAdd)
-        buttonSeeMoreInputOptions = findViewById(R.id.buttonSeeMoreInputOptions)
-        layoutAdditionalOptions = findViewById(R.id.layoutAdditionalOptions)
-        recyclerView = findViewById(R.id.recyclerViewExpenses)
-        fabMain = findViewById(R.id.fabMain)
+        editTextName = findViewById<EditText>(R.id.editTextName)
+        editTextPrice = findViewById<EditText>(R.id.editTextPrice)
+        editTextDescription = findViewById<EditText>(R.id.editTextDescription)
+        editTextDate = findViewById<EditText>(R.id.editTextDate)
+        editTextTime = findViewById<EditText>(R.id.editTextTime)
+        addButton = findViewById<Button>(R.id.buttonAdd)
+        buttonSeeMoreInputOptions = findViewById<TextView>(R.id.buttonSeeMoreInputOptions)
+        layoutAdditionalOptions = findViewById<LinearLayout>(R.id.layoutAdditionalOptions)
+        recyclerView = findViewById<RecyclerView>(R.id.recyclerViewExpenses)
+        toolbar = findViewById<Toolbar>(R.id.toolbar)
     }
-      private fun setupRecyclerView() {
+    
+    private fun setupRecyclerView() {
         expenseAdapter = ExpenseAdapter(expenseList,
             onDeleteClick = { position -> deleteExpenseItem(position) },
             onEditClick = { position -> editExpenseItem(position) },
@@ -183,7 +207,12 @@ class MainActivity : AppCompatActivity() {private lateinit var editTextName: Edi
             adapter = expenseAdapter
         }
     }
-      private fun setupClickListeners() {
+    
+    private fun setupSharedPreferences() {
+        sharedPreferences = getSharedPreferences("expense_prefs", Context.MODE_PRIVATE)
+    }
+    
+    private fun setupClickListeners() {
         addButton.setOnClickListener {
             addExpenseItem()
         }
@@ -199,6 +228,14 @@ class MainActivity : AppCompatActivity() {private lateinit var editTextName: Edi
         editTextTime.setOnClickListener {
             showTimePicker()
         }
+    }
+    
+    private fun setupToolbar() {
+        // Set up the toolbar as the action bar
+        setSupportActionBar(toolbar)
+        
+        // Optionally customize the toolbar here
+        supportActionBar?.setDisplayShowTitleEnabled(true)
     }
     
     private fun setCurrentDateTime() {
@@ -224,7 +261,8 @@ class MainActivity : AppCompatActivity() {private lateinit var editTextName: Edi
         )
         datePickerDialog.show()
     }
-      private fun showTimePicker() {
+    
+    private fun showTimePicker() {
         val calendar = Calendar.getInstance()
         val timePickerDialog = TimePickerDialog(
             this,
@@ -238,7 +276,8 @@ class MainActivity : AppCompatActivity() {private lateinit var editTextName: Edi
         )
         timePickerDialog.show()
     }
-      private fun toggleAdditionalOptions() {
+    
+    private fun toggleAdditionalOptions() {
         isAdditionalOptionsVisible = !isAdditionalOptionsVisible
         
         if (isAdditionalOptionsVisible) {
@@ -250,9 +289,7 @@ class MainActivity : AppCompatActivity() {private lateinit var editTextName: Edi
         }
     }
     
-    private fun setupSharedPreferences() {
-        sharedPreferences = getSharedPreferences("expense_prefs", Context.MODE_PRIVATE)
-    }    private fun loadExpenses() {
+    private fun loadExpenses() {
         val json = sharedPreferences.getString("expenses", null)
         if (!json.isNullOrEmpty()) {
             val type = object : TypeToken<List<ExpenseItem>>() {}.type
@@ -273,7 +310,9 @@ class MainActivity : AppCompatActivity() {private lateinit var editTextName: Edi
         val json = gson.toJson(expenseList)
         editor.putString("expenses", json)
         editor.apply()
-    }    private fun saveAllExpenses() {
+    }
+    
+    private fun saveAllExpenses() {
         // Load all existing expenses from storage
         val json = sharedPreferences.getString("expenses", null)
         val allExpenses = mutableListOf<ExpenseItem>()
@@ -324,7 +363,9 @@ class MainActivity : AppCompatActivity() {private lateinit var editTextName: Edi
         val allExpensesJson = gson.toJson(allExpenses)
         editor.putString("expenses", allExpensesJson)
         editor.apply()
-    }private fun addExpenseItem() {
+    }
+    
+    private fun addExpenseItem() {
         val name = editTextName.text.toString().trim()
         val priceText = editTextPrice.text.toString().trim()
         val description = editTextDescription.text.toString().trim()
@@ -350,12 +391,15 @@ class MainActivity : AppCompatActivity() {private lateinit var editTextName: Edi
             date = date,
             time = time
         )
-          expenseList.add(expenseItem)
+        
+        expenseList.add(expenseItem)
         expenseAdapter.notifyItemInserted(expenseList.size - 1)
         clearFields()
         setCurrentDateTime()
         saveAllExpenses() // Use saveAllExpenses to preserve deleted items
-    }    private fun editExpenseItem(position: Int) {
+    }
+    
+    private fun editExpenseItem(position: Int) {
         val expense = expenseList[position]
         val dialogView = layoutInflater.inflate(R.layout.dialog_edit_expense, null)
         
@@ -399,7 +443,8 @@ class MainActivity : AppCompatActivity() {private lateinit var editTextName: Edi
                     Toast.makeText(this, "Please enter a valid price", Toast.LENGTH_SHORT).show()
                     return@setPositiveButton
                 }
-                  expense.name = newName
+                
+                expense.name = newName
                 expense.price = newPrice
                 expense.description = newDescription
                 expense.date = newDate
@@ -440,7 +485,9 @@ class MainActivity : AppCompatActivity() {private lateinit var editTextName: Edi
             true
         )
         timePickerDialog.show()
-    }    private fun deleteExpenseItem(position: Int) {
+    }
+    
+    private fun deleteExpenseItem(position: Int) {
         if (position >= 0 && position < expenseList.size) {
             val expenseToDelete = expenseList[position]
             
@@ -466,79 +513,8 @@ class MainActivity : AppCompatActivity() {private lateinit var editTextName: Edi
                 .show()
         }
     }
-  
     
-    private fun setupFabMenu() {
-        fabMain.setOnClickListener {
-            showFabMenu()
-        }
-    }
-    
-    private fun showFabMenu() {
-        if (fabMenuOverlay != null) {
-            hideFabMenu()
-            return
-        }
-        
-        val inflater = layoutInflater
-        fabMenuOverlay = inflater.inflate(R.layout.fab_menu_overlay, null)
-        
-        val rootView = findViewById<View>(android.R.id.content)
-        if (rootView is android.view.ViewGroup) {
-            rootView.addView(fabMenuOverlay)
-        }
-        
-        // Set up click listeners for menu items
-        fabMenuOverlay?.findViewById<FloatingActionButton>(R.id.fabSummary)?.setOnClickListener {
-            hideFabMenu()
-            startActivity(Intent(this, SummaryActivity::class.java))
-        }
-          fabMenuOverlay?.findViewById<FloatingActionButton>(R.id.fabAnalytics)?.setOnClickListener {
-            hideFabMenu()
-            startActivity(Intent(this, AnalyticsActivity::class.java))
-        }
-          fabMenuOverlay?.findViewById<FloatingActionButton>(R.id.fabAllList)?.setOnClickListener {
-            hideFabMenu()
-            allListActivityLauncher.launch(Intent(this, AllListActivity::class.java))
-        }
-          fabMenuOverlay?.findViewById<FloatingActionButton>(R.id.fabCurrency)?.setOnClickListener {
-            hideFabMenu()
-            startActivity(Intent(this, CurrencyExchangeActivity::class.java))
-        }
-            
-        fabMenuOverlay?.findViewById<FloatingActionButton>(R.id.fabHistory)?.setOnClickListener {
-            hideFabMenu()
-            historyActivityLauncher.launch(Intent(this, HistoryActivity::class.java))
-        }
-        
-        fabMenuOverlay?.findViewById<FloatingActionButton>(R.id.fabSettings)?.setOnClickListener {
-            hideFabMenu()
-            startActivity(Intent(this, SettingsActivity::class.java))
-        }
-        
-        // Hide menu when clicking on overlay
-        fabMenuOverlay?.setOnClickListener {
-            hideFabMenu()
-        }
-    }
-    
-    private fun hideFabMenu() {
-        fabMenuOverlay?.let { overlay ->
-            val rootView = findViewById<View>(android.R.id.content)
-            if (rootView is android.view.ViewGroup) {
-                rootView.removeView(overlay)
-            }
-        }
-        fabMenuOverlay = null
-    }
-    
-    override fun onBackPressed() {
-        if (fabMenuOverlay != null) {
-            hideFabMenu()
-        } else {
-            super.onBackPressed()
-        }
-    }    private fun clearFields() {
+    private fun clearFields() {
         editTextName.text.clear()
         editTextPrice.text.clear()
         editTextDescription.text.clear()

@@ -1,27 +1,38 @@
 package com.example.myapplication
 
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.view.MenuItem
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.cardview.widget.CardView
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButton
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.navigation.NavigationView
 import com.google.android.material.textfield.TextInputEditText
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
-class CurrencyExchangeActivity : AppCompatActivity() {
-    
-    private lateinit var currencyManager: CurrencyManager
+class CurrencyExchangeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+      private lateinit var currencyManager: CurrencyManager
     private lateinit var currencyApiService: CurrencyApiService
     private lateinit var sharedPreferences: SharedPreferences
+    
+    // Navigation Drawer components
+    private lateinit var drawerLayout: DrawerLayout
+    private lateinit var navigationView: NavigationView
+    private lateinit var fabMenu: FloatingActionButton
     
     private lateinit var cardUsd: CardView
     private lateinit var cardMmk: CardView
@@ -45,13 +56,12 @@ class CurrencyExchangeActivity : AppCompatActivity() {
         applyTheme()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_currency_exchange)
-        
-        currencyManager = CurrencyManager.getInstance(this)
+          currencyManager = CurrencyManager.getInstance(this)
         currencyApiService = CurrencyApiService(this)
         sharedPreferences = getSharedPreferences("expense_prefs", Context.MODE_PRIVATE)
-        
         setupActionBar()
         initViews()
+        setupNavigationDrawer()
         setupClickListeners()
         loadExpenses()
         updateUI()
@@ -71,8 +81,12 @@ class CurrencyExchangeActivity : AppCompatActivity() {
     private fun setupActionBar() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.title = "💱 Currency Exchange"
-    }
-      private fun initViews() {
+    }    private fun initViews() {
+        // Navigation drawer components
+        drawerLayout = findViewById(R.id.drawerLayout)
+        navigationView = findViewById(R.id.navigationView)
+        fabMenu = findViewById(R.id.fabMenu)
+        
         cardUsd = findViewById(R.id.cardUsd)
         cardMmk = findViewById(R.id.cardMmk)
         textCurrentRate = findViewById(R.id.textCurrentRate)
@@ -88,6 +102,21 @@ class CurrencyExchangeActivity : AppCompatActivity() {
         recyclerViewExpenses = findViewById(R.id.recyclerViewExpenses)
         
         setupRecyclerView()
+    }
+    
+    private fun setupNavigationDrawer() {
+        val toggle = ActionBarDrawerToggle(
+            this, drawerLayout, null,
+            R.string.navigation_drawer_open, R.string.navigation_drawer_close
+        )
+        drawerLayout.addDrawerListener(toggle)
+        toggle.syncState()
+        
+        navigationView.setNavigationItemSelectedListener(this)
+        
+        fabMenu.setOnClickListener {
+            drawerLayout.openDrawer(GravityCompat.START)
+        }
     }
     
     private fun setupRecyclerView() {
@@ -274,10 +303,47 @@ class CurrencyExchangeActivity : AppCompatActivity() {
                 }
             }
         })
-    }
-
-    override fun onSupportNavigateUp(): Boolean {
+    }    override fun onSupportNavigateUp(): Boolean {
         finish()
         return true
+    }
+    
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.nav_home -> {
+                startActivity(Intent(this, MainActivity::class.java))
+            }
+            R.id.nav_summary -> {
+                startActivity(Intent(this, SummaryActivity::class.java))
+            }
+            R.id.nav_analytics -> {
+                startActivity(Intent(this, AnalyticsActivity::class.java))
+            }
+            R.id.nav_all_list -> {
+                startActivity(Intent(this, AllListActivity::class.java))
+            }
+            R.id.nav_history -> {
+                startActivity(Intent(this, HistoryActivity::class.java))
+            }
+            R.id.nav_currency_exchange -> {
+                // Already in this activity, just close drawer
+            }
+            R.id.nav_settings -> {
+                startActivity(Intent(this, SettingsActivity::class.java))
+            }
+            R.id.nav_feedback -> {
+                startActivity(Intent(this, FeedbackActivity::class.java))
+            }
+        }
+        drawerLayout.closeDrawer(GravityCompat.START)
+        return true
+    }
+    
+    override fun onBackPressed() {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START)
+        } else {
+            super.onBackPressed()
+        }
     }
 }
