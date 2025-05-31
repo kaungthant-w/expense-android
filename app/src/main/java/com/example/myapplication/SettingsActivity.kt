@@ -10,15 +10,12 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.cardview.widget.CardView
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 
 class SettingsActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
-    
-    // Navigation Drawer components
+      // Navigation Drawer components
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var navigationView: NavigationView
-    private lateinit var fabMenu: FloatingActionButton
       override fun onCreate(savedInstanceState: Bundle?) {
         applyTheme()
         super.onCreate(savedInstanceState)
@@ -43,15 +40,16 @@ class SettingsActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
       private fun setupActionBar() {
         supportActionBar?.title = "⚙️ Settings"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-    }
-    
-    private fun initViews() {
+    }    private fun initViews() {
         drawerLayout = findViewById(R.id.drawerLayout)
         navigationView = findViewById(R.id.navigationView)
-        fabMenu = findViewById(R.id.fabMenu)
+        
+        // Back button click listener
+        findViewById<android.widget.ImageButton>(R.id.buttonBack).setOnClickListener {
+            finish()
+        }
     }
-    
-    private fun setupNavigationDrawer() {
+      private fun setupNavigationDrawer() {
         val toggle = ActionBarDrawerToggle(
             this, drawerLayout, null,
             R.string.navigation_drawer_open, R.string.navigation_drawer_close
@@ -60,10 +58,6 @@ class SettingsActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         toggle.syncState()
         
         navigationView.setNavigationItemSelectedListener(this)
-        
-        fabMenu.setOnClickListener {
-            drawerLayout.openDrawer(GravityCompat.START)
-        }
     }
       private fun setupClickListeners() {
         // Theme Settings Card

@@ -13,7 +13,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 
 class FeedbackActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -22,7 +21,6 @@ class FeedbackActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
     private lateinit var editTextFeedback: EditText
     private lateinit var editTextEmail: EditText
     private lateinit var buttonSubmit: Button
-    private lateinit var fabMenu: FloatingActionButton
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var navigationView: NavigationView
     
@@ -50,15 +48,18 @@ class FeedbackActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
     private fun setupActionBar() {
         supportActionBar?.title = "💬 Feedback"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-    }
-      private fun initViews() {
+    }    private fun initViews() {
         radioGroupRating = findViewById(R.id.radioGroupRating)
         editTextFeedback = findViewById(R.id.editTextFeedback)
         editTextEmail = findViewById(R.id.editTextEmail)
         buttonSubmit = findViewById(R.id.buttonSubmit)
-        fabMenu = findViewById(R.id.fabMenu)
         drawerLayout = findViewById(R.id.drawer_layout)
         navigationView = findViewById(R.id.navigation_view)
+        
+        // Back button click listener
+        findViewById<android.widget.ImageButton>(R.id.buttonBack).setOnClickListener {
+            finish()
+        }
     }
     
     private fun setupClickListeners() {
@@ -66,13 +67,8 @@ class FeedbackActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
             submitFeedback()
         }
     }
-    
-    private fun setupNavigationDrawer() {
+      private fun setupNavigationDrawer() {
         navigationView.setNavigationItemSelectedListener(this)
-        
-        fabMenu.setOnClickListener {
-            drawerLayout.openDrawer(GravityCompat.START)
-        }
         
         // Set feedback as checked
         navigationView.setCheckedItem(R.id.nav_feedback)

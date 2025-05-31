@@ -24,7 +24,6 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -48,12 +47,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private lateinit var sharedPreferences: SharedPreferences
     private val gson = Gson()
     private lateinit var toolbar: Toolbar
-    
-    // Navigation Drawer components
+      // Navigation Drawer components
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var navigationView: NavigationView
     private lateinit var drawerToggle: ActionBarDrawerToggle
-    private lateinit var fabMenu: FloatingActionButton
     
     // Activity result launcher for expense detail activity
     private val expenseDetailLauncher = registerForActivityResult(
@@ -148,13 +145,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
     
     // Activity result launcher for all list activity
-    private val allListActivityLauncher = registerForActivityResult(
+        private val allListActivityLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { _ ->
         // Refresh the expense list when returning from all list activity
         // This will update the main list in case any expenses were restored
         loadExpenses()
-    }    override fun onCreate(savedInstanceState: Bundle?) {
+    }
+    
+    override fun onCreate(savedInstanceState: Bundle?) {
         // Apply theme before calling super.onCreate()
         applyTheme()
         super.onCreate(savedInstanceState)
@@ -177,13 +176,16 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
     
     override fun onResume() {
-        super.onResume()
-        // Refresh expenses when returning to MainActivity
+        super.onResume()        // Refresh expenses when returning to MainActivity
         // This ensures restored items appear in the list
         loadExpenses()
     }
-    
-    private fun initViews() {
+      private fun initViews() {
+        // Navigation drawer components
+        drawerLayout = findViewById<DrawerLayout>(R.id.drawer_layout)
+        navigationView = findViewById<NavigationView>(R.id.nav_view)
+        
+        // Main content views
         editTextName = findViewById<EditText>(R.id.editTextName)
         editTextPrice = findViewById<EditText>(R.id.editTextPrice)
         editTextDescription = findViewById<EditText>(R.id.editTextDescription)
@@ -229,13 +231,26 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             showTimePicker()
         }
     }
-    
-    private fun setupToolbar() {
+      private fun setupToolbar() {
         // Set up the toolbar as the action bar
         setSupportActionBar(toolbar)
         
-        // Optionally customize the toolbar here
+        // Enable the home button
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowTitleEnabled(true)
+        supportActionBar?.title = "💰 Expense Tracker"
+    }
+      private fun setupNavigationDrawer() {
+        // Set up the drawer toggle
+        drawerToggle = ActionBarDrawerToggle(
+            this, drawerLayout, toolbar,
+            R.string.navigation_drawer_open, R.string.navigation_drawer_close
+        )
+        drawerLayout.addDrawerListener(drawerToggle)
+        drawerToggle.syncState()
+        
+        // Set navigation item selected listener
+        navigationView.setNavigationItemSelectedListener(this)
     }
     
     private fun setCurrentDateTime() {
@@ -534,8 +549,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             expenseDetailLauncher.launch(intent)
         }
     }
-    
-    private fun applyTheme() {
+      private fun applyTheme() {
         val themePrefs = getSharedPreferences(ThemeActivity.THEME_PREFS, Context.MODE_PRIVATE)
         val savedTheme = themePrefs.getString(ThemeActivity.THEME_KEY, ThemeActivity.THEME_SYSTEM)
         
@@ -543,6 +557,48 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             ThemeActivity.THEME_LIGHT -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
             ThemeActivity.THEME_DARK -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
             ThemeActivity.THEME_SYSTEM -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+        }
+    }
+    
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.nav_home -> {
+                // Already in MainActivity, just close drawer
+            }
+            R.id.nav_summary -> {
+                startActivity(Intent(this, SummaryActivity::class.java))
+            }
+            R.id.nav_analytics -> {
+                startActivity(Intent(this, AnalyticsActivity::class.java))
+            }
+            R.id.nav_all_list -> {
+                val intent = Intent(this, AllListActivity::class.java)
+                allListActivityLauncher.launch(intent)
+            }
+            R.id.nav_history -> {
+                val intent = Intent(this, HistoryActivity::class.java)
+                historyActivityLauncher.launch(intent)
+            }
+            R.id.nav_currency_exchange -> {
+                startActivity(Intent(this, CurrencyExchangeActivity::class.java))
+            }
+            R.id.nav_settings -> {
+                startActivity(Intent(this, SettingsActivity::class.java))
+            }
+            R.id.nav_feedback -> {
+                startActivity(Intent(this, FeedbackActivity::class.java))
+            }
+        }
+        drawerLayout.closeDrawer(GravityCompat.START)
+        return true
+    }
+    
+    @Deprecated("Deprecated in Java")
+    override fun onBackPressed() {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START)
+        } else {
+            super.onBackPressed()
         }
     }
 }

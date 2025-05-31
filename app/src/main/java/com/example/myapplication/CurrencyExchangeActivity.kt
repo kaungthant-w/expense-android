@@ -6,6 +6,7 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
+import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
@@ -18,7 +19,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButton
-import com.google.android.material.floatingactionbutton.FloatingActionButton
+
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.textfield.TextInputEditText
 import com.google.gson.Gson
@@ -28,11 +29,9 @@ class CurrencyExchangeActivity : AppCompatActivity(), NavigationView.OnNavigatio
       private lateinit var currencyManager: CurrencyManager
     private lateinit var currencyApiService: CurrencyApiService
     private lateinit var sharedPreferences: SharedPreferences
-    
-    // Navigation Drawer components
+      // Navigation Drawer components
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var navigationView: NavigationView
-    private lateinit var fabMenu: FloatingActionButton
     
     private lateinit var cardUsd: CardView
     private lateinit var cardMmk: CardView
@@ -85,7 +84,11 @@ class CurrencyExchangeActivity : AppCompatActivity(), NavigationView.OnNavigatio
         // Navigation drawer components
         drawerLayout = findViewById(R.id.drawerLayout)
         navigationView = findViewById(R.id.navigationView)
-        fabMenu = findViewById(R.id.fabMenu)
+        
+        // Setup back button click listener
+        findViewById<ImageButton>(R.id.buttonBack).setOnClickListener {
+            finish()
+        }
         
         cardUsd = findViewById(R.id.cardUsd)
         cardMmk = findViewById(R.id.cardMmk)
@@ -103,8 +106,7 @@ class CurrencyExchangeActivity : AppCompatActivity(), NavigationView.OnNavigatio
         
         setupRecyclerView()
     }
-    
-    private fun setupNavigationDrawer() {
+      private fun setupNavigationDrawer() {
         val toggle = ActionBarDrawerToggle(
             this, drawerLayout, null,
             R.string.navigation_drawer_open, R.string.navigation_drawer_close
@@ -113,10 +115,6 @@ class CurrencyExchangeActivity : AppCompatActivity(), NavigationView.OnNavigatio
         toggle.syncState()
         
         navigationView.setNavigationItemSelectedListener(this)
-        
-        fabMenu.setOnClickListener {
-            drawerLayout.openDrawer(GravityCompat.START)
-        }
     }
     
     private fun setupRecyclerView() {

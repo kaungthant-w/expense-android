@@ -17,7 +17,6 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -31,12 +30,11 @@ class AllListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
     private val allExpenses = mutableListOf<ExpenseItem>()
     private lateinit var sharedPreferences: SharedPreferences
     private val gson = Gson()
-    
-    // Navigation Drawer components
+      // Navigation Drawer components
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var navigationView: NavigationView
-    private lateinit var fabMenu: FloatingActionButton
-      override fun onCreate(savedInstanceState: Bundle?) {
+    
+    override fun onCreate(savedInstanceState: Bundle?) {
         applyTheme()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_all_list)
@@ -62,16 +60,17 @@ class AllListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
       private fun setupActionBar() {
         supportActionBar?.title = "📋 All Expenses"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-    }
-    
-    private fun initViews() {
+    }    private fun initViews() {
         drawerLayout = findViewById(R.id.drawerLayout)
         navigationView = findViewById(R.id.navigationView)
-        fabMenu = findViewById(R.id.fabMenu)
         recyclerView = findViewById(R.id.recyclerViewAllList)
+        
+        // Setup back button click listener
+        findViewById<android.widget.ImageButton>(R.id.buttonBack).setOnClickListener {
+            finish()
+        }
     }
-    
-    private fun setupNavigationDrawer() {
+      private fun setupNavigationDrawer() {
         val toggle = ActionBarDrawerToggle(
             this, drawerLayout, null,
             R.string.navigation_drawer_open, R.string.navigation_drawer_close
@@ -80,10 +79,6 @@ class AllListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
         toggle.syncState()
         
         navigationView.setNavigationItemSelectedListener(this)
-        
-        fabMenu.setOnClickListener {
-            drawerLayout.openDrawer(GravityCompat.START)
-        }
     }
     
     private fun setupSharedPreferences() {

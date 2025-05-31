@@ -11,7 +11,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -24,11 +23,9 @@ class SummaryActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var currencyManager: CurrencyManager
     private val gson = Gson()
-    
-    // Navigation Drawer components
+      // Navigation Drawer components
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var navigationView: NavigationView
-    private lateinit var fabMenu: FloatingActionButton
       override fun onCreate(savedInstanceState: Bundle?) {
         applyTheme()
         super.onCreate(savedInstanceState)
@@ -55,14 +52,16 @@ class SummaryActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
         supportActionBar?.title = "📊 Expense Summary"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
-    
-    private fun initViews() {
+      private fun initViews() {
         drawerLayout = findViewById(R.id.drawerLayout)
         navigationView = findViewById(R.id.navigationView)
-        fabMenu = findViewById(R.id.fabMenu)
+        
+        // Setup back button click listener
+        findViewById<android.widget.ImageButton>(R.id.buttonBack).setOnClickListener {
+            finish()
+        }
     }
-    
-    private fun setupNavigationDrawer() {
+      private fun setupNavigationDrawer() {
         val toggle = ActionBarDrawerToggle(
             this, drawerLayout, null,
             R.string.navigation_drawer_open, R.string.navigation_drawer_close
@@ -71,10 +70,6 @@ class SummaryActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
         toggle.syncState()
         
         navigationView.setNavigationItemSelectedListener(this)
-        
-        fabMenu.setOnClickListener {
-            drawerLayout.openDrawer(GravityCompat.START)
-        }
     }
       private fun setupSharedPreferences() {
         sharedPreferences = getSharedPreferences("expense_prefs", Context.MODE_PRIVATE)

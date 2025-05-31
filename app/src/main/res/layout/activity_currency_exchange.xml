@@ -13,24 +13,39 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true">
-
-        <LinearLayout
+        android:fillViewport="true">        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="16dp">
 
-            <!-- Header -->
-            <TextView
+            <!-- Header with Back Button -->
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="💱 Currency Exchange &amp; Rate Viewer"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                android:textColor="?attr/textPrimaryColor"
-                android:gravity="center"
-                android:layout_marginBottom="24dp" />
+                android:orientation="horizontal"
+                android:layout_marginBottom="24dp">
+
+                <ImageButton
+                    android:id="@+id/buttonBack"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:background="@drawable/card_background"
+                    android:src="@drawable/ic_arrow_back"
+                    android:layout_marginEnd="16dp"
+                    android:contentDescription="Back" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="💱 Currency Exchange &amp; Rate Viewer"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:gravity="center_vertical"
+                    android:textColor="?attr/textPrimaryColor" />
+
+            </LinearLayout>
 
             <!-- Current Exchange Rate Card -->
             <androidx.cardview.widget.CardView
@@ -332,22 +347,10 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerViewExpenses"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:nestedScrollingEnabled="false"
+                android:layout_height="wrap_content"                android:nestedScrollingEnabled="false"
                 android:layout_marginBottom="80dp" />        </LinearLayout>
 
     </ScrollView>
-
-    <!-- Navigation Drawer Toggle Button -->
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabMenu"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="16dp"
-        android:src="@drawable/ic_menu"
-        app:backgroundTint="?attr/accentColor"
-        app:tint="@android:color/white" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
