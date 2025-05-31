@@ -16,13 +16,14 @@ class SummaryActivity : AppCompatActivity() {
     
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var currencyManager: CurrencyManager
+    private lateinit var languageManager: LanguageManager
     private val gson = Gson()
-    
-    override fun onCreate(savedInstanceState: Bundle?) {
+      override fun onCreate(savedInstanceState: Bundle?) {
         applyTheme()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_summary)
         
+        languageManager = LanguageManager.getInstance(this)
         setupActionBar()
         setupSharedPreferences()
         loadSummaryData()
@@ -38,9 +39,8 @@ class SummaryActivity : AppCompatActivity() {
             ThemeActivity.THEME_SYSTEM -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
         }
     }
-    
-    private fun setupActionBar() {
-        supportActionBar?.title = "📊 Expense Summary"
+      private fun setupActionBar() {
+        supportActionBar?.title = languageManager.getString("expense_summary_title", "📊 Expense Summary")
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
       private fun setupSharedPreferences() {

@@ -9,10 +9,14 @@ import androidx.cardview.widget.CardView
 
 class SettingsActivity : AppCompatActivity() {
     
+    private lateinit var languageManager: LanguageManager
+    
     override fun onCreate(savedInstanceState: Bundle?) {
         applyTheme()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
+        
+        languageManager = LanguageManager.getInstance(this)
         
         setupActionBar()
         setupClickListeners()
@@ -28,16 +32,20 @@ class SettingsActivity : AppCompatActivity() {
             ThemeActivity.THEME_SYSTEM -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
         }
     }
-    
-    private fun setupActionBar() {
-        supportActionBar?.title = "⚙️ Settings"
+      private fun setupActionBar() {
+        supportActionBar?.title = languageManager.getString("settings", "⚙️ Settings")
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-    }
-      private fun setupClickListeners() {
+    }private fun setupClickListeners() {
         // Theme Settings Card
         findViewById<CardView>(R.id.cardThemeSettings)?.setOnClickListener {
             startActivity(Intent(this, ThemeActivity::class.java))
         }
+        
+        // Language Settings Card
+        findViewById<CardView>(R.id.cardLanguageSettings)?.setOnClickListener {
+            startActivity(Intent(this, LanguageActivity::class.java))
+        }
+        
           // Currency Settings Card
         findViewById<CardView>(R.id.cardCurrencySettings)?.setOnClickListener {
             startActivity(Intent(this, CurrencyExchangeActivity::class.java))

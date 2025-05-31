@@ -22,6 +22,7 @@ class CurrencyExchangeActivity : AppCompatActivity() {
     private lateinit var currencyManager: CurrencyManager
     private lateinit var currencyApiService: CurrencyApiService
     private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var languageManager: LanguageManager
     
     private lateinit var cardUsd: CardView
     private lateinit var cardMmk: CardView
@@ -40,14 +41,14 @@ class CurrencyExchangeActivity : AppCompatActivity() {
     
     private val expensesList = mutableListOf<ExpenseItem>()
     private val gson = Gson()
-    
-    override fun onCreate(savedInstanceState: Bundle?) {
+      override fun onCreate(savedInstanceState: Bundle?) {
         applyTheme()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_currency_exchange)
         
         currencyManager = CurrencyManager.getInstance(this)
         currencyApiService = CurrencyApiService(this)
+        languageManager = LanguageManager.getInstance(this)
         sharedPreferences = getSharedPreferences("expense_prefs", Context.MODE_PRIVATE)
         
         setupActionBar()
@@ -67,10 +68,9 @@ class CurrencyExchangeActivity : AppCompatActivity() {
             ThemeActivity.THEME_SYSTEM -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
         }
     }
-    
-    private fun setupActionBar() {
+      private fun setupActionBar() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.title = "💱 Currency Exchange"
+        supportActionBar?.title = languageManager.getString("currency_exchange_title", "💱 Currency Exchange")
     }
       private fun initViews() {
         cardUsd = findViewById(R.id.cardUsd)
@@ -137,11 +137,10 @@ class CurrencyExchangeActivity : AppCompatActivity() {
         currencyManager.setCurrentCurrency(currency)
         updateUI()
         exchangeAdapter.notifyDataSetChanged()
-        
-        val message = when (currency) {
-            CurrencyManager.CURRENCY_USD -> "Switched to USD - Viewing original amounts"
-            CurrencyManager.CURRENCY_MMK -> "Switched to MMK - Converting amounts using exchange rate"
-            else -> "Currency switched"
+          val message = when (currency) {
+            CurrencyManager.CURRENCY_USD -> languageManager.getString("switched_to_usd", "Switched to USD - Viewing original amounts")
+            CurrencyManager.CURRENCY_MMK -> languageManager.getString("switched_to_mmk", "Switched to MMK - Converting amounts using exchange rate")
+            else -> languageManager.getString("currency_switched", "Currency switched")
         }
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
@@ -164,22 +163,25 @@ class CurrencyExchangeActivity : AppCompatActivity() {
         
         // Update currency selection visual feedback
         updateCurrencySelection(currentCurrency)
-        
-        // Update exchange rate display
-        textCurrentRate.text = "Exchange Rate: 1 USD = ${String.format("%.2f", exchangeRate)} MMK"
+          // Update exchange rate display
+        val rateDisplay = languageManager.getString("exchange_rate_display", "Exchange Rate: 1 USD = {0} MMK")
+        textCurrentRate.text = rateDisplay.replace("{0}", String.format("%.2f", exchangeRate))
         
         // Calculate totals
         val totalUsd = expensesList.sumOf { it.price }
         val totalMmk = currencyManager.convertFromUsd(totalUsd)
         
-        textTotalExpensesUsd.text = "Total in USD: ${currencyManager.formatCurrency(totalUsd)}"
-        textTotalExpensesMmk.text = "Total in MMK: ${String.format("%.2f", totalMmk)} MMK"
+        val usdDisplay = languageManager.getString("total_in_usd", "Total in USD: {0}")
+        val mmkDisplay = languageManager.getString("total_in_mmk", "Total in MMK: {0} MMK")
+        
+        textTotalExpensesUsd.text = usdDisplay.replace("{0}", currencyManager.formatCurrency(totalUsd))
+        textTotalExpensesMmk.text = mmkDisplay.replace("{0}", String.format("%.2f", totalMmk))
         
         // Update switch button text
         buttonSwitchCurrency.text = when (currentCurrency) {
-            CurrencyManager.CURRENCY_USD -> "💱 Switch to MMK"
-            CurrencyManager.CURRENCY_MMK -> "💱 Switch to USD"
-            else -> "💱 Switch Currency"
+            CurrencyManager.CURRENCY_USD -> languageManager.getString("switch_to_mmk", "💱 Switch to MMK")
+            CurrencyManager.CURRENCY_MMK -> languageManager.getString("switch_to_usd", "💱 Switch to USD")
+            else -> languageManager.getString("switch_currency", "💱 Switch Currency")
         }
     }
     
@@ -194,24 +196,22 @@ class CurrencyExchangeActivity : AppCompatActivity() {
                 cardUsd.setCardBackgroundColor(getColor(android.R.color.white))
             }
         }
-    }
-      private fun showCustomRateInput() {
+    }    private fun showCustomRateInput() {
         layoutCustomRateInput.visibility = View.VISIBLE
         editTextCustomRate.setText(currencyManager.getExchangeRate().toString())
         editTextCustomRate.requestFocus()
-        Toast.makeText(this, "💡 Enter a custom exchange rate", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, languageManager.getString("enter_custom_rate", "💡 Enter a custom exchange rate"), Toast.LENGTH_SHORT).show()
     }
     
     private fun hideCustomRateInput() {
         layoutCustomRateInput.visibility = View.GONE
         editTextCustomRate.text?.clear()
     }
-    
-    private fun applyCustomRate() {
+      private fun applyCustomRate() {
         val customRateText = editTextCustomRate.text.toString().trim()
         
         if (customRateText.isEmpty()) {
-            Toast.makeText(this, "❌ Please enter an exchange rate", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, languageManager.getString("enter_exchange_rate", "❌ Please enter an exchange rate"), Toast.LENGTH_SHORT).show()
             return
         }
         
@@ -219,12 +219,13 @@ class CurrencyExchangeActivity : AppCompatActivity() {
             val customRate = customRateText.toDouble()
             
             if (customRate <= 0) {
-                Toast.makeText(this, "❌ Exchange rate must be greater than 0", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, languageManager.getString("rate_must_be_positive", "❌ Exchange rate must be greater than 0"), Toast.LENGTH_SHORT).show()
                 return
             }
             
             if (customRate < 100 || customRate > 10000) {
-                Toast.makeText(this, "⚠️ Are you sure? Rate seems unusual (${customRate} MMK per USD)", Toast.LENGTH_LONG).show()
+                val warningMsg = languageManager.getString("rate_seems_unusual", "⚠️ Are you sure? Rate seems unusual ({0} MMK per USD)")
+                Toast.makeText(this, warningMsg.replace("{0}", customRate.toString()), Toast.LENGTH_LONG).show()
             }
             
             // Apply the custom rate
@@ -233,18 +234,16 @@ class CurrencyExchangeActivity : AppCompatActivity() {
             updateUI()
             exchangeAdapter.notifyDataSetChanged()
             
-            Toast.makeText(this, 
-                "✅ Custom rate applied: 1 USD = ${String.format("%.2f", customRate)} MMK", 
-                Toast.LENGTH_LONG).show()
+            val successMsg = languageManager.getString("custom_rate_applied", "✅ Custom rate applied: 1 USD = {0} MMK")
+            Toast.makeText(this, successMsg.replace("{0}", String.format("%.2f", customRate)), Toast.LENGTH_LONG).show()
                 
         } catch (e: NumberFormatException) {
-            Toast.makeText(this, "❌ Invalid number format. Please enter a valid decimal number", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, languageManager.getString("invalid_number_format", "❌ Invalid number format. Please enter a valid decimal number"), Toast.LENGTH_LONG).show()
         }
     }
-    
-    private fun fetchLatestExchangeRate() {
+      private fun fetchLatestExchangeRate() {
         buttonFetchRate.isEnabled = false
-        buttonFetchRate.text = "⏳ Fetching..."
+        buttonFetchRate.text = languageManager.getString("fetching_rate", "⏳ Fetching...")
         
         currencyApiService.fetchLatestExchangeRate(object : CurrencyApiService.CurrencyRateCallback {
             override fun onSuccess(usdToMmk: Double) {
@@ -253,9 +252,11 @@ class CurrencyExchangeActivity : AppCompatActivity() {
                     updateUI()
                     exchangeAdapter.notifyDataSetChanged()
                     buttonFetchRate.isEnabled = true
-                    buttonFetchRate.text = "🔄 Fetch Latest Rate"
+                    buttonFetchRate.text = languageManager.getString("fetch_rate_button", "🔄 Fetch Latest Rate")
+                    
+                    val successMsg = languageManager.getString("rate_updated", "✅ Rate updated: 1 USD = {0} MMK")
                     Toast.makeText(this@CurrencyExchangeActivity, 
-                        "✅ Rate updated: 1 USD = ${String.format("%.2f", usdToMmk)} MMK", 
+                        successMsg.replace("{0}", String.format("%.2f", usdToMmk)), 
                         Toast.LENGTH_LONG).show()
                 }
             }
@@ -263,11 +264,11 @@ class CurrencyExchangeActivity : AppCompatActivity() {
             override fun onError(error: String) {
                 runOnUiThread {
                     buttonFetchRate.isEnabled = true
-                    buttonFetchRate.text = "🔄 Fetch Latest Rate"
+                    buttonFetchRate.text = languageManager.getString("fetch_rate_button", "🔄 Fetch Latest Rate")
                     
                     // Show error message and suggest custom rate input
-                    val errorMsg = "❌ Failed to fetch rate: $error\n💡 Try using 'Custom Rate' to set manually"
-                    Toast.makeText(this@CurrencyExchangeActivity, errorMsg, Toast.LENGTH_LONG).show()
+                    val errorMsg = languageManager.getString("fetch_rate_failed", "❌ Failed to fetch rate: {0}\\n💡 Try using 'Custom Rate' to set manually")
+                    Toast.makeText(this@CurrencyExchangeActivity, errorMsg.replace("{0}", error), Toast.LENGTH_LONG).show()
                     
                     // Automatically show custom rate input on API failure
                     showCustomRateInput()

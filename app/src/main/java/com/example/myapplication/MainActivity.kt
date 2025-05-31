@@ -39,9 +39,10 @@ class MainActivity : AppCompatActivity() {private lateinit var editTextName: Edi
     private lateinit var expenseAdapter: ExpenseAdapter
     private val expenseList = mutableListOf<ExpenseItem>()
     private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var languageManager: LanguageManager
     private val gson = Gson()
     private lateinit var fabMain: FloatingActionButton
-    private var fabMenuOverlay: View? = null    // Activity result launcher for expense detail activity
+    private var fabMenuOverlay: View? = null// Activity result launcher for expense detail activity
     private val expenseDetailLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
@@ -64,11 +65,10 @@ class MainActivity : AppCompatActivity() {private lateinit var editTextName: Edi
                         expenseList.removeAt(position)
                         expenseAdapter.notifyItemRemoved(position)
                         expenseAdapter.notifyItemRangeChanged(position, expenseList.size)
-                        
-                        // Save the deleted expense specifically
+                          // Save the deleted expense specifically
                         saveDeletedExpense(expenseToDelete)
                         
-                        Toast.makeText(this, "💾 Expense moved to history. Check History to restore.", Toast.LENGTH_LONG).show()
+                        Toast.makeText(this, languageManager.getString("expense_moved_to_history", "💾 Expense moved to history. Check History to restore."), Toast.LENGTH_LONG).show()
                     }
                 }            } else {
                 // Handle save/edit from detail activity
@@ -108,10 +108,9 @@ class MainActivity : AppCompatActivity() {private lateinit var editTextName: Edi
                                 expense.description = description
                                 expense.date = date
                                 expense.time = time
-                                
-                                expenseAdapter.notifyItemChanged(position)
+                                  expenseAdapter.notifyItemChanged(position)
                                 saveAllExpenses()
-                                Toast.makeText(this, "✅ Expense updated successfully!", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(this, languageManager.getString("expense_updated_successfully", "✅ Expense updated successfully!"), Toast.LENGTH_SHORT).show()
                             }
                         }
                     }
@@ -137,13 +136,13 @@ class MainActivity : AppCompatActivity() {private lateinit var editTextName: Edi
         // Refresh the expense list when returning from all list activity
         // This will update the main list in case any expenses were restored
         loadExpenses()    }
-    
-    override fun onCreate(savedInstanceState: Bundle?) {
+      override fun onCreate(savedInstanceState: Bundle?) {
         // Apply theme before calling super.onCreate()
         applyTheme()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         
+        languageManager = LanguageManager.getInstance(this)
         initViews()
         setupSharedPreferences()
         setupRecyclerView()
@@ -158,6 +157,8 @@ class MainActivity : AppCompatActivity() {private lateinit var editTextName: Edi
         // Refresh expenses when returning to MainActivity
         // This ensures restored items appear in the list
         loadExpenses()
+        // Update UI text for language changes
+        updateUIText()
     }
     
     private fun initViews() {
@@ -240,13 +241,12 @@ class MainActivity : AppCompatActivity() {private lateinit var editTextName: Edi
     }
       private fun toggleAdditionalOptions() {
         isAdditionalOptionsVisible = !isAdditionalOptionsVisible
-        
-        if (isAdditionalOptionsVisible) {
+          if (isAdditionalOptionsVisible) {
             layoutAdditionalOptions.visibility = View.VISIBLE
-            buttonSeeMoreInputOptions.text = "📋 See Less"
+            buttonSeeMoreInputOptions.text = languageManager.getString("see_less", "📋 See Less")
         } else {
             layoutAdditionalOptions.visibility = View.GONE
-            buttonSeeMoreInputOptions.text = "📋 See More"
+            buttonSeeMoreInputOptions.text = languageManager.getString("see_more", "📋 See More")
         }
     }
     
@@ -330,15 +330,14 @@ class MainActivity : AppCompatActivity() {private lateinit var editTextName: Edi
         val description = editTextDescription.text.toString().trim()
         val date = editTextDate.text.toString().trim()
         val time = editTextTime.text.toString().trim()
-        
-        if (name.isEmpty()) {
-            Toast.makeText(this, "Please enter expense name", Toast.LENGTH_SHORT).show()
+          if (name.isEmpty()) {
+            Toast.makeText(this, languageManager.getString("please_enter_expense_name", "Please enter expense name"), Toast.LENGTH_SHORT).show()
             return
         }
         
         val price = priceText.toDoubleOrNull()
         if (price == null || price <= 0) {
-            Toast.makeText(this, "Please enter a valid price", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, languageManager.getString("please_enter_valid_price", "Please enter a valid price"), Toast.LENGTH_SHORT).show()
             return
         }
         
@@ -378,25 +377,23 @@ class MainActivity : AppCompatActivity() {private lateinit var editTextName: Edi
         editTime.setOnClickListener {
             showTimePickerForDialog(editTime)
         }
-        
-        AlertDialog.Builder(this)
-            .setTitle("Edit Expense")
+          AlertDialog.Builder(this)
+            .setTitle(languageManager.getString("edit_expense", "Edit Expense"))
             .setView(dialogView)
-            .setPositiveButton("Save") { _, _ ->
+            .setPositiveButton(languageManager.getString("save", "Save")) { _, _ ->
                 val newName = editName.text.toString().trim()
                 val newPriceText = editPrice.text.toString().trim()
                 val newDescription = editDescription.text.toString().trim()
                 val newDate = editDate.text.toString().trim()
                 val newTime = editTime.text.toString().trim()
-                
-                if (newName.isEmpty()) {
-                    Toast.makeText(this, "Please enter expense name", Toast.LENGTH_SHORT).show()
+                  if (newName.isEmpty()) {
+                    Toast.makeText(this, languageManager.getString("please_enter_expense_name", "Please enter expense name"), Toast.LENGTH_SHORT).show()
                     return@setPositiveButton
                 }
                 
                 val newPrice = newPriceText.toDoubleOrNull()
                 if (newPrice == null || newPrice <= 0) {
-                    Toast.makeText(this, "Please enter a valid price", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, languageManager.getString("please_enter_valid_price", "Please enter a valid price"), Toast.LENGTH_SHORT).show()
                     return@setPositiveButton
                 }
                   expense.name = newName
@@ -405,10 +402,9 @@ class MainActivity : AppCompatActivity() {private lateinit var editTextName: Edi
                 expense.date = newDate
                 expense.time = newTime
                 
-                expenseAdapter.notifyItemChanged(position)
-                saveAllExpenses() // Use saveAllExpenses to preserve deleted items
+                expenseAdapter.notifyItemChanged(position)                saveAllExpenses() // Use saveAllExpenses to preserve deleted items
             }
-            .setNegativeButton("Cancel", null)
+            .setNegativeButton(languageManager.getString("cancel", "Cancel"), null)
             .show()
     }
     
@@ -443,11 +439,10 @@ class MainActivity : AppCompatActivity() {private lateinit var editTextName: Edi
     }    private fun deleteExpenseItem(position: Int) {
         if (position >= 0 && position < expenseList.size) {
             val expenseToDelete = expenseList[position]
-            
-            AlertDialog.Builder(this)
-                .setTitle("🗑️ Delete Expense")
-                .setMessage("Are you sure you want to delete '${expenseToDelete.name}'? It will be moved to history.")
-                .setPositiveButton("Delete") { _, _ ->
+              AlertDialog.Builder(this)
+                .setTitle(languageManager.getString("delete_expense", "🗑️ Delete Expense"))
+                .setMessage(languageManager.getString("confirm_delete", "Are you sure you want to delete this expense?") + " '${expenseToDelete.name}'?")
+                .setPositiveButton(languageManager.getString("delete", "Delete")) { _, _ ->
                     // Mark as deleted with timestamp
                     expenseToDelete.isDeleted = true
                     expenseToDelete.deletedAt = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault()).format(Date())
@@ -456,13 +451,11 @@ class MainActivity : AppCompatActivity() {private lateinit var editTextName: Edi
                     expenseList.removeAt(position)
                     expenseAdapter.notifyItemRemoved(position)
                     expenseAdapter.notifyItemRangeChanged(position, expenseList.size)
-                    
-                    // Save the deleted expense specifically
+                      // Save the deleted expense specifically
                     saveDeletedExpense(expenseToDelete)
-                    
-                    Toast.makeText(this, "💾 Expense moved to history. Check History to restore.", Toast.LENGTH_LONG).show()
+                      Toast.makeText(this, languageManager.getString("expense_moved_to_history", "💾 Expense moved to history. Check History to restore."), Toast.LENGTH_LONG).show()
                 }
-                .setNegativeButton("Cancel", null)
+                .setNegativeButton(languageManager.getString("cancel", "Cancel"), null)
                 .show()
         }
     }
@@ -568,5 +561,32 @@ class MainActivity : AppCompatActivity() {private lateinit var editTextName: Edi
             ThemeActivity.THEME_DARK -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
             ThemeActivity.THEME_SYSTEM -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
         }
+    }
+    
+    private fun updateUIText() {
+        // Update all UI elements with localized text
+        
+        // Main title is set in XML and can be updated via action bar or directly
+        supportActionBar?.title = languageManager.getString("main_title", "💰 Expense Tracker")
+        
+        // Update input hints
+        editTextName.hint = languageManager.getString("expense_name", "💼 Expense Name")
+        editTextPrice.hint = languageManager.getString("price", "💵 Price")
+        editTextDescription.hint = languageManager.getString("description", "📝 Description (Optional)")
+        editTextDate.hint = languageManager.getString("date", "📅 Date (DD/MM/YYYY)")
+        editTextTime.hint = languageManager.getString("time", "🕐 Time (HH:MM)")
+        
+        // Update button text
+        addButton.text = languageManager.getString("add_expense_button", "💰 Add Expense")
+        
+        // Update see more/less button text
+        if (isAdditionalOptionsVisible) {
+            buttonSeeMoreInputOptions.text = languageManager.getString("see_less", "📋 See Less")
+        } else {
+            buttonSeeMoreInputOptions.text = languageManager.getString("see_more", "📋 See More")
+        }
+        
+        // Refresh the adapter to update expense items text
+        expenseAdapter.notifyDataSetChanged()
     }
 }

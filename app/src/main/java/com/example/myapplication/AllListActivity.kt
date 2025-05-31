@@ -23,13 +23,14 @@ class AllListActivity : AppCompatActivity() {
     private lateinit var allListAdapter: AllListAdapter
     private val allExpenses = mutableListOf<ExpenseItem>()
     private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var languageManager: LanguageManager
     private val gson = Gson()
-    
-    override fun onCreate(savedInstanceState: Bundle?) {
+      override fun onCreate(savedInstanceState: Bundle?) {
         applyTheme()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_all_list)
         
+        languageManager = LanguageManager.getInstance(this)
         setupActionBar()
         initViews()
         setupSharedPreferences()
@@ -47,9 +48,8 @@ class AllListActivity : AppCompatActivity() {
             ThemeActivity.THEME_SYSTEM -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
         }
     }
-    
-    private fun setupActionBar() {
-        supportActionBar?.title = "📋 All Expenses"
+      private fun setupActionBar() {
+        supportActionBar?.title = languageManager.getString("all_expenses_title", "📋 All Expenses")
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
     

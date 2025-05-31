@@ -25,13 +25,14 @@ class HistoryActivity : AppCompatActivity() {
     private lateinit var historyAdapter: HistoryAdapter
     private val deletedExpenses = mutableListOf<ExpenseItem>()
     private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var languageManager: LanguageManager
     private val gson = Gson()
-      
-    override fun onCreate(savedInstanceState: Bundle?) {
+        override fun onCreate(savedInstanceState: Bundle?) {
         applyTheme()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_history)
         
+        languageManager = LanguageManager.getInstance(this)
         setupActionBar()
         initViews()
         setupSharedPreferences()
@@ -45,9 +46,8 @@ class HistoryActivity : AppCompatActivity() {
         // This ensures we always show the latest deleted data
         loadDeletedExpenses()
     }
-    
-    private fun setupActionBar() {
-        supportActionBar?.title = "🗃️ Deleted Items History"
+      private fun setupActionBar() {
+        supportActionBar?.title = languageManager.getString("deleted_items_history_title", "🗃️ Deleted Items History")
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
     
@@ -137,11 +137,10 @@ class HistoryActivity : AppCompatActivity() {
                     deletedExpenses.removeAt(position)
                     historyAdapter.notifyItemRemoved(position)
                     historyAdapter.notifyItemRangeChanged(position, deletedExpenses.size)
-                    
-                    // Save the restored expense specifically
+                      // Save the restored expense specifically
                     saveRestoredExpense(expense)
                     
-                    Toast.makeText(this, "✅ Expense restored successfully!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, languageManager.getString("expense_restored_successfully", "✅ Expense restored successfully!"), Toast.LENGTH_SHORT).show()
                     
                     // Set result to notify MainActivity to refresh
                     setResult(RESULT_OK)
@@ -175,10 +174,9 @@ class HistoryActivity : AppCompatActivity() {
             historyAdapter.notifyItemRemoved(position)
             historyAdapter.notifyItemRangeChanged(position, deletedExpenses.size)
             
-            // Remove from all expenses permanently
-            removeExpensePermanently(expense.id)
+            // Remove from all expenses permanently            removeExpensePermanently(expense.id)
             
-            Toast.makeText(this, "🗑️ Item permanently deleted", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, languageManager.getString("item_permanently_deleted", "🗑️ Item permanently deleted"), Toast.LENGTH_SHORT).show()
         }
     }
     

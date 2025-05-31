@@ -17,12 +17,13 @@ class FeedbackActivity : AppCompatActivity() {
     private lateinit var editTextFeedback: EditText
     private lateinit var editTextEmail: EditText
     private lateinit var buttonSubmit: Button
-    
-    override fun onCreate(savedInstanceState: Bundle?) {
+    private lateinit var languageManager: LanguageManager
+      override fun onCreate(savedInstanceState: Bundle?) {
         applyTheme()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_feedback)
         
+        languageManager = LanguageManager.getInstance(this)
         setupActionBar()
         initViews()
         setupClickListeners()
@@ -38,9 +39,8 @@ class FeedbackActivity : AppCompatActivity() {
             ThemeActivity.THEME_SYSTEM -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
         }
     }
-    
-    private fun setupActionBar() {
-        supportActionBar?.title = "💬 Feedback"
+      private fun setupActionBar() {
+        supportActionBar?.title = languageManager.getString("feedback_title", "💬 Feedback")
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
     
@@ -56,11 +56,10 @@ class FeedbackActivity : AppCompatActivity() {
             submitFeedback()
         }
     }
-    
-    private fun submitFeedback() {
+      private fun submitFeedback() {
         val selectedRatingId = radioGroupRating.checkedRadioButtonId
         if (selectedRatingId == -1) {
-            Toast.makeText(this, "Please select a rating", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, languageManager.getString("please_select_rating", "Please select a rating"), Toast.LENGTH_SHORT).show()
             return
         }
           val rating = when (selectedRatingId) {
@@ -72,9 +71,8 @@ class FeedbackActivity : AppCompatActivity() {
         
         val feedback = editTextFeedback.text.toString().trim()
         val email = editTextEmail.text.toString().trim()
-        
-        if (feedback.isEmpty()) {
-            Toast.makeText(this, "Please enter your feedback", Toast.LENGTH_SHORT).show()
+          if (feedback.isEmpty()) {
+            Toast.makeText(this, languageManager.getString("please_enter_feedback", "Please enter your feedback"), Toast.LENGTH_SHORT).show()
             return
         }
         
@@ -105,13 +103,12 @@ class FeedbackActivity : AppCompatActivity() {
             putExtra(Intent.EXTRA_SUBJECT, subject)
             putExtra(Intent.EXTRA_TEXT, body)
         }
-        
-        try {
+          try {
             startActivity(Intent.createChooser(intent, "Send feedback via..."))
-            Toast.makeText(this, "Thank you for your feedback! 😊", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, languageManager.getString("feedback_sent_successfully", "Thank you for your feedback! 😊"), Toast.LENGTH_LONG).show()
             clearFields()
         } catch (e: Exception) {
-            Toast.makeText(this, "No email app found. Please install an email app to send feedback.", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, languageManager.getString("no_email_app_found", "No email app found. Please install an email app to send feedback."), Toast.LENGTH_LONG).show()
         }
     }
     

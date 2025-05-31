@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/backgroundColor">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Header -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="💱 Currency Exchange &amp; Rate Viewer"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:textColor="?attr/textPrimaryColor"
+                android:gravity="center"
+                android:layout_marginBottom="24dp" />
+
+            <!-- Current Exchange Rate Card -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="8dp"
+                android:layout_marginBottom="16dp"
+                app:cardBackgroundColor="?attr/cardBackgroundColor">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="📊 Current Exchange Rate"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:textColor="?attr/textPrimaryColor"
+                        android:layout_marginBottom="12dp" />
+
+                    <TextView
+                        android:id="@+id/textCurrentRate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Exchange Rate: 1 USD = 2100.00 MMK"
+                        android:textSize="16sp"
+                        android:textColor="?attr/textPrimaryColor"
+                        android:layout_marginBottom="16dp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="12dp">
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/buttonFetchRate"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="🔄 Fetch Latest Rate"
+                            android:textSize="14sp"
+                            app:backgroundTint="?attr/accentColor"
+                            android:textColor="@android:color/white"
+                            android:layout_marginEnd="8dp" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/buttonCustomRate"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="✏️ Custom Rate"
+                            android:textSize="14sp"
+                            app:backgroundTint="?attr/colorSecondary"
+                            android:textColor="@android:color/white"
+                            android:layout_marginStart="8dp" />
+
+                    </LinearLayout>
+
+                    <!-- Custom Rate Input Section (Initially Hidden) -->
+                    <LinearLayout
+                        android:id="@+id/layoutCustomRateInput"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:visibility="gone"
+                        android:background="?attr/colorSurface"
+                        android:padding="12dp"
+                        android:layout_marginTop="8dp">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="💡 Manual Exchange Rate Entry"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            android:textColor="?attr/textPrimaryColor"
+                            android:layout_marginBottom="8dp" />
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Enter rate (e.g., 2100.50)"
+                            app:boxStrokeColor="?attr/accentColor"
+                            app:hintTextColor="?attr/textSecondaryColor"
+                            android:layout_marginBottom="12dp">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/editTextCustomRate"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="numberDecimal"
+                                android:textColor="?attr/textPrimaryColor"
+                                android:maxLines="1" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/buttonApplyCustomRate"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="✅ Apply Rate"
+                                android:textSize="14sp"
+                                app:backgroundTint="?attr/colorPrimary"
+                                android:textColor="@android:color/white"
+                                android:layout_marginEnd="8dp" />
+
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/buttonCancelCustomRate"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="❌ Cancel"
+                                android:textSize="14sp"
+                                style="@style/Widget.Material3.Button.OutlinedButton"
+                                app:strokeColor="?attr/textSecondaryColor"
+                                android:textColor="?attr/textSecondaryColor"
+                                android:layout_marginStart="8dp" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <!-- Currency Selection Cards -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="🌍 Select Display Currency"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="?attr/textPrimaryColor"
+                android:layout_marginBottom="12dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="16dp">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardUsd"
+                    android:layout_width="0dp"
+                    android:layout_height="80dp"
+                    android:layout_weight="1"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="4dp"
+                    android:layout_marginEnd="8dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:padding="12dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="💵 USD"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:textColor="?attr/textPrimaryColor" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="US Dollar"
+                            android:textSize="12sp"
+                            android:textColor="?attr/textSecondaryColor" />
+
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardMmk"
+                    android:layout_width="0dp"
+                    android:layout_height="80dp"
+                    android:layout_weight="1"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="4dp"
+                    android:layout_marginStart="8dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:padding="12dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="🇲🇲 MMK"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:textColor="?attr/textPrimaryColor" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Myanmar Kyat"
+                            android:textSize="12sp"
+                            android:textColor="?attr/textSecondaryColor" />
+
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+            </LinearLayout>
+
+            <!-- Quick Switch Button -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/buttonSwitchCurrency"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="💱 Switch to MMK"
+                android:textSize="16sp"
+                app:backgroundTint="?attr/accentColor"
+                android:textColor="@android:color/white"
+                android:layout_marginBottom="20dp" />
+
+            <!-- Total Summary Card -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="8dp"
+                android:layout_marginBottom="16dp"
+                app:cardBackgroundColor="?attr/cardBackgroundColor">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="💰 Total Expenses Summary"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:textColor="?attr/textPrimaryColor"
+                        android:layout_marginBottom="12dp" />
+
+                    <TextView
+                        android:id="@+id/textTotalExpensesUsd"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Total in USD: $0.00"
+                        android:textSize="16sp"
+                        android:textColor="?attr/textPrimaryColor"
+                        android:layout_marginBottom="8dp" />
+
+                    <TextView
+                        android:id="@+id/textTotalExpensesMmk"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Total in MMK: 0.00 MMK"
+                        android:textSize="16sp"
+                        android:textColor="?attr/textPrimaryColor" />
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <!-- Expenses List -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="📋 Expense List with Currency Conversion"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="?attr/textPrimaryColor"
+                android:layout_marginBottom="12dp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewExpenses"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false"
+                android:layout_marginBottom="80dp" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

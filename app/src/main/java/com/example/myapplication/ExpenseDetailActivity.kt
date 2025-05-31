@@ -16,8 +16,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class ExpenseDetailActivity : AppCompatActivity() {
-    
-    private lateinit var editTextName: EditText
+      private lateinit var editTextName: EditText
     private lateinit var editTextPrice: EditText
     private lateinit var editTextDescription: EditText
     private lateinit var editTextDate: EditText
@@ -25,15 +24,16 @@ class ExpenseDetailActivity : AppCompatActivity() {
     private lateinit var buttonSave: Button
     private lateinit var buttonDelete: Button
     private lateinit var buttonBack: ImageButton
+    private lateinit var languageManager: LanguageManager
     
     private var expenseId: Long = -1
     private var isNewExpense = true
-    
-    override fun onCreate(savedInstanceState: Bundle?) {
+      override fun onCreate(savedInstanceState: Bundle?) {
         applyTheme()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_expense_detail)
         
+        languageManager = LanguageManager.getInstance(this)
         initViews()
         setupData()
         setupClickListeners()
@@ -175,11 +175,10 @@ class ExpenseDetailActivity : AppCompatActivity() {
             putExtra("expense_description", description)
             putExtra("expense_date", date)
             putExtra("expense_time", time)
-            putExtra("is_new_expense", isNewExpense)
-        }
+            putExtra("is_new_expense", isNewExpense)        }
         
         setResult(RESULT_OK, resultIntent)
-        Toast.makeText(this, if (isNewExpense) "Expense added!" else "Expense updated!", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, if (isNewExpense) languageManager.getString("expense_added", "Expense added!") else languageManager.getString("expense_updated", "Expense updated!"), Toast.LENGTH_SHORT).show()
         finish()
     }
     
@@ -199,9 +198,8 @@ class ExpenseDetailActivity : AppCompatActivity() {
             putExtra("expense_id", expenseId)
             putExtra("delete_expense", true)
         }
-        
-        setResult(RESULT_OK, resultIntent)
-        Toast.makeText(this, "Expense deleted!", Toast.LENGTH_SHORT).show()
+          setResult(RESULT_OK, resultIntent)
+        Toast.makeText(this, languageManager.getString("expense_deleted", "Expense deleted!"), Toast.LENGTH_SHORT).show()
         finish()
     }
 }
