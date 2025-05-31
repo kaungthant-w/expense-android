@@ -9,7 +9,9 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.CheckBox
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
@@ -33,6 +35,15 @@ class AllListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
       // Navigation Drawer components
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var navigationView: NavigationView
+    
+    // Selection components
+    private lateinit var layoutSelectionControls: View
+    private lateinit var checkboxSelectAll: CheckBox
+    private lateinit var textViewSelectionCount: TextView
+    private lateinit var buttonDeleteSelected: Button
+    private lateinit var buttonToggleSelection: Button
+    private lateinit var buttonCancelSelection: Button
+    private var isSelectionMode = false
     
     override fun onCreate(savedInstanceState: Bundle?) {
         applyTheme()
@@ -65,9 +76,150 @@ class AllListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
         navigationView = findViewById(R.id.navigationView)
         recyclerView = findViewById(R.id.recyclerViewAllList)
         
+        // Selection components
+        layoutSelectionControls = findViewById(R.id.layoutSelectionControls)
+        checkboxSelectAll = findViewById(R.id.checkboxSelectAll)
+        textViewSelectionCount = findViewById(R.id.textViewSelectionCount)
+        buttonDeleteSelected = findViewById(R.id.buttonDeleteSelected)
+        buttonToggleSelection = findViewById(R.id.buttonToggleSelection)
+        buttonCancelSelection = findViewById(R.id.buttonCancelSelection)
+          setupSelectionControls()
+        
         // Setup back button click listener
         findViewById<android.widget.ImageButton>(R.id.buttonBack).setOnClickListener {
             finish()
+        }
+    }
+    
+    private fun setupSelectionControls() {
+        // Toggle Selection button - Enter/Exit selection mode
+        buttonToggleSelection.setOnClickListener {
+            toggleSelectionMode()
+        }
+        
+        // Cancel Selection button - Exit selection mode without action
+        buttonCancelSelection.setOnClickListener {
+            exitSelectionMode()
+        }
+        
+        // Select All checkbox
+        checkboxSelectAll.setOnCheckedChangeListener { _, isChecked ->
+            if (allListAdapter.isSelectionMode()) {
+                if (isChecked) {
+                    allListAdapter.selectAll()
+                } else {
+                    allListAdapter.clearSelection()
+                }
+                updateSelectionUI(allListAdapter.getSelectedCount(), allListAdapter.isAllSelected())
+            }
+        }
+        
+        // Delete Selected button
+        buttonDeleteSelected.setOnClickListener {
+            deleteSelectedItems()
+        }
+        
+        // Initially hide selection controls
+        layoutSelectionControls.visibility = View.GONE
+    }
+    
+    private fun toggleSelectionMode() {
+        if (isSelectionMode) {
+            exitSelectionMode()
+        } else {
+            enterSelectionMode()
+        }
+    }
+    
+    private fun enterSelectionMode() {
+        isSelectionMode = true
+        allListAdapter.setSelectionMode(true)
+        layoutSelectionControls.visibility = View.VISIBLE
+        buttonToggleSelection.text = "📋 Selection Mode ON"
+        supportActionBar?.title = "📋 Select Expenses"
+        updateSelectionUI(0, false)
+    }
+    
+    private fun exitSelectionMode() {
+        isSelectionMode = false
+        allListAdapter.setSelectionMode(false)
+        layoutSelectionControls.visibility = View.GONE
+        buttonToggleSelection.text = "☑️ Select Items"
+        supportActionBar?.title = "📋 All Expenses"
+    }
+    
+    private fun updateSelectionUI(selectedCount: Int, isAllSelected: Boolean) {
+        textViewSelectionCount.text = "$selectedCount selected"
+        
+        // Update "Select All" checkbox without triggering listener
+        checkboxSelectAll.setOnCheckedChangeListener(null)
+        checkboxSelectAll.isChecked = isAllSelected
+        checkboxSelectAll.setOnCheckedChangeListener { _, isChecked ->
+            if (allListAdapter.isSelectionMode()) {
+                if (isChecked) {
+                    allListAdapter.selectAll()
+                } else {
+                    allListAdapter.clearSelection()
+                }
+                updateSelectionUI(allListAdapter.getSelectedCount(), allListAdapter.isAllSelected())
+            }
+        }
+        
+        // Enable/disable delete button based on selection
+        buttonDeleteSelected.isEnabled = selectedCount > 0
+    }
+    
+    private fun deleteSelectedItems() {
+        val selectedIndices = allListAdapter.getSelectedItems()
+        if (selectedIndices.isEmpty()) return
+        
+        val selectedItems = selectedIndices.map { allExpenses[it] }
+        val itemNames = selectedItems.joinToString(", ") { it.name }
+        
+        AlertDialog.Builder(this)
+            .setTitle("⚠️ Delete Selected Items")
+            .setMessage("Are you sure you want to delete these ${selectedIndices.size} item(s)?\n\n$itemNames\n\nThis action cannot be undone.")
+            .setPositiveButton("🗑️ Delete") { _, _ ->
+                performMultipleDelete(selectedIndices.toList().sortedDescending())
+            }
+            .setNegativeButton("❌ Cancel", null)
+            .show()
+    }
+    
+    private fun performMultipleDelete(indices: List<Int>) {
+        // Remove items in reverse order to maintain correct indices
+        indices.forEach { index ->
+            allExpenses.removeAt(index)
+        }
+        
+        // Save updated expenses
+        saveExpenses()
+        
+        // Update UI
+        allListAdapter.notifyDataSetChanged()
+        exitSelectionMode()
+        
+        // Show success message
+        val deletedCount = indices.size
+        android.widget.Toast.makeText(
+            this,
+            "✅ Successfully deleted $deletedCount item(s)",
+            android.widget.Toast.LENGTH_SHORT
+        ).show()
+    }
+    
+    private fun saveExpenses() {
+        val expensesJson = gson.toJson(allExpenses)
+        sharedPreferences.edit().putString("expenses", expensesJson).apply()
+    }
+    
+    override fun onBackPressed() {
+        if (isSelectionMode) {
+            exitSelectionMode()
+        } else if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START)
+        } else {
+            super.onBackPressed()
         }
     }
       private fun setupNavigationDrawer() {
@@ -84,9 +236,10 @@ class AllListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
     private fun setupSharedPreferences() {
         sharedPreferences = getSharedPreferences("expense_prefs", Context.MODE_PRIVATE)
     }
-    
-    private fun setupRecyclerView() {
-        allListAdapter = AllListAdapter(allExpenses)
+      private fun setupRecyclerView() {
+        allListAdapter = AllListAdapter(allExpenses) { selectedCount, isAllSelected ->
+            updateSelectionUI(selectedCount, isAllSelected)
+        }
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = allListAdapter
     }
@@ -127,35 +280,62 @@ class AllListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
             }
             R.id.nav_settings -> {
                 startActivity(Intent(this, SettingsActivity::class.java))
-            }
-            R.id.nav_feedback -> {
+            }            R.id.nav_feedback -> {
                 startActivity(Intent(this, FeedbackActivity::class.java))
+            }
+            else -> {
+                // Handle any other menu items
             }
         }
         drawerLayout.closeDrawer(GravityCompat.START)
         return true
     }
-    
-    override fun onBackPressed() {
-        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            drawerLayout.closeDrawer(GravityCompat.START)
-        } else {
-            super.onBackPressed()
-        }
-    }
 }
 
-class AllListAdapter(private val expenses: List<ExpenseItem>) : RecyclerView.Adapter<AllListAdapter.AllListViewHolder>() {
+class AllListAdapter(
+    private val expenses: List<ExpenseItem>,
+    private val onSelectionChanged: (Int, Boolean) -> Unit
+) : RecyclerView.Adapter<AllListAdapter.AllListViewHolder>() {
     
     private lateinit var currencyManager: CurrencyManager
+    private var selectionMode = false
+    private val selectedItems = mutableSetOf<Int>()
     
     class AllListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val checkboxSelect: CheckBox = itemView.findViewById(R.id.checkboxSelect)
         val textViewName: TextView = itemView.findViewById(R.id.textViewName)
         val textViewPrice: TextView = itemView.findViewById(R.id.textViewPrice)
         val textViewDescription: TextView = itemView.findViewById(R.id.textViewDescription)
         val textViewDateTime: TextView = itemView.findViewById(R.id.textViewDateTime)
         val textViewStatus: TextView = itemView.findViewById(R.id.textViewStatus)
     }
+    
+    fun setSelectionMode(enabled: Boolean) {
+        selectionMode = enabled
+        if (!enabled) {
+            selectedItems.clear()
+        }
+        notifyDataSetChanged()
+    }
+    
+    fun isSelectionMode(): Boolean = selectionMode
+    
+    fun getSelectedItems(): Set<Int> = selectedItems.toSet()
+    
+    fun getSelectedCount(): Int = selectedItems.size
+    
+    fun selectAll() {
+        selectedItems.clear()
+        selectedItems.addAll(0 until expenses.size)
+        notifyDataSetChanged()
+    }
+    
+    fun clearSelection() {
+        selectedItems.clear()
+        notifyDataSetChanged()
+    }
+    
+    fun isAllSelected(): Boolean = selectedItems.size == expenses.size && expenses.isNotEmpty()
       override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AllListViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_all_list, parent, false)
@@ -166,9 +346,28 @@ class AllListAdapter(private val expenses: List<ExpenseItem>) : RecyclerView.Ada
         }
         
         return AllListViewHolder(view)
-    }
-      override fun onBindViewHolder(holder: AllListViewHolder, position: Int) {
+    }      override fun onBindViewHolder(holder: AllListViewHolder, position: Int) {
         val expense = expenses[position]
+        
+        // Handle selection checkbox
+        holder.checkboxSelect.visibility = if (selectionMode) View.VISIBLE else View.GONE
+        holder.checkboxSelect.isChecked = selectedItems.contains(position)
+        
+        holder.checkboxSelect.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                selectedItems.add(position)
+            } else {
+                selectedItems.remove(position)
+            }
+            onSelectionChanged(selectedItems.size, isAllSelected())
+        }
+        
+        // Handle item click for selection
+        holder.itemView.setOnClickListener {
+            if (selectionMode) {
+                holder.checkboxSelect.isChecked = !holder.checkboxSelect.isChecked
+            }
+        }
         
         holder.textViewName.text = expense.name
         

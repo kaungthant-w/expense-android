@@ -13,9 +13,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:background="?attr/backgroundColor"
-            android:padding="16dp">
-
-            <!-- Header with Back Button -->
+            android:padding="16dp">            <!-- Header with Back Button -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -40,6 +38,75 @@
                     android:textStyle="bold"
                     android:gravity="center_vertical"
                     android:textColor="?attr/textPrimaryColor" />
+
+            </LinearLayout>
+
+            <!-- Selection Controls -->
+            <LinearLayout
+                android:id="@+id/layoutSelectionControls"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="12dp"
+                android:background="@drawable/input_background"
+                android:layout_marginBottom="8dp"
+                android:visibility="gone">
+
+                <CheckBox
+                    android:id="@+id/checkboxSelectAll"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Select All"
+                    android:textColor="?attr/textPrimaryColor"
+                    android:layout_marginEnd="16dp" />
+
+                <TextView
+                    android:id="@+id/textViewSelectionCount"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="0 items selected"
+                    android:textColor="?attr/textSecondaryColor"
+                    android:gravity="center_vertical" />
+
+                <Button
+                    android:id="@+id/buttonDeleteSelected"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:text="Delete Forever"
+                    android:textSize="12sp"
+                    android:backgroundTint="?attr/colorError"
+                    android:textColor="@android:color/white"
+                    android:enabled="false" />
+
+            </LinearLayout>
+
+            <!-- Action Buttons -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="8dp">
+
+                <Button
+                    android:id="@+id/buttonToggleSelection"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="✅ Enable Selection"
+                    android:backgroundTint="?attr/accentColor"
+                    android:textColor="@android:color/white"
+                    android:layout_marginEnd="8dp" />
+
+                <Button
+                    android:id="@+id/buttonCancelSelection"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="❌ Cancel Selection"
+                    android:backgroundTint="?attr/textSecondaryColor"
+                    android:textColor="@android:color/white"
+                    android:visibility="gone" />
 
             </LinearLayout>
 

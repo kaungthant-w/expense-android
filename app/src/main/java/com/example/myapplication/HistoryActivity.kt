@@ -9,6 +9,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.CheckBox
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -31,10 +32,17 @@ class HistoryActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
     private lateinit var historyAdapter: HistoryAdapter
     private val deletedExpenses = mutableListOf<ExpenseItem>()
     private lateinit var sharedPreferences: SharedPreferences
-    private val gson = Gson()
-      // Navigation Drawer components
+    private val gson = Gson()      // Navigation Drawer components
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var navigationView: NavigationView
+      // Selection components
+    private lateinit var layoutSelectionControls: View
+    private lateinit var checkboxSelectAll: CheckBox
+    private lateinit var textViewSelectionCount: TextView
+    private lateinit var buttonDeleteSelected: Button
+    private lateinit var buttonToggleSelection: Button
+    private lateinit var buttonCancelSelection: Button
+    private var isSelectionMode = false
         override fun onCreate(savedInstanceState: Bundle?) {
         applyTheme()
         super.onCreate(savedInstanceState)
@@ -61,6 +69,15 @@ class HistoryActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
         drawerLayout = findViewById(R.id.drawerLayout)
         navigationView = findViewById(R.id.navigationView)
         recyclerView = findViewById(R.id.recyclerViewHistory)
+          // Selection components
+        layoutSelectionControls = findViewById(R.id.layoutSelectionControls)
+        checkboxSelectAll = findViewById(R.id.checkboxSelectAll)
+        textViewSelectionCount = findViewById(R.id.textViewSelectionCount)
+        buttonDeleteSelected = findViewById(R.id.buttonDeleteSelected)
+        buttonToggleSelection = findViewById(R.id.buttonToggleSelection)
+        buttonCancelSelection = findViewById(R.id.buttonCancelSelection)
+        
+        setupSelectionControls()
         
         // Setup back button click listener
         findViewById<android.widget.ImageButton>(R.id.buttonBack).setOnClickListener {
@@ -80,12 +97,14 @@ class HistoryActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
     
     private fun setupSharedPreferences() {
         sharedPreferences = getSharedPreferences("expense_prefs", Context.MODE_PRIVATE)
-    }
-      private fun setupRecyclerView() {
+    }      private fun setupRecyclerView() {
         historyAdapter = HistoryAdapter(
             deletedExpenses,
             onRestoreClick = { position -> restoreExpenseItem(position) },
-            onDeletePermanentlyClick = { position -> showDeletePermanentlyDialog(position) }
+            onDeletePermanentlyClick = { position -> showDeletePermanentlyDialog(position) },
+            onSelectionChanged = { selectedCount, isAllSelected ->
+                updateSelectionUI(selectedCount, isAllSelected)
+            }
         )
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = historyAdapter
@@ -216,7 +235,126 @@ class HistoryActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
         
         // Save the updated list
         val updatedExpensesJson = gson.toJson(allExpenses)
-        sharedPreferences.edit().putString("expenses", updatedExpensesJson).apply()
+        sharedPreferences.edit().putString("expenses", updatedExpensesJson).apply()    }
+    
+    private fun setupSelectionControls() {
+        // Toggle Selection button - Enter/Exit selection mode
+        buttonToggleSelection.setOnClickListener {
+            toggleSelectionMode()
+        }
+        
+        // Cancel Selection button - Exit selection mode without action
+        buttonCancelSelection.setOnClickListener {
+            exitSelectionMode()
+        }
+        
+        // Select All checkbox
+        checkboxSelectAll.setOnCheckedChangeListener { _, isChecked ->
+            if (historyAdapter.isSelectionMode()) {
+                if (isChecked) {
+                    historyAdapter.selectAll()
+                } else {
+                    historyAdapter.clearSelection()
+                }
+                updateSelectionUI(historyAdapter.getSelectedCount(), historyAdapter.isAllSelected())
+            }
+        }
+          // Delete Forever button
+        buttonDeleteSelected.setOnClickListener {
+            deleteSelectedItemsForever()
+        }
+        
+        // Initially hide selection controls
+        layoutSelectionControls.visibility = View.GONE
+    }
+    
+    private fun toggleSelectionMode() {
+        if (isSelectionMode) {
+            exitSelectionMode()
+        } else {
+            enterSelectionMode()
+        }
+    }
+    
+    private fun enterSelectionMode() {
+        isSelectionMode = true
+        historyAdapter.setSelectionMode(true)
+        layoutSelectionControls.visibility = View.VISIBLE
+        buttonToggleSelection.text = "📋 Selection Mode ON"
+        supportActionBar?.title = "🗃️ Select History Items"
+        updateSelectionUI(0, false)
+    }
+    
+    private fun exitSelectionMode() {
+        isSelectionMode = false
+        historyAdapter.setSelectionMode(false)
+        layoutSelectionControls.visibility = View.GONE
+        buttonToggleSelection.text = "☑️ Select Items"
+        supportActionBar?.title = "🗃️ Deleted Items History"
+    }
+    
+    private fun updateSelectionUI(selectedCount: Int, isAllSelected: Boolean) {
+        textViewSelectionCount.text = "$selectedCount selected"
+        
+        // Update "Select All" checkbox without triggering listener
+        checkboxSelectAll.setOnCheckedChangeListener(null)
+        checkboxSelectAll.isChecked = isAllSelected
+        checkboxSelectAll.setOnCheckedChangeListener { _, isChecked ->
+            if (historyAdapter.isSelectionMode()) {
+                if (isChecked) {
+                    historyAdapter.selectAll()
+                } else {
+                    historyAdapter.clearSelection()
+                }
+                updateSelectionUI(historyAdapter.getSelectedCount(), historyAdapter.isAllSelected())
+            }
+        }
+          // Enable/disable delete button based on selection
+        buttonDeleteSelected.isEnabled = selectedCount > 0
+    }
+    
+    private fun deleteSelectedItemsForever() {
+        val selectedIndices = historyAdapter.getSelectedItems()
+        if (selectedIndices.isEmpty()) return
+        
+        val selectedItems = selectedIndices.map { deletedExpenses[it] }
+        val itemNames = selectedItems.joinToString(", ") { it.name }
+        
+        AlertDialog.Builder(this)
+            .setTitle("⚠️ Delete Forever")
+            .setMessage("Are you sure you want to permanently delete these ${selectedIndices.size} item(s)?\n\n$itemNames\n\nThis action cannot be undone.")
+            .setPositiveButton("🗑️ Delete Forever") { _, _ ->
+                performMultiplePermanentDelete(selectedIndices.toList().sortedDescending())
+            }
+            .setNegativeButton("❌ Cancel", null)
+            .show()
+    }
+    
+    private fun performMultiplePermanentDelete(indices: List<Int>) {
+        val expenseIds = mutableListOf<Long>()
+        
+        // Collect expense IDs and remove from local list in reverse order
+        indices.forEach { index ->
+            expenseIds.add(deletedExpenses[index].id)
+            deletedExpenses.removeAt(index)
+        }
+        
+        // Remove from shared preferences
+        expenseIds.forEach { id ->
+            removeExpensePermanently(id)
+        }
+        
+        // Update UI
+        historyAdapter.notifyDataSetChanged()
+        exitSelectionMode()
+        
+        // Show success message
+        val deletedCount = indices.size
+        Toast.makeText(
+            this,
+            "✅ Successfully deleted $deletedCount item(s) forever",
+            Toast.LENGTH_SHORT
+        ).show()
     }
     
     private fun applyTheme() {
@@ -264,9 +402,10 @@ class HistoryActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
         drawerLayout.closeDrawer(GravityCompat.START)
         return true
     }
-    
-    override fun onBackPressed() {
-        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+      override fun onBackPressed() {
+        if (isSelectionMode) {
+            exitSelectionMode()
+        } else if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START)
         } else {
             super.onBackPressed()
@@ -277,12 +416,16 @@ class HistoryActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
 class HistoryAdapter(
     private val deletedExpenses: MutableList<ExpenseItem>,
     private val onRestoreClick: (Int) -> Unit,
-    private val onDeletePermanentlyClick: (Int) -> Unit
+    private val onDeletePermanentlyClick: (Int) -> Unit,
+    private val onSelectionChanged: (Int, Boolean) -> Unit
 ) : RecyclerView.Adapter<HistoryAdapter.HistoryViewHolder>() {
 
     private lateinit var currencyManager: CurrencyManager
+    private var selectionMode = false
+    private val selectedItems = mutableSetOf<Int>()
 
     class HistoryViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val checkboxSelect: CheckBox = view.findViewById(R.id.checkboxSelect)
         val textViewName: TextView = view.findViewById(R.id.textViewName)
         val textViewPrice: TextView = view.findViewById(R.id.textViewPrice)
         val textViewDescription: TextView = view.findViewById(R.id.textViewDescription)
@@ -290,7 +433,36 @@ class HistoryAdapter(
         val textViewDeletedDate: TextView = view.findViewById(R.id.textViewDeletedDate)
         val buttonRestore: Button = view.findViewById(R.id.buttonRestore)
         val buttonDeletePermanently: Button = view.findViewById(R.id.buttonDeletePermanently)
-    }    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HistoryViewHolder {
+    }
+    
+    fun setSelectionMode(enabled: Boolean) {
+        selectionMode = enabled
+        if (!enabled) {
+            selectedItems.clear()
+        }
+        notifyDataSetChanged()
+    }
+    
+    fun isSelectionMode(): Boolean = selectionMode
+    
+    fun getSelectedItems(): Set<Int> = selectedItems.toSet()
+    
+    fun getSelectedCount(): Int = selectedItems.size
+    
+    fun selectAll() {
+        selectedItems.clear()
+        selectedItems.addAll(0 until deletedExpenses.size)
+        notifyDataSetChanged()
+    }
+    
+    fun clearSelection() {
+        selectedItems.clear()
+        notifyDataSetChanged()
+    }
+    
+    fun isAllSelected(): Boolean = selectedItems.size == deletedExpenses.size && deletedExpenses.isNotEmpty()
+    
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HistoryViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_history, parent, false)
         
@@ -302,6 +474,26 @@ class HistoryAdapter(
         return HistoryViewHolder(view)
     }    override fun onBindViewHolder(holder: HistoryViewHolder, position: Int) {
         val expense = deletedExpenses[position]
+        
+        // Handle selection checkbox
+        holder.checkboxSelect.visibility = if (selectionMode) View.VISIBLE else View.GONE
+        holder.checkboxSelect.isChecked = selectedItems.contains(position)
+        
+        holder.checkboxSelect.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                selectedItems.add(position)
+            } else {
+                selectedItems.remove(position)
+            }
+            onSelectionChanged(selectedItems.size, isAllSelected())
+        }
+        
+        // Handle item click for selection
+        holder.itemView.setOnClickListener {
+            if (selectionMode) {
+                holder.checkboxSelect.isChecked = !holder.checkboxSelect.isChecked
+            }
+        }
         
         holder.textViewName.text = expense.name
         
@@ -317,6 +509,11 @@ class HistoryAdapter(
         holder.textViewDescription.text = if (expense.description.isNotEmpty()) expense.description else "No description"
         holder.textViewDateTime.text = "${expense.date} at ${expense.time}"
         holder.textViewDeletedDate.text = "Deleted on ${expense.deletedAt ?: "Unknown date"}"
+        
+        // Hide/show action buttons based on selection mode
+        val buttonVisibility = if (selectionMode) View.GONE else View.VISIBLE
+        holder.buttonRestore.visibility = buttonVisibility
+        holder.buttonDeletePermanently.visibility = buttonVisibility
         
         holder.buttonRestore.setOnClickListener {
             onRestoreClick(position)

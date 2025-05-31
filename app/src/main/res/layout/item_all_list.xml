@@ -6,22 +6,34 @@
     android:layout_margin="8dp"
     app:cardCornerRadius="12dp"
     app:cardElevation="2dp"
-    app:cardBackgroundColor="?attr/cardBackgroundColor">
-
-    <LinearLayout
+    app:cardBackgroundColor="?attr/cardBackgroundColor">    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="16dp">
 
-        <!-- Name and Price Row -->
+        <!-- Selection and Name/Price Row -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_marginBottom="8dp">
 
-            <TextView
+            <!-- Checkbox for selection -->
+            <CheckBox
+                android:id="@+id/checkboxSelect"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="12dp"
+                android:visibility="gone" />
+
+            <!-- Name and Price Container -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal">            <TextView
                 android:id="@+id/textViewName"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -41,7 +53,9 @@
                 android:textStyle="bold"
                 android:textColor="?attr/accentColor" />
 
-        </LinearLayout>        <!-- Description -->
+            </LinearLayout>
+
+        </LinearLayout><!-- Description -->
         <TextView
             android:id="@+id/textViewDescription"
             android:layout_width="match_parent"
