@@ -2,7 +2,7 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/main_background">
+    android:background="?attr/backgroundColor">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,7 +17,7 @@
             android:text="📋 All Expenses (Active + Deleted)"
             android:textSize="20sp"
             android:textStyle="bold"
-            android:textColor="@color/text_primary_color"
+            android:textColor="?attr/textPrimaryColor"
             android:layout_marginBottom="16dp"
             android:gravity="center"
             android:shadowColor="#40000000"

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/glassmorphism_background">
+    android:background="?attr/backgroundColor">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -20,7 +20,7 @@
             android:textStyle="bold"
             android:gravity="center"
             android:layout_marginBottom="30dp"
-            android:textColor="@android:color/white"
+            android:textColor="?attr/textPrimaryColor"
             android:shadowColor="#40000000"
             android:shadowDx="2"
             android:shadowDy="2"
@@ -40,15 +40,13 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:padding="20dp"
-                android:background="@drawable/glassmorphism_card">
-
-                <TextView
+                android:background="@drawable/glassmorphism_card">                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="💰 Overall Statistics"
                     android:textSize="18sp"
                     android:textStyle="bold"
-                    android:textColor="#1A1A1A"
+                    android:textColor="?attr/textPrimaryColor"
                     android:layout_marginBottom="16dp" />
 
                 <LinearLayout
@@ -60,10 +58,9 @@
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Total Expenses:"
+                        android:layout_weight="1"                        android:text="Total Expenses:"
                         android:textSize="14sp"
-                        android:textColor="#333333" />
+                        android:textColor="?attr/textSecondaryColor" />
 
                     <TextView
                         android:id="@+id/textTotalExpenses"
@@ -72,7 +69,7 @@
                         android:text="0"
                         android:textSize="14sp"
                         android:textStyle="bold"
-                        android:textColor="#1A1A1A" />
+                        android:textColor="?attr/textPrimaryColor" />
 
                 </LinearLayout>
 
@@ -88,7 +85,7 @@
                         android:layout_weight="1"
                         android:text="Total Amount:"
                         android:textSize="14sp"
-                        android:textColor="#333333" />
+                        android:textColor="?attr/textSecondaryColor" />
 
                     <TextView
                         android:id="@+id/textTotalAmount"
@@ -112,7 +109,7 @@
                         android:layout_weight="1"
                         android:text="Average Amount:"
                         android:textSize="14sp"
-                        android:textColor="#333333" />
+                        android:textColor="?attr/textSecondaryColor" />
 
                     <TextView
                         android:id="@+id/textAverageAmount"
@@ -151,7 +148,7 @@
                     android:text="📅 Today's Summary"
                     android:textSize="18sp"
                     android:textStyle="bold"
-                    android:textColor="#1A1A1A"
+                    android:textColor="?attr/textPrimaryColor"
                     android:layout_marginBottom="16dp" />
 
                 <LinearLayout
@@ -166,7 +163,7 @@
                         android:layout_weight="1"
                         android:text="Today's Expenses:"
                         android:textSize="14sp"
-                        android:textColor="#333333" />
+                        android:textColor="?attr/textSecondaryColor" />
 
                     <TextView
                         android:id="@+id/textTodayExpenses"
@@ -175,7 +172,7 @@
                         android:text="0"
                         android:textSize="14sp"
                         android:textStyle="bold"
-                        android:textColor="#1A1A1A" />
+                        android:textColor="?attr/textPrimaryColor" />
 
                 </LinearLayout>
 
@@ -190,7 +187,7 @@
                         android:layout_weight="1"
                         android:text="Today's Total:"
                         android:textSize="14sp"
-                        android:textColor="#333333" />
+                        android:textColor="?attr/textSecondaryColor" />
 
                     <TextView
                         android:id="@+id/textTodayAmount"
@@ -229,7 +226,7 @@
                     android:text="📊 This Month's Summary"
                     android:textSize="18sp"
                     android:textStyle="bold"
-                    android:textColor="#1A1A1A"
+                    android:textColor="?attr/textPrimaryColor"
                     android:layout_marginBottom="16dp" />
 
                 <LinearLayout
@@ -244,7 +241,7 @@
                         android:layout_weight="1"
                         android:text="Month's Expenses:"
                         android:textSize="14sp"
-                        android:textColor="#333333" />
+                        android:textColor="?attr/textSecondaryColor" />
 
                     <TextView
                         android:id="@+id/textMonthExpenses"
@@ -253,7 +250,7 @@
                         android:text="0"
                         android:textSize="14sp"
                         android:textStyle="bold"
-                        android:textColor="#1A1A1A" />
+                        android:textColor="?attr/textPrimaryColor" />
 
                 </LinearLayout>
 
@@ -268,7 +265,7 @@
                         android:layout_weight="1"
                         android:text="Month's Total:"
                         android:textSize="14sp"
-                        android:textColor="#333333" />
+                        android:textColor="?attr/textSecondaryColor" />
 
                     <TextView
                         android:id="@+id/textMonthAmount"
@@ -307,7 +304,7 @@
                     android:text="📈 Expense Extremes"
                     android:textSize="18sp"
                     android:textStyle="bold"
-                    android:textColor="#1A1A1A"
+                    android:textColor="?attr/textPrimaryColor"
                     android:layout_marginBottom="16dp" />
 
                 <TextView
@@ -315,7 +312,7 @@
                     android:layout_height="wrap_content"
                     android:text="Highest Expense:"
                     android:textSize="14sp"
-                    android:textColor="#333333"
+                    android:textColor="?attr/textSecondaryColor"
                     android:layout_marginBottom="4dp" />
 
                 <TextView
@@ -333,7 +330,7 @@
                     android:layout_height="wrap_content"
                     android:text="Lowest Expense:"
                     android:textSize="14sp"
-                    android:textColor="#333333"
+                    android:textColor="?attr/textSecondaryColor"
                     android:layout_marginBottom="4dp" />
 
                 <TextView

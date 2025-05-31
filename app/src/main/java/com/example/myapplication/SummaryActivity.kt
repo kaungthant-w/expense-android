@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.text.SimpleDateFormat
@@ -14,9 +15,11 @@ import java.util.concurrent.TimeUnit
 class SummaryActivity : AppCompatActivity() {
     
     private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var currencyManager: CurrencyManager
     private val gson = Gson()
     
     override fun onCreate(savedInstanceState: Bundle?) {
+        applyTheme()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_summary)
         
@@ -25,13 +28,24 @@ class SummaryActivity : AppCompatActivity() {
         loadSummaryData()
     }
     
+    private fun applyTheme() {
+        val themePrefs = getSharedPreferences(ThemeActivity.THEME_PREFS, Context.MODE_PRIVATE)
+        val savedTheme = themePrefs.getString(ThemeActivity.THEME_KEY, ThemeActivity.THEME_SYSTEM)
+        
+        when (savedTheme) {
+            ThemeActivity.THEME_LIGHT -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            ThemeActivity.THEME_DARK -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            ThemeActivity.THEME_SYSTEM -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+        }
+    }
+    
     private fun setupActionBar() {
         supportActionBar?.title = "📊 Expense Summary"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
-    
-    private fun setupSharedPreferences() {
+      private fun setupSharedPreferences() {
         sharedPreferences = getSharedPreferences("expense_prefs", Context.MODE_PRIVATE)
+        currencyManager = CurrencyManager.getInstance(this)
     }
     
     private fun loadSummaryData() {
@@ -41,8 +55,7 @@ class SummaryActivity : AppCompatActivity() {
         
         displaySummary(expensesList)
     }
-    
-    private fun displaySummary(expenses: List<ExpenseItem>) {
+      private fun displaySummary(expenses: List<ExpenseItem>) {
         val totalExpenses = expenses.size
         val totalAmount = expenses.sumOf { it.price }
         val averageAmount = if (totalExpenses > 0) totalAmount / totalExpenses else 0.0
@@ -64,23 +77,50 @@ class SummaryActivity : AppCompatActivity() {
         val highestExpense = expenses.maxByOrNull { it.price }
         val lowestExpense = expenses.minByOrNull { it.price }
         
+        // Convert amounts based on current currency
+        val currentCurrency = currencyManager.getCurrentCurrency()
+        val displayTotalAmount = if (currentCurrency == CurrencyManager.CURRENCY_MMK) {
+            currencyManager.convertFromUsd(totalAmount)
+        } else totalAmount
+        
+        val displayAverageAmount = if (currentCurrency == CurrencyManager.CURRENCY_MMK) {
+            currencyManager.convertFromUsd(averageAmount)
+        } else averageAmount
+        
+        val displayTodayAmount = if (currentCurrency == CurrencyManager.CURRENCY_MMK) {
+            currencyManager.convertFromUsd(todayAmount)
+        } else todayAmount
+        
+        val displayMonthAmount = if (currentCurrency == CurrencyManager.CURRENCY_MMK) {
+            currencyManager.convertFromUsd(monthAmount)
+        } else monthAmount
+        
         // Update UI
         findViewById<TextView>(R.id.textTotalExpenses).text = totalExpenses.toString()
-        findViewById<TextView>(R.id.textTotalAmount).text = String.format("$%.2f", totalAmount)
-        findViewById<TextView>(R.id.textAverageAmount).text = String.format("$%.2f", averageAmount)
+        findViewById<TextView>(R.id.textTotalAmount).text = currencyManager.formatCurrency(displayTotalAmount)
+        findViewById<TextView>(R.id.textAverageAmount).text = currencyManager.formatCurrency(displayAverageAmount)
         
         findViewById<TextView>(R.id.textTodayExpenses).text = todayExpenses.size.toString()
-        findViewById<TextView>(R.id.textTodayAmount).text = String.format("$%.2f", todayAmount)
+        findViewById<TextView>(R.id.textTodayAmount).text = currencyManager.formatCurrency(displayTodayAmount)
         
         findViewById<TextView>(R.id.textMonthExpenses).text = monthExpenses.size.toString()
-        findViewById<TextView>(R.id.textMonthAmount).text = String.format("$%.2f", monthAmount)
+        findViewById<TextView>(R.id.textMonthAmount).text = currencyManager.formatCurrency(displayMonthAmount)
         
         findViewById<TextView>(R.id.textHighestExpense).text = 
-            if (highestExpense != null) "${highestExpense.name}: $${String.format("%.2f", highestExpense.price)}" 
-            else "No expenses yet"
+            if (highestExpense != null) {
+                val displayHighestAmount = if (currentCurrency == CurrencyManager.CURRENCY_MMK) {
+                    currencyManager.convertFromUsd(highestExpense.price)
+                } else highestExpense.price
+                "${highestExpense.name}: ${currencyManager.formatCurrency(displayHighestAmount)}"
+            } else "No expenses yet"
             
-        findViewById<TextView>(R.id.textLowestExpense).text =            if (lowestExpense != null) "${lowestExpense.name}: $${String.format("%.2f", lowestExpense.price)}" 
-            else "No expenses yet"
+        findViewById<TextView>(R.id.textLowestExpense).text =
+            if (lowestExpense != null) {
+                val displayLowestAmount = if (currentCurrency == CurrencyManager.CURRENCY_MMK) {
+                    currencyManager.convertFromUsd(lowestExpense.price)
+                } else lowestExpense.price
+                "${lowestExpense.name}: ${currencyManager.formatCurrency(displayLowestAmount)}"
+            } else "No expenses yet"
     }
     
     private fun loadDetailedStats() {

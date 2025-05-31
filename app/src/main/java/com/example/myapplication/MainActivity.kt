@@ -1,5 +1,6 @@
 package com.example.myapplication
 
+import android.app.Activity
 import android.util.Log
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
@@ -16,6 +17,7 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -24,7 +26,7 @@ import com.google.gson.reflect.TypeToken
 import java.text.SimpleDateFormat
 import java.util.*
 
-class MainActivity : AppCompatActivity() {    private lateinit var editTextName: EditText
+class MainActivity : AppCompatActivity() {private lateinit var editTextName: EditText
     private lateinit var editTextPrice: EditText
     private lateinit var editTextDescription: EditText
     private lateinit var editTextDate: EditText
@@ -43,10 +45,9 @@ class MainActivity : AppCompatActivity() {    private lateinit var editTextName:
     private val expenseDetailLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
-        if (result.resultCode == RESULT_OK) {
-            val data = result.data
+        if (result.resultCode == RESULT_OK) {            val data = result.data
             val shouldDelete = data?.getBooleanExtra("delete_expense", false) ?: false
-              if (shouldDelete) {
+            if (shouldDelete) {
                 // Handle delete from detail activity - no confirmation needed as it was already confirmed
                 val expenseId = data?.getLongExtra("expense_id", -1L) ?: -1L
                 if (expenseId != -1L) {
@@ -129,16 +130,17 @@ class MainActivity : AppCompatActivity() {    private lateinit var editTextName:
         // This will update the main list in case any expenses were restored
         loadExpenses()
     }
-    
-    // Activity result launcher for all list activity
+      // Activity result launcher for all list activity
     private val allListActivityLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
         // Refresh the expense list when returning from all list activity
         // This will update the main list in case any expenses were restored
-        loadExpenses()
-    }
-      override fun onCreate(savedInstanceState: Bundle?) {
+        loadExpenses()    }
+    
+    override fun onCreate(savedInstanceState: Bundle?) {
+        // Apply theme before calling super.onCreate()
+        applyTheme()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         
@@ -495,20 +497,23 @@ class MainActivity : AppCompatActivity() {    private lateinit var editTextName:
             hideFabMenu()
             startActivity(Intent(this, AnalyticsActivity::class.java))
         }
-        
-        fabMenuOverlay?.findViewById<FloatingActionButton>(R.id.fabAllList)?.setOnClickListener {
+          fabMenuOverlay?.findViewById<FloatingActionButton>(R.id.fabAllList)?.setOnClickListener {
             hideFabMenu()
             allListActivityLauncher.launch(Intent(this, AllListActivity::class.java))
         }
-          
+          fabMenuOverlay?.findViewById<FloatingActionButton>(R.id.fabCurrency)?.setOnClickListener {
+            hideFabMenu()
+            startActivity(Intent(this, CurrencyExchangeActivity::class.java))
+        }
+            
         fabMenuOverlay?.findViewById<FloatingActionButton>(R.id.fabHistory)?.setOnClickListener {
             hideFabMenu()
             historyActivityLauncher.launch(Intent(this, HistoryActivity::class.java))
         }
         
-        fabMenuOverlay?.findViewById<FloatingActionButton>(R.id.fabFeedback)?.setOnClickListener {
+        fabMenuOverlay?.findViewById<FloatingActionButton>(R.id.fabSettings)?.setOnClickListener {
             hideFabMenu()
-            startActivity(Intent(this, FeedbackActivity::class.java))
+            startActivity(Intent(this, SettingsActivity::class.java))
         }
         
         // Hide menu when clicking on overlay
@@ -551,6 +556,17 @@ class MainActivity : AppCompatActivity() {    private lateinit var editTextName:
             intent.putExtra("expense_time", expense.time)
             intent.putExtra("expense_position", position)
             expenseDetailLauncher.launch(intent)
+        }
+    }
+    
+    private fun applyTheme() {
+        val themePrefs = getSharedPreferences(ThemeActivity.THEME_PREFS, Context.MODE_PRIVATE)
+        val savedTheme = themePrefs.getString(ThemeActivity.THEME_KEY, ThemeActivity.THEME_SYSTEM)
+        
+        when (savedTheme) {
+            ThemeActivity.THEME_LIGHT -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            ThemeActivity.THEME_DARK -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            ThemeActivity.THEME_SYSTEM -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
         }
     }
 }

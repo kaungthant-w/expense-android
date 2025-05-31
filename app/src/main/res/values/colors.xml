@@ -36,6 +36,10 @@
     <color name="icon_color_light">#FF666666</color>
     <color name="icon_color_dark">#FFCCCCCC</color>
     
+    <!-- Currency Selection Colors -->
+    <color name="selected_card_background">#FF4CAF50</color>
+    <color name="default_card_background">#FFE0E0E0</color>
+    
     <!-- Light Theme Colors (Default) -->
     <color name="background_color">@color/light_background</color>
     <color name="surface_color">@color/light_surface</color>

@@ -11,6 +11,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
@@ -25,7 +26,9 @@ class HistoryActivity : AppCompatActivity() {
     private val deletedExpenses = mutableListOf<ExpenseItem>()
     private lateinit var sharedPreferences: SharedPreferences
     private val gson = Gson()
-      override fun onCreate(savedInstanceState: Bundle?) {
+      
+    override fun onCreate(savedInstanceState: Bundle?) {
+        applyTheme()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_history)
         
@@ -192,6 +195,17 @@ class HistoryActivity : AppCompatActivity() {
         sharedPreferences.edit().putString("expenses", updatedExpensesJson).apply()
     }
     
+    private fun applyTheme() {
+        val themePrefs = getSharedPreferences(ThemeActivity.THEME_PREFS, Context.MODE_PRIVATE)
+        val savedTheme = themePrefs.getString(ThemeActivity.THEME_KEY, ThemeActivity.THEME_SYSTEM)
+        
+        when (savedTheme) {
+            ThemeActivity.THEME_LIGHT -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            ThemeActivity.THEME_DARK -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            ThemeActivity.THEME_SYSTEM -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+        }
+    }
+    
     override fun onSupportNavigateUp(): Boolean {
         finish()
         return true
@@ -204,6 +218,8 @@ class HistoryAdapter(
     private val onDeletePermanentlyClick: (Int) -> Unit
 ) : RecyclerView.Adapter<HistoryAdapter.HistoryViewHolder>() {
 
+    private lateinit var currencyManager: CurrencyManager
+
     class HistoryViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val textViewName: TextView = view.findViewById(R.id.textViewName)
         val textViewPrice: TextView = view.findViewById(R.id.textViewPrice)
@@ -212,19 +228,30 @@ class HistoryAdapter(
         val textViewDeletedDate: TextView = view.findViewById(R.id.textViewDeletedDate)
         val buttonRestore: Button = view.findViewById(R.id.buttonRestore)
         val buttonDeletePermanently: Button = view.findViewById(R.id.buttonDeletePermanently)
-    }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HistoryViewHolder {
+    }    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HistoryViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_history, parent, false)
+        
+        // Initialize CurrencyManager if not already done
+        if (!::currencyManager.isInitialized) {
+            currencyManager = CurrencyManager.getInstance(parent.context)
+        }
+        
         return HistoryViewHolder(view)
-    }
-
-    override fun onBindViewHolder(holder: HistoryViewHolder, position: Int) {
+    }    override fun onBindViewHolder(holder: HistoryViewHolder, position: Int) {
         val expense = deletedExpenses[position]
         
         holder.textViewName.text = expense.name
-        holder.textViewPrice.text = String.format("$%.2f", expense.price)
+        
+        // Format price with currency using CurrencyManager
+        val currentCurrency = currencyManager.getCurrentCurrency()
+        val displayAmount = if (currentCurrency == CurrencyManager.CURRENCY_MMK) {
+            currencyManager.convertFromUsd(expense.price)
+        } else {
+            expense.price
+        }
+        holder.textViewPrice.text = currencyManager.formatCurrency(displayAmount)
+        
         holder.textViewDescription.text = if (expense.description.isNotEmpty()) expense.description else "No description"
         holder.textViewDateTime.text = "${expense.date} at ${expense.time}"
         holder.textViewDeletedDate.text = "Deleted on ${expense.deletedAt ?: "Unknown date"}"

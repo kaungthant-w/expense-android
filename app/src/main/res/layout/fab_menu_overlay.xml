@@ -89,13 +89,67 @@
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="@id/fabHistory"
         app:layout_constraintEnd_toStartOf="@id/fabHistory"
-        app:layout_constraintTop_toTopOf="@id/fabHistory" />    <!-- All List Button -->
+        app:layout_constraintTop_toTopOf="@id/fabHistory" />    <!-- Settings Button -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabSettings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="300dp"
+        android:src="@android:drawable/ic_menu_preferences"
+        app:backgroundTint="#673AB7"
+        app:borderWidth="0dp"
+        app:elevation="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:tint="@android:color/white" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/glassmorphism_card"
+        android:padding="8dp"
+        android:text="⚙️ Settings"
+        android:textColor="@android:color/white"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@id/fabSettings"
+        app:layout_constraintEnd_toStartOf="@id/fabSettings"
+        app:layout_constraintTop_toTopOf="@id/fabSettings" />    <!-- Currency Exchange Button -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabCurrency"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="275dp"
+        android:src="@android:drawable/ic_menu_manage"
+        app:backgroundTint="#FF5722"
+        app:borderWidth="0dp"
+        app:elevation="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:tint="@android:color/white" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/glassmorphism_card"
+        android:padding="8dp"
+        android:text="💱 Currency"
+        android:textColor="@android:color/white"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@id/fabCurrency"
+        app:layout_constraintEnd_toStartOf="@id/fabCurrency"
+        app:layout_constraintTop_toTopOf="@id/fabCurrency" />
+
+    <!-- All List Button -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabAllList"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="250dp"
+        android:layout_marginBottom="225dp"
         android:src="@android:drawable/ic_menu_agenda"
         app:backgroundTint="#2196F3"
         app:borderWidth="0dp"
@@ -116,33 +170,5 @@
         app:layout_constraintBottom_toBottomOf="@id/fabAllList"
         app:layout_constraintEnd_toStartOf="@id/fabAllList"
         app:layout_constraintTop_toTopOf="@id/fabAllList" />
-
-    <!-- Feedback Button -->
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabFeedback"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="50dp"
-        android:src="@android:drawable/ic_menu_send"
-        app:backgroundTint="#F44336"
-        app:borderWidth="0dp"
-        app:elevation="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:tint="@android:color/white" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:background="@drawable/glassmorphism_card"
-        android:padding="8dp"
-        android:text="💬 Feedback"
-        android:textColor="@android:color/white"
-        android:textSize="14sp"
-        app:layout_constraintBottom_toBottomOf="@id/fabFeedback"
-        app:layout_constraintEnd_toStartOf="@id/fabFeedback"
-        app:layout_constraintTop_toTopOf="@id/fabFeedback" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

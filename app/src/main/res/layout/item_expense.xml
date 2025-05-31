@@ -3,10 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
-    app:cardCornerRadius="8dp"
+    android:layout_margin="8dp"    app:cardCornerRadius="8dp"
     app:cardElevation="4dp"
-    app:cardBackgroundColor="@color/card_background_color"
+    app:cardBackgroundColor="?attr/cardBackgroundColor"
     android:foreground="?android:attr/selectableItemBackground"
     android:clickable="true"
     android:focusable="true">
@@ -34,10 +33,9 @@
                     android:id="@+id/textViewName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Expense Name"
-                    android:textSize="18sp"
+                    android:text="Expense Name"                    android:textSize="18sp"
                     android:textStyle="bold"
-                    android:textColor="@color/text_primary_color"
+                    android:textColor="?attr/textPrimaryColor"
                     android:layout_marginBottom="4dp" />
 
                 <TextView
@@ -46,7 +44,7 @@
                     android:layout_height="wrap_content"
                     android:text="📅 01/01/2024 • 🕐 12:00"
                     android:textSize="12sp"
-                    android:textColor="@color/text_secondary_color" />
+                    android:textColor="?attr/textSecondaryColor" />
 
             </LinearLayout>
 
@@ -74,10 +72,9 @@
             <TextView
                 android:id="@+id/textViewDescription"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Description"
+                android:layout_height="wrap_content"                android:text="Description"
                 android:textSize="14sp"
-                android:textColor="@color/text_secondary_color"
+                android:textColor="?attr/textSecondaryColor"
                 android:layout_marginBottom="8dp" />
 
             <!-- Date and Time -->
@@ -87,7 +84,7 @@
                 android:layout_height="wrap_content"
                 android:text="📅 Date • 🕐 Time"
                 android:textSize="14sp"
-                android:textColor="@color/text_secondary_color" />
+                android:textColor="?attr/textSecondaryColor" />
 
         </LinearLayout>
 

@@ -6,7 +6,7 @@
     android:layout_margin="8dp"
     app:cardCornerRadius="12dp"
     app:cardElevation="2dp"
-    app:cardBackgroundColor="@color/card_background_color">
+    app:cardBackgroundColor="?attr/cardBackgroundColor">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -29,7 +29,7 @@
                 android:text="Expense Name"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                android:textColor="@color/text_primary_color"
+                android:textColor="?attr/textPrimaryColor"
                 android:layout_marginEnd="8dp" />
 
             <TextView
@@ -39,28 +39,24 @@
                 android:text="$0.00"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                android:textColor="@color/accent_color" />
+                android:textColor="?attr/accentColor" />
 
-        </LinearLayout>
-
-        <!-- Description -->
+        </LinearLayout>        <!-- Description -->
         <TextView
             android:id="@+id/textViewDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Description"
             android:textSize="14sp"
-            android:textColor="@color/text_secondary_color"
-            android:layout_marginBottom="8dp" />
-
-        <!-- Date and Time -->
+            android:textColor="?attr/textSecondaryColor"
+            android:layout_marginBottom="8dp" />        <!-- Date and Time -->
         <TextView
             android:id="@+id/textViewDateTime"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="📅 Date • 🕐 Time"
             android:textSize="12sp"
-            android:textColor="@color/text_secondary_color"
+            android:textColor="?attr/textSecondaryColor"
             android:layout_marginBottom="8dp" />
 
         <!-- Status -->

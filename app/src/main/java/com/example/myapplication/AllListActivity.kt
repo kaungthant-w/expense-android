@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
@@ -25,6 +26,7 @@ class AllListActivity : AppCompatActivity() {
     private val gson = Gson()
     
     override fun onCreate(savedInstanceState: Bundle?) {
+        applyTheme()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_all_list)
         
@@ -33,6 +35,17 @@ class AllListActivity : AppCompatActivity() {
         setupSharedPreferences()
         setupRecyclerView()
         loadAllExpenses()
+    }
+    
+    private fun applyTheme() {
+        val themePrefs = getSharedPreferences(ThemeActivity.THEME_PREFS, Context.MODE_PRIVATE)
+        val savedTheme = themePrefs.getString(ThemeActivity.THEME_KEY, ThemeActivity.THEME_SYSTEM)
+        
+        when (savedTheme) {
+            ThemeActivity.THEME_LIGHT -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            ThemeActivity.THEME_DARK -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            ThemeActivity.THEME_SYSTEM -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+        }
     }
     
     private fun setupActionBar() {
@@ -72,6 +85,8 @@ class AllListActivity : AppCompatActivity() {
 
 class AllListAdapter(private val expenses: List<ExpenseItem>) : RecyclerView.Adapter<AllListAdapter.AllListViewHolder>() {
     
+    private lateinit var currencyManager: CurrencyManager
+    
     class AllListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val textViewName: TextView = itemView.findViewById(R.id.textViewName)
         val textViewPrice: TextView = itemView.findViewById(R.id.textViewPrice)
@@ -79,21 +94,30 @@ class AllListAdapter(private val expenses: List<ExpenseItem>) : RecyclerView.Ada
         val textViewDateTime: TextView = itemView.findViewById(R.id.textViewDateTime)
         val textViewStatus: TextView = itemView.findViewById(R.id.textViewStatus)
     }
-    
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AllListViewHolder {
+      override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AllListViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_all_list, parent, false)
+        
+        // Initialize CurrencyManager if not already done
+        if (!::currencyManager.isInitialized) {
+            currencyManager = CurrencyManager.getInstance(parent.context)
+        }
+        
         return AllListViewHolder(view)
     }
-    
-    override fun onBindViewHolder(holder: AllListViewHolder, position: Int) {
+      override fun onBindViewHolder(holder: AllListViewHolder, position: Int) {
         val expense = expenses[position]
         
         holder.textViewName.text = expense.name
         
-        // Format price with currency
-        val currencyFormat = NumberFormat.getCurrencyInstance(Locale.US)
-        holder.textViewPrice.text = currencyFormat.format(expense.price)
+        // Format price with currency using CurrencyManager
+        val currentCurrency = currencyManager.getCurrentCurrency()
+        val displayAmount = if (currentCurrency == CurrencyManager.CURRENCY_MMK) {
+            currencyManager.convertFromUsd(expense.price)
+        } else {
+            expense.price
+        }
+        holder.textViewPrice.text = currencyManager.formatCurrency(displayAmount)
         
         holder.textViewDescription.text = if (expense.description.isNotEmpty()) {
             expense.description

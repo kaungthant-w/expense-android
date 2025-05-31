@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Theme attributes -->
+    <attr name="backgroundColor" format="color|reference" />
+    <attr name="cardBackgroundColor" format="color|reference" />
+    <attr name="textPrimaryColor" format="color|reference" />
+    <attr name="textSecondaryColor" format="color|reference" />
+    <attr name="accentColor" format="color|reference" />
+    <attr name="editColor" format="color|reference" />
+    <attr name="errorColor" format="color|reference" />
+    <attr name="inputBackgroundColor" format="color|reference" />
+    <attr name="buttonBackgroundColor" format="color|reference" />
+</resources>

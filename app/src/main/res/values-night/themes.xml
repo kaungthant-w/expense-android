@@ -15,6 +15,16 @@
         <item name="android:windowBackground">@color/background_color</item>
         <item name="colorSurface">@color/surface_color</item>
         <item name="colorOnSurface">@color/text_primary_color</item>
+        <!-- Custom theme attributes -->
+        <item name="backgroundColor">@color/background_color</item>
+        <item name="cardBackgroundColor">@color/card_background_color</item>
+        <item name="textPrimaryColor">@color/text_primary_color</item>
+        <item name="textSecondaryColor">@color/text_secondary_color</item>
+        <item name="accentColor">@color/accent_color</item>
+        <item name="editColor">@color/edit_color</item>
+        <item name="errorColor">@color/error_color</item>
+        <item name="inputBackgroundColor">@color/input_background_color</item>
+        <item name="buttonBackgroundColor">@color/accent_color</item>
         <!-- Customize your theme here. -->
     </style>
 </resources>
