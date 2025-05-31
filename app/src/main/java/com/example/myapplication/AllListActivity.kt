@@ -75,20 +75,30 @@ class AllListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
         drawerLayout = findViewById(R.id.drawerLayout)
         navigationView = findViewById(R.id.navigationView)
         recyclerView = findViewById(R.id.recyclerViewAllList)
-        
-        // Selection components
+          // Selection components
         layoutSelectionControls = findViewById(R.id.layoutSelectionControls)
         checkboxSelectAll = findViewById(R.id.checkboxSelectAll)
         textViewSelectionCount = findViewById(R.id.textViewSelectionCount)
         buttonDeleteSelected = findViewById(R.id.buttonDeleteSelected)
         buttonToggleSelection = findViewById(R.id.buttonToggleSelection)
         buttonCancelSelection = findViewById(R.id.buttonCancelSelection)
-          setupSelectionControls()
+        
+        setupSelectionControls()
         
         // Setup back button click listener
         findViewById<android.widget.ImageButton>(R.id.buttonBack).setOnClickListener {
             finish()
         }
+        
+        // Setup history button click listener
+        findViewById<Button>(R.id.buttonViewHistory).setOnClickListener {
+            navigateToHistory()
+        }
+    }
+    
+    private fun navigateToHistory() {
+        val intent = Intent(this, HistoryActivity::class.java)
+        startActivity(intent)
     }
     
     private fun setupSelectionControls() {
@@ -175,21 +185,23 @@ class AllListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
         
         val selectedItems = selectedIndices.map { allExpenses[it] }
         val itemNames = selectedItems.joinToString(", ") { it.name }
-        
-        AlertDialog.Builder(this)
+          AlertDialog.Builder(this)
             .setTitle("⚠️ Delete Selected Items")
-            .setMessage("Are you sure you want to delete these ${selectedIndices.size} item(s)?\n\n$itemNames\n\nThis action cannot be undone.")
+            .setMessage("Are you sure you want to delete these ${selectedIndices.size} item(s)?\n\n$itemNames\n\nDeleted items can be restored from History.")
             .setPositiveButton("🗑️ Delete") { _, _ ->
-                performMultipleDelete(selectedIndices.toList().sortedDescending())
+                performMultipleSoftDelete(selectedIndices.toList())
             }
             .setNegativeButton("❌ Cancel", null)
             .show()
     }
-    
-    private fun performMultipleDelete(indices: List<Int>) {
-        // Remove items in reverse order to maintain correct indices
+      private fun performMultipleSoftDelete(indices: List<Int>) {
+        val currentDateTime = java.text.SimpleDateFormat("yyyy-MM-dd HH:mm", java.util.Locale.getDefault()).format(java.util.Date())
+        
+        // Mark items as deleted instead of removing them
         indices.forEach { index ->
-            allExpenses.removeAt(index)
+            val expense = allExpenses[index]
+            expense.isDeleted = true
+            expense.deletedAt = currentDateTime
         }
         
         // Save updated expenses
@@ -199,13 +211,27 @@ class AllListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
         allListAdapter.notifyDataSetChanged()
         exitSelectionMode()
         
-        // Show success message
+        // Show success message with option to view history
         val deletedCount = indices.size
-        android.widget.Toast.makeText(
-            this,
-            "✅ Successfully deleted $deletedCount item(s)",
-            android.widget.Toast.LENGTH_SHORT
-        ).show()
+        val message = "✅ Successfully deleted $deletedCount item(s). View in History to restore if needed."
+        
+        val toast = android.widget.Toast.makeText(this, message, android.widget.Toast.LENGTH_LONG)
+        toast.show()
+        
+        // Optional: Show a snackbar with action to view history
+        showHistorySnackbar(deletedCount)
+    }
+    
+    private fun showHistorySnackbar(deletedCount: Int) {
+        // Create a simple dialog asking if user wants to view history
+        AlertDialog.Builder(this)
+            .setTitle("📋 Items Deleted")
+            .setMessage("$deletedCount item(s) moved to History. Would you like to view the History page?")
+            .setPositiveButton("🗃️ View History") { _, _ ->
+                navigateToHistory()
+            }
+            .setNegativeButton("✅ Continue", null)
+            .show()
     }
     
     private fun saveExpenses() {
