@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/main_background">
+
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <!-- Header -->        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="💰 Expense Tracker"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_marginBottom="30dp"
+            android:textColor="@color/text_primary_color"
+            android:shadowColor="#40000000"
+            android:shadowDx="2"
+            android:shadowDy="2"
+            android:shadowRadius="4" />
+
+        <!-- Input Form Card -->        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="2dp"
+            app:cardBackgroundColor="@color/card_background_color"
+            android:layout_marginBottom="24dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"                android:orientation="vertical"
+                android:padding="24dp"
+                android:background="@color/card_background_color">
+
+                <!-- Name -->                <EditText
+                    android:id="@+id/editTextName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="💼 Expense Name"
+                    android:layout_marginBottom="16dp"
+                    android:background="@drawable/input_background"
+                    android:padding="16dp"
+                    android:textColor="@color/text_primary_color"
+                    android:textColorHint="@color/text_secondary_color"
+                    android:textSize="16sp" />                <!-- Price -->                <EditText
+                    android:id="@+id/editTextPrice"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="💵 Price"
+                    android:inputType="numberDecimal"
+                    android:layout_marginBottom="16dp"
+                    android:background="@drawable/input_background"
+                    android:padding="16dp"
+                    android:textColor="@color/text_primary_color"
+                    android:textColorHint="@color/text_secondary_color"
+                    android:textSize="16sp" />                <!-- See More Text -->                <TextView
+                    android:id="@+id/buttonSeeMoreInputOptions"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="📋 See More"
+                    android:textSize="14sp"
+                    android:textColor="@color/accent_color"
+                    android:textStyle="bold"
+                    android:padding="12dp"
+                    android:layout_marginBottom="16dp"
+                    android:layout_gravity="start"
+                    android:clickable="true"
+                    android:focusable="true" />
+
+                <!-- Hidden Fields Container -->
+                <LinearLayout
+                    android:id="@+id/layoutAdditionalOptions"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <!-- Description -->                    <EditText
+                        android:id="@+id/editTextDescription"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="📝 Description (Optional)"
+                        android:layout_marginBottom="16dp"
+                        android:background="@drawable/input_background"
+                        android:padding="16dp"
+                        android:textColor="@color/text_primary_color"
+                        android:textColorHint="@color/text_secondary_color"
+                        android:textSize="16sp" />
+
+                    <!-- Date and Time Row -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="16dp">
+
+                        <EditText
+                            android:id="@+id/editTextDate"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:hint="📅 Date"
+                            android:focusable="false"
+                            android:clickable="true"
+                            android:layout_marginEnd="8dp"
+                            android:background="@drawable/input_background"
+                            android:padding="16dp"
+                            android:textColor="@color/text_primary_color"
+                            android:textColorHint="@color/text_secondary_color"
+                            android:textSize="16sp" />
+
+                        <EditText
+                            android:id="@+id/editTextTime"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:hint="🕐 Time"
+                            android:focusable="false"
+                            android:clickable="true"
+                            android:layout_marginStart="8dp"
+                            android:background="@drawable/input_background"
+                            android:padding="16dp"
+                            android:textColor="@color/text_primary_color"
+                            android:textColorHint="@color/text_secondary_color"
+                            android:textSize="16sp" />
+
+                    </LinearLayout>                </LinearLayout>
+
+                <!-- Add Button -->                <Button
+                    android:id="@+id/buttonAdd"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="➕ Add Expense"
+                    android:background="@drawable/button_background"
+                    android:textColor="@android:color/white"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:padding="12dp"
+                    android:elevation="2dp" />
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <!-- Expenses List Header -->        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="📊 Your Expenses"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/text_primary_color"
+            android:layout_marginBottom="16dp"
+            android:shadowColor="#40000000"
+            android:shadowDx="1"
+            android:shadowDy="1"
+            android:shadowRadius="3" />        <!-- RecyclerView -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewExpenses"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="80dp"
+            android:nestedScrollingEnabled="true" /></LinearLayout>
+
+</ScrollView>
+
+    <!-- Floating Action Button -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabMain"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="16dp"
+        android:src="@android:drawable/ic_menu_add"
+        app:backgroundTint="#6644AA"
+        app:tint="@android:color/white"
+        app:elevation="8dp"
+        app:borderWidth="0dp" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

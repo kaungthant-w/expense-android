@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>    <!-- Dark Theme Colors Override -->
+    <color name="background_color">@color/dark_background</color>
+    <color name="surface_color">@color/dark_surface</color>
+    <color name="text_primary_color">@color/dark_text_primary</color>
+    <color name="text_secondary_color">@color/dark_text_secondary</color>
+    <color name="card_background_color">@color/dark_card_background</color>
+    <color name="input_background_color">@color/dark_input_background</color>
+    <color name="card_border_color">@color/dark_card_border</color>
+    <color name="input_border_color">@color/dark_input_border</color>
+    <color name="icon_color">@color/icon_color_dark</color>
+</resources>
