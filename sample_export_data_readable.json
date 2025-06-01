@@ -1,0 +1,228 @@
+{
+  "app_name": "Expense Tracker",
+  "export_date": "01/06/2025 14:30",
+  "version": "1.0",
+  "total_expenses": 20,
+  "expenses": [
+    {
+      "id": 1735728000000,
+      "name": "Lunch at Restaurant",
+      "price": 25.50,
+      "description": "Business lunch with client",
+      "date": "01/06/2025",
+      "time": "12:30",
+      "currency": "USD",
+      "isDeleted": false,
+      "deletedAt": null
+    },
+    {
+      "id": 1735641600000,
+      "name": "Gas Station",
+      "price": 45.75,
+      "description": "Fill up car tank",
+      "date": "31/05/2025",
+      "time": "08:15",
+      "currency": "USD",
+      "isDeleted": false,
+      "deletedAt": null
+    },
+    {
+      "id": 1735555200000,
+      "name": "Grocery Shopping",
+      "price": 85.20,
+      "description": "Weekly groceries from supermarket",
+      "date": "30/05/2025",
+      "time": "16:45",
+      "currency": "USD",
+      "isDeleted": false,
+      "deletedAt": null
+    },
+    {
+      "id": 1735468800000,
+      "name": "Coffee Shop",
+      "price": 12.30,
+      "description": "Morning coffee and pastry",
+      "date": "29/05/2025",
+      "time": "09:20",
+      "currency": "USD",
+      "isDeleted": false,
+      "deletedAt": null
+    },
+    {
+      "id": 1735382400000,
+      "name": "Movie Tickets",
+      "price": 28.00,
+      "description": "Two tickets for evening show",
+      "date": "28/05/2025",
+      "time": "19:30",
+      "currency": "USD",
+      "isDeleted": false,
+      "deletedAt": null
+    },
+    {
+      "id": 1735296000000,
+      "name": "Taxi Ride",
+      "price": 18.50,
+      "description": "Airport to hotel",
+      "date": "27/05/2025",
+      "time": "14:20",
+      "currency": "USD",
+      "isDeleted": false,
+      "deletedAt": null
+    },
+    {
+      "id": 1735209600000,
+      "name": "Pharmacy",
+      "price": 32.45,
+      "description": "Prescription medicine",
+      "date": "26/05/2025",
+      "time": "11:10",
+      "currency": "USD",
+      "isDeleted": false,
+      "deletedAt": null
+    },
+    {
+      "id": 1735123200000,
+      "name": "Online Shopping",
+      "price": 65.99,
+      "description": "New headphones from Amazon",
+      "date": "25/05/2025",
+      "time": "20:15",
+      "currency": "USD",
+      "isDeleted": false,
+      "deletedAt": null
+    },
+    {
+      "id": 1735036800000,
+      "name": "Utility Bill",
+      "price": 95.50,
+      "description": "Monthly electricity bill",
+      "date": "24/05/2025",
+      "time": "10:30",
+      "currency": "USD",
+      "isDeleted": false,
+      "deletedAt": null
+    },
+    {
+      "id": 1734950400000,
+      "name": "Restaurant Dinner",
+      "price": 42.75,
+      "description": "Anniversary dinner",
+      "date": "23/05/2025",
+      "time": "19:45",
+      "currency": "USD",
+      "isDeleted": false,
+      "deletedAt": null
+    },
+    {
+      "id": 1734864000000,
+      "name": "Car Maintenance",
+      "price": 125.00,
+      "description": "Oil change and inspection",
+      "date": "22/05/2025",
+      "time": "15:00",
+      "currency": "USD",
+      "isDeleted": false,
+      "deletedAt": null
+    },
+    {
+      "id": 1734777600000,
+      "name": "Gym Membership",
+      "price": 35.00,
+      "description": "Monthly gym subscription",
+      "date": "21/05/2025",
+      "time": "07:30",
+      "currency": "USD",
+      "isDeleted": false,
+      "deletedAt": null
+    },
+    {
+      "id": 1734691200000,
+      "name": "Book Store",
+      "price": 23.99,
+      "description": "Programming book",
+      "date": "20/05/2025",
+      "time": "13:45",
+      "currency": "USD",
+      "isDeleted": false,
+      "deletedAt": null
+    },
+    {
+      "id": 1734604800000,
+      "name": "Fast Food",
+      "price": 9.99,
+      "description": "Quick lunch break",
+      "date": "19/05/2025",
+      "time": "12:15",
+      "currency": "USD",
+      "isDeleted": false,
+      "deletedAt": null
+    },
+    {
+      "id": 1734518400000,
+      "name": "Hair Salon",
+      "price": 55.00,
+      "description": "Haircut and styling",
+      "date": "18/05/2025",
+      "time": "14:30",
+      "currency": "USD",
+      "isDeleted": false,
+      "deletedAt": null
+    },
+    {
+      "id": 1734432000000,
+      "name": "Office Supplies",
+      "price": 28.75,
+      "description": "Notebooks and pens",
+      "date": "17/05/2025",
+      "time": "11:20",
+      "currency": "USD",
+      "isDeleted": false,
+      "deletedAt": null
+    },
+    {
+      "id": 1734345600000,
+      "name": "Internet Bill",
+      "price": 79.99,
+      "description": "Monthly internet service",
+      "date": "16/05/2025",
+      "time": "09:00",
+      "currency": "USD",
+      "isDeleted": false,
+      "deletedAt": null
+    },
+    {
+      "id": 1734259200000,
+      "name": "Parking Fee",
+      "price": 15.00,
+      "description": "Downtown parking all day",
+      "date": "15/05/2025",
+      "time": "08:45",
+      "currency": "USD",
+      "isDeleted": false,
+      "deletedAt": null
+    },
+    {
+      "id": 1734172800000,
+      "name": "Deleted Expense",
+      "price": 99.99,
+      "description": "This expense was deleted",
+      "date": "14/05/2025",
+      "time": "16:20",
+      "currency": "USD",
+      "isDeleted": true,
+      "deletedAt": "14/05/2025 16:25"
+    },
+    {
+      "id": 1734086400000,
+      "name": "Mobile Phone Bill",
+      "price": 67.50,
+      "description": "Monthly phone service",
+      "date": "13/05/2025",
+      "time": "10:15",
+      "currency": "USD",
+      "isDeleted": false,
+      "deletedAt": null
+    }
+  ]
+}
