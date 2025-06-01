@@ -172,11 +172,14 @@ class FeedbackActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
             R.id.nav_settings -> {
                 startActivity(Intent(this, SettingsActivity::class.java))
                 finish()
-            }
-            R.id.nav_feedback -> {
+            }            R.id.nav_feedback -> {
                 // Already on feedback, just close drawer
                 drawerLayout.closeDrawer(GravityCompat.START)
                 return true
+            }
+            R.id.nav_about -> {
+                startActivity(Intent(this, AboutActivity::class.java))
+                finish()
             }
         }
         

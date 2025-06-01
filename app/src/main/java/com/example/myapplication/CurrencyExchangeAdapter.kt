@@ -5,11 +5,29 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import java.text.SimpleDateFormat
+import java.util.*
 
 class CurrencyExchangeAdapter(
     private val expensesList: List<ExpenseItem>,
     private val currencyManager: CurrencyManager
 ) : RecyclerView.Adapter<CurrencyExchangeAdapter.CurrencyExchangeViewHolder>() {
+    
+    // Function to convert 24-hour format (HH:mm) to 12-hour format with AM/PM
+    private fun convertTo12HourFormat(time24: String): String {
+        return try {
+            val inputFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
+            val outputFormat = SimpleDateFormat("h:mm a", Locale.getDefault())
+            val date = inputFormat.parse(time24)
+            if (date != null) {
+                outputFormat.format(date)
+            } else {
+                time24 // Return original if parsing fails
+            }
+        } catch (e: Exception) {
+            time24 // Return original if conversion fails
+        }
+    }
     
     class CurrencyExchangeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val textExpenseName: TextView = itemView.findViewById(R.id.textExpenseName)
@@ -26,9 +44,11 @@ class CurrencyExchangeAdapter(
       override fun onBindViewHolder(holder: CurrencyExchangeViewHolder, position: Int) {
         val expense = expensesList[position]
         val currentCurrency = currencyManager.getCurrentCurrency()
+          holder.textExpenseName.text = expense.name
         
-        holder.textExpenseName.text = expense.name
-        holder.textExpenseDate.text = "${expense.date} • ${expense.time}"
+        // Convert time to 12-hour format with AM/PM
+        val formattedTime = convertTo12HourFormat(expense.time)
+        holder.textExpenseDate.text = "${expense.date} • $formattedTime"
         
         // Show original amount in its stored currency
         holder.textOriginalAmount.text = "Original: ${currencyManager.formatCurrency(expense.price)} ${expense.currency}"

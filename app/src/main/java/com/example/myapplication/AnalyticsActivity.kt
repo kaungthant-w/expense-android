@@ -243,9 +243,11 @@ class AnalyticsActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
             }
             R.id.nav_settings -> {
                 startActivity(Intent(this, SettingsActivity::class.java))
-            }
-            R.id.nav_feedback -> {
+            }            R.id.nav_feedback -> {
                 startActivity(Intent(this, FeedbackActivity::class.java))
+            }
+            R.id.nav_about -> {
+                startActivity(Intent(this, AboutActivity::class.java))
             }
         }
         drawerLayout.closeDrawer(GravityCompat.START)

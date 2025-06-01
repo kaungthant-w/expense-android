@@ -16,28 +16,22 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.cardview.widget.CardView
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButton
-
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.textfield.TextInputEditText
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 
 class CurrencyExchangeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
-      private lateinit var currencyManager: CurrencyManager
+    private lateinit var currencyManager: CurrencyManager
     private lateinit var currencyApiService: CurrencyApiService
     private lateinit var sharedPreferences: SharedPreferences
-      // Navigation Drawer components
+    
+    // Navigation Drawer components
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var navigationView: NavigationView
     
     private lateinit var cardUsd: CardView
     private lateinit var cardMmk: CardView
     private lateinit var textCurrentRate: TextView
-    private lateinit var textTotalExpensesUsd: TextView
-    private lateinit var textTotalExpensesMmk: TextView
     private lateinit var buttonFetchRate: MaterialButton
     private lateinit var buttonCustomRate: MaterialButton
     private lateinit var buttonSwitchCurrency: MaterialButton
@@ -45,25 +39,34 @@ class CurrencyExchangeActivity : AppCompatActivity(), NavigationView.OnNavigatio
     private lateinit var editTextCustomRate: TextInputEditText
     private lateinit var buttonApplyCustomRate: MaterialButton
     private lateinit var buttonCancelCustomRate: MaterialButton
-    private lateinit var recyclerViewExpenses: RecyclerView
-    private lateinit var exchangeAdapter: CurrencyExchangeAdapter
     
-    private val expensesList = mutableListOf<ExpenseItem>()
-    private val gson = Gson()
-    
+    // Currency exchange table views
+    private lateinit var buttonRefreshRates: MaterialButton
+    private lateinit var textRateUsd: TextView
+    private lateinit var textRateEur: TextView
+    private lateinit var textRateSgd: TextView
+    private lateinit var textRateMyr: TextView
+    private lateinit var textRateCny: TextView
+    private lateinit var textRateThb: TextView
+    private lateinit var textRateJpy: TextView
+    private lateinit var textLastUpdated: TextView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         applyTheme()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_currency_exchange)
-          currencyManager = CurrencyManager.getInstance(this)
+        
+        currencyManager = CurrencyManager.getInstance(this)
         currencyApiService = CurrencyApiService(this)
         sharedPreferences = getSharedPreferences("expense_prefs", Context.MODE_PRIVATE)
         setupActionBar()
         initViews()
         setupNavigationDrawer()
         setupClickListeners()
-        loadExpenses()
         updateUI()
+        
+        // Load initial exchange rates
+        fetchAllExchangeRates()
     }
     
     private fun applyTheme() {
@@ -80,7 +83,9 @@ class CurrencyExchangeActivity : AppCompatActivity(), NavigationView.OnNavigatio
     private fun setupActionBar() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.title = "💱 Currency Exchange"
-    }    private fun initViews() {
+    }
+    
+    private fun initViews() {
         // Navigation drawer components
         drawerLayout = findViewById(R.id.drawerLayout)
         navigationView = findViewById(R.id.navigationView)
@@ -93,8 +98,6 @@ class CurrencyExchangeActivity : AppCompatActivity(), NavigationView.OnNavigatio
         cardUsd = findViewById(R.id.cardUsd)
         cardMmk = findViewById(R.id.cardMmk)
         textCurrentRate = findViewById(R.id.textCurrentRate)
-        textTotalExpensesUsd = findViewById(R.id.textTotalExpensesUsd)
-        textTotalExpensesMmk = findViewById(R.id.textTotalExpensesMmk)
         buttonFetchRate = findViewById(R.id.buttonFetchRate)
         buttonCustomRate = findViewById(R.id.buttonCustomRate)
         buttonSwitchCurrency = findViewById(R.id.buttonSwitchCurrency)
@@ -102,11 +105,20 @@ class CurrencyExchangeActivity : AppCompatActivity(), NavigationView.OnNavigatio
         editTextCustomRate = findViewById(R.id.editTextCustomRate)
         buttonApplyCustomRate = findViewById(R.id.buttonApplyCustomRate)
         buttonCancelCustomRate = findViewById(R.id.buttonCancelCustomRate)
-        recyclerViewExpenses = findViewById(R.id.recyclerViewExpenses)
         
-        setupRecyclerView()
+        // Currency exchange table views
+        buttonRefreshRates = findViewById(R.id.buttonRefreshRates)
+        textRateUsd = findViewById(R.id.textRateUsd)
+        textRateEur = findViewById(R.id.textRateEur)
+        textRateSgd = findViewById(R.id.textRateSgd)
+        textRateMyr = findViewById(R.id.textRateMyr)
+        textRateCny = findViewById(R.id.textRateCny)
+        textRateThb = findViewById(R.id.textRateThb)
+        textRateJpy = findViewById(R.id.textRateJpy)
+        textLastUpdated = findViewById(R.id.textLastUpdated)
     }
-      private fun setupNavigationDrawer() {
+    
+    private fun setupNavigationDrawer() {
         val toggle = ActionBarDrawerToggle(
             this, drawerLayout, null,
             R.string.navigation_drawer_open, R.string.navigation_drawer_close
@@ -116,13 +128,6 @@ class CurrencyExchangeActivity : AppCompatActivity(), NavigationView.OnNavigatio
         
         navigationView.setNavigationItemSelectedListener(this)
     }
-    
-    private fun setupRecyclerView() {
-        exchangeAdapter = CurrencyExchangeAdapter(expensesList, currencyManager)
-        recyclerViewExpenses.apply {
-            layoutManager = LinearLayoutManager(this@CurrencyExchangeActivity)
-            adapter = exchangeAdapter
-        }    }
     
     private fun setupClickListeners() {
         cardUsd.setOnClickListener {
@@ -158,12 +163,15 @@ class CurrencyExchangeActivity : AppCompatActivity(), NavigationView.OnNavigatio
             }
             switchToCurrency(newCurrency)
         }
+        
+        buttonRefreshRates.setOnClickListener {
+            fetchAllExchangeRates()
+        }
     }
     
     private fun switchToCurrency(currency: String) {
         currencyManager.setCurrentCurrency(currency)
         updateUI()
-        exchangeAdapter.notifyDataSetChanged()
         
         val message = when (currency) {
             CurrencyManager.CURRENCY_USD -> "Switched to USD - Viewing original amounts"
@@ -171,18 +179,6 @@ class CurrencyExchangeActivity : AppCompatActivity(), NavigationView.OnNavigatio
             else -> "Currency switched"
         }
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
-    }
-    
-    private fun loadExpenses() {
-        val json = sharedPreferences.getString("expenses", null)
-        if (!json.isNullOrEmpty()) {
-            val type = object : TypeToken<List<ExpenseItem>>() {}.type
-            val savedExpenses: List<ExpenseItem> = gson.fromJson(json, type)
-            expensesList.clear()
-            // Load only active expenses (not deleted)
-            val activeExpenses = savedExpenses.filter { !it.isDeleted }
-            expensesList.addAll(activeExpenses)
-        }
     }
     
     private fun updateUI() {
@@ -194,13 +190,6 @@ class CurrencyExchangeActivity : AppCompatActivity(), NavigationView.OnNavigatio
         
         // Update exchange rate display
         textCurrentRate.text = "Exchange Rate: 1 USD = ${String.format("%.2f", exchangeRate)} MMK"
-        
-        // Calculate totals
-        val totalUsd = expensesList.sumOf { it.price }
-        val totalMmk = currencyManager.convertFromUsd(totalUsd)
-        
-        textTotalExpensesUsd.text = "Total in USD: ${currencyManager.formatCurrency(totalUsd)}"
-        textTotalExpensesMmk.text = "Total in MMK: ${String.format("%.2f", totalMmk)} MMK"
         
         // Update switch button text
         buttonSwitchCurrency.text = when (currentCurrency) {
@@ -222,7 +211,8 @@ class CurrencyExchangeActivity : AppCompatActivity(), NavigationView.OnNavigatio
             }
         }
     }
-      private fun showCustomRateInput() {
+    
+    private fun showCustomRateInput() {
         layoutCustomRateInput.visibility = View.VISIBLE
         editTextCustomRate.setText(currencyManager.getExchangeRate().toString())
         editTextCustomRate.requestFocus()
@@ -258,9 +248,8 @@ class CurrencyExchangeActivity : AppCompatActivity(), NavigationView.OnNavigatio
             currencyManager.setExchangeRate(customRate)
             hideCustomRateInput()
             updateUI()
-            exchangeAdapter.notifyDataSetChanged()
             
-            Toast.makeText(this, 
+            Toast.makeText(this,
                 "✅ Custom rate applied: 1 USD = ${String.format("%.2f", customRate)} MMK", 
                 Toast.LENGTH_LONG).show()
                 
@@ -278,7 +267,6 @@ class CurrencyExchangeActivity : AppCompatActivity(), NavigationView.OnNavigatio
                 runOnUiThread {
                     currencyManager.setExchangeRate(usdToMmk)
                     updateUI()
-                    exchangeAdapter.notifyDataSetChanged()
                     buttonFetchRate.isEnabled = true
                     buttonFetchRate.text = "🔄 Fetch Latest Rate"
                     Toast.makeText(this@CurrencyExchangeActivity, 
@@ -301,7 +289,83 @@ class CurrencyExchangeActivity : AppCompatActivity(), NavigationView.OnNavigatio
                 }
             }
         })
-    }    override fun onSupportNavigateUp(): Boolean {
+    }
+    
+    private fun fetchAllExchangeRates() {
+        buttonRefreshRates.isEnabled = false
+        buttonRefreshRates.text = "⏳ Loading..."
+        
+        // Reset all rates to loading state
+        textRateUsd.text = "Loading..."
+        textRateEur.text = "Loading..."
+        textRateSgd.text = "Loading..."
+        textRateMyr.text = "Loading..."
+        textRateCny.text = "Loading..."
+        textRateThb.text = "Loading..."
+        textRateJpy.text = "Loading..."
+        
+        currencyApiService.fetchAllExchangeRates(object : CurrencyApiService.AllRatesCallback {
+            override fun onSuccess(rates: Map<String, Double>) {
+                runOnUiThread {
+                    updateExchangeRateTable(rates)
+                    buttonRefreshRates.isEnabled = true
+                    buttonRefreshRates.text = "🔄 Refresh"
+                    
+                    val currentTime = java.text.SimpleDateFormat("MMM dd, yyyy HH:mm", java.util.Locale.getDefault())
+                        .format(java.util.Date())
+                    textLastUpdated.text = "📅 Last updated: $currentTime"
+                    
+                    Toast.makeText(this@CurrencyExchangeActivity, 
+                        "✅ Exchange rates updated successfully", 
+                        Toast.LENGTH_SHORT).show()
+                }
+            }
+            
+            override fun onError(error: String) {
+                runOnUiThread {
+                    buttonRefreshRates.isEnabled = true
+                    buttonRefreshRates.text = "🔄 Refresh"
+                    
+                    // Set error state for all rates
+                    textRateUsd.text = "Error"
+                    textRateEur.text = "Error"
+                    textRateSgd.text = "Error"
+                    textRateMyr.text = "Error"
+                    textRateCny.text = "Error"
+                    textRateThb.text = "Error"
+                    textRateJpy.text = "Error"
+                    textLastUpdated.text = "📅 Failed to update rates"
+                    
+                    Toast.makeText(this@CurrencyExchangeActivity, 
+                        "❌ Failed to fetch rates: $error", 
+                        Toast.LENGTH_LONG).show()
+                }
+            }
+        })
+    }
+    
+    private fun updateExchangeRateTable(rates: Map<String, Double>) {
+        // Update USD rate (this is also used for the main currency conversion)
+        rates["USD"]?.let { usdRate ->
+            textRateUsd.text = String.format("%.2f", usdRate)
+            
+            // Also update the main currency manager rate
+            currencyManager.setExchangeRate(usdRate)
+            updateUI()
+        } ?: run {
+            textRateUsd.text = "N/A"
+        }
+        
+        // Update other currency rates
+        rates["EUR"]?.let { textRateEur.text = String.format("%.2f", it) } ?: run { textRateEur.text = "N/A" }
+        rates["SGD"]?.let { textRateSgd.text = String.format("%.2f", it) } ?: run { textRateSgd.text = "N/A" }
+        rates["MYR"]?.let { textRateMyr.text = String.format("%.2f", it) } ?: run { textRateMyr.text = "N/A" }
+        rates["CNY"]?.let { textRateCny.text = String.format("%.2f", it) } ?: run { textRateCny.text = "N/A" }
+        rates["THB"]?.let { textRateThb.text = String.format("%.2f", it) } ?: run { textRateThb.text = "N/A" }
+        rates["JPY"]?.let { textRateJpy.text = String.format("%.2f", it) } ?: run { textRateJpy.text = "N/A" }
+    }
+    
+    override fun onSupportNavigateUp(): Boolean {
         finish()
         return true
     }
@@ -332,11 +396,15 @@ class CurrencyExchangeActivity : AppCompatActivity(), NavigationView.OnNavigatio
             R.id.nav_feedback -> {
                 startActivity(Intent(this, FeedbackActivity::class.java))
             }
+            R.id.nav_about -> {
+                startActivity(Intent(this, AboutActivity::class.java))
+            }
         }
         drawerLayout.closeDrawer(GravityCompat.START)
         return true
     }
-    
+
+    @Suppress("DEPRECATION")
     override fun onBackPressed() {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START)

@@ -603,12 +603,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
             R.id.nav_currency_exchange -> {
                 startActivity(Intent(this, CurrencyExchangeActivity::class.java))
-            }
-            R.id.nav_settings -> {
+            }            R.id.nav_settings -> {
                 startActivity(Intent(this, SettingsActivity::class.java))
             }
             R.id.nav_feedback -> {
                 startActivity(Intent(this, FeedbackActivity::class.java))
+            }
+            R.id.nav_about -> {
+                startActivity(Intent(this, AboutActivity::class.java))
             }
         }
         drawerLayout.closeDrawer(GravityCompat.START)

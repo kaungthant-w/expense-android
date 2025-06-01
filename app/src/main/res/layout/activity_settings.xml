@@ -100,115 +100,6 @@
 
             </LinearLayout>        </androidx.cardview.widget.CardView>
 
-        <!-- Currency Settings Card -->
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cardCurrencySettings"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="8dp"
-            android:layout_marginBottom="16dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:foreground="?attr/selectableItemBackground"
-            app:cardBackgroundColor="?attr/cardBackgroundColor">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="20dp">
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="💱 Currency Settings"
-                        android:textSize="20sp"
-                        android:textStyle="bold"
-                        android:textColor="?attr/textPrimaryColor"
-                        android:layout_marginBottom="8dp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Switch between USD and MMK with live exchange rates"
-                        android:textSize="14sp"
-                        android:textColor="?attr/textSecondaryColor" />
-
-                </LinearLayout>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text=">"
-                    android:textSize="24sp"
-                    android:textStyle="bold"
-                    android:textColor="?attr/textSecondaryColor"
-                    android:layout_gravity="center_vertical" />
-
-            </LinearLayout>
-
-        </androidx.cardview.widget.CardView>
-
-        <!-- Feedback Card -->
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cardFeedback"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="8dp"
-            android:layout_marginBottom="16dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:foreground="?attr/selectableItemBackground"
-            app:cardBackgroundColor="?attr/cardBackgroundColor">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="20dp">
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="💬 Feedback"
-                        android:textSize="20sp"
-                        android:textStyle="bold"
-                        android:textColor="?attr/textPrimaryColor"
-                        android:layout_marginBottom="8dp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Share your thoughts and help us improve the app"
-                        android:textSize="14sp"
-                        android:textColor="?attr/textSecondaryColor" />
-
-                </LinearLayout>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text=">"
-                    android:textSize="24sp"
-                    android:textColor="?attr/textSecondaryColor"
-                    android:layout_gravity="center_vertical" />
-
-            </LinearLayout>        </androidx.cardview.widget.CardView>
-
         <!-- Data Export Card -->
         <androidx.cardview.widget.CardView
             android:id="@+id/cardExportData"
@@ -320,7 +211,7 @@
         </androidx.cardview.widget.CardView>
 
         <!-- About Section -->
-        <androidx.cardview.widget.CardView
+        <!-- <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cardCornerRadius="16dp"
@@ -369,7 +260,9 @@
 
             </LinearLayout>
 
-        </androidx.cardview.widget.CardView>    </LinearLayout>    </ScrollView>
+        </androidx.cardview.widget.CardView>     -->
+        </LinearLayout>    
+        </ScrollView>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

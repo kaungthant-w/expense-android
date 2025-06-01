@@ -109,16 +109,6 @@ class SettingsActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         findViewById<CardView>(R.id.cardThemeSettings)?.setOnClickListener {
             startActivity(Intent(this, ThemeActivity::class.java))
         }
-
-        // Currency Settings Card
-        findViewById<CardView>(R.id.cardCurrencySettings)?.setOnClickListener {
-            startActivity(Intent(this, CurrencyExchangeActivity::class.java))
-        }
-
-        // Feedback Card
-        findViewById<CardView>(R.id.cardFeedback)?.setOnClickListener {
-            startActivity(Intent(this, FeedbackActivity::class.java))
-        }
         
         // Export Data Card
         findViewById<CardView>(R.id.cardExportData)?.setOnClickListener {
@@ -278,8 +268,7 @@ class SettingsActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         finish()
         return true
     }
-    
-    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+      override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.nav_home -> {
                 startActivity(Intent(this, MainActivity::class.java))
@@ -299,12 +288,17 @@ class SettingsActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
             R.id.nav_currency_exchange -> {
                 startActivity(Intent(this, CurrencyExchangeActivity::class.java))
             }
+            
             R.id.nav_settings -> {
                 // Already in this activity, just close drawer
             }
             R.id.nav_feedback -> {
                 startActivity(Intent(this, FeedbackActivity::class.java))
             }
+            R.id.nav_about -> {
+                startActivity(Intent(this, AboutActivity::class.java))
+            }
+            
         }
         drawerLayout.closeDrawer(GravityCompat.START)
         return true

@@ -23,6 +23,7 @@ import com.google.android.material.navigation.NavigationView
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.text.NumberFormat
+import java.text.SimpleDateFormat
 import java.util.*
 
 class AllListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -44,6 +45,22 @@ class AllListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
     private lateinit var buttonToggleSelection: Button
     private lateinit var buttonCancelSelection: Button
     private var isSelectionMode = false
+    
+    // Function to convert 24-hour format (HH:mm) to 12-hour format with AM/PM
+    private fun convertTo12HourFormat(time24: String): String {
+        return try {
+            val inputFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
+            val outputFormat = SimpleDateFormat("h:mm a", Locale.getDefault())
+            val date = inputFormat.parse(time24)
+            if (date != null) {
+                outputFormat.format(date)
+            } else {
+                time24 // Return original if parsing fails
+            }
+        } catch (e: Exception) {
+            time24 // Return original if conversion fails
+        }
+    }
     
     override fun onCreate(savedInstanceState: Bundle?) {
         applyTheme()
@@ -312,6 +329,9 @@ class AllListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
             }            R.id.nav_feedback -> {
                 startActivity(Intent(this, FeedbackActivity::class.java))
             }
+            R.id.nav_about -> {
+                startActivity(Intent(this, AboutActivity::class.java))
+            }
             else -> {
                 // Handle any other menu items
             }
@@ -329,6 +349,22 @@ class AllListAdapter(
     private lateinit var currencyManager: CurrencyManager
     private var selectionMode = false
     private val selectedItems = mutableSetOf<Int>()
+    
+    // Function to convert 24-hour format (HH:mm) to 12-hour format with AM/PM
+    private fun convertTo12HourFormat(time24: String): String {
+        return try {
+            val inputFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
+            val outputFormat = SimpleDateFormat("h:mm a", Locale.getDefault())
+            val date = inputFormat.parse(time24)
+            if (date != null) {
+                outputFormat.format(date)
+            } else {
+                time24 // Return original if parsing fails
+            }
+        } catch (e: Exception) {
+            time24 // Return original if conversion fails
+        }
+    }
     
     class AllListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val checkboxSelect: CheckBox = itemView.findViewById(R.id.checkboxSelect)
@@ -402,13 +438,13 @@ class AllListAdapter(
         // Use CurrencyManager's new method for display
         val displayAmount = currencyManager.getDisplayAmountFromStored(expense.price, expense.currency)
         holder.textViewPrice.text = currencyManager.formatCurrency(displayAmount)
-        
-        holder.textViewDescription.text = if (expense.description.isNotEmpty()) {
+          holder.textViewDescription.text = if (expense.description.isNotEmpty()) {
             expense.description
         } else {
             "No description"
         }
-          holder.textViewDateTime.text = "📅 ${expense.date} • 🕐 ${expense.time}"
+        
+        holder.textViewDateTime.text = "📅 ${expense.date} • 🕐 ${convertTo12HourFormat(expense.time)}"
         
         // Since we only show active items, set consistent styling
         holder.textViewStatus.text = "✅ ACTIVE"

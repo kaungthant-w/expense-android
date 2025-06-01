@@ -34,23 +34,23 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:padding="20dp"
+            android:padding="10dp"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <!-- Input Form Card -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardCornerRadius="20dp"
+                app:cardCornerRadius="10dp"
                 app:cardElevation="2dp"
                 app:cardBackgroundColor="?attr/cardBackgroundColor"
-                android:layout_marginBottom="24dp">
+                android:layout_marginBottom="20dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="24dp">
+                    android:padding="20dp">
 
                     <!-- Name -->
                     <EditText
@@ -60,7 +60,7 @@
                         android:hint="💼 Expense Name"
                         android:layout_marginBottom="16dp"
                         android:background="@drawable/input_background"
-                        android:padding="16dp"
+                        android:padding="12dp"
                         android:textColor="?attr/textPrimaryColor"
                         android:textColorHint="?attr/textSecondaryColor"
                         android:textSize="16sp" />
@@ -74,7 +74,7 @@
                         android:inputType="numberDecimal"
                         android:layout_marginBottom="16dp"
                         android:background="@drawable/input_background"
-                        android:padding="16dp"
+                        android:padding="12dp"
                         android:textColor="?attr/textPrimaryColor"
                         android:textColorHint="?attr/textSecondaryColor"
                         android:textSize="16sp" />
@@ -110,7 +110,7 @@
                             android:hint="📝 Description (Optional)"
                             android:layout_marginBottom="16dp"
                             android:background="@drawable/input_background"
-                            android:padding="16dp"
+                            android:padding="12dp"
                             android:textColor="?attr/textPrimaryColor"
                             android:textColorHint="?attr/textSecondaryColor"
                             android:textSize="16sp" />
@@ -123,7 +123,7 @@
                             android:hint="📅 Date (DD/MM/YYYY)"
                             android:layout_marginBottom="16dp"
                             android:background="@drawable/input_background"
-                            android:padding="16dp"
+                            android:padding="12dp"
                             android:textColor="?attr/textPrimaryColor"
                             android:textColorHint="?attr/textSecondaryColor"
                             android:textSize="16sp"
@@ -138,7 +138,7 @@
                             android:hint="🕐 Time (HH:MM)"
                             android:layout_marginBottom="16dp"
                             android:background="@drawable/input_background"
-                            android:padding="16dp"
+                            android:padding="12dp"
                             android:textColor="?attr/textPrimaryColor"
                             android:textColorHint="?attr/textSecondaryColor"
                             android:textSize="16sp"

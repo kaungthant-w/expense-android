@@ -8,6 +8,8 @@ import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import java.text.SimpleDateFormat
+import java.util.*
 
 class ExpenseAdapter(
     private val expenseList: MutableList<ExpenseItem>,
@@ -17,6 +19,22 @@ class ExpenseAdapter(
 ) : RecyclerView.Adapter<ExpenseAdapter.ExpenseViewHolder>() {
     
     private lateinit var currencyManager: CurrencyManager
+    
+    // Function to convert 24-hour format (HH:mm) to 12-hour format with AM/PM
+    private fun convertTo12HourFormat(time24: String): String {
+        return try {
+            val inputFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
+            val outputFormat = SimpleDateFormat("h:mm a", Locale.getDefault())
+            val date = inputFormat.parse(time24)
+            if (date != null) {
+                outputFormat.format(date)
+            } else {
+                time24 // Return original if parsing fails
+            }
+        } catch (e: Exception) {
+            time24 // Return original if conversion fails
+        }
+    }
     
     class ExpenseViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val textViewName: TextView = itemView.findViewById(R.id.textViewName)
@@ -41,20 +59,21 @@ class ExpenseAdapter(
     }    override fun onBindViewHolder(holder: ExpenseViewHolder, position: Int) {
         val expenseItem = expenseList[position]
         holder.textViewName.text = expenseItem.name
-        
-        // Use CurrencyManager's new method for display
+          // Use CurrencyManager's new method for display
         val displayAmount = currencyManager.getDisplayAmountFromStored(expenseItem.price, expenseItem.currency)
         holder.textViewPrice.text = currencyManager.formatCurrency(displayAmount)
         
+        // Convert time to 12-hour format with AM/PM
+        val formattedTime = convertTo12HourFormat(expenseItem.time)
+        
         // Set date and time in header (always visible)
-        holder.textViewDateTimeHeader.text = "📅 ${expenseItem.date} • 🕐 ${expenseItem.time}"
+        holder.textViewDateTimeHeader.text = "📅 ${expenseItem.date} • 🕐 $formattedTime"
         
         holder.textViewDescription.text = if (expenseItem.description.isNotEmpty()) {
             expenseItem.description
         } else {
-            "No description"
-        }
-          holder.textViewDateTime.text = "📅 ${expenseItem.date} • 🕐 ${expenseItem.time}"
+            "No description"        }
+          holder.textViewDateTime.text = "📅 ${expenseItem.date} • 🕐 $formattedTime"
           // Details and buttons are hidden by default - only name and price shown
         holder.layoutDetails.visibility = View.GONE
         holder.layoutButtons.visibility = View.GONE

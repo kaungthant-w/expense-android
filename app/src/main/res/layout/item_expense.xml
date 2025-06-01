@@ -14,7 +14,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp">        <!-- Header Row with Name and Price -->
+        android:padding="10dp">        
+        <!-- Header Row with Name and Price -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -33,7 +34,8 @@
                     android:id="@+id/textViewName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Expense Name"                    android:textSize="18sp"
+                    android:text="Expense Name"                    
+                    android:textSize="16sp"
                     android:textStyle="bold"
                     android:textColor="?attr/textPrimaryColor"
                     android:layout_marginBottom="4dp" />
@@ -43,7 +45,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="📅 01/01/2024 • 🕐 12:00"
-                    android:textSize="12sp"
+                    android:textSize="11sp"
                     android:textColor="?attr/textSecondaryColor" />
 
             </LinearLayout>
@@ -54,7 +56,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="$0.00"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 android:textStyle="bold"
                 android:textColor="@color/accent_color"
                 android:gravity="center_vertical" />

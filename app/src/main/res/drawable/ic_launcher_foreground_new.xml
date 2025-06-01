@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    
+    <!-- White document background -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M30,25 L78,25 Q82,25 82,29 L82,79 Q82,83 78,83 L30,83 Q26,83 26,79 L26,29 Q26,25 30,25 Z" />
+    
+    <!-- Dollar sign -->
+    <path
+        android:fillColor="#4A7C59"
+        android:pathData="M42,35 Q44,33 46,33 Q48,33 50,35 Q52,37 52,39 Q52,41 50,43 L48,45 Q50,47 52,49 Q52,51 50,53 Q48,55 46,55 Q44,55 42,53 Q40,51 40,49 Q40,47 42,45 L44,43 Q42,41 40,39 Q40,37 42,35 Z" />
+    
+    <!-- Chart/Pie chart -->
+    <path
+        android:fillColor="#4A7C59"
+        android:pathData="M35,55 Q35,50 40,50 Q45,50 45,55 Q45,60 40,60 Q35,60 35,55 Z" />
+    
+    <!-- Lines representing text/data -->
+    <path
+        android:fillColor="#4A7C59"
+        android:pathData="M55,40 L72,40 M55,45 L70,45 M55,50 L68,50 M55,55 L72,55 M55,60 L66,60" 
+        android:strokeWidth="2"
+        android:strokeColor="#4A7C59" />
+        
+</vector>

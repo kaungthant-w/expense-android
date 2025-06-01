@@ -394,9 +394,11 @@ class HistoryActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
             }
             R.id.nav_settings -> {
                 startActivity(Intent(this, SettingsActivity::class.java))
-            }
-            R.id.nav_feedback -> {
+            }            R.id.nav_feedback -> {
                 startActivity(Intent(this, FeedbackActivity::class.java))
+            }
+            R.id.nav_about -> {
+                startActivity(Intent(this, AboutActivity::class.java))
             }
         }
         drawerLayout.closeDrawer(GravityCompat.START)
@@ -423,6 +425,22 @@ class HistoryAdapter(
     private lateinit var currencyManager: CurrencyManager
     private var selectionMode = false
     private val selectedItems = mutableSetOf<Int>()
+
+    // Function to convert 24-hour format (HH:mm) to 12-hour format with AM/PM
+    private fun convertTo12HourFormat(time24: String): String {
+        return try {
+            val inputFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
+            val outputFormat = SimpleDateFormat("h:mm a", Locale.getDefault())
+            val date = inputFormat.parse(time24)
+            if (date != null) {
+                outputFormat.format(date)
+            } else {
+                time24 // Return original if parsing fails
+            }
+        } catch (e: Exception) {
+            time24 // Return original if conversion fails
+        }
+    }
 
     class HistoryViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val checkboxSelect: CheckBox = view.findViewById(R.id.checkboxSelect)
@@ -499,9 +517,12 @@ class HistoryAdapter(
         // Use CurrencyManager's new method for display
         val displayAmount = currencyManager.getDisplayAmountFromStored(expense.price, expense.currency)
         holder.textViewPrice.text = currencyManager.formatCurrency(displayAmount)
+          holder.textViewDescription.text = if (expense.description.isNotEmpty()) expense.description else "No description"
         
-        holder.textViewDescription.text = if (expense.description.isNotEmpty()) expense.description else "No description"
-        holder.textViewDateTime.text = "${expense.date} at ${expense.time}"
+        // Convert time to 12-hour format with AM/PM
+        val formattedTime = convertTo12HourFormat(expense.time)
+        holder.textViewDateTime.text = "${expense.date} at $formattedTime"
+        
         holder.textViewDeletedDate.text = "Deleted on ${expense.deletedAt ?: "Unknown date"}"
         
         // Hide/show action buttons based on selection mode
