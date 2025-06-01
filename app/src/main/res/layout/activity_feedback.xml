@@ -103,9 +103,8 @@
                         android:textColor="#1A1A1A"
                         android:layout_marginBottom="8dp" />
 
-                </RadioGroup>
-
-                <TextView
+                </RadioGroup>                <TextView
+                    android:id="@+id/textViewFeedbackLabel"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="📝 Tell us what you think"

@@ -28,23 +28,47 @@ class SettingsActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
     // Navigation Drawer components
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var navigationView: NavigationView
+    private lateinit var languageManager: LanguageManager
     
     // Data import/export launchers
     private lateinit var exportLauncher: ActivityResultLauncher<Intent>
     private lateinit var importLauncher: ActivityResultLauncher<Intent>
     
     private val gson = Gson()
-
+    
     override fun onCreate(savedInstanceState: Bundle?) {
         applyTheme()
-        super.onCreate(savedInstanceState)
+                super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
-        
+          languageManager = LanguageManager.getInstance(this)
         setupActionBar()
         initViews()
         setupNavigationDrawer()
         setupLaunchers()
         setupClickListeners()
+        updateUITexts()
+        updateNavigationMenuTitles()
+    }
+    
+    private fun updateUITexts() {
+        // Update header title
+        findViewById<android.widget.TextView>(R.id.textSettingsTitle)?.text = "⚙️ ${languageManager.getString("settings")}"
+        
+        // Update Language Settings card
+        findViewById<android.widget.TextView>(R.id.textLanguageTitle)?.text = "🌐 ${languageManager.getString("language_settings")}"
+        findViewById<android.widget.TextView>(R.id.textLanguageDesc)?.text = languageManager.getString("language_settings_desc")
+        
+        // Update Theme Settings card
+        findViewById<android.widget.TextView>(R.id.textThemeTitle)?.text = "🎨 ${languageManager.getString("theme_settings")}"
+        findViewById<android.widget.TextView>(R.id.textThemeDesc)?.text = languageManager.getString("theme_settings_desc")
+        
+        // Update Export Data card
+        findViewById<android.widget.TextView>(R.id.textExportTitle)?.text = "📤 ${languageManager.getString("export_data")}"
+        findViewById<android.widget.TextView>(R.id.textExportDesc)?.text = languageManager.getString("export_data_desc")
+        
+        // Update Import Data card
+        findViewById<android.widget.TextView>(R.id.textImportTitle)?.text = "📥 ${languageManager.getString("import_data")}"
+        findViewById<android.widget.TextView>(R.id.textImportDesc)?.text = languageManager.getString("import_data_desc")
     }
     
     private fun applyTheme() {
@@ -56,10 +80,8 @@ class SettingsActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
             ThemeActivity.THEME_DARK -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
             ThemeActivity.THEME_SYSTEM -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
         }
-    }
-
-    private fun setupActionBar() {
-        supportActionBar?.title = "⚙️ Settings"
+    }    private fun setupActionBar() {
+        supportActionBar?.title = "⚙️ ${languageManager.getString("settings")}"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
@@ -102,9 +124,12 @@ class SettingsActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         toggle.syncState()
         
         navigationView.setNavigationItemSelectedListener(this)
-    }
-
-    private fun setupClickListeners() {
+    }    private fun setupClickListeners() {
+        // Language Settings Card
+        findViewById<CardView>(R.id.cardLanguageSettings)?.setOnClickListener {
+            startActivity(Intent(this, LanguageActivity::class.java))
+        }
+        
         // Theme Settings Card
         findViewById<CardView>(R.id.cardThemeSettings)?.setOnClickListener {
             startActivity(Intent(this, ThemeActivity::class.java))
@@ -119,27 +144,24 @@ class SettingsActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         findViewById<CardView>(R.id.cardImportData)?.setOnClickListener {
             showImportConfirmationDialog()
         }
-    }
-
-    private fun showExportConfirmationDialog() {
+    }    private fun showExportConfirmationDialog() {
         AlertDialog.Builder(this)
-            .setTitle("📤 Export Data")
-            .setMessage("This will export all your expense data to a backup file. You can use this file to restore your data later.\n\nDo you want to continue?")
-            .setPositiveButton("Export") { _, _ ->
+            .setTitle("📤 ${languageManager.getString("export_title")}")
+            .setMessage(languageManager.getString("export_message"))
+            .setPositiveButton(languageManager.getString("export")) { _, _ ->
                 startExportProcess()
             }
-            .setNegativeButton("Cancel", null)
+            .setNegativeButton(languageManager.getString("cancel"), null)
             .show()
     }
-    
-    private fun showImportConfirmationDialog() {
+      private fun showImportConfirmationDialog() {
         AlertDialog.Builder(this)
-            .setTitle("📥 Import Data")
-            .setMessage("⚠️ WARNING: This will replace ALL your current expense data with the data from the backup file.\n\nThis action cannot be undone. Make sure you have a backup of your current data if needed.\n\nDo you want to continue?")
-            .setPositiveButton("Import") { _, _ ->
+            .setTitle("📥 ${languageManager.getString("import_title")}")
+            .setMessage(languageManager.getString("import_message"))
+            .setPositiveButton(languageManager.getString("import")) { _, _ ->
                 startImportProcess()
             }
-            .setNegativeButton("Cancel", null)
+            .setNegativeButton(languageManager.getString("cancel"), null)
             .show()
     }
     
@@ -262,6 +284,19 @@ class SettingsActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         } catch (e: Exception) {
             0
         }
+    }
+    
+    private fun updateNavigationMenuTitles() {
+        val menu = navigationView.menu
+        menu.findItem(R.id.nav_home)?.title = languageManager.getString("nav_home")
+        menu.findItem(R.id.nav_all_list)?.title = languageManager.getString("nav_all_list")
+        menu.findItem(R.id.nav_history)?.title = languageManager.getString("nav_history")
+        menu.findItem(R.id.nav_summary)?.title = languageManager.getString("nav_summary")
+        menu.findItem(R.id.nav_analytics)?.title = languageManager.getString("nav_analytics")
+        menu.findItem(R.id.nav_currency_exchange)?.title = languageManager.getString("nav_currency_exchange")
+        menu.findItem(R.id.nav_settings)?.title = languageManager.getString("nav_settings")
+        menu.findItem(R.id.nav_feedback)?.title = languageManager.getString("nav_feedback")
+        menu.findItem(R.id.nav_about)?.title = languageManager.getString("nav_about")
     }
     
     override fun onSupportNavigateUp(): Boolean {

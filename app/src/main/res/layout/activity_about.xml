@@ -36,9 +36,8 @@
                 android:background="@drawable/card_background"
                 android:src="@drawable/ic_arrow_back"
                 android:layout_marginEnd="16dp"
-                android:contentDescription="Back" />
-
-            <TextView
+                android:contentDescription="Back" />            <TextView
+                android:id="@+id/textViewHeaderTitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -63,9 +62,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="20dp">
-
-                <TextView
+                android:padding="20dp">                <TextView
+                    android:id="@+id/textViewAboutSectionTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="ℹ️ About"
@@ -75,6 +73,7 @@
                     android:layout_marginBottom="12dp" />
 
                 <TextView
+                    android:id="@+id/textViewAppName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="HsuPar Expense App"
@@ -84,6 +83,7 @@
                     android:layout_marginBottom="4dp" />
 
                 <TextView
+                    android:id="@+id/textViewAppVersion"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Version 1.0.0"
@@ -92,6 +92,7 @@
                     android:layout_marginBottom="8dp" />
 
                 <TextView
+                    android:id="@+id/textViewAppDescription"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Track your expenses efficiently with a beautiful and intuitive interface"
@@ -125,9 +126,8 @@
             android:orientation="vertical"
             android:padding="13dp"
             android:background="@drawable/glassmorphism_card"
-            android:gravity="center">
-
-            <TextView
+            android:gravity="center">            <TextView
+            android:id="@+id/textViewDevelopedBy"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="👨‍💻 Developed by"
@@ -136,6 +136,7 @@
             android:layout_marginBottom="4dp" />
 
             <TextView
+            android:id="@+id/textViewDeveloperName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Kyaw Myo Thant"
@@ -145,6 +146,7 @@
             android:layout_marginBottom="2dp" />
 
             <TextView
+            android:id="@+id/textViewDeveloperEmail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="📧 kyawmyothant.dev@gmail.com"
@@ -170,9 +172,8 @@
             android:orientation="vertical"
             android:padding="13dp"
             android:background="@drawable/glassmorphism_card"
-            android:gravity="center">
-
-            <TextView
+            android:gravity="center">            <TextView
+            android:id="@+id/textViewSupportedBy"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="💖 Supported by"
@@ -181,6 +182,7 @@
             android:layout_marginBottom="4dp" />
 
             <TextView
+            android:id="@+id/textViewSupporterName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Hsu Yee Mon"
@@ -190,6 +192,7 @@
             android:layout_marginBottom="2dp" />
 
             <TextView
+            android:id="@+id/textViewSupporterMessage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="This app was made with love. My sweetheart helped with testing, feedback, and design. Her support made it possible."

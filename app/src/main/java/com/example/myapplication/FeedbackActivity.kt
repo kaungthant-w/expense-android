@@ -7,7 +7,9 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.widget.Button
 import android.widget.EditText
+import android.widget.RadioButton
 import android.widget.RadioGroup
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
@@ -23,15 +25,18 @@ class FeedbackActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
     private lateinit var buttonSubmit: Button
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var navigationView: NavigationView
-    
-    override fun onCreate(savedInstanceState: Bundle?) {
+    private lateinit var languageManager: LanguageManager
+      override fun onCreate(savedInstanceState: Bundle?) {
         applyTheme()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_feedback)
-          setupActionBar()
+          languageManager = LanguageManager.getInstance(this)
+        setupActionBar()
         initViews()
         setupClickListeners()
         setupNavigationDrawer()
+        updateUITexts()
+        updateNavigationMenuTitles()
     }
     
     private fun applyTheme() {
@@ -44,11 +49,28 @@ class FeedbackActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
             ThemeActivity.THEME_SYSTEM -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
         }
     }
-    
-    private fun setupActionBar() {
-        supportActionBar?.title = "💬 Feedback"
+      private fun setupActionBar() {
+        supportActionBar?.title = languageManager.getString("feedback_title")
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-    }    private fun initViews() {
+    }
+      private fun updateUITexts() {
+        // Update action bar title
+        supportActionBar?.title = languageManager.getString("feedback_title")
+        
+        // Update hints for input fields
+        editTextFeedback.hint = languageManager.getString("feedback_hint")
+        editTextEmail.hint = languageManager.getString("email_hint")
+        
+        // Update button text
+        buttonSubmit.text = languageManager.getString("submit_feedback")
+        
+        // Update radio button texts
+        findViewById<RadioButton>(R.id.radioButtonExcellent).text = languageManager.getString("rating_excellent")
+        findViewById<RadioButton>(R.id.radioButtonGood).text = languageManager.getString("rating_good")
+        findViewById<RadioButton>(R.id.radioButtonAverage).text = languageManager.getString("rating_average")
+          // Update other text views
+        findViewById<TextView>(R.id.textViewFeedbackLabel)?.text = "📝 " + languageManager.getString("feedback_label")
+    }private fun initViews() {
         radioGroupRating = findViewById(R.id.radioGroupRating)
         editTextFeedback = findViewById(R.id.editTextFeedback)
         editTextEmail = findViewById(R.id.editTextEmail)
@@ -73,17 +95,16 @@ class FeedbackActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         // Set feedback as checked
         navigationView.setCheckedItem(R.id.nav_feedback)
     }
-    
-    private fun submitFeedback() {
+      private fun submitFeedback() {
         val selectedRatingId = radioGroupRating.checkedRadioButtonId
         if (selectedRatingId == -1) {
-            Toast.makeText(this, "Please select a rating", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, languageManager.getString("please_select_rating"), Toast.LENGTH_SHORT).show()
             return
         }
           val rating = when (selectedRatingId) {
-            R.id.radioButtonExcellent -> "⭐⭐⭐⭐⭐ Excellent"
-            R.id.radioButtonGood -> "⭐⭐⭐⭐ Good"
-            R.id.radioButtonAverage -> "⭐⭐⭐ Average"
+            R.id.radioButtonExcellent -> languageManager.getString("rating_excellent")
+            R.id.radioButtonGood -> languageManager.getString("rating_good")
+            R.id.radioButtonAverage -> languageManager.getString("rating_average")
             else -> "Unknown"
         }
         
@@ -91,29 +112,28 @@ class FeedbackActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         val email = editTextEmail.text.toString().trim()
         
         if (feedback.isEmpty()) {
-            Toast.makeText(this, "Please enter your feedback", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, languageManager.getString("please_enter_feedback"), Toast.LENGTH_SHORT).show()
             return
         }
         
         sendFeedbackEmail(rating, feedback, email)
-    }
-      private fun sendFeedbackEmail(rating: String, feedback: String, userEmail: String) {
-        val subject = "HsuPar Expense App Feedback"
+    }    private fun sendFeedbackEmail(rating: String, feedback: String, userEmail: String) {
+        val subject = languageManager.getString("feedback_subject")
         val body = """
-            Rating: $rating
+            ${languageManager.getString("email_rating")}: $rating
             
-            Feedback:
+            ${languageManager.getString("email_feedback")}:
             $feedback
             
-            ${if (userEmail.isNotEmpty()) "User Email: $userEmail" else ""}
+            ${if (userEmail.isNotEmpty()) "${languageManager.getString("email_user_email")}: $userEmail" else ""}
             
-            App Version: 1.0
-            Device: ${android.os.Build.MODEL}
-            Android Version: ${android.os.Build.VERSION.RELEASE}
+            ${languageManager.getString("email_app_version")}: 1.0
+            ${languageManager.getString("email_device")}: ${android.os.Build.MODEL}
+            ${languageManager.getString("email_android_version")}: ${android.os.Build.VERSION.RELEASE}
             
             ---
-            Developer: Kyaw Myo Thant
-            Email: kyawmyothant.dev@gmail.com
+            ${languageManager.getString("email_developer")}: ${languageManager.getString("developer_name")}
+            ${languageManager.getString("email")}: ${languageManager.getString("developer_email")}
         """.trimIndent()
         
         val intent = Intent(Intent.ACTION_SENDTO).apply {
@@ -124,11 +144,11 @@ class FeedbackActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         }
         
         try {
-            startActivity(Intent.createChooser(intent, "Send feedback via..."))
-            Toast.makeText(this, "Thank you for your feedback! 😊", Toast.LENGTH_LONG).show()
+            startActivity(Intent.createChooser(intent, languageManager.getString("send_feedback_via")))
+            Toast.makeText(this, languageManager.getString("thank_you_feedback"), Toast.LENGTH_LONG).show()
             clearFields()
         } catch (e: Exception) {
-            Toast.makeText(this, "No email app found. Please install an email app to send feedback.", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, languageManager.getString("no_email_app"), Toast.LENGTH_LONG).show()
         }
     }
     
@@ -136,6 +156,19 @@ class FeedbackActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         radioGroupRating.clearCheck()
         editTextFeedback.text.clear()
         editTextEmail.text.clear()
+    }
+    
+    private fun updateNavigationMenuTitles() {
+        val menu = navigationView.menu
+        menu.findItem(R.id.nav_home)?.title = languageManager.getString("nav_home")
+        menu.findItem(R.id.nav_all_list)?.title = languageManager.getString("nav_all_list")
+        menu.findItem(R.id.nav_history)?.title = languageManager.getString("nav_history")
+        menu.findItem(R.id.nav_summary)?.title = languageManager.getString("nav_summary")
+        menu.findItem(R.id.nav_analytics)?.title = languageManager.getString("nav_analytics")
+        menu.findItem(R.id.nav_currency_exchange)?.title = languageManager.getString("nav_currency_exchange")
+        menu.findItem(R.id.nav_settings)?.title = languageManager.getString("nav_settings")
+        menu.findItem(R.id.nav_feedback)?.title = languageManager.getString("nav_feedback")
+        menu.findItem(R.id.nav_about)?.title = languageManager.getString("nav_about")
     }
     
     override fun onSupportNavigateUp(): Boolean {

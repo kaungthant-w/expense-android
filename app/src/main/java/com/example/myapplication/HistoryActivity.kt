@@ -12,6 +12,7 @@ import android.widget.Button
 import android.widget.CheckBox
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -27,15 +28,18 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class HistoryActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
-    
-    private lateinit var recyclerView: RecyclerView
+      private lateinit var recyclerView: RecyclerView
     private lateinit var historyAdapter: HistoryAdapter
     private val deletedExpenses = mutableListOf<ExpenseItem>()
     private lateinit var sharedPreferences: SharedPreferences
-    private val gson = Gson()      // Navigation Drawer components
+    private lateinit var languageManager: LanguageManager
+    private val gson = Gson()
+    
+    // Navigation Drawer components
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var navigationView: NavigationView
-      // Selection components
+    
+    // Selection components
     private lateinit var layoutSelectionControls: View
     private lateinit var checkboxSelectAll: CheckBox
     private lateinit var textViewSelectionCount: TextView
@@ -43,33 +47,64 @@ class HistoryActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
     private lateinit var buttonToggleSelection: Button
     private lateinit var buttonCancelSelection: Button
     private var isSelectionMode = false
-        override fun onCreate(savedInstanceState: Bundle?) {
+    
+    override fun onCreate(savedInstanceState: Bundle?) {
         applyTheme()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_history)
         
+        languageManager = LanguageManager.getInstance(this)
         setupActionBar()
         initViews()
         setupNavigationDrawer()
         setupSharedPreferences()
         setupRecyclerView()
         loadDeletedExpenses()
+        updateNavigationMenuTitles()
+        
+        // Setup back press handling
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (isSelectionMode) {
+                    exitSelectionMode()
+                } else if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+                    drawerLayout.closeDrawer(GravityCompat.START)
+                } else {
+                    finish()
+                }
+            }
+        })
+    }
+    
+    private fun updateNavigationMenuTitles() {
+        val menu = navigationView.menu
+        menu.findItem(R.id.nav_home)?.title = languageManager.getString("nav_home")
+        menu.findItem(R.id.nav_all_list)?.title = languageManager.getString("nav_all_list")
+        menu.findItem(R.id.nav_history)?.title = languageManager.getString("nav_history")
+        menu.findItem(R.id.nav_summary)?.title = languageManager.getString("nav_summary")
+        menu.findItem(R.id.nav_analytics)?.title = languageManager.getString("nav_analytics")
+        menu.findItem(R.id.nav_currency_exchange)?.title = languageManager.getString("nav_currency_exchange")
+        menu.findItem(R.id.nav_settings)?.title = languageManager.getString("nav_settings")
+        menu.findItem(R.id.nav_feedback)?.title = languageManager.getString("nav_feedback")
+        menu.findItem(R.id.nav_about)?.title = languageManager.getString("nav_about")
     }
     
     override fun onResume() {
         super.onResume()
-        // Refresh deleted expenses list when activity resumes
-        // This ensures we always show the latest deleted data
+        // Refresh deleted expenses list when activity resumes        // This ensures we always show the latest deleted data
         loadDeletedExpenses()
     }
-      private fun setupActionBar() {
+    
+    private fun setupActionBar() {
         supportActionBar?.title = "🗃️ Deleted Items History"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-    }    private fun initViews() {
-        drawerLayout = findViewById(R.id.drawerLayout)
+    }
+    
+    private fun initViews() {        drawerLayout = findViewById(R.id.drawerLayout)
         navigationView = findViewById(R.id.navigationView)
         recyclerView = findViewById(R.id.recyclerViewHistory)
-          // Selection components
+        
+        // Selection components
         layoutSelectionControls = findViewById(R.id.layoutSelectionControls)
         checkboxSelectAll = findViewById(R.id.checkboxSelectAll)
         textViewSelectionCount = findViewById(R.id.textViewSelectionCount)
@@ -78,13 +113,13 @@ class HistoryActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
         buttonCancelSelection = findViewById(R.id.buttonCancelSelection)
         
         setupSelectionControls()
-        
-        // Setup back button click listener
+          // Setup back button click listener
         findViewById<android.widget.ImageButton>(R.id.buttonBack).setOnClickListener {
             finish()
         }
     }
-      private fun setupNavigationDrawer() {
+    
+    private fun setupNavigationDrawer() {
         val toggle = ActionBarDrawerToggle(
             this, drawerLayout, null,
             R.string.navigation_drawer_open, R.string.navigation_drawer_close
@@ -94,10 +129,11 @@ class HistoryActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
         
         navigationView.setNavigationItemSelectedListener(this)
     }
-    
-    private fun setupSharedPreferences() {
+      private fun setupSharedPreferences() {
         sharedPreferences = getSharedPreferences("expense_prefs", Context.MODE_PRIVATE)
-    }      private fun setupRecyclerView() {
+    }
+    
+    private fun setupRecyclerView() {
         historyAdapter = HistoryAdapter(
             deletedExpenses,
             onRestoreClick = { position -> restoreExpenseItem(position) },
@@ -391,27 +427,20 @@ class HistoryActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
             }
             R.id.nav_currency_exchange -> {
                 startActivity(Intent(this, CurrencyExchangeActivity::class.java))
-            }
-            R.id.nav_settings -> {
+            }            R.id.nav_settings -> {
                 startActivity(Intent(this, SettingsActivity::class.java))
-            }            R.id.nav_feedback -> {
-                startActivity(Intent(this, FeedbackActivity::class.java))
             }
-            R.id.nav_about -> {
+            R.id.nav_feedback -> {
+                startActivity(Intent(this, FeedbackActivity::class.java))
+            }            R.id.nav_about -> {
                 startActivity(Intent(this, AboutActivity::class.java))
+            }
+            else -> {
+                // Handle unknown menu items
             }
         }
         drawerLayout.closeDrawer(GravityCompat.START)
         return true
-    }
-      override fun onBackPressed() {
-        if (isSelectionMode) {
-            exitSelectionMode()
-        } else if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            drawerLayout.closeDrawer(GravityCompat.START)
-        } else {
-            super.onBackPressed()
-        }
     }
 }
 

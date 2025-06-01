@@ -4,6 +4,8 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
+import android.widget.TextView
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
@@ -15,15 +17,30 @@ class AboutActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
     
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var navigationView: NavigationView
+    private lateinit var languageManager: LanguageManager
     
     override fun onCreate(savedInstanceState: Bundle?) {
         applyTheme()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_about)
         
+        languageManager = LanguageManager.getInstance(this)
         setupActionBar()
         initViews()
         setupNavigationDrawer()
+        updateNavigationMenuTitles()
+        updateTextElements()
+        
+        // Setup back press handling
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+                    drawerLayout.closeDrawer(GravityCompat.START)
+                } else {
+                    finish()
+                }
+            }
+        })
     }
     
     private fun applyTheme() {
@@ -38,10 +55,11 @@ class AboutActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
     }
     
     private fun setupActionBar() {
-        supportActionBar?.title = "ℹ️ About Us"
+        supportActionBar?.title = languageManager.getString("about_title")
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
-      private fun initViews() {
+    
+    private fun initViews() {
         drawerLayout = findViewById(R.id.drawerLayout)
         navigationView = findViewById(R.id.navigationView)
         
@@ -50,6 +68,39 @@ class AboutActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
             finish()
         }
     }
+    
+    private fun updateNavigationMenuTitles() {
+        val menu = navigationView.menu
+        menu.findItem(R.id.nav_home)?.title = languageManager.getString("nav_home")
+        menu.findItem(R.id.nav_all_list)?.title = languageManager.getString("nav_all_list")
+        menu.findItem(R.id.nav_history)?.title = languageManager.getString("nav_history")
+        menu.findItem(R.id.nav_summary)?.title = languageManager.getString("nav_summary")
+        menu.findItem(R.id.nav_analytics)?.title = languageManager.getString("nav_analytics")
+        menu.findItem(R.id.nav_currency_exchange)?.title = languageManager.getString("nav_currency_exchange")
+        menu.findItem(R.id.nav_settings)?.title = languageManager.getString("nav_settings")
+        menu.findItem(R.id.nav_feedback)?.title = languageManager.getString("nav_feedback")
+        menu.findItem(R.id.nav_about)?.title = languageManager.getString("nav_about")
+    }
+    
+    private fun updateTextElements() {
+        // Update header title
+        findViewById<TextView>(R.id.textViewHeaderTitle)?.text = languageManager.getString("about_title")
+        
+        // Update about section
+        findViewById<TextView>(R.id.textViewAboutSectionTitle)?.text = languageManager.getString("about_section_title")
+        findViewById<TextView>(R.id.textViewAppName)?.text = languageManager.getString("app_name_display")
+        findViewById<TextView>(R.id.textViewAppVersion)?.text = languageManager.getString("app_version")
+        findViewById<TextView>(R.id.textViewAppDescription)?.text = languageManager.getString("app_description")
+        
+        // Update developer section
+        findViewById<TextView>(R.id.textViewDevelopedBy)?.text = languageManager.getString("developed_by")
+        findViewById<TextView>(R.id.textViewDeveloperName)?.text = languageManager.getString("developer_name")
+        findViewById<TextView>(R.id.textViewDeveloperEmail)?.text = languageManager.getString("developer_email")
+        
+        // Update supporter section
+        findViewById<TextView>(R.id.textViewSupportedBy)?.text = languageManager.getString("supported_by")
+        findViewById<TextView>(R.id.textViewSupporterName)?.text = languageManager.getString("supporter_name")
+        findViewById<TextView>(R.id.textViewSupporterMessage)?.text = languageManager.getString("supporter_message")    }
     
     private fun setupNavigationDrawer() {
         val toggle = ActionBarDrawerToggle(
@@ -65,15 +116,6 @@ class AboutActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
     override fun onSupportNavigateUp(): Boolean {
         finish()
         return true
-    }
-    
-    @Deprecated("This method has been deprecated in favor of using the OnBackPressedDispatcher")
-    override fun onBackPressed() {
-        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            drawerLayout.closeDrawer(GravityCompat.START)
-        } else {
-            super.onBackPressed()
-        }
     }
     
     override fun onNavigationItemSelected(item: MenuItem): Boolean {

@@ -46,6 +46,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private val expenseList = mutableListOf<ExpenseItem>()
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var currencyManager: CurrencyManager
+    private lateinit var languageManager: LanguageManager
     private val gson = Gson()
     private lateinit var toolbar: Toolbar
     
@@ -155,13 +156,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         // This will update the main list in case any expenses were restored
         loadExpenses()
     }
-    
-    override fun onCreate(savedInstanceState: Bundle?) {
+      override fun onCreate(savedInstanceState: Bundle?) {
         // Apply theme before calling super.onCreate()
         applyTheme()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         
+        languageManager = LanguageManager.getInstance(this)
         initViews()
         setupSharedPreferences()
         setupRecyclerView()
@@ -170,6 +171,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setupNavigationDrawer()
         setCurrentDateTime()
         loadExpenses()
+        updateNavigationMenuTitles()
     }
       override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
@@ -261,6 +263,19 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         
         // Set navigation item selected listener
         navigationView.setNavigationItemSelectedListener(this)
+    }
+    
+    private fun updateNavigationMenuTitles() {
+        val menu = navigationView.menu
+        menu.findItem(R.id.nav_home)?.title = languageManager.getString("nav_home")
+        menu.findItem(R.id.nav_all_list)?.title = languageManager.getString("nav_all_list")
+        menu.findItem(R.id.nav_history)?.title = languageManager.getString("nav_history")
+        menu.findItem(R.id.nav_summary)?.title = languageManager.getString("nav_summary")
+        menu.findItem(R.id.nav_analytics)?.title = languageManager.getString("nav_analytics")
+        menu.findItem(R.id.nav_currency_exchange)?.title = languageManager.getString("nav_currency_exchange")
+        menu.findItem(R.id.nav_settings)?.title = languageManager.getString("nav_settings")
+        menu.findItem(R.id.nav_feedback)?.title = languageManager.getString("nav_feedback")
+        menu.findItem(R.id.nav_about)?.title = languageManager.getString("nav_about")
     }
     
     private fun setCurrentDateTime() {

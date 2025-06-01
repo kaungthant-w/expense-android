@@ -3,4 +3,28 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_desc">Navigation header</string>
+    
+    <!-- Language Settings -->
+    <string name="language_settings">Language Settings</string>
+    <string name="language_description">Choose your preferred language for the app interface</string>
+    <string name="english_description">English language interface</string>
+    <string name="myanmar_description">မြန်မာဘာသာ မျက်နှာပြင်</string>
+    <string name="language_info">Language changes apply immediately</string>
+    <string name="back">Back</string>
+    
+    <!-- Feedback -->
+    <string name="feedback">Feedback</string>
+    <string name="feedback_title">💬 Feedback</string>
+    <string name="rating_excellent">⭐⭐⭐⭐⭐ Excellent</string>
+    <string name="rating_good">⭐⭐⭐⭐ Good</string>
+    <string name="rating_average">⭐⭐⭐ Average</string>
+    <string name="feedback_hint">Enter your feedback here...</string>
+    <string name="email_hint">Your email (optional)</string>
+    <string name="submit_feedback">Submit Feedback</string>
+    <string name="please_select_rating">Please select a rating</string>
+    <string name="please_enter_feedback">Please enter your feedback</string>
+    <string name="feedback_subject">HsuPar Expense App Feedback</string>
+    <string name="thank_you_feedback">Thank you for your feedback! 😊</string>
+    <string name="no_email_app">No email app found. Please install an email app to send feedback.</string>
+    <string name="send_feedback_via">Send feedback via...</string>
 </resources>
