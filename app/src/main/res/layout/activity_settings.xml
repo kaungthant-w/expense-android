@@ -346,7 +346,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Expense Tracker App"
+                    android:text="HsuPar Expense App"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     android:textColor="?attr/textPrimaryColor"

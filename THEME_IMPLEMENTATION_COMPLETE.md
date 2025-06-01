@@ -2,7 +2,7 @@
 
 ## ✅ TASK COMPLETED SUCCESSFULLY
 
-Your Android Expense Tracker app now has **COMPLETE DARK AND LIGHT THEME FUNCTIONALITY** exactly as requested!
+Your Android HsuPar Expense app now has **COMPLETE DARK AND LIGHT THEME FUNCTIONALITY** exactly as requested!
 
 ## 🌟 THEME FEATURES IMPLEMENTED
 
@@ -81,7 +81,7 @@ Your Android Expense Tracker app now has **COMPLETE DARK AND LIGHT THEME FUNCTIO
 
 **CONGRATULATIONS!** 🎉 
 
-Your expense tracker app now has the **exact theme functionality you requested**:
+Your HsuPar Expense app now has the **exact theme functionality you requested**:
 - ✅ Dark theme with dark backgrounds and white text
 - ✅ Light theme with bright backgrounds and dark text  
 - ✅ Theme page accessible from FAB menu

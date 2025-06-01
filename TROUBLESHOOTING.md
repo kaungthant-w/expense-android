@@ -1,4 +1,4 @@
-# TROUBLESHOOTING GUIDE - MyApplication Expense Tracker
+# TROUBLESHOOTING GUIDE - MyApplication HsuPar Expense
 
 ## 🚨 FILE LOCK ERRORS (Current Issue)
 
@@ -117,4 +117,4 @@ Once successfully installed:
 - Ensure only one Android IDE/emulator is running
 - Clear gradle cache if needed: Delete `.gradle` folder in user home
 
-Your expense tracker app is fully implemented and ready to test!
+Your HsuPar Expense app is fully implemented and ready to test!

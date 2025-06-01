@@ -3,7 +3,7 @@ echo ========================================
 echo        THEME FUNCTIONALITY TEST
 echo ========================================
 echo.
-echo Your Android Expense Tracker app now has COMPLETE theme functionality!
+echo Your Android HsuPar Expense app now has COMPLETE theme functionality!
 echo.
 echo THEME FEATURES IMPLEMENTED:
 echo ✅ Light Theme (☀️) - Clean bright interface with light backgrounds and dark text

@@ -32,7 +32,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="📋 All Expenses (Active + Deleted)"
+                android:text="All Expenses (Active)"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:gravity="center_vertical"

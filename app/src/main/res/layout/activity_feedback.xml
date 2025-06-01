@@ -41,7 +41,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="💬 We Value Your Feedback"
-                android:textSize="22sp"
+                android:textSize="18sp"
                 android:textStyle="bold"
                 android:gravity="center_vertical"
                 android:textColor="@android:color/white" />
@@ -53,21 +53,21 @@
             android:layout_height="wrap_content"
             app:cardCornerRadius="20dp"
             app:cardElevation="0dp"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="15dp"
             android:background="@drawable/glassmorphism_card">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="24dp"
+                android:padding="20dp"
                 android:background="@drawable/glassmorphism_card">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="⭐ How would you rate our app?"
-                    android:textSize="18sp"
+                    android:text="How would you rate our app?"
+                    android:textSize="14sp"
                     android:textStyle="bold"
                     android:textColor="#1A1A1A"
                     android:layout_marginBottom="16dp" />                <RadioGroup
@@ -81,7 +81,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="⭐⭐⭐⭐⭐ Excellent"
-                        android:textSize="16sp"
+                        android:textSize="14sp"
                         android:textColor="#1A1A1A"
                         android:layout_marginBottom="8dp" />
 
@@ -90,7 +90,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="⭐⭐⭐⭐ Good"
-                        android:textSize="16sp"
+                        android:textSize="14sp"
                         android:textColor="#1A1A1A"
                         android:layout_marginBottom="8dp" />
 
@@ -99,7 +99,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="⭐⭐⭐ Average"
-                        android:textSize="16sp"
+                        android:textSize="14sp"
                         android:textColor="#1A1A1A"
                         android:layout_marginBottom="8dp" />
 
@@ -112,7 +112,7 @@
                     android:textSize="18sp"
                     android:textStyle="bold"
                     android:textColor="#1A1A1A"
-                    android:layout_marginBottom="16dp" />
+                    android:layout_marginBottom="8dp" />
 
                 <EditText
                     android:id="@+id/editTextFeedback"
@@ -123,7 +123,7 @@
                     android:padding="16dp"
                     android:textColor="#1A1A1A"
                     android:textColorHint="#666666"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     android:gravity="top"
                     android:inputType="textMultiLine"
                     android:layout_marginBottom="16dp" />
@@ -137,9 +137,9 @@
                     android:padding="16dp"
                     android:textColor="#1A1A1A"
                     android:textColorHint="#666666"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     android:inputType="textEmailAddress"
-                    android:layout_marginBottom="24dp" />
+                    android:layout_marginBottom="15dp" />
 
                 <Button
                     android:id="@+id/buttonSubmit"
@@ -150,7 +150,7 @@
                     android:textColor="@android:color/white"
                     android:textSize="18sp"
                     android:textStyle="bold"
-                    android:padding="16dp"
+                    android:padding="12dp"
                     android:elevation="8dp" />            </LinearLayout>
 
         </androidx.cardview.widget.CardView>
@@ -168,7 +168,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="16dp"
+                android:padding="13dp"
                 android:background="@drawable/glassmorphism_card"
                 android:gravity="center">
 

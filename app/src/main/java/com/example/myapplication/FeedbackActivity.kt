@@ -98,7 +98,7 @@ class FeedbackActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         sendFeedbackEmail(rating, feedback, email)
     }
       private fun sendFeedbackEmail(rating: String, feedback: String, userEmail: String) {
-        val subject = "Expense Tracker App Feedback"
+        val subject = "HsuPar Expense App Feedback"
         val body = """
             Rating: $rating
             

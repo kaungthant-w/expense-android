@@ -1,7 +1,7 @@
 # SOFT DELETE HISTORY IMPLEMENTATION - COMPLETE ✅
 
 ## Summary
-Successfully implemented a comprehensive soft delete history system for the Android expense tracker app. Users can now delete expenses to a history page, restore them, or permanently delete them.
+Successfully implemented a comprehensive soft delete history system for the Android HsuPar Expense app. Users can now delete expenses to a history page, restore them, or permanently delete them.
 
 ## Implementation Status: ✅ COMPLETE
 

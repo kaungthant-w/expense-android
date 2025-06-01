@@ -1,4 +1,4 @@
-# Expense Tracker App - Implementation Complete
+# HsuPar Expense App - Implementation Complete
 
 ## ✅ COMPLETED FEATURES
 
