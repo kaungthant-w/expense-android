@@ -42,13 +42,8 @@ class ExpenseAdapter(
         val expenseItem = expenseList[position]
         holder.textViewName.text = expenseItem.name
         
-        // Format price with currency using CurrencyManager
-        val currentCurrency = currencyManager.getCurrentCurrency()
-        val displayAmount = if (currentCurrency == CurrencyManager.CURRENCY_MMK) {
-            currencyManager.convertFromUsd(expenseItem.price)
-        } else {
-            expenseItem.price
-        }
+        // Use CurrencyManager's new method for display
+        val displayAmount = currencyManager.getDisplayAmountFromStored(expenseItem.price, expenseItem.currency)
         holder.textViewPrice.text = currencyManager.formatCurrency(displayAmount)
         
         // Set date and time in header (always visible)

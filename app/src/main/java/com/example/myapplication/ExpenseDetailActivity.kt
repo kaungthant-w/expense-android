@@ -25,15 +25,16 @@ class ExpenseDetailActivity : AppCompatActivity() {
     private lateinit var buttonSave: Button
     private lateinit var buttonDelete: Button
     private lateinit var buttonBack: ImageButton
+    private lateinit var currencyManager: CurrencyManager
     
     private var expenseId: Long = -1
     private var isNewExpense = true
-    
-    override fun onCreate(savedInstanceState: Bundle?) {
+      override fun onCreate(savedInstanceState: Bundle?) {
         applyTheme()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_expense_detail)
         
+        currencyManager = CurrencyManager.getInstance(this)
         initViews()
         setupData()
         setupClickListeners()
@@ -159,22 +160,26 @@ class ExpenseDetailActivity : AppCompatActivity() {
             editTextPrice.requestFocus()
             return
         }
-        
-        val price = priceText.toDoubleOrNull()
+          val price = priceText.toDoubleOrNull()
         if (price == null || price <= 0) {
             editTextPrice.error = "Invalid price format"
             editTextPrice.requestFocus()
             return
         }
+
+        // Use CurrencyManager for native currency storage
+        val storageAmount = currencyManager.getStorageAmount(price)
+        val storageCurrency = currencyManager.getStorageCurrency()
         
         // Create result intent
         val resultIntent = Intent().apply {
             putExtra("expense_id", expenseId)
             putExtra("expense_name", name)
-            putExtra("expense_price", price)
+            putExtra("expense_price", storageAmount)
             putExtra("expense_description", description)
             putExtra("expense_date", date)
             putExtra("expense_time", time)
+            putExtra("expense_currency", storageCurrency)
             putExtra("is_new_expense", isNewExpense)
         }
         

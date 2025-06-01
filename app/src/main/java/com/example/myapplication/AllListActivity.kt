@@ -193,22 +193,30 @@ class AllListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
             }
             .setNegativeButton("❌ Cancel", null)
             .show()
-    }
-      private fun performMultipleSoftDelete(indices: List<Int>) {
+    }    private fun performMultipleSoftDelete(indices: List<Int>) {
         val currentDateTime = java.text.SimpleDateFormat("yyyy-MM-dd HH:mm", java.util.Locale.getDefault()).format(java.util.Date())
         
-        // Mark items as deleted instead of removing them
-        indices.forEach { index ->
-            val expense = allExpenses[index]
-            expense.isDeleted = true
-            expense.deletedAt = currentDateTime
+        // Get the actual expenses from the original data source
+        val expensesJson = sharedPreferences.getString("expenses", "[]")
+        val type = object : TypeToken<MutableList<ExpenseItem>>() {}.type
+        val allStoredExpenses: MutableList<ExpenseItem> = gson.fromJson(expensesJson, type) ?: mutableListOf()
+        
+        // Mark items as deleted in the stored data
+        val itemsToDelete = indices.map { allExpenses[it] }
+        itemsToDelete.forEach { itemToDelete ->
+            val storedItem = allStoredExpenses.find { it.name == itemToDelete.name && it.date == itemToDelete.date && it.time == itemToDelete.time }
+            storedItem?.let {
+                it.isDeleted = true
+                it.deletedAt = currentDateTime
+            }
         }
         
-        // Save updated expenses
-        saveExpenses()
+        // Save updated expenses to storage
+        val updatedExpensesJson = gson.toJson(allStoredExpenses)
+        sharedPreferences.edit().putString("expenses", updatedExpensesJson).apply()
         
-        // Update UI
-        allListAdapter.notifyDataSetChanged()
+        // Reload the filtered list (only active items)
+        loadAllExpenses()
         exitSelectionMode()
         
         // Show success message with option to view history
@@ -221,8 +229,7 @@ class AllListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
         // Optional: Show a snackbar with action to view history
         showHistorySnackbar(deletedCount)
     }
-    
-    private fun showHistorySnackbar(deletedCount: Int) {
+      private fun showHistorySnackbar(deletedCount: Int) {
         // Create a simple dialog asking if user wants to view history
         AlertDialog.Builder(this)
             .setTitle("📋 Items Deleted")
@@ -232,11 +239,6 @@ class AllListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
             }
             .setNegativeButton("✅ Continue", null)
             .show()
-    }
-    
-    private fun saveExpenses() {
-        val expensesJson = gson.toJson(allExpenses)
-        sharedPreferences.edit().putString("expenses", expensesJson).apply()
     }
     
     override fun onBackPressed() {
@@ -269,15 +271,16 @@ class AllListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = allListAdapter
     }
-    
-    private fun loadAllExpenses() {
+      private fun loadAllExpenses() {
         val expensesJson = sharedPreferences.getString("expenses", "[]")
         val type = object : TypeToken<List<ExpenseItem>>() {}.type
         val expenses: List<ExpenseItem> = gson.fromJson(expensesJson, type) ?: emptyList()
         
         allExpenses.clear()
-        allExpenses.addAll(expenses) // Load ALL expenses (both active and deleted)
-        allListAdapter.notifyDataSetChanged()    }
+        // Only show active (non-deleted) expenses on All List screen
+        allExpenses.addAll(expenses.filter { !it.isDeleted })
+        allListAdapter.notifyDataSetChanged()
+    }
     
     override fun onSupportNavigateUp(): Boolean {
         finish()
@@ -394,16 +397,10 @@ class AllListAdapter(
                 holder.checkboxSelect.isChecked = !holder.checkboxSelect.isChecked
             }
         }
+          holder.textViewName.text = expense.name
         
-        holder.textViewName.text = expense.name
-        
-        // Format price with currency using CurrencyManager
-        val currentCurrency = currencyManager.getCurrentCurrency()
-        val displayAmount = if (currentCurrency == CurrencyManager.CURRENCY_MMK) {
-            currencyManager.convertFromUsd(expense.price)
-        } else {
-            expense.price
-        }
+        // Use CurrencyManager's new method for display
+        val displayAmount = currencyManager.getDisplayAmountFromStored(expense.price, expense.currency)
         holder.textViewPrice.text = currencyManager.formatCurrency(displayAmount)
         
         holder.textViewDescription.text = if (expense.description.isNotEmpty()) {
@@ -411,19 +408,12 @@ class AllListAdapter(
         } else {
             "No description"
         }
+          holder.textViewDateTime.text = "📅 ${expense.date} • 🕐 ${expense.time}"
         
-        holder.textViewDateTime.text = "📅 ${expense.date} • 🕐 ${expense.time}"
-        
-        // Show status (Active or Deleted)
-        if (expense.isDeleted) {
-            holder.textViewStatus.text = "🗑️ DELETED (${expense.deletedAt})"
-            holder.textViewStatus.setTextColor(holder.itemView.context.getColor(android.R.color.holo_red_dark))
-            holder.itemView.alpha = 0.6f // Make deleted items slightly transparent
-        } else {
-            holder.textViewStatus.text = "✅ ACTIVE"
-            holder.textViewStatus.setTextColor(holder.itemView.context.getColor(android.R.color.holo_green_dark))
-            holder.itemView.alpha = 1.0f
-        }
+        // Since we only show active items, set consistent styling
+        holder.textViewStatus.text = "✅ ACTIVE"
+        holder.textViewStatus.setTextColor(holder.itemView.context.getColor(android.R.color.holo_green_dark))
+        holder.itemView.alpha = 1.0f
     }
     
     override fun getItemCount(): Int = expenses.size

@@ -45,9 +45,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private lateinit var expenseAdapter: ExpenseAdapter
     private val expenseList = mutableListOf<ExpenseItem>()
     private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var currencyManager: CurrencyManager
     private val gson = Gson()
     private lateinit var toolbar: Toolbar
-      // Navigation Drawer components
+    
+    // Navigation Drawer components
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var navigationView: NavigationView
     private lateinit var drawerToggle: ActionBarDrawerToggle
@@ -88,13 +90,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 if (activityResult != null) {
                     val expenseId = activityResult.getLongExtra("expense_id", -1L)
                     val isNewExpense = activityResult.getBooleanExtra("is_new_expense", false)
-                    
                     if (expenseId != -1L) {
                         val name = activityResult.getStringExtra("expense_name") ?: ""
                         val price = activityResult.getDoubleExtra("expense_price", 0.0)
                         val description = activityResult.getStringExtra("expense_description") ?: ""
                         val date = activityResult.getStringExtra("expense_date") ?: ""
                         val time = activityResult.getStringExtra("expense_time") ?: ""
+                        val currency = activityResult.getStringExtra("expense_currency") ?: "USD"
                         
                         if (isNewExpense) {
                             // Add new expense
@@ -103,8 +105,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                                 name = name,
                                 price = price,
                                 description = description,
-                                date = date,
-                                time = time
+                                date = date,                                time = time,
+                                currency = currency
                             )
                             expenseList.add(newExpense)
                             expenseAdapter.notifyItemInserted(expenseList.size - 1)
@@ -120,6 +122,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                                 expense.description = description
                                 expense.date = date
                                 expense.time = time
+                                expense.currency = currency
                                 
                                 expenseAdapter.notifyItemChanged(position)
                                 saveAllExpenses()
@@ -168,19 +171,20 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setCurrentDateTime()
         loadExpenses()
     }
-    
-    override fun onPostCreate(savedInstanceState: Bundle?) {
+      override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
         // Sync the toggle state after onRestoreInstanceState has occurred
         drawerToggle.syncState()
     }
     
     override fun onResume() {
-        super.onResume()        // Refresh expenses when returning to MainActivity
+        super.onResume()
+        // Refresh expenses when returning to MainActivity
         // This ensures restored items appear in the list
         loadExpenses()
     }
-      private fun initViews() {
+    
+    private fun initViews() {
         // Navigation drawer components
         drawerLayout = findViewById<DrawerLayout>(R.id.drawer_layout)
         navigationView = findViewById<NavigationView>(R.id.nav_view)
@@ -198,20 +202,25 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         toolbar = findViewById<Toolbar>(R.id.toolbar)
     }
     
-    private fun setupRecyclerView() {
-        expenseAdapter = ExpenseAdapter(expenseList,
+    private fun setupRecyclerView() {        expenseAdapter = ExpenseAdapter(expenseList,
             onDeleteClick = { position -> deleteExpenseItem(position) },
             onEditClick = { position -> editExpenseItem(position) },
             onItemClick = { position -> openExpenseDetail(position) }
         )
+        
         recyclerView.apply {
             layoutManager = LinearLayoutManager(this@MainActivity)
             adapter = expenseAdapter
+            // Enable smooth scrolling
+            setHasFixedSize(false)
+            // Add item animator for smooth animations
+            itemAnimator = androidx.recyclerview.widget.DefaultItemAnimator()
         }
     }
     
     private fun setupSharedPreferences() {
         sharedPreferences = getSharedPreferences("expense_prefs", Context.MODE_PRIVATE)
+        currencyManager = CurrencyManager.getInstance(this)
     }
     
     private fun setupClickListeners() {
@@ -240,7 +249,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         supportActionBar?.setDisplayShowTitleEnabled(true)
         supportActionBar?.title = "💰 Expense Tracker"
     }
-      private fun setupNavigationDrawer() {
+    
+    private fun setupNavigationDrawer() {
         // Set up the drawer toggle
         drawerToggle = ActionBarDrawerToggle(
             this, drawerLayout, toolbar,
@@ -303,15 +313,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             buttonSeeMoreInputOptions.text = "📋 See More"
         }
     }
-    
-    private fun loadExpenses() {
+      private fun loadExpenses() {
         val json = sharedPreferences.getString("expenses", null)
         if (!json.isNullOrEmpty()) {
             val type = object : TypeToken<List<ExpenseItem>>() {}.type
             val savedExpenses: List<ExpenseItem> = gson.fromJson(json, type)
             expenseList.clear()
-            // Only load non-deleted expenses
+            // Only load non-deleted expenses and sort by timestamp (latest first)
             val activeExpenses = savedExpenses.filter { !it.isDeleted }
+                .sortedByDescending { it.id } // Sort by ID (timestamp) in descending order
             Log.d("MainActivity", "Loading expenses: total=${savedExpenses.size}, active=${activeExpenses.size}")
             expenseList.addAll(activeExpenses)
             expenseAdapter.notifyDataSetChanged()
@@ -391,24 +401,30 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             Toast.makeText(this, "Please enter expense name", Toast.LENGTH_SHORT).show()
             return
         }
-        
-        val price = priceText.toDoubleOrNull()
+          val price = priceText.toDoubleOrNull()
         if (price == null || price <= 0) {
             Toast.makeText(this, "Please enter a valid price", Toast.LENGTH_SHORT).show()
             return
         }
-        
-        val expenseItem = ExpenseItem(
+
+        // Use CurrencyManager for native currency storage
+        val storageAmount = currencyManager.getStorageAmount(price)
+        val storageCurrency = currencyManager.getStorageCurrency()
+          val expenseItem = ExpenseItem(
             id = System.currentTimeMillis(),
             name = name,
-            price = price,
+            price = storageAmount,
             description = description,
             date = date,
-            time = time
+            time = time,
+            currency = storageCurrency
         )
         
-        expenseList.add(expenseItem)
-        expenseAdapter.notifyItemInserted(expenseList.size - 1)
+        // Add new expense at the beginning of the list (latest first)
+        expenseList.add(0, expenseItem)
+        expenseAdapter.notifyItemInserted(0)
+        // Scroll to top to show the newly added item
+        recyclerView.scrollToPosition(0)
         clearFields()
         setCurrentDateTime()
         saveAllExpenses() // Use saveAllExpenses to preserve deleted items
@@ -452,18 +468,22 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     Toast.makeText(this, "Please enter expense name", Toast.LENGTH_SHORT).show()
                     return@setPositiveButton
                 }
-                
-                val newPrice = newPriceText.toDoubleOrNull()
+                  val newPrice = newPriceText.toDoubleOrNull()
                 if (newPrice == null || newPrice <= 0) {
                     Toast.makeText(this, "Please enter a valid price", Toast.LENGTH_SHORT).show()
                     return@setPositiveButton
                 }
+
+                // Use CurrencyManager for native currency storage
+                val storageAmount = currencyManager.getStorageAmount(newPrice)
+                val storageCurrency = currencyManager.getStorageCurrency()
                 
                 expense.name = newName
-                expense.price = newPrice
+                expense.price = storageAmount
                 expense.description = newDescription
                 expense.date = newDate
                 expense.time = newTime
+                expense.currency = storageCurrency
                 
                 expenseAdapter.notifyItemChanged(position)
                 saveAllExpenses() // Use saveAllExpenses to preserve deleted items
@@ -546,10 +566,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             intent.putExtra("expense_date", expense.date)
             intent.putExtra("expense_time", expense.time)
             intent.putExtra("expense_position", position)
+            
             expenseDetailLauncher.launch(intent)
         }
     }
-      private fun applyTheme() {
+    
+    private fun applyTheme() {
         val themePrefs = getSharedPreferences(ThemeActivity.THEME_PREFS, Context.MODE_PRIVATE)
         val savedTheme = themePrefs.getString(ThemeActivity.THEME_KEY, ThemeActivity.THEME_SYSTEM)
         

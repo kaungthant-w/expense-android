@@ -86,4 +86,56 @@ class CurrencyManager private constructor(private val context: Context) {
             originalAmount
         }
     }
+    
+    // NEW METHODS FOR NATIVE CURRENCY STORAGE
+    
+    /**
+     * Get the storage amount - converts input price to storage format based on current currency.
+     * If USD is selected, stores directly. If MMK is selected, stores in MMK natively.
+     */
+    fun getStorageAmount(inputAmount: Double): Double {
+        return when (getCurrentCurrency()) {
+            CURRENCY_USD -> inputAmount // Store as USD
+            CURRENCY_MMK -> inputAmount // Store as MMK (native)
+            else -> inputAmount
+        }
+    }
+    
+    /**
+     * Get the display amount from stored amount - handles display conversion.
+     * For MMK expenses stored natively, returns the amount directly.
+     * For USD expenses, converts to MMK if MMK currency is selected.
+     */    fun getDisplayAmountFromStored(storedAmount: Double, storedCurrency: String): Double {
+        val currentCurrency = getCurrentCurrency()
+        
+        return when {
+            // If stored currency matches current currency, display directly
+            storedCurrency == currentCurrency -> storedAmount
+            
+            // If stored in USD but displaying in MMK, convert
+            storedCurrency == CURRENCY_USD && currentCurrency == CURRENCY_MMK -> 
+                convertFromUsd(storedAmount)
+            
+            // If stored in MMK but displaying in USD, convert
+            storedCurrency == CURRENCY_MMK && currentCurrency == CURRENCY_USD -> 
+                convertToUsd(storedAmount)
+            
+            // Default case
+            else -> storedAmount
+        }
+    }
+    
+    /**
+     * Get the currency that should be used for storing new expenses
+     */
+    fun getStorageCurrency(): String {
+        return getCurrentCurrency()
+    }
+    
+    /**
+     * Check if an amount is stored in native MMK format
+     */
+    fun isNativeMmkAmount(storedCurrency: String): Boolean {
+        return storedCurrency == CURRENCY_MMK
+    }
 }

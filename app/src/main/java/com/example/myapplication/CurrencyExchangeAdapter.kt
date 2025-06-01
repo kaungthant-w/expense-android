@@ -23,26 +23,25 @@ class CurrencyExchangeAdapter(
             .inflate(R.layout.item_currency_exchange, parent, false)
         return CurrencyExchangeViewHolder(view)
     }
-    
-    override fun onBindViewHolder(holder: CurrencyExchangeViewHolder, position: Int) {
+      override fun onBindViewHolder(holder: CurrencyExchangeViewHolder, position: Int) {
         val expense = expensesList[position]
         val currentCurrency = currencyManager.getCurrentCurrency()
         
         holder.textExpenseName.text = expense.name
         holder.textExpenseDate.text = "${expense.date} • ${expense.time}"
         
-        // Original amount (always stored in USD)
-        holder.textOriginalAmount.text = "Original: $${String.format("%.2f", expense.price)} USD"
+        // Show original amount in its stored currency
+        holder.textOriginalAmount.text = "Original: ${currencyManager.formatCurrency(expense.price)} ${expense.currency}"
         
-        // Converted amount based on current currency selection
+        // Show display amount using the new method
+        val displayAmount = currencyManager.getDisplayAmountFromStored(expense.price, expense.currency)
         when (currentCurrency) {
             CurrencyManager.CURRENCY_USD -> {
-                holder.textConvertedAmount.text = "Display: $${String.format("%.2f", expense.price)} USD"
+                holder.textConvertedAmount.text = "Display: ${currencyManager.formatCurrency(displayAmount)} USD"
                 holder.textConvertedAmount.setTextColor(holder.itemView.context.getColor(android.R.color.holo_blue_dark))
             }
             CurrencyManager.CURRENCY_MMK -> {
-                val convertedAmount = currencyManager.convertFromUsd(expense.price)
-                holder.textConvertedAmount.text = "Display: ${String.format("%.2f", convertedAmount)} MMK"
+                holder.textConvertedAmount.text = "Display: ${currencyManager.formatCurrency(displayAmount)} MMK"
                 holder.textConvertedAmount.setTextColor(holder.itemView.context.getColor(android.R.color.holo_green_dark))
             }
         }

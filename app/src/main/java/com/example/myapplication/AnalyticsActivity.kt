@@ -22,10 +22,12 @@ class AnalyticsActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var currencyManager: CurrencyManager
     private val gson = Gson()
-      // Navigation Drawer components
+    
+    // Navigation Drawer components
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var navigationView: NavigationView
-      override fun onCreate(savedInstanceState: Bundle?) {
+    
+    override fun onCreate(savedInstanceState: Bundle?) {
         applyTheme()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_analytics)
@@ -47,10 +49,13 @@ class AnalyticsActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
             ThemeActivity.THEME_SYSTEM -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
         }
     }
-      private fun setupActionBar() {
+    
+    private fun setupActionBar() {
         supportActionBar?.title = "📈 Expense Analytics"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-    }    private fun initViews() {
+    }
+    
+    private fun initViews() {
         drawerLayout = findViewById(R.id.drawerLayout)
         navigationView = findViewById(R.id.navigationView)
         
@@ -59,7 +64,8 @@ class AnalyticsActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
             finish()
         }
     }
-      private fun setupNavigationDrawer() {
+    
+    private fun setupNavigationDrawer() {
         val toggle = ActionBarDrawerToggle(
             this, drawerLayout, null,
             R.string.navigation_drawer_open, R.string.navigation_drawer_close
@@ -69,7 +75,8 @@ class AnalyticsActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
         
         navigationView.setNavigationItemSelectedListener(this)
     }
-      private fun setupSharedPreferences() {
+    
+    private fun setupSharedPreferences() {
         sharedPreferences = getSharedPreferences("expense_prefs", Context.MODE_PRIVATE)
         currencyManager = CurrencyManager.getInstance(this)
     }
@@ -92,7 +99,9 @@ class AnalyticsActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
                 val date = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).parse(expense.date)
                 val dayOfWeek = SimpleDateFormat("EEEE", Locale.getDefault()).format(date!!)
                 
-                dayOfWeekExpenses[dayOfWeek] = (dayOfWeekExpenses[dayOfWeek] ?: 0.0) + expense.price
+                // Use display amount instead of stored amount
+                val displayAmount = currencyManager.getDisplayAmountFromStored(expense.price, expense.currency)
+                dayOfWeekExpenses[dayOfWeek] = (dayOfWeekExpenses[dayOfWeek] ?: 0.0) + displayAmount
                 dayOfWeekCounts[dayOfWeek] = (dayOfWeekCounts[dayOfWeek] ?: 0) + 1
             } catch (e: Exception) {
                 // Skip invalid dates
@@ -139,84 +148,75 @@ class AnalyticsActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
                 false
             }
         }
-          // Update UI
-        val currentCurrency = currencyManager.getCurrentCurrency()
         
+        // Update UI
         findViewById<TextView>(R.id.textMostExpensiveDay).text = 
             if (mostExpensiveDay != null) {
-                val displayAmount = if (currentCurrency == CurrencyManager.CURRENCY_MMK) {
-                    currencyManager.convertFromUsd(mostExpensiveDay.value)
-                } else mostExpensiveDay.value
-                "${mostExpensiveDay.key}: ${currencyManager.formatCurrency(displayAmount)}"
+                // Amount is already in display currency, no conversion needed
+                "${mostExpensiveDay.key}: ${currencyManager.formatCurrency(mostExpensiveDay.value)}"
             } else "No data available"
             
         findViewById<TextView>(R.id.textLeastExpensiveDay).text = 
             if (leastExpensiveDay != null) {
-                val displayAmount = if (currentCurrency == CurrencyManager.CURRENCY_MMK) {
-                    currencyManager.convertFromUsd(leastExpensiveDay.value)
-                } else leastExpensiveDay.value
-                "${leastExpensiveDay.key}: ${currencyManager.formatCurrency(displayAmount)}"
+                // Amount is already in display currency, no conversion needed
+                "${leastExpensiveDay.key}: ${currencyManager.formatCurrency(leastExpensiveDay.value)}"
             } else "No data available"
         
-        val morningTotal = morningExpenses.sumOf { it.price }
-        val displayMorningTotal = if (currentCurrency == CurrencyManager.CURRENCY_MMK) {
-            currencyManager.convertFromUsd(morningTotal)
-        } else morningTotal
+        val morningTotal = morningExpenses.sumOf { expense ->
+            currencyManager.getDisplayAmountFromStored(expense.price, expense.currency)
+        }
         findViewById<TextView>(R.id.textMorningExpenses).text = 
-            "${morningExpenses.size} expenses - ${currencyManager.formatCurrency(displayMorningTotal)}"
+            "${morningExpenses.size} expenses - ${currencyManager.formatCurrency(morningTotal)}"
             
-        val afternoonTotal = afternoonExpenses.sumOf { it.price }
-        val displayAfternoonTotal = if (currentCurrency == CurrencyManager.CURRENCY_MMK) {
-            currencyManager.convertFromUsd(afternoonTotal)
-        } else afternoonTotal
+        val afternoonTotal = afternoonExpenses.sumOf { expense ->
+            currencyManager.getDisplayAmountFromStored(expense.price, expense.currency)
+        }
         findViewById<TextView>(R.id.textAfternoonExpenses).text = 
-            "${afternoonExpenses.size} expenses - ${currencyManager.formatCurrency(displayAfternoonTotal)}"
+            "${afternoonExpenses.size} expenses - ${currencyManager.formatCurrency(afternoonTotal)}"
             
-        val eveningTotal = eveningExpenses.sumOf { it.price }
-        val displayEveningTotal = if (currentCurrency == CurrencyManager.CURRENCY_MMK) {
-            currencyManager.convertFromUsd(eveningTotal)
-        } else eveningTotal
+        val eveningTotal = eveningExpenses.sumOf { expense ->
+            currencyManager.getDisplayAmountFromStored(expense.price, expense.currency)
+        }
         findViewById<TextView>(R.id.textEveningExpenses).text = 
-            "${eveningExpenses.size} expenses - ${currencyManager.formatCurrency(displayEveningTotal)}"
+            "${eveningExpenses.size} expenses - ${currencyManager.formatCurrency(eveningTotal)}"
             
-        val nightTotal = nightExpenses.sumOf { it.price }
-        val displayNightTotal = if (currentCurrency == CurrencyManager.CURRENCY_MMK) {
-            currencyManager.convertFromUsd(nightTotal)
-        } else nightTotal
+        val nightTotal = nightExpenses.sumOf { expense ->
+            currencyManager.getDisplayAmountFromStored(expense.price, expense.currency)
+        }
         findViewById<TextView>(R.id.textNightExpenses).text = 
-            "${nightExpenses.size} expenses - ${currencyManager.formatCurrency(displayNightTotal)}"
+            "${nightExpenses.size} expenses - ${currencyManager.formatCurrency(nightTotal)}"
         
         findViewById<TextView>(R.id.textThisWeekExpenses).text = thisWeekExpenses.size.toString()
-        val weekTotal = thisWeekExpenses.sumOf { it.price }
-        val displayWeekTotal = if (currentCurrency == CurrencyManager.CURRENCY_MMK) {
-            currencyManager.convertFromUsd(weekTotal)
-        } else weekTotal
-        findViewById<TextView>(R.id.textThisWeekAmount).text = currencyManager.formatCurrency(displayWeekTotal)
-          // Average expense per day
+        val weekTotal = thisWeekExpenses.sumOf { expense ->
+            currencyManager.getDisplayAmountFromStored(expense.price, expense.currency)
+        }
+        findViewById<TextView>(R.id.textThisWeekAmount).text = currencyManager.formatCurrency(weekTotal)
+        
+        // Average expense per day
         val averagePerDay = if (expenses.isNotEmpty()) {
             val uniqueDates = expenses.map { it.date }.toSet()
-            expenses.sumOf { it.price } / uniqueDates.size
+            expenses.sumOf { expense ->
+                currencyManager.getDisplayAmountFromStored(expense.price, expense.currency)
+            } / uniqueDates.size
         } else 0.0
         
-        val displayAveragePerDay = if (currentCurrency == CurrencyManager.CURRENCY_MMK) {
-            currencyManager.convertFromUsd(averagePerDay)
-        } else averagePerDay
-        findViewById<TextView>(R.id.textAveragePerDay).text = currencyManager.formatCurrency(displayAveragePerDay)
+        findViewById<TextView>(R.id.textAveragePerDay).text = currencyManager.formatCurrency(averagePerDay)
         
         // Show top 3 most expensive expenses
-        val topExpenses = expenses.sortedByDescending { it.price }.take(3)
+        val topExpenses = expenses.sortedByDescending { expense ->
+            currencyManager.getDisplayAmountFromStored(expense.price, expense.currency)
+        }.take(3)
         val topExpensesText = if (topExpenses.isNotEmpty()) {
             topExpenses.mapIndexed { index, expense -> 
-                val displayAmount = if (currentCurrency == CurrencyManager.CURRENCY_MMK) {
-                    currencyManager.convertFromUsd(expense.price)
-                } else expense.price
+                val displayAmount = currencyManager.getDisplayAmountFromStored(expense.price, expense.currency)
                 "${index + 1}. ${expense.name}: ${currencyManager.formatCurrency(displayAmount)}"
             }.joinToString("\n")
         } else "No expenses yet"
         
         findViewById<TextView>(R.id.textTopExpenses).text = topExpensesText
     }
-      override fun onSupportNavigateUp(): Boolean {
+    
+    override fun onSupportNavigateUp(): Boolean {
         finish()
         return true
     }

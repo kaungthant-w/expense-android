@@ -494,16 +494,10 @@ class HistoryAdapter(
                 holder.checkboxSelect.isChecked = !holder.checkboxSelect.isChecked
             }
         }
+          holder.textViewName.text = expense.name
         
-        holder.textViewName.text = expense.name
-        
-        // Format price with currency using CurrencyManager
-        val currentCurrency = currencyManager.getCurrentCurrency()
-        val displayAmount = if (currentCurrency == CurrencyManager.CURRENCY_MMK) {
-            currencyManager.convertFromUsd(expense.price)
-        } else {
-            expense.price
-        }
+        // Use CurrencyManager's new method for display
+        val displayAmount = currencyManager.getDisplayAmountFromStored(expense.price, expense.currency)
         holder.textViewPrice.text = currencyManager.formatCurrency(displayAmount)
         
         holder.textViewDescription.text = if (expense.description.isNotEmpty()) expense.description else "No description"

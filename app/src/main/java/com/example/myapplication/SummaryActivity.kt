@@ -82,16 +82,21 @@ class SummaryActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
         val expensesList: List<ExpenseItem> = gson.fromJson(expensesJson, type) ?: emptyList()
         
         displaySummary(expensesList)
-    }
-      private fun displaySummary(expenses: List<ExpenseItem>) {
+    }    private fun displaySummary(expenses: List<ExpenseItem>) {
         val totalExpenses = expenses.size
-        val totalAmount = expenses.sumOf { it.price }
+        
+        // Calculate totals using display amounts to handle mixed currencies properly
+        val totalAmount = expenses.sumOf { expense ->
+            currencyManager.getDisplayAmountFromStored(expense.price, expense.currency)
+        }
         val averageAmount = if (totalExpenses > 0) totalAmount / totalExpenses else 0.0
         
         // Calculate today's expenses
         val today = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date())
         val todayExpenses = expenses.filter { it.date == today }
-        val todayAmount = todayExpenses.sumOf { it.price }
+        val todayAmount = todayExpenses.sumOf { expense ->
+            currencyManager.getDisplayAmountFromStored(expense.price, expense.currency)
+        }
         
         // Calculate this month's expenses
         val currentMonth = SimpleDateFormat("MM/yyyy", Locale.getDefault()).format(Date())
@@ -99,29 +104,22 @@ class SummaryActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
             val expenseMonth = it.date.substring(3) // Get MM/yyyy part
             expenseMonth == currentMonth
         }
-        val monthAmount = monthExpenses.sumOf { it.price }
+        val monthAmount = monthExpenses.sumOf { expense ->
+            currencyManager.getDisplayAmountFromStored(expense.price, expense.currency)
+        }
         
-        // Find highest and lowest expense
-        val highestExpense = expenses.maxByOrNull { it.price }
-        val lowestExpense = expenses.minByOrNull { it.price }
-        
-        // Convert amounts based on current currency
-        val currentCurrency = currencyManager.getCurrentCurrency()
-        val displayTotalAmount = if (currentCurrency == CurrencyManager.CURRENCY_MMK) {
-            currencyManager.convertFromUsd(totalAmount)
-        } else totalAmount
-        
-        val displayAverageAmount = if (currentCurrency == CurrencyManager.CURRENCY_MMK) {
-            currencyManager.convertFromUsd(averageAmount)
-        } else averageAmount
-        
-        val displayTodayAmount = if (currentCurrency == CurrencyManager.CURRENCY_MMK) {
-            currencyManager.convertFromUsd(todayAmount)
-        } else todayAmount
-        
-        val displayMonthAmount = if (currentCurrency == CurrencyManager.CURRENCY_MMK) {
-            currencyManager.convertFromUsd(monthAmount)
-        } else monthAmount
+        // Find highest and lowest expense based on display amounts
+        val highestExpense = expenses.maxByOrNull { expense ->
+            currencyManager.getDisplayAmountFromStored(expense.price, expense.currency)
+        }
+        val lowestExpense = expenses.minByOrNull { expense ->
+            currencyManager.getDisplayAmountFromStored(expense.price, expense.currency)
+        }
+          // Amounts are already in display currency, no need for conversion
+        val displayTotalAmount = totalAmount
+        val displayAverageAmount = averageAmount
+        val displayTodayAmount = todayAmount
+        val displayMonthAmount = monthAmount
         
         // Update UI
         findViewById<TextView>(R.id.textTotalExpenses).text = totalExpenses.toString()
@@ -133,20 +131,14 @@ class SummaryActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
         
         findViewById<TextView>(R.id.textMonthExpenses).text = monthExpenses.size.toString()
         findViewById<TextView>(R.id.textMonthAmount).text = currencyManager.formatCurrency(displayMonthAmount)
-        
-        findViewById<TextView>(R.id.textHighestExpense).text = 
+          findViewById<TextView>(R.id.textHighestExpense).text = 
             if (highestExpense != null) {
-                val displayHighestAmount = if (currentCurrency == CurrencyManager.CURRENCY_MMK) {
-                    currencyManager.convertFromUsd(highestExpense.price)
-                } else highestExpense.price
+                val displayHighestAmount = currencyManager.getDisplayAmountFromStored(highestExpense.price, highestExpense.currency)
                 "${highestExpense.name}: ${currencyManager.formatCurrency(displayHighestAmount)}"
             } else "No expenses yet"
-            
-        findViewById<TextView>(R.id.textLowestExpense).text =
+              findViewById<TextView>(R.id.textLowestExpense).text =
             if (lowestExpense != null) {
-                val displayLowestAmount = if (currentCurrency == CurrencyManager.CURRENCY_MMK) {
-                    currencyManager.convertFromUsd(lowestExpense.price)
-                } else lowestExpense.price
+                val displayLowestAmount = currencyManager.getDisplayAmountFromStored(lowestExpense.price, lowestExpense.currency)
                 "${lowestExpense.name}: ${currencyManager.formatCurrency(displayLowestAmount)}"
             } else "No expenses yet"
     }
