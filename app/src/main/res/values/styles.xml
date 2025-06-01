@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Base Text Appearance using Poppins font -->
+    <style name="TextAppearance.Poppins" parent="TextAppearance.MaterialComponents.Body1">
+        <item name="android:fontFamily">@font/poppins</item>
+        <item name="fontFamily">@font/poppins</item>
+    </style>
+
+    <!-- Headline styles -->
+    <style name="TextAppearance.Poppins.Headline1" parent="TextAppearance.MaterialComponents.Headline1">
+        <item name="android:fontFamily">@font/poppins</item>
+        <item name="fontFamily">@font/poppins</item>
+        <item name="android:fontWeight">300</item>
+        <item name="android:textSize">96sp</item>
+        <item name="android:letterSpacing">-0.015625</item>
+    </style>
+
+    <style name="TextAppearance.Poppins.Headline2" parent="TextAppearance.MaterialComponents.Headline2">
+        <item name="android:fontFamily">@font/poppins</item>
+        <item name="fontFamily">@font/poppins</item>
+        <item name="android:fontWeight">300</item>
+        <item name="android:textSize">60sp</item>
+        <item name="android:letterSpacing">-0.00833</item>
+    </style>
+
+    <style name="TextAppearance.Poppins.Headline3" parent="TextAppearance.MaterialComponents.Headline3">
+        <item name="android:fontFamily">@font/poppins</item>
+        <item name="fontFamily">@font/poppins</item>
+        <item name="android:fontWeight">400</item>
+        <item name="android:textSize">48sp</item>
+        <item name="android:letterSpacing">0</item>
+    </style>
+
+    <style name="TextAppearance.Poppins.Headline4" parent="TextAppearance.MaterialComponents.Headline4">
+        <item name="android:fontFamily">@font/poppins</item>
+        <item name="fontFamily">@font/poppins</item>
+        <item name="android:fontWeight">400</item>
+        <item name="android:textSize">34sp</item>
+        <item name="android:letterSpacing">0.00735</item>
+    </style>
+
+    <style name="TextAppearance.Poppins.Headline5" parent="TextAppearance.MaterialComponents.Headline5">
+        <item name="android:fontFamily">@font/poppins</item>
+        <item name="fontFamily">@font/poppins</item>
+        <item name="android:fontWeight">400</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:letterSpacing">0</item>
+    </style>
+
+    <style name="TextAppearance.Poppins.Headline6" parent="TextAppearance.MaterialComponents.Headline6">
+        <item name="android:fontFamily">@font/poppins</item>
+        <item name="fontFamily">@font/poppins</item>
+        <item name="android:fontWeight">500</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:letterSpacing">0.0075</item>
+    </style>
+
+    <!-- Subtitle styles -->
+    <style name="TextAppearance.Poppins.Subtitle1" parent="TextAppearance.MaterialComponents.Subtitle1">
+        <item name="android:fontFamily">@font/poppins</item>
+        <item name="fontFamily">@font/poppins</item>
+        <item name="android:fontWeight">400</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:letterSpacing">0.009375</item>
+    </style>
+
+    <style name="TextAppearance.Poppins.Subtitle2" parent="TextAppearance.MaterialComponents.Subtitle2">
+        <item name="android:fontFamily">@font/poppins</item>
+        <item name="fontFamily">@font/poppins</item>
+        <item name="android:fontWeight">500</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:letterSpacing">0.00714</item>
+    </style>
+
+    <!-- Body styles -->
+    <style name="TextAppearance.Poppins.Body1" parent="TextAppearance.MaterialComponents.Body1">
+        <item name="android:fontFamily">@font/poppins</item>
+        <item name="fontFamily">@font/poppins</item>
+        <item name="android:fontWeight">400</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:letterSpacing">0.03125</item>
+    </style>
+
+    <style name="TextAppearance.Poppins.Body2" parent="TextAppearance.MaterialComponents.Body2">
+        <item name="android:fontFamily">@font/poppins</item>
+        <item name="fontFamily">@font/poppins</item>
+        <item name="android:fontWeight">400</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:letterSpacing">0.01786</item>
+    </style>
+
+    <!-- Button style -->
+    <style name="TextAppearance.Poppins.Button" parent="TextAppearance.MaterialComponents.Button">
+        <item name="android:fontFamily">@font/poppins</item>
+        <item name="fontFamily">@font/poppins</item>
+        <item name="android:fontWeight">500</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:letterSpacing">0.08929</item>
+        <item name="android:textAllCaps">true</item>
+    </style>
+
+    <!-- Caption style -->
+    <style name="TextAppearance.Poppins.Caption" parent="TextAppearance.MaterialComponents.Caption">
+        <item name="android:fontFamily">@font/poppins</item>
+        <item name="fontFamily">@font/poppins</item>
+        <item name="android:fontWeight">400</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:letterSpacing">0.03333</item>
+    </style>
+
+    <!-- Overline style -->
+    <style name="TextAppearance.Poppins.Overline" parent="TextAppearance.MaterialComponents.Overline">
+        <item name="android:fontFamily">@font/poppins</item>
+        <item name="fontFamily">@font/poppins</item>
+        <item name="android:fontWeight">500</item>
+        <item name="android:textSize">10sp</item>
+        <item name="android:letterSpacing">0.15</item>
+        <item name="android:textAllCaps">true</item>
+    </style>
+
+    <!-- Additional widget styles -->
+    <style name="Widget.Poppins.EditText" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="android:fontFamily">@font/poppins</item>
+        <item name="fontFamily">@font/poppins</item>
+    </style>
+
+    <style name="Widget.Poppins.Button" parent="Widget.MaterialComponents.Button">
+        <item name="android:fontFamily">@font/poppins</item>
+        <item name="fontFamily">@font/poppins</item>
+        <item name="android:fontWeight">500</item>
+    </style>
+
+    <style name="Widget.Poppins.Button.OutlinedButton" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="android:fontFamily">@font/poppins</item>
+        <item name="fontFamily">@font/poppins</item>
+        <item name="android:fontWeight">500</item>
+    </style>
+
+    <style name="Widget.Poppins.TextView" parent="android:Widget.TextView">
+        <item name="android:fontFamily">@font/poppins</item>
+        <item name="fontFamily">@font/poppins</item>
+    </style>
+</resources>
