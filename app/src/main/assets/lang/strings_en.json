@@ -89,7 +89,19 @@
   "about_title": "ℹ️ About Us",
   "about_section_title": "ℹ️ About",
   "app_name_display": "HsuPar Expense App",
-  "app_version": "Version 1.0.0",
-  "supporter_name": "Hsu Yee Mon",
-  "supporter_message": "This app was made with love. My sweetheart helped with testing, feedback, and design. Her support made it possible."
+  "app_version": "Version 1.0.0",  "supporter_name": "Hsu Yee Mon",
+  "supporter_message": "This app was made with love. My sweetheart helped with testing, feedback, and design. Her support made it possible.",
+  "summary_title": "📊 Expense Summary",
+  "overall_statistics": "💰 Overall Statistics",
+  "total_amount": "Total Amount:",
+  "average_amount": "Average Amount:",
+  "today_summary": "📅 Today's Summary",
+  "today_total": "Today's Total:",
+  "month_summary": "📊 This Month's Summary",
+  "month_expenses": "This Month's Expenses:",
+  "month_total": "This Month's Total:",
+  "expense_extremes": "📈 Expense Extremes",
+  "highest_expense": "Highest Expense:",
+  "lowest_expense": "Lowest Expense:",
+  "no_expenses_yet": "No expenses yet"
 }

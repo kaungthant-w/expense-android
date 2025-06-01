@@ -35,10 +35,10 @@ class SummaryActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
         languageManager = LanguageManager.getInstance(this)
         setupActionBar()
         initViews()
-        setupNavigationDrawer()
-        setupSharedPreferences()
+        setupNavigationDrawer()        setupSharedPreferences()
         loadSummaryData()
         updateNavigationMenuTitles()
+        updateTextElements()
     }
     
     private fun applyTheme() {
@@ -50,9 +50,8 @@ class SummaryActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
             ThemeActivity.THEME_DARK -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
             ThemeActivity.THEME_SYSTEM -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
         }
-    }
-      private fun setupActionBar() {
-        supportActionBar?.title = "📊 Expense Summary"
+    }    private fun setupActionBar() {
+        supportActionBar?.title = languageManager.getString("summary_title")
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
       private fun initViews() {
@@ -74,8 +73,7 @@ class SummaryActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
         
         navigationView.setNavigationItemSelectedListener(this)
     }
-    
-    private fun updateNavigationMenuTitles() {
+      private fun updateNavigationMenuTitles() {
         val menu = navigationView.menu
         menu.findItem(R.id.nav_home)?.title = languageManager.getString("nav_home")
         menu.findItem(R.id.nav_all_list)?.title = languageManager.getString("nav_all_list")
@@ -86,6 +84,26 @@ class SummaryActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
         menu.findItem(R.id.nav_settings)?.title = languageManager.getString("nav_settings")
         menu.findItem(R.id.nav_feedback)?.title = languageManager.getString("nav_feedback")
         menu.findItem(R.id.nav_about)?.title = languageManager.getString("nav_about")
+    }
+    
+    private fun updateTextElements() {
+        // Update header and section titles
+        findViewById<TextView>(R.id.textViewSummaryTitle)?.text = languageManager.getString("summary_title")
+        findViewById<TextView>(R.id.textViewOverallStats)?.text = languageManager.getString("overall_statistics")
+        findViewById<TextView>(R.id.textViewTodaysSummary)?.text = languageManager.getString("today_summary")
+        findViewById<TextView>(R.id.textViewMonthSummary)?.text = languageManager.getString("month_summary")
+        findViewById<TextView>(R.id.textViewExpenseExtremes)?.text = languageManager.getString("expense_extremes")
+        
+        // Update labels
+        findViewById<TextView>(R.id.textViewTotalExpensesLabel)?.text = languageManager.getString("total_expenses")
+        findViewById<TextView>(R.id.textViewTotalAmountLabel)?.text = languageManager.getString("total_amount")
+        findViewById<TextView>(R.id.textViewAverageAmountLabel)?.text = languageManager.getString("average_amount")
+        findViewById<TextView>(R.id.textViewTodayExpensesLabel)?.text = languageManager.getString("today_expenses")
+        findViewById<TextView>(R.id.textViewTodayTotalLabel)?.text = languageManager.getString("today_total")
+        findViewById<TextView>(R.id.textViewMonthExpensesLabel)?.text = languageManager.getString("month_expenses")
+        findViewById<TextView>(R.id.textViewMonthTotalLabel)?.text = languageManager.getString("month_total")
+        findViewById<TextView>(R.id.textViewHighestExpenseLabel)?.text = languageManager.getString("highest_expense")
+        findViewById<TextView>(R.id.textViewLowestExpenseLabel)?.text = languageManager.getString("lowest_expense")
     }
     
     private fun setupSharedPreferences() {
@@ -147,17 +165,17 @@ class SummaryActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
         findViewById<TextView>(R.id.textTodayAmount).text = currencyManager.formatCurrency(displayTodayAmount)
         
         findViewById<TextView>(R.id.textMonthExpenses).text = monthExpenses.size.toString()
-        findViewById<TextView>(R.id.textMonthAmount).text = currencyManager.formatCurrency(displayMonthAmount)
-          findViewById<TextView>(R.id.textHighestExpense).text = 
+        findViewById<TextView>(R.id.textMonthAmount).text = currencyManager.formatCurrency(displayMonthAmount)        findViewById<TextView>(R.id.textHighestExpense).text =
             if (highestExpense != null) {
                 val displayHighestAmount = currencyManager.getDisplayAmountFromStored(highestExpense.price, highestExpense.currency)
                 "${highestExpense.name}: ${currencyManager.formatCurrency(displayHighestAmount)}"
-            } else "No expenses yet"
-              findViewById<TextView>(R.id.textLowestExpense).text =
+            } else languageManager.getString("no_expenses_yet")
+          
+        findViewById<TextView>(R.id.textLowestExpense).text =
             if (lowestExpense != null) {
                 val displayLowestAmount = currencyManager.getDisplayAmountFromStored(lowestExpense.price, lowestExpense.currency)
                 "${lowestExpense.name}: ${currencyManager.formatCurrency(displayLowestAmount)}"
-            } else "No expenses yet"
+            } else languageManager.getString("no_expenses_yet")
     }
     
     private fun loadDetailedStats() {

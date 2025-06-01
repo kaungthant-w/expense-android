@@ -83,7 +83,19 @@
   "about_title": "ℹ️ 关于我们",
   "about_section_title": "ℹ️ 关于",
   "app_name_display": "HsuPar 费用应用",
-  "app_version": "版本 1.0.0",
-  "supporter_name": "Hsu Yee Mon",
-  "supporter_message": "这个应用是用爱制作的。我的爱人帮助了测试、反馈和设计。她的支持使这一切成为可能。"
+  "app_version": "版本 1.0.0",  "supporter_name": "Hsu Yee Mon",
+  "supporter_message": "这个应用是用爱制作的。我的爱人帮助了测试、反馈和设计。她的支持使这一切成为可能。",
+  "summary_title": "📊 费用摘要",
+  "overall_statistics": "💰 总体统计",
+  "total_amount": "总金额：",
+  "average_amount": "平均金额：",
+  "today_summary": "📅 今日摘要",
+  "today_total": "今日总额：",
+  "month_summary": "📊 本月摘要",
+  "month_expenses": "本月支出：",
+  "month_total": "本月总额：",
+  "expense_extremes": "📈 支出极值",
+  "highest_expense": "最高支出：",
+  "lowest_expense": "最低支出：",
+  "no_expenses_yet": "暂无支出"
 }
