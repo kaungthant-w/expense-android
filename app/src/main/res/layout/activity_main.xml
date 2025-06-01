@@ -84,7 +84,7 @@
                         android:id="@+id/buttonSeeMoreInputOptions"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="📋 See More"
+                        android:text="See More"
                         android:textSize="14sp"
                         android:textColor="?attr/accentColor"
                         android:textStyle="bold"

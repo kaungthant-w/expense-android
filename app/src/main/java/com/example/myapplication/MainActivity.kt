@@ -307,10 +307,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         
         if (isAdditionalOptionsVisible) {
             layoutAdditionalOptions.visibility = View.VISIBLE
-            buttonSeeMoreInputOptions.text = "📋 See Less"
+            buttonSeeMoreInputOptions.text = "See Less"
         } else {
             layoutAdditionalOptions.visibility = View.GONE
-            buttonSeeMoreInputOptions.text = "📋 See More"
+            buttonSeeMoreInputOptions.text = "See More"
         }
     }
       private fun loadExpenses() {
