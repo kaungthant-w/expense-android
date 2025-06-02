@@ -288,12 +288,20 @@
   "please_enter_valid_price": "请输入有效的价格",
   "expense_added_successfully": "✅ 支出添加成功！",
   "expense_updated_successfully": "✅ 支出更新成功！",
-  "expense_moved_to_history": "💾 支出已移至历史记录。查看历史记录以恢复。",
-  "expense_name_hint": "💼 支出名称",
+  "expense_moved_to_history": "💾 支出已移至历史记录。查看历史记录以恢复。",  "expense_name_hint": "💼 支出名称",
   "expense_price_hint": "💵 价格",
   "expense_description_hint": "📝 描述（可选）",
   "expense_date_hint": "📅 日期 (DD/MM/YYYY)",
   "expense_time_hint": "🕐 时间 (HH:MM)",
   "add_expense_button": "💰 添加支出",
-  "no_data_available": "📭 暂无数据"
+  "no_data_available": "📭 暂无数据",
+  
+  "show_filters": "🔍 显示筛选",
+  "hide_filters": "🔍 隐藏筛选",
+  "apply_filters": "✅ 应用筛选",
+  "clear_filters": "🗑️ 清除筛选",
+  "from_date": "开始日期",
+  "to_date": "结束日期",
+  "filter_results": "找到 {count} 个，共 {total} 个支出",
+  "filters_cleared": "筛选已清除"
 }

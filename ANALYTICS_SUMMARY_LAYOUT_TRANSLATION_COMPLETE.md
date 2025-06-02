@@ -23,7 +23,7 @@ Updated all hardcoded text elements to use string resources:
 - `"📊 Day of Week Analysis"` → `@string/analytics_day_of_week_analysis`
 - `"Most Expensive Day:"` → `@string/analytics_most_expensive_day_label`
 - `"Least Expensive Day:"` → `@string/analytics_least_expensive_day_label`
-- `"No data available"` → `@string/analytics_no_data_available`
+- `"no record available"` → `@string/analytics_no_data_available`
 
 #### Time of Day Analysis Section:
 - `"🕐 Time of Day Analysis"` → `@string/analytics_time_of_day_analysis`
@@ -74,7 +74,7 @@ Updated all hardcoded text elements to use string resources:
 Added new string resources:
 ```xml
 <!-- Analytics -->
-<string name="analytics_no_data_available">No data available</string>
+<string name="analytics_no_data_available">no record available</string>
 <string name="analytics_no_expenses_yet">No expenses yet</string>
 
 <!-- Summary -->
@@ -94,7 +94,7 @@ Added new string resources:
 
 #### English (strings_en.json) ✅
 Added analytics and summary translations:
-- `analytics_no_data_available`: "No data available"
+- `analytics_no_data_available`: "no record available"
 - `analytics_no_expenses_yet`: "No expenses yet"
 - `summary_expense_title`: "📊 Expense Summary"
 - `summary_overall_statistics`: "💰 Overall Statistics"

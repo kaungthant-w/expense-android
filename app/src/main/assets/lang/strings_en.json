@@ -118,7 +118,7 @@
   "delete_selected": "🗑️ Delete Selected",
   "toggle_selection": "🔘 Select Items",
   "cancel_selection": "❌ Cancel",
-  "view_history": "📋 View History",
+  "view_history": "📋History",
   "selection_count": "{count} items selected",
   "delete_confirmation_title": "⚠️ Delete Selected Items",
   "delete_confirmation_message": "Are you sure you want to delete these {count} item(s)?\n\n{items}\n\nDeleted items can be restored from History.",
@@ -190,7 +190,7 @@
   
   "analytics_most_expensive_day": "Most expensive day: {day} - {amount}",
   "analytics_least_expensive_day": "Least expensive day: {day} - {amount}",
-  "analytics_no_data": "No data available",
+  "analytics_no_data": "no record available",
   "analytics_morning_expenses": "🌅 Morning ({count} expenses): {amount}",
   "analytics_afternoon_expenses": "☀️ Afternoon ({count} expenses): {amount}",
   "analytics_evening_expenses": "🌆 Evening ({count} expenses): {amount}",
@@ -226,7 +226,7 @@
   "analytics_evening_label": "Evening (6-11 PM):",
   "analytics_night_label": "Night (12-5 AM):",  "analytics_top_expenses": "🏆 Top 3 Largest Expenses",
   "analytics_expense_title": "📈 Expense Analytics",
-  "analytics_no_data_available": "No data available",
+  "analytics_no_data_available": "no record available",
   "analytics_no_expenses_yet": "No expenses yet",
   
   "summary_expense_title": "📊 Expense Summary",
@@ -242,7 +242,7 @@
     "deleted_items_history_title": "🗃️ Deleted Items History",
   "enable_selection": "✅ Enable Selection",
   "delete_forever": "Delete Forever",
-  "selection_mode_on": "📋 Selection Mode ON",
+  "selection_mode_on": "📋 Selection ON",
   "all_expenses_active_title": "All Expenses (Active)",
   
   "restore_expense_title": "✅ Restore Expense",
@@ -268,10 +268,18 @@
   "expense_added_successfully": "✅ Expense added successfully!",
   "expense_updated_successfully": "✅ Expense updated successfully!",
   "expense_moved_to_history": "💾 Expense moved to history. Check History to restore.",  "expense_name_hint": "💼 Expense Name",
-  "expense_price_hint": "💵 Price",
-  "expense_description_hint": "📝 Description (Optional)",
+  "expense_price_hint": "💵 Price",  "expense_description_hint": "📝 Description (Optional)",
   "expense_date_hint": "📅 Date (DD/MM/YYYY)",
   "expense_time_hint": "🕐 Time (HH:MM)",
   "add_expense_button": "💾Save",
-  "no_data_available": "📭 No data available"
+  "no_data_available": "📭 no record available",
+  
+  "show_filters": "🔍 Show Filters",
+  "hide_filters": "🔍 Hide Filters",
+  "apply_filters": "✅ Apply Filters",
+  "clear_filters": "🗑️ Clear Filters",
+  "from_date": "From Date",
+  "to_date": "To Date",
+  "filter_results": "Found {count} of {total} expenses",
+  "filters_cleared": "Filters cleared"
 }

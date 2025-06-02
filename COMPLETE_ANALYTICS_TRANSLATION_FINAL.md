@@ -72,7 +72,7 @@
 ```json
 "analytics_most_expensive_day": "Most Expensive Day: {day} - {amount}"
 "analytics_least_expensive_day": "Least Expensive Day: {day} - {amount}"
-"analytics_no_data": "No data available"
+"analytics_no_data": "no record available"
 "analytics_no_expenses": "No expenses yet"
 "analytics_morning_expenses": "{count} expenses - {amount}"
 "analytics_afternoon_expenses": "{count} expenses - {amount}"

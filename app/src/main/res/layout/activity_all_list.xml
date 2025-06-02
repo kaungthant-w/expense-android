@@ -13,23 +13,101 @@
 
             </LinearLayout>
 
-            <!-- Selection Controls -->
-            <LinearLayout android:id="@+id/layoutSelectionControls" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:padding="12dp" android:background="@drawable/input_background" android:layout_marginBottom="8dp" android:visibility="gone">
+            <!-- Filter Controls Section -->
+            <androidx.cardview.widget.CardView android:id="@+id/cardViewFilterControls" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="12dp" app:cardCornerRadius="12dp" app:cardElevation="4dp" app:cardBackgroundColor="?attr/cardBackgroundColor">
 
-                <CheckBox android:id="@+id/checkboxSelectAll" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Select All" android:textColor="?attr/textPrimaryColor" android:layout_marginEnd="16dp" />
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp">
 
-                <TextView android:id="@+id/textViewSelectionCount" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="0 items selected" android:textColor="?attr/textSecondaryColor" android:gravity="center_vertical" />
+                    <!-- Filter Header -->
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginBottom="12dp">
 
-                <Button android:id="@+id/buttonDeleteSelected" android:layout_width="wrap_content" android:layout_height="36dp" android:text="Delete Selected" android:textSize="12sp" android:backgroundTint="?attr/colorError" android:textColor="@android:color/white" android:enabled="false" />
+                        <TextView android:id="@+id/textViewFilterTitle" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="🔍 Filter Options" android:textSize="16sp" android:textStyle="bold" android:textColor="?attr/textPrimaryColor" />
 
-            </LinearLayout>
+                        <Button android:id="@+id/buttonClearFilters" android:layout_width="wrap_content" android:layout_height="32dp" android:text="Clear All" android:textSize="11sp" android:backgroundTint="?attr/textSecondaryColor" android:textColor="@android:color/white" android:padding="8dp" />
 
-            <!-- Action Buttons -->
-            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginBottom="8dp">
+                    </LinearLayout>
 
-                <Button android:id="@+id/buttonToggleSelection" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="✅ Enable Selection" android:backgroundTint="?attr/accentColor" android:textColor="@android:color/white" android:layout_marginEnd="8dp" />
+                    <!-- Filter Controls Row 1: Year and Month -->
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginBottom="8dp">
 
-                <Button android:id="@+id/buttonCancelSelection" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="❌ Cancel Selection" android:backgroundTint="?attr/textSecondaryColor" android:textColor="@android:color/white" android:visibility="gone" />
+                        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:layout_marginEnd="8dp">
+
+                            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="📅 Year" android:textSize="12sp" android:textColor="?attr/textSecondaryColor" android:layout_marginBottom="4dp" />
+
+                            <Spinner android:id="@+id/spinnerYear" android:layout_width="match_parent" android:layout_height="48dp" android:background="@drawable/input_background" android:padding="12dp" />
+
+                        </LinearLayout>
+
+                        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:layout_marginStart="8dp">
+
+                            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="🗓️ Month" android:textSize="12sp" android:textColor="?attr/textSecondaryColor" android:layout_marginBottom="4dp" />
+
+                            <Spinner android:id="@+id/spinnerMonth" android:layout_width="match_parent" android:layout_height="48dp" android:background="@drawable/input_background" android:padding="12dp" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <!-- Filter Controls Row 2: Date Range -->
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginBottom="8dp">
+
+                        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:layout_marginEnd="8dp">
+
+                            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="📅 From Date" android:textSize="12sp" android:textColor="?attr/textSecondaryColor" android:layout_marginBottom="4dp" />
+
+                            <EditText android:id="@+id/editTextFromDate" android:layout_width="match_parent" android:layout_height="48dp" android:background="@drawable/input_background" android:padding="12dp" android:focusable="false" android:clickable="true" android:hint="Select start date" android:textColor="?attr/textPrimaryColor" android:textColorHint="?attr/textSecondaryColor" android:textSize="14sp" />
+
+                        </LinearLayout>
+
+                        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:layout_marginStart="8dp">
+
+                            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="📅 To Date" android:textSize="12sp" android:textColor="?attr/textSecondaryColor" android:layout_marginBottom="4dp" />
+
+                            <EditText android:id="@+id/editTextToDate" android:layout_width="match_parent" android:layout_height="48dp" android:background="@drawable/input_background" android:padding="12dp" android:focusable="false" android:clickable="true" android:hint="Select end date" android:textColor="?attr/textPrimaryColor" android:textColorHint="?attr/textSecondaryColor" android:textSize="14sp" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <!-- Apply Filter Button -->
+                    <Button android:id="@+id/buttonApplyFilter" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="🔍 Apply Filters" android:backgroundTint="?attr/accentColor" android:textColor="@android:color/white" android:layout_marginTop="4dp" />
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>            <!-- Enhanced Selection Controls -->
+            <androidx.cardview.widget.CardView android:id="@+id/layoutSelectionControls" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="12dp" android:visibility="gone" app:cardCornerRadius="12dp" app:cardElevation="6dp" app:cardBackgroundColor="@color/selection_card_background">
+
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp">
+
+                    <!-- Selection Header -->
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginBottom="12dp">
+
+                        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="✅ Selection Active" android:textSize="9sp" android:textStyle="bold" android:textColor="@color/selection_text_color" />
+
+                        <TextView android:id="@+id/textViewSelectionCount" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0 items selected" android:textSize="9sp" android:textColor="@color/selection_count_color" android:background="@drawable/selection_count_background" android:padding="6dp" />
+
+                    </LinearLayout>
+
+                    <!-- Selection Controls Row -->
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+
+                        <CheckBox android:id="@+id/checkboxSelectAll" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Select All" android:textColor="@color/selection_text_color" android:layout_marginEnd="16dp" />
+
+                        <Button android:id="@+id/buttonDeleteSelected" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="🗑️ Delete" android:textSize="10sp" android:backgroundTint="@color/delete_button_color" android:textColor="@android:color/white" android:enabled="false" android:layout_marginEnd="8dp" />
+
+                        <Button android:id="@+id/buttonCancelSelection" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="❌ Cancel" android:textSize="10sp" android:backgroundTint="@color/cancel_button_color" android:textColor="@android:color/white" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+            <!-- Enhanced Action Buttons -->
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginBottom="12dp">
+
+                <Button android:id="@+id/buttonToggleSelection" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="✅ Enable Selection" android:backgroundTint="?attr/accentColor" android:textColor="@android:color/white" android:layout_marginEnd="8dp" android:drawableStart="@drawable/ic_checklist" android:drawablePadding="8dp" />
+
+                <Button android:id="@+id/buttonToggleFilter" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="🔍 Show Filters" android:backgroundTint="@color/filter_button_color" android:textColor="@android:color/white" android:layout_marginStart="8dp" android:drawableStart="@drawable/ic_filter" android:drawablePadding="8dp" />
 
             </LinearLayout>
 

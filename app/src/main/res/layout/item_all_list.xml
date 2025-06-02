@@ -19,12 +19,9 @@
 
         </LinearLayout>        
         <!-- Description -->
-        <TextView android:id="@+id/textViewDescription" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Description" android:textSize="14sp" android:textColor="?attr/textSecondaryColor" android:layout_marginBottom="8dp" />
+        <TextView android:id="@+id/textViewDescription" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Description" android:textSize="14sp" android:textColor="?attr/textSecondaryColor" android:layout_marginBottom="8dp" />        
         <!-- Date and Time -->
-        <TextView android:id="@+id/textViewDateTime" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="📅 Date • 🕐 Time" android:textSize="12sp" android:textColor="?attr/textSecondaryColor" android:layout_marginBottom="8dp" />
-
-        <!-- Status -->
-        <TextView android:id="@+id/textViewStatus" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="✅ ACTIVE" android:textSize="12sp" android:textStyle="bold" android:padding="8dp" android:background="@drawable/input_background" android:gravity="center" />
+        <TextView android:id="@+id/textViewDateTime" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="📅 Date • 🕐 Time" android:textSize="12sp" android:textColor="?attr/textSecondaryColor" />
 
     </LinearLayout>
 

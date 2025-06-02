@@ -21,7 +21,7 @@ The translation system for the MyApplication expense tracker has been **successf
 - **Action Bar Title**: Uses `languageManager.getString("analytics_title")`
 - **Day-based Analytics**: Translated with placeholder support for dynamic data
 - **Time-based Analytics**: Morning, afternoon, evening, night translations
-- **Empty State Messages**: "No data available" and "No expenses yet"
+- **Empty State Messages**: "no record available" and "No expenses yet"
 - **Navigation Menu**: All menu items translated
 
 #### 3. **CurrencyExchangeActivity** - ✅ COMPLETE  

@@ -15,7 +15,7 @@
 - `delete_selected`: "🗑️ Delete Selected"
 - `toggle_selection`: "🔘 Select Items"
 - `cancel_selection`: "❌ Cancel"
-- `view_history`: "📋 View History"
+- `view_history`: "📋History"
 - `selection_count`: "{count} items selected"
 
 ## Implementation Status ✅

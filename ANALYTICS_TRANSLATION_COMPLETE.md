@@ -16,7 +16,7 @@ Added the missing analytics-specific translation keys to both language files:
 **English (strings_en.json):**
 - `analytics_most_expensive_day`: "Most expensive day: {day} - {amount}"
 - `analytics_least_expensive_day`: "Least expensive day: {day} - {amount}"  
-- `analytics_no_data`: "No data available"
+- `analytics_no_data`: "no record available"
 - `analytics_morning_expenses`: "🌅 Morning ({count} expenses): {amount}"
 - `analytics_afternoon_expenses`: "☀️ Afternoon ({count} expenses): {amount}"
 - `analytics_evening_expenses`: "🌆 Evening ({count} expenses): {amount}"
@@ -67,7 +67,7 @@ Open Hsu Expense app on your device/emulator
    - "🌆 Evening (X expenses): Amount"
    - "🌙 Night (X expenses): Amount"
 4. Verify day analysis shows proper English text
-5. Check empty states show "No data available" or "No expenses to display"
+5. Check empty states show "no record available" or "No expenses to display"
 ```
 
 ### **Step 3: Switch to Myanmar Language**
@@ -122,7 +122,7 @@ Open Hsu Expense app on your device/emulator
 - Top 3 most expensive items
 
 ### **Empty State Handling** ✅
-- No data available messages
+- no record available messages
 - No expenses to display messages
 - Proper fallback text in selected language
 

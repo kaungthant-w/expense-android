@@ -278,7 +278,15 @@
   "expense_price_hint": "💵 စျေးနှုန်း",
   "expense_description_hint": "📝 ဖော်ပြချက် (ရွေးချယ်ရန်)",
   "expense_date_hint": "📅 ရက်စွဲ (DD/MM/YYYY)",
-  "expense_time_hint": "🕐 အချိန် (HH:MM)",
-  "add_expense_button": "💰 ကုန်ကျစရိတ် ထည့်သွင်းရန်",
-  "no_data_available": "📭 မှတ်တမ်း မရှိပါ"
+  "expense_time_hint": "🕐 အချိန် (HH:MM)",  "add_expense_button": "💰 ကုန်ကျစရိတ် ထည့်သွင်းရန်",
+  "no_data_available": "📭 မှတ်တမ်း မရှိပါ",
+  
+  "show_filters": "🔍 စစ်ခြေးမှု ပြရန်",
+  "hide_filters": "🔍 စစ်ခြေးမှု ဖျောက်ရန်",
+  "apply_filters": "✅ စစ်ခြေးမှု သုံးရန်",
+  "clear_filters": "🗑️ စစ်ခြေးမှု ရှင်းရန်",
+  "from_date": "စရက်မှ",
+  "to_date": "ရက်သည့်အထိ",
+  "filter_results": "{total} မှ {count} ကုန်ကျစရိတ် တွေ့ရှိသည်",
+  "filters_cleared": "စစ်ခြေးမှုများ ရှင်းလင်းပြီး"
 }

@@ -51,4 +51,16 @@
     <color name="card_border_color">@color/light_card_border</color>
     <color name="input_border_color">@color/light_input_border</color>
     <color name="icon_color">@color/icon_color_light</color>
+
+    <!-- Enhanced Selection UI Colors -->
+    <color name="selection_card_background">#FFF3E5F5</color>
+    <color name="selection_text_color">#FF6A1B9A</color>
+    <color name="selection_count_color">#FFFFFFFF</color>
+    <color name="delete_button_color">#FFF44336</color>
+    <color name="cancel_button_color">#FF757575</color>
+    <color name="filter_button_color">#FF2196F3</color>
+
+    <!-- Dark Theme Selection Colors -->
+    <color name="selection_card_background_dark">#FF2D1B69</color>
+    <color name="selection_text_color_dark">#FFCE93D8</color>
 </resources>

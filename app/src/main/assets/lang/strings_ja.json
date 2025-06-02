@@ -278,8 +278,16 @@
   "expense_moved_to_history": "💾 支出は履歴に移動されました。復元するには履歴を確認してください。",
   "expense_name_hint": "💼 支出名",
   "expense_price_hint": "💵 価格",
-  "expense_description_hint": "📝 説明（任意）",
-  "expense_date_hint": "📅 日付 (DD/MM/YYYY)",
+  "expense_description_hint": "📝 説明（任意）",  "expense_date_hint": "📅 日付 (DD/MM/YYYY)",
   "expense_time_hint": "🕐 時間 (HH:MM)",  "add_expense_button": "💰 支出を追加",
-  "no_data_available": "📭 データがありません"
+  "no_data_available": "📭 データがありません",
+  
+  "show_filters": "🔍 フィルターを表示",
+  "hide_filters": "🔍 フィルターを非表示",
+  "apply_filters": "✅ フィルターを適用",
+  "clear_filters": "🗑️ フィルターをクリア",
+  "from_date": "開始日",
+  "to_date": "終了日",
+  "filter_results": "{total}件中{count}件の支出が見つかりました",
+  "filters_cleared": "フィルターがクリアされました"
 }

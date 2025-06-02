@@ -41,13 +41,13 @@ function Test-TranslationFiles {
 
 # Function to test no data functionality
 function Test-NoDataFunctionality {
-    Write-Host "`n--- Testing 'No Data Available' Functionality ---" -ForegroundColor Cyan
+    Write-Host "`n--- Testing 'no record available' Functionality ---" -ForegroundColor Cyan
     
     # Launch app and navigate to expense list
     adb shell am start -n com.example.myapplication/com.example.myapplication.MainActivity
     Start-Sleep 3
     
-    Write-Host "✓ App launched - check if 'No data available' message appears when list is empty" -ForegroundColor Green
+    Write-Host "✓ App launched - check if 'no record available' message appears when list is empty" -ForegroundColor Green
     Write-Host "✓ Message should be translated based on current language setting" -ForegroundColor Green
 }
 
@@ -94,7 +94,7 @@ Write-Host "   - Chinese (zh)" -ForegroundColor White
 Write-Host "   - Japanese (ja)" -ForegroundColor White
 
 Write-Host "`n✅ Features implemented:" -ForegroundColor Green
-Write-Host "   - 'No data available' message in ExpenseListFragment" -ForegroundColor White
+Write-Host "   - 'no record available' message in ExpenseListFragment" -ForegroundColor White
 Write-Host "   - Complete form translation in ExpenseDetailActivity" -ForegroundColor White
 Write-Host "   - All form labels with emoji icons" -ForegroundColor White
 Write-Host "   - Dynamic title updates (Add/Edit modes)" -ForegroundColor White
