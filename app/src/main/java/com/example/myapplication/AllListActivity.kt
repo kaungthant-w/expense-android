@@ -10,6 +10,8 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
 import androidx.cardview.widget.CardView
@@ -36,6 +38,25 @@ class AllListActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
     // Navigation Drawer components
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var navigationView: NavigationView
+
+    // Activity result launcher for expense editing
+    private val expenseDetailLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == RESULT_OK) {
+            val data = result.data
+            val shouldDelete = data?.getBooleanExtra("delete_expense", false) ?: false
+            
+            if (shouldDelete) {
+                // Handle delete from detail activity
+                val expenseId = data?.getLongExtra("expense_id", -1L) ?: -1L
+                handleExpenseDelete(expenseId)
+            } else {
+                // Handle save/edit from detail activity
+                handleExpenseSave(data)
+            }
+        }
+    }
 
     // Selection components
     private lateinit var layoutSelectionControls: CardView
@@ -144,21 +165,18 @@ class AllListActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
         setupMonthSpinner()
     }
 
-    private fun setupDatePickerFields() {
-        editTextStartDate.setOnClickListener {
-            showDatePickerDialog(editTextStartDate) { date ->
+    private fun setupDatePickerFields() {        editTextStartDate.setOnClickListener {
+            showDatePickerDialog { date ->
                 editTextStartDate.setText(date)
             }
         }
         
         editTextEndDate.setOnClickListener {
-            showDatePickerDialog(editTextEndDate) { date ->
+            showDatePickerDialog { date ->
                 editTextEndDate.setText(date)
             }
         }
-    }
-
-    private fun showDatePickerDialog(editText: EditText, onDateSelected: (String) -> Unit) {
+    }    private fun showDatePickerDialog(onDateSelected: (String) -> Unit) {
         val calendar = Calendar.getInstance()
         val datePickerDialog = DatePickerDialog(
             this,
@@ -367,18 +385,17 @@ class AllListActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
         allExpenses.clear()
         allExpenses.addAll(originalExpenses)
         allListAdapter.notifyDataSetChanged()
-    }
-
-    private fun setupSharedPreferences() {
-        sharedPreferences = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
+    }    private fun setupSharedPreferences() {
+        sharedPreferences = getSharedPreferences("expense_prefs", Context.MODE_PRIVATE)
         currencyManager = CurrencyManager.getInstance(this)
-    }
-
-    private fun setupRecyclerView() {
+    }private fun setupRecyclerView() {
         allListAdapter = AllListAdapter(allExpenses) { item ->
             if (isSelectionMode) {
                 allListAdapter.toggleSelection(item)
                 updateSelectionUI()
+            } else {
+                // Open expense for editing when not in selection mode
+                openExpenseForEdit(item)
             }
         }
         recyclerView.layoutManager = LinearLayoutManager(this)
@@ -394,21 +411,107 @@ class AllListActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
         allExpenses.clear()
         allExpenses.addAll(activeExpenses)
         allListAdapter.notifyDataSetChanged()
-    }
-
-    private fun loadAllStoredExpenses(): List<ExpenseItem> {
+    }    private fun loadAllStoredExpenses(): List<ExpenseItem> {
         return try {
-            val expensesJson = sharedPreferences.getString("all_expenses", "[]") ?: "[]"
+            val expensesJson = sharedPreferences.getString("expenses", "[]") ?: "[]"
             val type = object : TypeToken<List<ExpenseItem>>() {}.type
             gson.fromJson(expensesJson, type) ?: emptyList()
         } catch (e: Exception) {
             emptyList()
         }
+    }    private fun saveExpenses(expenses: List<ExpenseItem>) {
+        val expensesJson = gson.toJson(expenses)
+        sharedPreferences.edit().putString("expenses", expensesJson).apply()
     }
 
-    private fun saveExpenses(expenses: List<ExpenseItem>) {
-        val expensesJson = gson.toJson(expenses)
-        sharedPreferences.edit().putString("all_expenses", expensesJson).apply()
+    private fun openExpenseForEdit(expense: ExpenseItem) {
+        val intent = Intent(this, ExpenseDetailActivity::class.java)
+        intent.putExtra("expense_id", expense.id)
+        intent.putExtra("expense_name", expense.name)
+        intent.putExtra("expense_price", expense.price)
+        intent.putExtra("expense_description", expense.description)
+        intent.putExtra("expense_date", expense.date)
+        intent.putExtra("expense_time", expense.time)
+        intent.putExtra("expense_currency", expense.currency)
+        
+        expenseDetailLauncher.launch(intent)
+    }
+
+    private fun handleExpenseDelete(expenseId: Long) {
+        if (expenseId != -1L) {
+            val allStoredExpenses = loadAllStoredExpenses().toMutableList()
+            val expenseIndex = allStoredExpenses.indexOfFirst { it.id == expenseId }
+            
+            if (expenseIndex != -1) {
+                val expense = allStoredExpenses[expenseIndex]
+                // Mark as deleted with timestamp
+                val dateFormat = SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault())
+                val updatedExpense = expense.copy(
+                    isDeleted = true,
+                    deletedAt = dateFormat.format(Date())
+                )
+                allStoredExpenses[expenseIndex] = updatedExpense
+                
+                // Save all expenses and reload active ones
+                saveExpenses(allStoredExpenses)
+                loadAllExpenses()
+                
+                Toast.makeText(this, "💾 Expense moved to history. Check History to restore.", Toast.LENGTH_LONG).show()
+            }
+        }
+    }
+
+    private fun handleExpenseSave(data: Intent?) {
+        if (data != null) {
+            val expenseId = data.getLongExtra("expense_id", -1L)
+            val isNewExpense = data.getBooleanExtra("is_new_expense", false)
+            
+            if (expenseId != -1L) {
+                val name = data.getStringExtra("expense_name") ?: ""
+                val price = data.getDoubleExtra("expense_price", 0.0)
+                val description = data.getStringExtra("expense_description") ?: ""
+                val date = data.getStringExtra("expense_date") ?: ""
+                val time = data.getStringExtra("expense_time") ?: ""
+                val currency = data.getStringExtra("expense_currency") ?: "USD"
+                
+                val allStoredExpenses = loadAllStoredExpenses().toMutableList()
+                
+                if (isNewExpense) {
+                    // Add new expense (shouldn't happen in AllListActivity, but handle it)
+                    val newExpense = ExpenseItem(
+                        id = expenseId,
+                        name = name,
+                        price = price,
+                        description = description,
+                        date = date,
+                        time = time,
+                        currency = currency
+                    )
+                    allStoredExpenses.add(newExpense)
+                    Toast.makeText(this, "✅ Expense added successfully", Toast.LENGTH_SHORT).show()
+                } else {
+                    // Update existing expense
+                    val expenseIndex = allStoredExpenses.indexOfFirst { it.id == expenseId }
+                    if (expenseIndex != -1) {
+                        val existingExpense = allStoredExpenses[expenseIndex]
+                        val updatedExpense = existingExpense.copy(
+                            name = name,
+                            price = price,
+                            description = description,
+                            date = date,
+                            time = time,
+                            currency = currency
+                        )
+                        allStoredExpenses[expenseIndex] = updatedExpense
+                        Toast.makeText(this, "✅ Expense updated successfully", Toast.LENGTH_SHORT).show()
+                    }
+                }
+                
+                // Save all expenses and reload active ones
+                saveExpenses(allStoredExpenses)
+                loadAllExpenses()
+            }
+        }
     }
 
     private fun setupNavigationDrawer() {
@@ -509,8 +612,7 @@ class AllListActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
 
         override fun getItemCount(): Int = expenses.size
 
-        inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-            private val textViewName: TextView = itemView.findViewById(R.id.textViewName)
+        inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {            private val textViewName: TextView = itemView.findViewById(R.id.textViewName)
             private val textViewPrice: TextView = itemView.findViewById(R.id.textViewPrice)
             private val textViewDescription: TextView = itemView.findViewById(R.id.textViewDescription)
             private val textViewDateTime: TextView = itemView.findViewById(R.id.textViewDateTime)
@@ -518,7 +620,11 @@ class AllListActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
 
             fun bind(expense: ExpenseItem) {
                 textViewName.text = expense.name
-                textViewPrice.text = currencyManager.formatCurrency(expense.price)
+                
+                // Use proper currency conversion for display
+                val displayAmount = currencyManager.getDisplayAmountFromStored(expense.price, expense.currency)
+                textViewPrice.text = currencyManager.formatCurrency(displayAmount)
+                
                 textViewDescription.text = expense.description
                 textViewDateTime.text = "📅 ${expense.date} • 🕐 ${expense.time}"
 
