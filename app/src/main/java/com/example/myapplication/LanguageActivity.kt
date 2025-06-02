@@ -8,11 +8,10 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 
-class LanguageActivity : AppCompatActivity() {
+class LanguageActivity : BaseActivity() {
     
     private lateinit var spinnerLanguage: Spinner
     private lateinit var buttonApply: Button
-    private lateinit var languageManager: LanguageManager
     private lateinit var languageAdapter: LanguageSpinnerAdapter
     private var selectedLanguageCode: String = ""
 
@@ -21,12 +20,16 @@ class LanguageActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_language)
         
-        languageManager = LanguageManager.getInstance(this)
-        
         initViews()
         setupSpinner()
         setupClickListeners()
         updateUITexts()
+    }
+
+    override fun onLanguageChanged() {
+        // Update the UI immediately when language changes
+        updateUITexts()
+        // Don't recreate this activity since user is actively changing language
     }
 
     private fun applyTheme() {
@@ -88,13 +91,16 @@ class LanguageActivity : AppCompatActivity() {
         // Refresh spinner adapter to use new language
         val languages = languageManager.getAvailableLanguages()
         languageAdapter.updateLanguages(languages)
-    }
-
-    private fun applyLanguageChange() {
+    }    private fun applyLanguageChange() {
         if (selectedLanguageCode != languageManager.getCurrentLanguage()) {
             languageManager.setLanguage(selectedLanguageCode)
             showLanguageChangedMessage()
             updateUITexts()
+            
+            // Small delay to let user see the success message before finishing
+            buttonApply.postDelayed({
+                finish()
+            }, 1000)
         } else {
             finish()
         }

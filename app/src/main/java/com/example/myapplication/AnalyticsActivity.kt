@@ -17,21 +17,18 @@ import com.google.gson.reflect.TypeToken
 import java.text.SimpleDateFormat
 import java.util.*
 
-class AnalyticsActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
-      private lateinit var sharedPreferences: SharedPreferences
+class AnalyticsActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {    private lateinit var sharedPreferences: SharedPreferences
     private lateinit var currencyManager: CurrencyManager
-    private lateinit var languageManager: LanguageManager
     private val gson = Gson()
-    
-    // Navigation Drawer components
+      // Navigation Drawer components
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var navigationView: NavigationView
-      override fun onCreate(savedInstanceState: Bundle?) {
+    
+    override fun onCreate(savedInstanceState: Bundle?) {
         applyTheme()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_analytics)
         
-        languageManager = LanguageManager.getInstance(this)
         setupActionBar()
         initViews()
         setupNavigationDrawer()

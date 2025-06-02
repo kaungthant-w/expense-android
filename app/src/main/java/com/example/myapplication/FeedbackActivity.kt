@@ -11,13 +11,12 @@ import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
 
-class FeedbackActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class FeedbackActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
     
     private lateinit var radioGroupRating: RadioGroup
     private lateinit var editTextFeedback: EditText
@@ -25,12 +24,12 @@ class FeedbackActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
     private lateinit var buttonSubmit: Button
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var navigationView: NavigationView
-    private lateinit var languageManager: LanguageManager
-      override fun onCreate(savedInstanceState: Bundle?) {
+    
+    override fun onCreate(savedInstanceState: Bundle?) {
         applyTheme()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_feedback)
-          languageManager = LanguageManager.getInstance(this)
+        
         setupActionBar()
         initViews()
         setupClickListeners()
@@ -49,11 +48,13 @@ class FeedbackActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
             ThemeActivity.THEME_SYSTEM -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
         }
     }
-      private fun setupActionBar() {
+    
+    private fun setupActionBar() {
         supportActionBar?.title = languageManager.getString("feedback_title")
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
-      private fun updateUITexts() {
+    
+    private fun updateUITexts() {
         // Update action bar title
         supportActionBar?.title = languageManager.getString("feedback_title")
         
@@ -68,9 +69,12 @@ class FeedbackActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         findViewById<RadioButton>(R.id.radioButtonExcellent).text = languageManager.getString("rating_excellent")
         findViewById<RadioButton>(R.id.radioButtonGood).text = languageManager.getString("rating_good")
         findViewById<RadioButton>(R.id.radioButtonAverage).text = languageManager.getString("rating_average")
-          // Update other text views
+        
+        // Update other text views
         findViewById<TextView>(R.id.textViewFeedbackLabel)?.text = "📝 " + languageManager.getString("feedback_label")
-    }private fun initViews() {
+    }
+    
+    private fun initViews() {
         radioGroupRating = findViewById(R.id.radioGroupRating)
         editTextFeedback = findViewById(R.id.editTextFeedback)
         editTextEmail = findViewById(R.id.editTextEmail)
@@ -89,19 +93,22 @@ class FeedbackActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
             submitFeedback()
         }
     }
-      private fun setupNavigationDrawer() {
+    
+    private fun setupNavigationDrawer() {
         navigationView.setNavigationItemSelectedListener(this)
         
         // Set feedback as checked
         navigationView.setCheckedItem(R.id.nav_feedback)
     }
-      private fun submitFeedback() {
+    
+    private fun submitFeedback() {
         val selectedRatingId = radioGroupRating.checkedRadioButtonId
         if (selectedRatingId == -1) {
             Toast.makeText(this, languageManager.getString("please_select_rating"), Toast.LENGTH_SHORT).show()
             return
         }
-          val rating = when (selectedRatingId) {
+        
+        val rating = when (selectedRatingId) {
             R.id.radioButtonExcellent -> languageManager.getString("rating_excellent")
             R.id.radioButtonGood -> languageManager.getString("rating_good")
             R.id.radioButtonAverage -> languageManager.getString("rating_average")
@@ -117,7 +124,9 @@ class FeedbackActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         }
         
         sendFeedbackEmail(rating, feedback, email)
-    }    private fun sendFeedbackEmail(rating: String, feedback: String, userEmail: String) {
+    }
+    
+    private fun sendFeedbackEmail(rating: String, feedback: String, userEmail: String) {
         val subject = languageManager.getString("feedback_subject")
         val body = """
             ${languageManager.getString("email_rating")}: $rating
@@ -205,7 +214,8 @@ class FeedbackActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
             R.id.nav_settings -> {
                 startActivity(Intent(this, SettingsActivity::class.java))
                 finish()
-            }            R.id.nav_feedback -> {
+            }
+            R.id.nav_feedback -> {
                 // Already on feedback, just close drawer
                 drawerLayout.closeDrawer(GravityCompat.START)
                 return true
@@ -220,6 +230,7 @@ class FeedbackActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         return true
     }
     
+    @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START)

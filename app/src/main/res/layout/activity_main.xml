@@ -27,7 +27,8 @@
                 android:background="?attr/colorPrimary"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
                 app:title="HsuPar Expense"
-                app:titleTextColor="@android:color/white" />        </com.google.android.material.appbar.AppBarLayout>
+                app:titleTextColor="@android:color/white" />
+        </com.google.android.material.appbar.AppBarLayout>
 
         <!-- Main Content with proper scrolling -->
         <LinearLayout
@@ -35,10 +36,9 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:padding="10dp"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-            <!-- Input Form Card -->
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">            <!-- Today's Summary Card -->
             <androidx.cardview.widget.CardView
+                android:id="@+id/todaySummaryCard"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="10dp"
@@ -52,127 +52,94 @@
                     android:orientation="vertical"
                     android:padding="20dp">
 
-                    <!-- Name -->
-                    <EditText
-                        android:id="@+id/editTextName"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="💼 Expense Name"
-                        android:layout_marginBottom="16dp"
-                        android:background="@drawable/input_background"
-                        android:padding="12dp"
-                        android:textColor="?attr/textPrimaryColor"
-                        android:textColorHint="?attr/textSecondaryColor"
-                        android:textSize="16sp" />
-
-                    <!-- Price -->
-                    <EditText
-                        android:id="@+id/editTextPrice"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="💵 Price"
-                        android:inputType="numberDecimal"
-                        android:layout_marginBottom="16dp"
-                        android:background="@drawable/input_background"
-                        android:padding="12dp"
-                        android:textColor="?attr/textPrimaryColor"
-                        android:textColorHint="?attr/textSecondaryColor"
-                        android:textSize="16sp" />
-
-                    <!-- See More Text -->
                     <TextView
-                        android:id="@+id/buttonSeeMoreInputOptions"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="See More"
-                        android:textSize="14sp"
-                        android:textColor="?attr/accentColor"
-                        android:textStyle="bold"
-                        android:padding="12dp"
-                        android:layout_marginBottom="16dp"
-                        android:layout_gravity="start"
-                        android:clickable="true"
-                        android:focusable="true" />
-
-                    <!-- Hidden Fields Container -->
-                    <LinearLayout
-                        android:id="@+id/layoutAdditionalOptions"
+                        android:id="@+id/todaySummaryTitle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:visibility="gone">
+                        android:text="📅 Today's Summary"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:textColor="?attr/textPrimaryColor"
+                        android:layout_marginBottom="16dp" />
 
-                        <!-- Description -->
-                        <EditText
-                            android:id="@+id/editTextDescription"
-                            android:layout_width="match_parent"
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="8dp">
+
+                        <TextView
+                            android:id="@+id/todayExpensesLabel"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:hint="📝 Description (Optional)"
-                            android:layout_marginBottom="16dp"
-                            android:background="@drawable/input_background"
-                            android:padding="12dp"
-                            android:textColor="?attr/textPrimaryColor"
-                            android:textColorHint="?attr/textSecondaryColor"
-                            android:textSize="16sp" />
+                            android:layout_weight="1"
+                            android:text="💰 Total Expenses:"
+                            android:textSize="14sp"
+                            android:textColor="?attr/textSecondaryColor" />
 
-                        <!-- Date -->
-                        <EditText
-                            android:id="@+id/editTextDate"
-                            android:layout_width="match_parent"
+                        <TextView
+                            android:id="@+id/todayExpensesCount"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:hint="📅 Date (DD/MM/YYYY)"
-                            android:layout_marginBottom="16dp"
-                            android:background="@drawable/input_background"
-                            android:padding="12dp"
-                            android:textColor="?attr/textPrimaryColor"
-                            android:textColorHint="?attr/textSecondaryColor"
-                            android:textSize="16sp"
-                            android:clickable="true"
-                            android:focusable="false" />
-
-                        <!-- Time -->
-                        <EditText
-                            android:id="@+id/editTextTime"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:hint="🕐 Time (HH:MM)"
-                            android:layout_marginBottom="16dp"
-                            android:background="@drawable/input_background"
-                            android:padding="12dp"
-                            android:textColor="?attr/textPrimaryColor"
-                            android:textColorHint="?attr/textSecondaryColor"
-                            android:textSize="16sp"
-                            android:clickable="true"
-                            android:focusable="false" />
-
+                            android:text="0"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            android:textColor="?attr/textPrimaryColor" />
                     </LinearLayout>
 
-                    <!-- Add Button -->
-                    <Button
-                        android:id="@+id/buttonAdd"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="💰 Add Expense"
-                        android:textSize="12sp"
-                        android:textStyle="bold"
-                        android:background="@drawable/glassmorphism_button"
-                        android:textColor="@android:color/white"
-                        android:padding="12dp"
-                        android:elevation="4dp" />
+                        android:orientation="horizontal">
 
-                </LinearLayout>            </androidx.cardview.widget.CardView>
+                        <TextView
+                            android:id="@+id/todayAmountLabel"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="💵 Total Amount:"
+                            android:textSize="14sp"
+                            android:textColor="?attr/textSecondaryColor" />
 
-            <!-- Expenses List with proper vertical scrolling -->
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerViewExpenses"
+                        <TextView
+                            android:id="@+id/todayTotalAmount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="$0.00"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            android:textColor="?attr/textPrimaryColor" />
+                    </LinearLayout>
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>            <!-- TabLayout for Data Lists -->
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tabLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/colorPrimary"
+                app:tabIndicatorColor="@android:color/white"
+                app:tabSelectedTextColor="@android:color/white"
+                app:tabTextColor="?attr/accentColor" />
+
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/viewPager"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1"
-                android:scrollbars="vertical"
-                android:fadeScrollbars="false"
-                android:layout_marginBottom="16dp" />
+                android:layout_weight="1" />
 
         </LinearLayout>
+
+        <!-- Floating Action Button -->
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="16dp"
+            android:src="@drawable/ic_add"
+            android:contentDescription="@string/add_expense"
+            app:backgroundTint="?attr/accentColor" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

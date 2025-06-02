@@ -38,7 +38,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="📊 Expense Summary"
+                android:text="@string/summary_expense_title"
                 android:textSize="24sp"
                 android:textStyle="bold"
                 android:gravity="center_vertical"
@@ -64,7 +64,7 @@
                     android:id="@+id/textViewOverallStats"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="💰 Overall Statistics"
+                    android:text="@string/summary_overall_statistics"
                     android:textSize="18sp"
                     android:textStyle="bold"
                     android:textColor="?attr/textPrimaryColor"
@@ -78,7 +78,8 @@
                         android:id="@+id/textViewTotalExpensesLabel"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"                        android:text="Total Expenses:"
+                        android:layout_weight="1"
+                        android:text="@string/total_expenses"
                         android:textSize="14sp"
                         android:textColor="?attr/textSecondaryColor" />
 
@@ -102,7 +103,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Total Amount:"
+                        android:text="@string/total_amount"
                         android:textSize="14sp"
                         android:textColor="?attr/textSecondaryColor" />
 
@@ -125,7 +126,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Average Amount:"
+                        android:text="@string/average_amount"
                         android:textSize="14sp"
                         android:textColor="?attr/textSecondaryColor" />
 
@@ -162,7 +163,7 @@
                     android:id="@+id/textViewTodaysSummary"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="📅 Today's Summary"
+                    android:text="@string/summary_today_summary"
                     android:textSize="18sp"
                     android:textStyle="bold"
                     android:textColor="?attr/textPrimaryColor"
@@ -177,7 +178,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Today's Expenses:"
+                        android:text="@string/summary_today_expenses"
                         android:textSize="14sp"
                         android:textColor="?attr/textSecondaryColor" />
 
@@ -200,7 +201,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Today's Total:"
+                        android:text="@string/summary_today_total"
                         android:textSize="14sp"
                         android:textColor="?attr/textSecondaryColor" />
 
@@ -237,7 +238,7 @@
                     android:id="@+id/textViewMonthSummary"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="📊 This Month's Summary"
+                    android:text="@string/summary_month_summary"
                     android:textSize="18sp"
                     android:textStyle="bold"
                     android:textColor="?attr/textPrimaryColor"
@@ -252,7 +253,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Month's Expenses:"
+                        android:text="@string/summary_month_expenses"
                         android:textSize="14sp"
                         android:textColor="?attr/textSecondaryColor" />
 
@@ -275,7 +276,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Month's Total:"
+                        android:text="@string/summary_month_total"
                         android:textSize="14sp"
                         android:textColor="?attr/textSecondaryColor" />
 
@@ -312,7 +313,7 @@
                     android:id="@+id/textViewExpenseExtremes"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="📈 Expense Extremes"
+                    android:text="@string/summary_expense_extremes"
                     android:textSize="18sp"
                     android:textStyle="bold"
                     android:textColor="?attr/textPrimaryColor"
@@ -320,16 +321,14 @@
                     android:id="@+id/textViewHighestExpenseLabel"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Highest Expense:"
+                    android:text="@string/highest_expense"
                     android:textSize="14sp"
                     android:textColor="?attr/textSecondaryColor"
-                    android:layout_marginBottom="4dp" />
-
-                <TextView
+                    android:layout_marginBottom="4dp" />                <TextView
                     android:id="@+id/textHighestExpense"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="No expenses yet"
+                    android:text="@string/summary_no_expenses_yet"
                     android:textSize="14sp"
                     android:textStyle="bold"
                     android:textColor="#F44336"
@@ -337,16 +336,14 @@
                     android:id="@+id/textViewLowestExpenseLabel"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Lowest Expense:"
+                    android:text="@string/lowest_expense"
                     android:textSize="14sp"
                     android:textColor="?attr/textSecondaryColor"
-                    android:layout_marginBottom="4dp" />
-
-                <TextView
+                    android:layout_marginBottom="4dp" />                <TextView
                     android:id="@+id/textLowestExpense"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="No expenses yet"
+                    android:text="@string/summary_no_expenses_yet"
                     android:textSize="14sp"
                     android:textStyle="bold"
                     android:textColor="#4CAF50" />

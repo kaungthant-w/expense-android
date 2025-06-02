@@ -15,7 +15,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import java.text.SimpleDateFormat
 import java.util.*
 
-class ExpenseDetailActivity : AppCompatActivity() {
+class ExpenseDetailActivity : BaseActivity() {
     
     private lateinit var editTextName: EditText
     private lateinit var editTextPrice: EditText
@@ -26,8 +26,7 @@ class ExpenseDetailActivity : AppCompatActivity() {
     private lateinit var buttonDelete: Button
     private lateinit var buttonBack: ImageButton
     private lateinit var currencyManager: CurrencyManager
-    private lateinit var languageManager: LanguageManager
-      private var expenseId: Long = -1
+    private var expenseId: Long = -1
     private var isNewExpense = true
     
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,7 +34,6 @@ class ExpenseDetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_expense_detail)
           currencyManager = CurrencyManager.getInstance(this)
-        languageManager = LanguageManager.getInstance(this)
         initViews()
         setupData()
         setupClickListeners()

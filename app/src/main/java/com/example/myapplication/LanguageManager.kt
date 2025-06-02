@@ -1,7 +1,9 @@
 package com.example.myapplication
 
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.io.InputStreamReader
@@ -15,6 +17,7 @@ class LanguageManager private constructor(private val context: Context) {
         const val LANGUAGE_MYANMAR = "mm"
         const val LANGUAGE_CHINESE = "zh"
         const val LANGUAGE_JAPANESE = "ja"
+        const val LANGUAGE_CHANGED_ACTION = "com.example.myapplication.LANGUAGE_CHANGED"
         
         @Volatile
         private var INSTANCE: LanguageManager? = null

@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:background="@drawable/card_background">
+
+    <!-- Dialog Title -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="💰 Add New Expense"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="?attr/textPrimaryColor"
+        android:gravity="center"
+        android:layout_marginBottom="20dp" />
+
+    <!-- Name -->
+    <EditText
+        android:id="@+id/editTextName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="💼 Expense Name"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/input_background"
+        android:padding="12dp"
+        android:textColor="?attr/textPrimaryColor"
+        android:textColorHint="?attr/textSecondaryColor"
+        android:textSize="16sp" />
+
+    <!-- Price -->
+    <EditText
+        android:id="@+id/editTextPrice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="💵 Price"
+        android:inputType="numberDecimal"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/input_background"
+        android:padding="12dp"
+        android:textColor="?attr/textPrimaryColor"
+        android:textColorHint="?attr/textSecondaryColor"
+        android:textSize="16sp" />
+
+    <!-- See More Text -->
+    <TextView
+        android:id="@+id/buttonSeeMoreInputOptions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="See More"
+        android:textSize="14sp"
+        android:textColor="?attr/accentColor"
+        android:textStyle="bold"
+        android:padding="12dp"
+        android:layout_marginBottom="16dp"
+        android:layout_gravity="start"
+        android:clickable="true"
+        android:focusable="true" />
+
+    <!-- Hidden Fields Container -->
+    <LinearLayout
+        android:id="@+id/layoutAdditionalOptions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <!-- Description -->
+        <EditText
+            android:id="@+id/editTextDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="📝 Description (Optional)"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/input_background"
+            android:padding="12dp"
+            android:textColor="?attr/textPrimaryColor"
+            android:textColorHint="?attr/textSecondaryColor"
+            android:textSize="16sp" />
+
+        <!-- Date -->
+        <EditText
+            android:id="@+id/editTextDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="📅 Date (DD/MM/YYYY)"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/input_background"
+            android:padding="12dp"
+            android:textColor="?attr/textPrimaryColor"
+            android:textColorHint="?attr/textSecondaryColor"
+            android:textSize="16sp"
+            android:clickable="true"
+            android:focusable="false" />
+
+        <!-- Time -->
+        <EditText
+            android:id="@+id/editTextTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="🕐 Time (HH:MM)"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/input_background"
+            android:padding="12dp"
+            android:textColor="?attr/textPrimaryColor"
+            android:textColorHint="?attr/textSecondaryColor"
+            android:textSize="16sp"
+            android:clickable="true"
+            android:focusable="false" />
+
+    </LinearLayout>
+
+    <!-- Dialog Buttons -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="20dp">
+
+        <Button
+            android:id="@+id/buttonCancel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="❌ Cancel"
+            android:textSize="14sp"
+            android:background="@drawable/input_background"
+            android:textColor="?attr/textSecondaryColor"
+            android:padding="12dp"
+            android:layout_marginEnd="8dp" />
+
+        <Button
+            android:id="@+id/buttonAdd"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="💰 Add Expense"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:background="@drawable/glassmorphism_button"
+            android:textColor="@android:color/white"
+            android:padding="12dp"
+            android:elevation="4dp"
+            android:layout_marginStart="8dp" />
+
+    </LinearLayout>
+
+</LinearLayout>

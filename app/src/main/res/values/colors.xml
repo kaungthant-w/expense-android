@@ -30,6 +30,7 @@
     <color name="dark_input_border">#FF505050</color>
     
     <!-- Common Colors -->
+    <color name="colorPrimary">#FF4CAF50</color>
     <color name="accent_color">#FF4CAF50</color>
     <color name="error_color">#FFF44336</color>
     <color name="edit_color">#FF2196F3</color>

@@ -38,7 +38,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="📈 Expense Analytics"
+                android:text="@string/analytics_expense_title"
                 android:textSize="24sp"
                 android:textStyle="bold"
                 android:gravity="center_vertical"
@@ -64,7 +64,7 @@
                     android:id="@+id/textWeeklyAnalysisTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="📅 Weekly Analysis"
+                    android:text="@string/analytics_weekly_analysis"
                     android:textSize="18sp"
                     android:textStyle="bold"
                     android:textColor="#1A1A1A"
@@ -79,7 +79,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="This Week's Expenses:"
+                        android:text="@string/analytics_this_week_expenses"
                         android:textSize="14sp"
                         android:textColor="#333333" />
 
@@ -103,7 +103,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="This Week's Total:"
+                        android:text="@string/analytics_this_week_total"
                         android:textSize="14sp"
                         android:textColor="#333333" />
 
@@ -126,7 +126,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Average per Day:"
+                        android:text="@string/analytics_average_per_day"
                         android:textSize="14sp"
                         android:textColor="#333333" />
 
@@ -163,7 +163,7 @@
                     android:id="@+id/textDayOfWeekAnalysisTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="📊 Day of Week Analysis"
+                    android:text="@string/analytics_day_of_week_analysis"
                     android:textSize="18sp"
                     android:textStyle="bold"
                     android:textColor="#1A1A1A"
@@ -171,16 +171,14 @@
                     android:id="@+id/textMostExpensiveDayLabel"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Most Expensive Day:"
+                    android:text="@string/analytics_most_expensive_day_label"
                     android:textSize="14sp"
                     android:textColor="#333333"
-                    android:layout_marginBottom="4dp" />
-
-                <TextView
+                    android:layout_marginBottom="4dp" />                <TextView
                     android:id="@+id/textMostExpensiveDay"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="No data available"
+                    android:text="@string/analytics_no_data_available"
                     android:textSize="14sp"
                     android:textStyle="bold"
                     android:textColor="#F44336"
@@ -188,17 +186,15 @@
                     android:id="@+id/textLeastExpensiveDayLabel"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Least Expensive Day:"
+                    android:text="@string/analytics_least_expensive_day_label"
                     android:textSize="14sp"
                     android:textColor="#333333"
                     android:layout_marginBottom="4dp" />
-                    android:layout_marginBottom="4dp" />
-
-                <TextView
+                    android:layout_marginBottom="4dp" />                <TextView
                     android:id="@+id/textLeastExpensiveDay"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="No data available"
+                    android:text="@string/analytics_no_data_available"
                     android:textSize="14sp"
                     android:textStyle="bold"
                     android:textColor="#4CAF50" />
@@ -225,7 +221,7 @@
                     android:id="@+id/textTimeOfDayAnalysisTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="🕐 Time of Day Analysis"
+                    android:text="@string/analytics_time_of_day_analysis"
                     android:textSize="18sp"
                     android:textStyle="bold"
                     android:textColor="#1A1A1A"
@@ -240,7 +236,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Morning (6-11 AM):"
+                        android:text="@string/analytics_morning_label"
                         android:textSize="14sp"
                         android:textColor="#333333" />
 
@@ -264,7 +260,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Afternoon (12-5 PM):"
+                        android:text="@string/analytics_afternoon_label"
                         android:textSize="14sp"
                         android:textColor="#333333" />
 
@@ -283,13 +279,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:layout_marginBottom="8dp">
-
-                    <TextView
+                    android:layout_marginBottom="8dp">                    <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"                        android:id="@+id/textEveningLabel"
-                        android:text="Evening (6-11 PM):"
+                        android:layout_weight="1"
+                        android:id="@+id/textEveningLabel"
+                        android:text="@string/analytics_evening_label"
                         android:textSize="14sp"
                         android:textColor="#333333" />
 
@@ -307,13 +302,12 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
+                    android:orientation="horizontal">                    <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"                        android:id="@+id/textNightLabel"
-                        android:text="Night (12-5 AM):"
+                        android:layout_weight="1"
+                        android:id="@+id/textNightLabel"
+                        android:text="@string/analytics_night_label"
                         android:textSize="14sp"
                         android:textColor="#333333" />
 
@@ -350,17 +344,15 @@
                     android:id="@+id/textTopExpensesTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="🏆 Top 3 Largest Expenses"
+                    android:text="@string/analytics_top_expenses"
                     android:textSize="18sp"
                     android:textStyle="bold"
                     android:textColor="#1A1A1A"
-                    android:layout_marginBottom="16dp" />
-
-                <TextView
+                    android:layout_marginBottom="16dp" />                <TextView
                     android:id="@+id/textTopExpenses"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="No expenses yet"
+                    android:text="@string/analytics_no_expenses_yet"
                     android:textSize="14sp"
                     android:textColor="#333333"
                     android:lineSpacingExtra="4dp" />

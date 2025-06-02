@@ -18,20 +18,17 @@ import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-class SummaryActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class SummaryActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
       private lateinit var sharedPreferences: SharedPreferences
     private lateinit var currencyManager: CurrencyManager
-    private lateinit var languageManager: LanguageManager
     private val gson = Gson()
       // Navigation Drawer components
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var navigationView: NavigationView
     
-    override fun onCreate(savedInstanceState: Bundle?) {
-        applyTheme()
+    override fun onCreate(savedInstanceState: Bundle?) {        applyTheme()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_summary)
-          languageManager = LanguageManager.getInstance(this)
         setupActionBar()
         initViews()
         setupNavigationDrawer()

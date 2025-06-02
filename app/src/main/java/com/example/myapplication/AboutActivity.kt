@@ -13,18 +13,15 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
 
-class AboutActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class AboutActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
     
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var navigationView: NavigationView
-    private lateinit var languageManager: LanguageManager
     
-    override fun onCreate(savedInstanceState: Bundle?) {
-        applyTheme()
+    override fun onCreate(savedInstanceState: Bundle?) {        applyTheme()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_about)
         
-        languageManager = LanguageManager.getInstance(this)
         setupActionBar()
         initViews()
         setupNavigationDrawer()

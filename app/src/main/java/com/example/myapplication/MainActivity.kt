@@ -20,33 +20,27 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.Toolbar
+import androidx.cardview.widget.CardView
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.text.SimpleDateFormat
 import java.util.*
 
-class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
-
-    private lateinit var editTextName: EditText
-    private lateinit var editTextPrice: EditText
-    private lateinit var editTextDescription: EditText
-    private lateinit var editTextDate: EditText
-    private lateinit var editTextTime: EditText
-    private lateinit var addButton: Button
-    private lateinit var buttonSeeMoreInputOptions: TextView
-    private lateinit var layoutAdditionalOptions: LinearLayout
-    private var isAdditionalOptionsVisible = false
-    private lateinit var recyclerView: RecyclerView
+class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
+    
     private lateinit var expenseAdapter: ExpenseAdapter
     private val expenseList = mutableListOf<ExpenseItem>()
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var currencyManager: CurrencyManager
-    private lateinit var languageManager: LanguageManager
     private val gson = Gson()
     private lateinit var toolbar: Toolbar
     
@@ -54,6 +48,18 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var navigationView: NavigationView
     private lateinit var drawerToggle: ActionBarDrawerToggle
+    
+    // New UI components
+    private lateinit var fab: FloatingActionButton
+    private lateinit var todaySummaryCard: CardView
+    private lateinit var todayExpensesCount: TextView
+    private lateinit var todayTotalAmount: TextView
+    private lateinit var todaySummaryTitle: TextView
+    private lateinit var todayExpensesLabel: TextView
+    private lateinit var todayAmountLabel: TextView
+    private lateinit var tabLayout: TabLayout
+    private lateinit var viewPager: ViewPager2
+    private lateinit var viewPagerAdapter: ExpenseViewPagerAdapter
     
     // Activity result launcher for expense detail activity
     private val expenseDetailLauncher = registerForActivityResult(
@@ -74,15 +80,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                         // Mark as deleted with timestamp
                         expenseToDelete.isDeleted = true
                         expenseToDelete.deletedAt = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault()).format(Date())
-                        
-                        // Remove from main list
+                          // Remove from main list
                         expenseList.removeAt(position)
                         expenseAdapter.notifyItemRemoved(position)
                         expenseAdapter.notifyItemRangeChanged(position, expenseList.size)
                         
                         // Save the deleted expense specifically
                         saveDeletedExpense(expenseToDelete)
-                        Toast.makeText(this, "💾 Expense moved to history. Check History to restore.", Toast.LENGTH_LONG).show()
+                        Toast.makeText(this, languageManager.getString("expense_moved_to_history"), Toast.LENGTH_LONG).show()
                     }
                 }
             } else {
@@ -98,21 +103,21 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                         val date = activityResult.getStringExtra("expense_date") ?: ""
                         val time = activityResult.getStringExtra("expense_time") ?: ""
                         val currency = activityResult.getStringExtra("expense_currency") ?: "USD"
-                        
-                        if (isNewExpense) {
+                          if (isNewExpense) {
                             // Add new expense
                             val newExpense = ExpenseItem(
                                 id = expenseId,
                                 name = name,
                                 price = price,
                                 description = description,
-                                date = date,                                time = time,
+                                date = date,
+                                time = time,
                                 currency = currency
                             )
                             expenseList.add(newExpense)
                             expenseAdapter.notifyItemInserted(expenseList.size - 1)
                             saveAllExpenses()
-                            Toast.makeText(this, "✅ Expense added successfully!", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this, languageManager.getString("expense_added_successfully"), Toast.LENGTH_SHORT).show()
                         } else {
                             // Update existing expense
                             val position = expenseList.indexOfFirst { it.id == expenseId }
@@ -124,10 +129,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                                 expense.date = date
                                 expense.time = time
                                 expense.currency = currency
-                                
-                                expenseAdapter.notifyItemChanged(position)
+                                  expenseAdapter.notifyItemChanged(position)
                                 saveAllExpenses()
-                                Toast.makeText(this, "✅ Expense updated successfully!", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(this, languageManager.getString("expense_updated_successfully"), Toast.LENGTH_SHORT).show()
                             }
                         }
                     }
@@ -147,9 +151,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         // This will update the main list in case any expenses were restored
         loadExpenses()
     }
-    
-    // Activity result launcher for all list activity
-        private val allListActivityLauncher = registerForActivityResult(
+      // Activity result launcher for all list activity
+    private val allListActivityLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { _ ->
         // Refresh the expense list when returning from all list activity
@@ -157,67 +160,78 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         loadExpenses()
     }
       override fun onCreate(savedInstanceState: Bundle?) {
-        // Apply theme before calling super.onCreate()
-        applyTheme()
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        
-        languageManager = LanguageManager.getInstance(this)
-        initViews()
-        setupSharedPreferences()
-        setupRecyclerView()
-        setupClickListeners()
-        setupToolbar()
-        setupNavigationDrawer()
-        setCurrentDateTime()
-        loadExpenses()
-        updateNavigationMenuTitles()
+        try {
+            // Apply theme before calling super.onCreate()
+            applyTheme()
+            super.onCreate(savedInstanceState)
+            setContentView(R.layout.activity_main)
+
+            initViews()
+            setupSharedPreferences()
+            setupRecyclerView()
+            setupClickListeners()
+            setupToolbar()
+            setupNavigationDrawer()
+            setupViewPager()
+            setupFAB()
+            // setCurrentDateTime() removed: obsolete with modal dialog
+            loadExpenses()
+            updateNavigationMenuTitles()
+            updateUITexts()
+            updateTodaySummary()
+        } catch (e: Exception) {
+            Log.e("MainActivity", "Initialization error", e)
+            Toast.makeText(this, "App error: " + (e.message ?: "Unknown error"), Toast.LENGTH_LONG).show()
+            // Optionally finish() to avoid a blank screen
+            // finish()
+        }
     }
-      override fun onPostCreate(savedInstanceState: Bundle?) {
+
+    override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
         // Sync the toggle state after onRestoreInstanceState has occurred
         drawerToggle.syncState()
     }
-    
-    override fun onResume() {
+      override fun onResume() {
         super.onResume()
         // Refresh expenses when returning to MainActivity
         // This ensures restored items appear in the list
         loadExpenses()
+        // Refresh fragments and summary if they exist
+        if (::viewPagerAdapter.isInitialized) {
+            refreshAllFragments()
+        }
     }
     
-    private fun initViews() {
+    override fun onLanguageChanged() {
+        super.onLanguageChanged()
+        updateNavigationMenuTitles()
+        updateUITexts()
+    }
+      private fun initViews() {
         // Navigation drawer components
         drawerLayout = findViewById<DrawerLayout>(R.id.drawer_layout)
         navigationView = findViewById<NavigationView>(R.id.nav_view)
-        
-        // Main content views
-        editTextName = findViewById<EditText>(R.id.editTextName)
-        editTextPrice = findViewById<EditText>(R.id.editTextPrice)
-        editTextDescription = findViewById<EditText>(R.id.editTextDescription)
-        editTextDate = findViewById<EditText>(R.id.editTextDate)
-        editTextTime = findViewById<EditText>(R.id.editTextTime)
-        addButton = findViewById<Button>(R.id.buttonAdd)
-        buttonSeeMoreInputOptions = findViewById<TextView>(R.id.buttonSeeMoreInputOptions)
-        layoutAdditionalOptions = findViewById<LinearLayout>(R.id.layoutAdditionalOptions)
-        recyclerView = findViewById<RecyclerView>(R.id.recyclerViewExpenses)
         toolbar = findViewById<Toolbar>(R.id.toolbar)
+        // New UI components
+        fab = findViewById<FloatingActionButton>(R.id.fab)
+        todaySummaryCard = findViewById<CardView>(R.id.todaySummaryCard)
+        todayExpensesCount = findViewById<TextView>(R.id.todayExpensesCount)
+        todayTotalAmount = findViewById<TextView>(R.id.todayTotalAmount)
+        todaySummaryTitle = findViewById<TextView>(R.id.todaySummaryTitle)
+        todayExpensesLabel = findViewById<TextView>(R.id.todayExpensesLabel)
+        todayAmountLabel = findViewById<TextView>(R.id.todayAmountLabel)
+        tabLayout = findViewById<TabLayout>(R.id.tabLayout)
+        viewPager = findViewById<ViewPager2>(R.id.viewPager)
     }
-    
-    private fun setupRecyclerView() {        expenseAdapter = ExpenseAdapter(expenseList,
+      private fun setupRecyclerView() {
+        // RecyclerView setup is now handled by ExpenseListFragment
+        // Initialize the adapter for fragment communication
+        expenseAdapter = ExpenseAdapter(expenseList,
             onDeleteClick = { position -> deleteExpenseItem(position) },
             onEditClick = { position -> editExpenseItem(position) },
             onItemClick = { position -> openExpenseDetail(position) }
         )
-        
-        recyclerView.apply {
-            layoutManager = LinearLayoutManager(this@MainActivity)
-            adapter = expenseAdapter
-            // Enable smooth scrolling
-            setHasFixedSize(false)
-            // Add item animator for smooth animations
-            itemAnimator = androidx.recyclerview.widget.DefaultItemAnimator()
-        }
     }
     
     private fun setupSharedPreferences() {
@@ -226,21 +240,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
     
     private fun setupClickListeners() {
-        addButton.setOnClickListener {
-            addExpenseItem()
-        }
-        
-        buttonSeeMoreInputOptions.setOnClickListener {
-            toggleAdditionalOptions()
-        }
-        
-        editTextDate.setOnClickListener {
-            showDatePicker()
-        }
-        
-        editTextTime.setOnClickListener {
-            showTimePicker()
-        }
+        // No-op: old form elements removed, click listeners not needed
     }
       private fun setupToolbar() {
         // Set up the toolbar as the action bar
@@ -265,6 +265,230 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         navigationView.setNavigationItemSelectedListener(this)
     }
     
+    private fun setupViewPager() {
+        viewPagerAdapter = ExpenseViewPagerAdapter(this)
+        viewPager.adapter = viewPagerAdapter
+        
+        TabLayoutMediator(tabLayout, viewPager) { tab, position ->
+            tab.text = viewPagerAdapter.getTabTitle(position)
+        }.attach()
+    }
+      private fun setupFAB() {
+        fab.setOnClickListener {
+            showAddExpenseModal()
+        }
+    }
+    
+    private fun showAddExpenseModal() {
+        val dialogView = layoutInflater.inflate(R.layout.dialog_add_expense_modal, null)
+        
+        // Initialize dialog form elements
+        val modalEditTextName = dialogView.findViewById<EditText>(R.id.editTextName)
+        val modalEditTextPrice = dialogView.findViewById<EditText>(R.id.editTextPrice)
+        val modalEditTextDescription = dialogView.findViewById<EditText>(R.id.editTextDescription)
+        val modalEditTextDate = dialogView.findViewById<EditText>(R.id.editTextDate)
+        val modalEditTextTime = dialogView.findViewById<EditText>(R.id.editTextTime)
+        val modalButtonSeeMore = dialogView.findViewById<TextView>(R.id.buttonSeeMoreInputOptions)
+        val modalLayoutAdditional = dialogView.findViewById<LinearLayout>(R.id.layoutAdditionalOptions)
+        val modalButtonAdd = dialogView.findViewById<Button>(R.id.buttonAdd)
+        val modalButtonCancel = dialogView.findViewById<Button>(R.id.buttonCancel)
+        
+        // Set current date and time
+        val calendar = Calendar.getInstance()
+        val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        val timeFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
+        modalEditTextDate.setText(dateFormat.format(calendar.time))
+        modalEditTextTime.setText(timeFormat.format(calendar.time))
+        
+        // Setup click listeners for modal fields
+        var isModalAdditionalOptionsVisible = false
+        modalButtonSeeMore.setOnClickListener {
+            isModalAdditionalOptionsVisible = !isModalAdditionalOptionsVisible
+            modalLayoutAdditional.visibility = if (isModalAdditionalOptionsVisible) View.VISIBLE else View.GONE
+            modalButtonSeeMore.text = if (isModalAdditionalOptionsVisible) "See Less" else "See More"
+        }
+        
+        modalEditTextDate.setOnClickListener {
+            showDatePickerForModal(modalEditTextDate)
+        }
+        
+        modalEditTextTime.setOnClickListener {
+            showTimePickerForModal(modalEditTextTime)
+        }
+        
+        // Create and show dialog
+        val dialog = AlertDialog.Builder(this)
+            .setView(dialogView)
+            .setCancelable(true)
+            .create()
+        
+        // Setup dialog button actions
+        modalButtonCancel.setOnClickListener {
+            dialog.dismiss()
+        }
+        
+        modalButtonAdd.setOnClickListener {
+            addExpenseFromModal(dialog, modalEditTextName, modalEditTextPrice, modalEditTextDescription, modalEditTextDate, modalEditTextTime)
+        }
+          dialog.show()
+    }
+    
+    private fun showDatePickerForModal(editText: EditText) {
+        val calendar = Calendar.getInstance()
+        val datePickerDialog = DatePickerDialog(
+            this,
+            { _, year, month, dayOfMonth ->
+                val selectedDate = String.format("%02d/%02d/%d", dayOfMonth, month + 1, year)
+                editText.setText(selectedDate)
+            },
+            calendar.get(Calendar.YEAR),
+            calendar.get(Calendar.MONTH),
+            calendar.get(Calendar.DAY_OF_MONTH)
+        )
+        datePickerDialog.show()
+    }
+    
+    private fun showTimePickerForModal(editText: EditText) {
+        val calendar = Calendar.getInstance()
+        val timePickerDialog = TimePickerDialog(
+            this,
+            { _, hourOfDay, minute ->
+                val selectedTime = String.format("%02d:%02d", hourOfDay, minute)
+                editText.setText(selectedTime)
+            },
+            calendar.get(Calendar.HOUR_OF_DAY),
+            calendar.get(Calendar.MINUTE),
+            true
+        )
+        timePickerDialog.show()
+    }
+    
+    private fun addExpenseFromModal(
+        dialog: AlertDialog,
+        modalEditTextName: EditText,
+        modalEditTextPrice: EditText,
+        modalEditTextDescription: EditText,
+        modalEditTextDate: EditText,
+        modalEditTextTime: EditText
+    ) {
+        val name = modalEditTextName.text.toString().trim()
+        val priceText = modalEditTextPrice.text.toString().trim()
+        val description = modalEditTextDescription.text.toString().trim()
+        val date = modalEditTextDate.text.toString().trim()
+        val time = modalEditTextTime.text.toString().trim()
+        
+        // Validation
+        if (name.isEmpty()) {
+            modalEditTextName.error = languageManager.getString("name_required")
+            modalEditTextName.requestFocus()
+            return
+        }
+        
+        if (priceText.isEmpty()) {
+            modalEditTextPrice.error = languageManager.getString("price_required")
+            modalEditTextPrice.requestFocus()
+            return
+        }
+        
+        val price = try {
+            priceText.toDouble()
+        } catch (e: NumberFormatException) {
+            modalEditTextPrice.error = languageManager.getString("invalid_price_format")
+            modalEditTextPrice.requestFocus()
+            return
+        }
+        
+        if (price <= 0) {
+            modalEditTextPrice.error = languageManager.getString("price_must_be_positive")
+            modalEditTextPrice.requestFocus()
+            return
+        }
+          // Create expense item
+        val expenseItem = ExpenseItem(
+            id = System.currentTimeMillis(),
+            name = name,
+            price = price,
+            description = description,
+            date = date,
+            time = time,
+            currency = currencyManager.getStorageCurrency()
+        )
+        
+        // Add new expense at the beginning of the list (latest first)
+        expenseList.add(0, expenseItem)
+        expenseAdapter.notifyItemInserted(0)
+        saveAllExpenses()
+        
+        // Refresh fragments and summary
+        refreshAllFragments()
+        updateTodaySummary()
+        
+        // Close dialog and show success message
+        dialog.dismiss()
+        Toast.makeText(this, languageManager.getString("expense_added_successfully"), Toast.LENGTH_SHORT).show()
+    }
+    
+    private fun updateTodaySummary() {
+        val today = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date())
+        val todayExpenses = expenseList.filter { it.date == today }
+
+        todayExpensesCount.text = todayExpenses.size.toString()
+
+        val total = todayExpenses.sumOf {
+            currencyManager.getDisplayAmount(it.price)
+        }
+
+        // Use CurrencyManager to format the total with the correct symbol (MMK or $)
+        todayTotalAmount.text = currencyManager.formatCurrency(total)
+    }
+    
+    // Methods for fragment communication
+    fun getAllExpenses(): List<ExpenseItem> {
+        return expenseList.toList()
+    }
+    
+    fun deleteExpenseFromFragment(position: Int, filteredExpenses: List<ExpenseItem>) {
+        if (position >= 0 && position < filteredExpenses.size) {
+            val expenseToDelete = filteredExpenses[position]
+            // Find the expense in the main list
+            val mainPosition = expenseList.indexOfFirst { it.id == expenseToDelete.id }
+            if (mainPosition != -1) {
+                deleteExpenseItem(mainPosition)
+            }
+        }
+    }
+    
+    fun editExpenseFromFragment(position: Int, filteredExpenses: List<ExpenseItem>) {
+        if (position >= 0 && position < filteredExpenses.size) {
+            val expenseToEdit = filteredExpenses[position]
+            // Find the expense in the main list
+            val mainPosition = expenseList.indexOfFirst { it.id == expenseToEdit.id }
+            if (mainPosition != -1) {
+                editExpenseItem(mainPosition)
+            }
+        }
+    }
+    
+    fun openExpenseDetailFromFragment(position: Int, filteredExpenses: List<ExpenseItem>) {
+        if (position >= 0 && position < filteredExpenses.size) {
+            val expenseToOpen = filteredExpenses[position]
+            // Find the expense in the main list
+            val mainPosition = expenseList.indexOfFirst { it.id == expenseToOpen.id }
+            if (mainPosition != -1) {
+                openExpenseDetail(mainPosition)
+            }
+        }
+    }
+    
+    private fun refreshAllFragments() {
+        // Refresh all fragments in the ViewPager
+        for (i in 0 until viewPagerAdapter.itemCount) {
+            val fragment = supportFragmentManager.findFragmentByTag("f$i") as? ExpenseListFragment
+            fragment?.refreshExpenses()
+        }
+        updateTodaySummary()
+    }
+    
     private fun updateNavigationMenuTitles() {
         val menu = navigationView.menu
         menu.findItem(R.id.nav_home)?.title = languageManager.getString("nav_home")
@@ -278,57 +502,34 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         menu.findItem(R.id.nav_about)?.title = languageManager.getString("nav_about")
     }
     
-    private fun setCurrentDateTime() {
-        val calendar = Calendar.getInstance()
-        val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-        val timeFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
+    // New function to save a deleted expense specifically
+    private fun saveDeletedExpense(deletedExpense: ExpenseItem) {
+        // Load all existing expenses from storage
+        val json = sharedPreferences.getString("expenses", null)
+        val allExpenses = mutableListOf<ExpenseItem>()
         
-        editTextDate.setText(dateFormat.format(calendar.time))
-        editTextTime.setText(timeFormat.format(calendar.time))
-    }
-    
-    private fun showDatePicker() {
-        val calendar = Calendar.getInstance()
-        val datePickerDialog = DatePickerDialog(
-            this,
-            { _, year, month, dayOfMonth ->
-                val selectedDate = String.format("%02d/%02d/%d", dayOfMonth, month + 1, year)
-                editTextDate.setText(selectedDate)
-            },
-            calendar.get(Calendar.YEAR),
-            calendar.get(Calendar.MONTH),
-            calendar.get(Calendar.DAY_OF_MONTH)
-        )
-        datePickerDialog.show()
-    }
-    
-    private fun showTimePicker() {
-        val calendar = Calendar.getInstance()
-        val timePickerDialog = TimePickerDialog(
-            this,
-            { _, hourOfDay, minute ->
-                val selectedTime = String.format("%02d:%02d", hourOfDay, minute)
-                editTextTime.setText(selectedTime)
-            },
-            calendar.get(Calendar.HOUR_OF_DAY),
-            calendar.get(Calendar.MINUTE),
-            true
-        )
-        timePickerDialog.show()
-    }
-    
-    private fun toggleAdditionalOptions() {
-        isAdditionalOptionsVisible = !isAdditionalOptionsVisible
-        
-        if (isAdditionalOptionsVisible) {
-            layoutAdditionalOptions.visibility = View.VISIBLE
-            buttonSeeMoreInputOptions.text = "See Less"
-        } else {
-            layoutAdditionalOptions.visibility = View.GONE
-            buttonSeeMoreInputOptions.text = "See More"
+        if (!json.isNullOrEmpty()) {
+            val type = object : TypeToken<List<ExpenseItem>>() {}.type
+            val savedExpenses: List<ExpenseItem> = gson.fromJson(json, type)
+            allExpenses.addAll(savedExpenses)
         }
-    }
-      private fun loadExpenses() {
+        
+        // Update or add the deleted expense
+        val existingIndex = allExpenses.indexOfFirst { it.id == deletedExpense.id }
+        if (existingIndex != -1) {
+            // Update existing expense
+            allExpenses[existingIndex] = deletedExpense
+        } else {
+            // Add new deleted expense
+            allExpenses.add(deletedExpense)
+        }
+        
+        // Save the complete list
+        val editor = sharedPreferences.edit()
+        val allExpensesJson = gson.toJson(allExpenses)
+        editor.putString("expenses", allExpensesJson)
+        editor.apply()
+    }    private fun loadExpenses() {
         val json = sharedPreferences.getString("expenses", null)
         if (!json.isNullOrEmpty()) {
             val type = object : TypeToken<List<ExpenseItem>>() {}.type
@@ -340,6 +541,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             Log.d("MainActivity", "Loading expenses: total=${savedExpenses.size}, active=${activeExpenses.size}")
             expenseList.addAll(activeExpenses)
             expenseAdapter.notifyDataSetChanged()
+            
+            // Refresh fragments if they exist
+            if (::viewPagerAdapter.isInitialized) {
+                refreshAllFragments()
+            }
         } else {
             Log.d("MainActivity", "No expenses found in storage")
         }
@@ -376,73 +582,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         editor.apply()
     }
     
-    // New function to save a deleted expense specifically
-    private fun saveDeletedExpense(deletedExpense: ExpenseItem) {
-        // Load all existing expenses from storage
-        val json = sharedPreferences.getString("expenses", null)
-        val allExpenses = mutableListOf<ExpenseItem>()
-        
-        if (!json.isNullOrEmpty()) {
-            val type = object : TypeToken<List<ExpenseItem>>() {}.type
-            val savedExpenses: List<ExpenseItem> = gson.fromJson(json, type)
-            allExpenses.addAll(savedExpenses)
-        }
-        
-        // Update or add the deleted expense
-        val existingIndex = allExpenses.indexOfFirst { it.id == deletedExpense.id }
-        if (existingIndex != -1) {
-            // Update existing expense
-            allExpenses[existingIndex] = deletedExpense
-        } else {
-            // Add new deleted expense
-            allExpenses.add(deletedExpense)
-        }
-        
-        // Save the complete list
-        val editor = sharedPreferences.edit()
-        val allExpensesJson = gson.toJson(allExpenses)
-        editor.putString("expenses", allExpensesJson)
-        editor.apply()
-    }
-    
     private fun addExpenseItem() {
-        val name = editTextName.text.toString().trim()
-        val priceText = editTextPrice.text.toString().trim()
-        val description = editTextDescription.text.toString().trim()
-        val date = editTextDate.text.toString().trim()
-        val time = editTextTime.text.toString().trim()
-        
-        if (name.isEmpty()) {
-            Toast.makeText(this, "Please enter expense name", Toast.LENGTH_SHORT).show()
-            return
-        }
-          val price = priceText.toDoubleOrNull()
-        if (price == null || price <= 0) {
-            Toast.makeText(this, "Please enter a valid price", Toast.LENGTH_SHORT).show()
-            return
-        }
-
-        // Use CurrencyManager for native currency storage
-        val storageAmount = currencyManager.getStorageAmount(price)
-        val storageCurrency = currencyManager.getStorageCurrency()
-          val expenseItem = ExpenseItem(
-            id = System.currentTimeMillis(),
-            name = name,
-            price = storageAmount,
-            description = description,
-            date = date,
-            time = time,
-            currency = storageCurrency
-        )
-        
-        // Add new expense at the beginning of the list (latest first)
-        expenseList.add(0, expenseItem)
-        expenseAdapter.notifyItemInserted(0)
-        // Scroll to top to show the newly added item
-        recyclerView.scrollToPosition(0)
-        clearFields()
-        setCurrentDateTime()
-        saveAllExpenses() // Use saveAllExpenses to preserve deleted items
+        // No-op: old form elements removed. Use modal dialog for adding expenses.
     }
     
     private fun editExpenseItem(position: Int) {
@@ -492,8 +633,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 // Use CurrencyManager for native currency storage
                 val storageAmount = currencyManager.getStorageAmount(newPrice)
                 val storageCurrency = currencyManager.getStorageCurrency()
-                
-                expense.name = newName
+                  expense.name = newName
                 expense.price = storageAmount
                 expense.description = newDescription
                 expense.date = newDate
@@ -502,6 +642,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 
                 expenseAdapter.notifyItemChanged(position)
                 saveAllExpenses() // Use saveAllExpenses to preserve deleted items
+                
+                // Refresh fragments and summary
+                refreshAllFragments()
+                
+                Toast.makeText(this, languageManager.getString("expense_updated_successfully"), Toast.LENGTH_SHORT).show()
             }
             .setNegativeButton("Cancel", null)
             .show()
@@ -536,8 +681,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         )
         timePickerDialog.show()
     }
-    
-    private fun deleteExpenseItem(position: Int) {
+      private fun deleteExpenseItem(position: Int) {
         if (position >= 0 && position < expenseList.size) {
             val expenseToDelete = expenseList[position]
             
@@ -557,17 +701,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     // Save the deleted expense specifically
                     saveDeletedExpense(expenseToDelete)
                     
+                    // Refresh fragments and summary
+                    refreshAllFragments()
+                    
                     Toast.makeText(this, "💾 Expense moved to history. Check History to restore.", Toast.LENGTH_LONG).show()
                 }
                 .setNegativeButton("Cancel", null)
                 .show()
         }
-    }
-    
-    private fun clearFields() {
-        editTextName.text.clear()
-        editTextPrice.text.clear()
-        editTextDescription.text.clear()
     }
     
     private fun openExpenseDetail(position: Int) {
@@ -595,6 +736,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             ThemeActivity.THEME_DARK -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
             ThemeActivity.THEME_SYSTEM -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
         }
+    }
+      private fun updateUITexts() {
+        // Only update today's summary card texts (input field hints/buttons are now handled in modal dialog)
+        todaySummaryTitle.text = languageManager.getString("todays_summary")
+        todayExpensesLabel.text = languageManager.getString("total_expenses")
+        todayAmountLabel.text = languageManager.getString("total_amount")
+        // Refresh the today's summary data
+        updateTodaySummary()
     }
     
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
@@ -630,8 +779,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
         drawerLayout.closeDrawer(GravityCompat.START)
         return true
-    }
-    
+    }    @Suppress("DEPRECATION")
     @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {

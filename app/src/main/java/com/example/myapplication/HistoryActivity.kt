@@ -27,12 +27,10 @@ import com.google.gson.reflect.TypeToken
 import java.text.SimpleDateFormat
 import java.util.*
 
-class HistoryActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
-      private lateinit var recyclerView: RecyclerView
+class HistoryActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {    private lateinit var recyclerView: RecyclerView
     private lateinit var historyAdapter: HistoryAdapter
     private val deletedExpenses = mutableListOf<ExpenseItem>()
     private lateinit var sharedPreferences: SharedPreferences
-    private lateinit var languageManager: LanguageManager
     private val gson = Gson()
     
     // Navigation Drawer components
@@ -47,12 +45,11 @@ class HistoryActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
     private lateinit var buttonToggleSelection: Button
     private lateinit var buttonCancelSelection: Button
     private var isSelectionMode = false
-    
-    override fun onCreate(savedInstanceState: Bundle?) {
+      override fun onCreate(savedInstanceState: Bundle?) {
         applyTheme()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_history)
-          languageManager = LanguageManager.getInstance(this)
+        
         setupActionBar()
         initViews()
         setupStaticTexts()
@@ -87,14 +84,22 @@ class HistoryActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
         menu.findItem(R.id.nav_settings)?.title = languageManager.getString("nav_settings")
         menu.findItem(R.id.nav_feedback)?.title = languageManager.getString("nav_feedback")
         menu.findItem(R.id.nav_about)?.title = languageManager.getString("nav_about")
-    }
-      override fun onResume() {
+    }    override fun onResume() {
         super.onResume()
         // Refresh deleted expenses list when activity resumes        // This ensures we always show the latest deleted data
         loadDeletedExpenses()
         // Refresh translations when activity resumes
         setupStaticTexts()
         updateNavigationMenuTitles()
+        // Refresh button translations in adapter
+        historyAdapter.refreshTranslations()
+    }override fun onLanguageChanged() {
+        super.onLanguageChanged()
+        // Refresh all text elements when language changes
+        setupStaticTexts()
+        updateNavigationMenuTitles()
+        // Refresh button translations in adapter
+        historyAdapter.refreshTranslations()
     }
       private fun setupActionBar() {
         supportActionBar?.title = "🗃️ Deleted Items History"
@@ -160,15 +165,15 @@ class HistoryActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
       private fun setupSharedPreferences() {
         sharedPreferences = getSharedPreferences("expense_prefs", Context.MODE_PRIVATE)
     }
-    
-    private fun setupRecyclerView() {
+      private fun setupRecyclerView() {
         historyAdapter = HistoryAdapter(
             deletedExpenses,
             onRestoreClick = { position -> restoreExpenseItem(position) },
             onDeletePermanentlyClick = { position -> showDeletePermanentlyDialog(position) },
             onSelectionChanged = { selectedCount, isAllSelected ->
                 updateSelectionUI(selectedCount, isAllSelected)
-            }
+            },
+            languageManager = languageManager
         )
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = historyAdapter
@@ -472,7 +477,8 @@ class HistoryAdapter(
     private val deletedExpenses: MutableList<ExpenseItem>,
     private val onRestoreClick: (Int) -> Unit,
     private val onDeletePermanentlyClick: (Int) -> Unit,
-    private val onSelectionChanged: (Int, Boolean) -> Unit
+    private val onSelectionChanged: (Int, Boolean) -> Unit,
+    private val languageManager: LanguageManager
 ) : RecyclerView.Adapter<HistoryAdapter.HistoryViewHolder>() {
 
     private lateinit var currencyManager: CurrencyManager
@@ -533,6 +539,11 @@ class HistoryAdapter(
     
     fun isAllSelected(): Boolean = selectedItems.size == deletedExpenses.size && deletedExpenses.isNotEmpty()
     
+    // Method to refresh button translations when language changes
+    fun refreshTranslations() {
+        notifyDataSetChanged()
+    }
+    
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HistoryViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_history, parent, false)
@@ -577,11 +588,14 @@ class HistoryAdapter(
         holder.textViewDateTime.text = "${expense.date} at $formattedTime"
         
         holder.textViewDeletedDate.text = "Deleted on ${expense.deletedAt ?: "Unknown date"}"
-        
-        // Hide/show action buttons based on selection mode
+          // Hide/show action buttons based on selection mode
         val buttonVisibility = if (selectionMode) View.GONE else View.VISIBLE
         holder.buttonRestore.visibility = buttonVisibility
         holder.buttonDeletePermanently.visibility = buttonVisibility
+        
+        // Set translated button text
+        holder.buttonRestore.text = languageManager.getString("restore_button")
+        holder.buttonDeletePermanently.text = languageManager.getString("delete_permanently_button")
         
         holder.buttonRestore.setOnClickListener {
             onRestoreClick(position)

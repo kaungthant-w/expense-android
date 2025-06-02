@@ -14,9 +14,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp">
-
-        <TextView
+        android:padding="16dp">        <TextView
+            android:id="@+id/textThemeTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="🎨 Choose Your Theme"
@@ -43,16 +42,15 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:padding="24dp"
-                android:background="?attr/cardBackgroundColor">
-
-                <TextView
+                android:background="?attr/cardBackgroundColor">                <TextView
+                    android:id="@+id/textThemeDescription"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Select your preferred theme for the app"
                     android:textSize="16sp"
                     android:textColor="?attr/textSecondaryColor"
                     android:layout_marginBottom="24dp"
-                    android:gravity="center" />                <LinearLayout
+                    android:gravity="center" /><LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
@@ -91,9 +89,8 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:orientation="vertical"
-                                android:layout_marginStart="12dp">
-
-                                <TextView
+                                android:layout_marginStart="12dp">                                <TextView
+                                    android:id="@+id/textLightThemeTitle"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="☀️ Light Theme"
@@ -103,6 +100,7 @@
                                     android:layout_marginBottom="4dp" />
 
                                 <TextView
+                                    android:id="@+id/textLightThemeDescription"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="Clean and bright interface"
@@ -154,9 +152,8 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:orientation="vertical"
-                                android:layout_marginStart="12dp">
-
-                                <TextView
+                                android:layout_marginStart="12dp">                                <TextView
+                                    android:id="@+id/textDarkThemeTitle"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="🌙 Dark Theme"
@@ -166,6 +163,7 @@
                                     android:layout_marginBottom="4dp" />
 
                                 <TextView
+                                    android:id="@+id/textDarkThemeDescription"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="Easy on the eyes in low light"
@@ -216,9 +214,8 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:orientation="vertical"
-                                android:layout_marginStart="12dp">
-
-                                <TextView
+                                android:layout_marginStart="12dp">                                <TextView
+                                    android:id="@+id/textSystemThemeTitle"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="🔄 System Default"
@@ -228,6 +225,7 @@
                                     android:layout_marginBottom="4dp" />
 
                                 <TextView
+                                    android:id="@+id/textSystemThemeDescription"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="Follow system theme settings"

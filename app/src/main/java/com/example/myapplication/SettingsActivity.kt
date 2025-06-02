@@ -6,6 +6,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.MenuItem
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -24,23 +25,21 @@ import java.io.OutputStreamWriter
 import java.text.SimpleDateFormat
 import java.util.*
 
-class SettingsActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class SettingsActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
     // Navigation Drawer components
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var navigationView: NavigationView
-    private lateinit var languageManager: LanguageManager
     
     // Data import/export launchers
     private lateinit var exportLauncher: ActivityResultLauncher<Intent>
     private lateinit var importLauncher: ActivityResultLauncher<Intent>
     
     private val gson = Gson()
-    
-    override fun onCreate(savedInstanceState: Bundle?) {
+      override fun onCreate(savedInstanceState: Bundle?) {
         applyTheme()
-                super.onCreate(savedInstanceState)
+        super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
-          languageManager = LanguageManager.getInstance(this)
+        
         setupActionBar()
         initViews()
         setupNavigationDrawer()
@@ -48,27 +47,20 @@ class SettingsActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         setupClickListeners()
         updateUITexts()
         updateNavigationMenuTitles()
-    }
-    
-    private fun updateUITexts() {
-        // Update header title
-        findViewById<android.widget.TextView>(R.id.textSettingsTitle)?.text = "⚙️ ${languageManager.getString("settings")}"
-        
-        // Update Language Settings card
-        findViewById<android.widget.TextView>(R.id.textLanguageTitle)?.text = "🌐 ${languageManager.getString("language_settings")}"
-        findViewById<android.widget.TextView>(R.id.textLanguageDesc)?.text = languageManager.getString("language_settings_desc")
-        
-        // Update Theme Settings card
-        findViewById<android.widget.TextView>(R.id.textThemeTitle)?.text = "🎨 ${languageManager.getString("theme_settings")}"
-        findViewById<android.widget.TextView>(R.id.textThemeDesc)?.text = languageManager.getString("theme_settings_desc")
-        
-        // Update Export Data card
-        findViewById<android.widget.TextView>(R.id.textExportTitle)?.text = "📤 ${languageManager.getString("export_data")}"
-        findViewById<android.widget.TextView>(R.id.textExportDesc)?.text = languageManager.getString("export_data_desc")
-        
-        // Update Import Data card
-        findViewById<android.widget.TextView>(R.id.textImportTitle)?.text = "📥 ${languageManager.getString("import_data")}"
-        findViewById<android.widget.TextView>(R.id.textImportDesc)?.text = languageManager.getString("import_data_desc")
+    }override fun onLanguageChanged() {
+        // Don't call super.onLanguageChanged() here since we want custom behavior
+        // Update all UI elements with new language immediately
+        setupActionBar()
+        updateUITexts()
+        updateNavigationMenuTitles()
+        // Force refresh of all text elements that use languageManager
+        refreshAllTextElements()
+    }    override fun onResume() {
+        super.onResume()
+        // Refresh UI when returning from other activities (like LanguageActivity)
+        setupActionBar()
+        updateUITexts()
+        updateNavigationMenuTitles()
     }
     
     private fun applyTheme() {
@@ -297,6 +289,35 @@ class SettingsActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         menu.findItem(R.id.nav_settings)?.title = languageManager.getString("nav_settings")
         menu.findItem(R.id.nav_feedback)?.title = languageManager.getString("nav_feedback")
         menu.findItem(R.id.nav_about)?.title = languageManager.getString("nav_about")
+    }
+      private fun updateUITexts() {
+        // Update action bar title
+        supportActionBar?.title = "⚙️ ${languageManager.getString("settings")}"
+        
+        // Update main title TextView
+        findViewById<TextView>(R.id.textSettingsTitle)?.text = languageManager.getString("settings_title")
+        
+        // Update Language Settings card texts
+        findViewById<TextView>(R.id.textLanguageTitle)?.text = languageManager.getString("language_settings")
+        findViewById<TextView>(R.id.textLanguageDesc)?.text = languageManager.getString("language_description")
+        
+        // Update Theme Settings card texts
+        findViewById<TextView>(R.id.textThemeTitle)?.text = languageManager.getString("theme_settings")
+        findViewById<TextView>(R.id.textThemeDesc)?.text = languageManager.getString("theme_settings_desc")
+        
+        // Update Export Data card texts
+        findViewById<TextView>(R.id.textExportTitle)?.text = languageManager.getString("export_data")
+        findViewById<TextView>(R.id.textExportDesc)?.text = languageManager.getString("export_data_desc")
+        
+        // Update Import Data card texts
+        findViewById<TextView>(R.id.textImportTitle)?.text = languageManager.getString("import_data")
+        findViewById<TextView>(R.id.textImportDesc)?.text = languageManager.getString("import_data_desc")
+    }
+    
+    private fun refreshAllTextElements() {
+        // Force update all text elements immediately without recreating activity
+        updateUITexts()
+        updateNavigationMenuTitles()
     }
     
     override fun onSupportNavigateUp(): Boolean {

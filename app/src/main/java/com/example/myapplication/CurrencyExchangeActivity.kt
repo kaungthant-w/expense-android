@@ -20,10 +20,9 @@ import com.google.android.material.button.MaterialButton
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.textfield.TextInputEditText
 
-class CurrencyExchangeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class CurrencyExchangeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
     private lateinit var currencyManager: CurrencyManager
     private lateinit var currencyApiService: CurrencyApiService
-    private lateinit var languageManager: LanguageManager
     private lateinit var sharedPreferences: SharedPreferences
     
     // Navigation Drawer components
@@ -56,10 +55,8 @@ class CurrencyExchangeActivity : AppCompatActivity(), NavigationView.OnNavigatio
         applyTheme()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_currency_exchange)
-        
-        currencyManager = CurrencyManager.getInstance(this)
+          currencyManager = CurrencyManager.getInstance(this)
         currencyApiService = CurrencyApiService(this)
-        languageManager = LanguageManager.getInstance(this)
         sharedPreferences = getSharedPreferences("expense_prefs", Context.MODE_PRIVATE)
         setupActionBar()
         initViews()
@@ -129,32 +126,27 @@ class CurrencyExchangeActivity : AppCompatActivity(), NavigationView.OnNavigatio
             // Main title
             findViewById<TextView>(R.id.textCurrencyExchangeTitle)?.text = 
                 languageManager.getString("currency_exchange_title")
-            
             // Live exchange rates section
             findViewById<TextView>(R.id.textLiveExchangeRatesTitle)?.text = 
                 languageManager.getString("live_exchange_rates")
-            buttonRefreshRates.text = languageManager.getString("refresh_rates")
-            
+            buttonRefreshRates.text = languageManager.getString("currency_exchange_refresh")
             // Table headers
             findViewById<TextView>(R.id.textCurrencyLabel)?.text = 
                 languageManager.getString("currency")
             findViewById<TextView>(R.id.textRateLabel)?.text = 
                 languageManager.getString("rate_mmk")
-            
             // Current exchange rate section
             findViewById<TextView>(R.id.textCurrentExchangeRateTitle)?.text = 
-                languageManager.getString("current_exchange_rate")
-            buttonFetchRate.text = languageManager.getString("fetch_latest_rate")
-            buttonCustomRate.text = languageManager.getString("custom_rate")
-            
+                languageManager.getString("currency_exchange_current_rate")
+            buttonFetchRate.text = languageManager.getString("currency_exchange_fetch_latest")
+            buttonCustomRate.text = languageManager.getString("currency_exchange_custom_rate")
             // Manual rate entry section
             findViewById<TextView>(R.id.textManualRateEntryTitle)?.text = 
                 languageManager.getString("manual_rate_entry")
             findViewById<com.google.android.material.textfield.TextInputLayout>(R.id.textInputCustomRate)?.hint = 
                 languageManager.getString("enter_rate_hint")
-            buttonApplyCustomRate.text = languageManager.getString("apply_rate")
-            buttonCancelCustomRate.text = languageManager.getString("cancel_rate")
-            
+            buttonApplyCustomRate.text = languageManager.getString("currency_exchange_apply")
+            buttonCancelCustomRate.text = languageManager.getString("currency_exchange_cancel")
             // Currency selection section
             findViewById<TextView>(R.id.textSelectDisplayCurrencyTitle)?.text = 
                 languageManager.getString("select_display_currency")
@@ -162,7 +154,6 @@ class CurrencyExchangeActivity : AppCompatActivity(), NavigationView.OnNavigatio
                 languageManager.getString("us_dollar")
             findViewById<TextView>(R.id.textMyanmarKyatLabel)?.text = 
                 languageManager.getString("myanmar_kyat")
-                
         } catch (e: Exception) {
             // Log error but continue - fallback to hardcoded text in XML
             android.util.Log.e("CurrencyExchange", "Error setting up static texts: ${e.message}")

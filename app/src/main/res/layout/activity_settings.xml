@@ -38,7 +38,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="⚙️ Settings"
+                android:text="@string/settings_title"
                 android:textSize="24sp"
                 android:textStyle="bold"
                 android:gravity="center_vertical"
@@ -71,17 +71,15 @@
                         android:id="@+id/textLanguageTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="🌐 Language Settings"
+                        android:text="@string/language_settings"
                         android:textSize="20sp"
                         android:textStyle="bold"
                         android:textColor="?attr/textPrimaryColor"
-                        android:layout_marginBottom="8dp" />
-
-                    <TextView
+                        android:layout_marginBottom="8dp" />                    <TextView
                         android:id="@+id/textLanguageDesc"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Choose your preferred language for the app interface"
+                        android:text="@string/language_description"
                         android:textSize="14sp"
                         android:textColor="?attr/textSecondaryColor" />
 
@@ -126,17 +124,15 @@
                         android:id="@+id/textThemeTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="🎨 Theme Settings"
+                        android:text="@string/theme_settings"
                         android:textSize="20sp"
                         android:textStyle="bold"
                         android:textColor="?attr/textPrimaryColor"
-                        android:layout_marginBottom="8dp" />
-
-                    <TextView
+                        android:layout_marginBottom="8dp" />                    <TextView
                         android:id="@+id/textThemeDesc"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Customize your app's appearance with light, dark, or system theme"
+                        android:text="@string/theme_settings_desc"
                         android:textSize="14sp"
                         android:textColor="?attr/textSecondaryColor" />
 
@@ -179,17 +175,15 @@
                         android:id="@+id/textExportTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="📤 Export Data"
+                        android:text="@string/export_data"
                         android:textSize="20sp"
                         android:textStyle="bold"
                         android:textColor="?attr/textPrimaryColor"
-                        android:layout_marginBottom="8dp" />
-
-                    <TextView
+                        android:layout_marginBottom="8dp" />                    <TextView
                         android:id="@+id/textExportDesc"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Backup all your expense data to a file for safekeeping"
+                        android:text="@string/export_data_desc"
                         android:textSize="14sp"
                         android:textColor="?attr/textSecondaryColor" />
 
@@ -234,17 +228,15 @@
                         android:id="@+id/textImportTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="📥 Import Data"
+                        android:text="@string/import_data"
                         android:textSize="20sp"
                         android:textStyle="bold"
                         android:textColor="?attr/textPrimaryColor"
-                        android:layout_marginBottom="8dp" />
-
-                    <TextView
+                        android:layout_marginBottom="8dp" />                    <TextView
                         android:id="@+id/textImportDesc"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Restore your expense data from a previously exported backup file"
+                        android:text="@string/import_data_desc"
                         android:textSize="14sp"
                         android:textColor="?attr/textSecondaryColor" />
 

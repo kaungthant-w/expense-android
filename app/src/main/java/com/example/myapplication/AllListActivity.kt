@@ -26,13 +26,11 @@ import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
-class AllListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
-    
-    private lateinit var recyclerView: RecyclerView
+class AllListActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
+      private lateinit var recyclerView: RecyclerView
     private lateinit var allListAdapter: AllListAdapter
     private val allExpenses = mutableListOf<ExpenseItem>()
     private lateinit var sharedPreferences: SharedPreferences
-    private lateinit var languageManager: LanguageManager
     private val gson = Gson()
     
     // Navigation Drawer components
@@ -67,8 +65,7 @@ class AllListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
     override fun onCreate(savedInstanceState: Bundle?) {
         applyTheme()
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_all_list)
-          languageManager = LanguageManager.getInstance(this)
+        setContentView(R.layout.activity_all_list)        
         setupActionBar()
         initViews()
         setupStaticTexts()
@@ -343,9 +340,8 @@ class AllListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
     private fun setupSharedPreferences() {
         sharedPreferences = getSharedPreferences("expense_prefs", Context.MODE_PRIVATE)
     }
-    
-    private fun setupRecyclerView() {
-        allListAdapter = AllListAdapter(allExpenses) { selectedCount, isAllSelected ->
+      private fun setupRecyclerView() {
+        allListAdapter = AllListAdapter(allExpenses, languageManager) { selectedCount, isAllSelected ->
             updateSelectionUI(selectedCount, isAllSelected)
         }
         recyclerView.layoutManager = LinearLayoutManager(this)
@@ -408,11 +404,10 @@ class AllListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
 
 class AllListAdapter(
     private val expenses: List<ExpenseItem>,
+    private val languageManager: LanguageManager, // Added languageManager
     private val onSelectionChanged: (Int, Boolean) -> Unit
 ) : RecyclerView.Adapter<AllListAdapter.AllListViewHolder>() {
-    
     private lateinit var currencyManager: CurrencyManager
-    private lateinit var languageManager: LanguageManager
     private var selectionMode = false
     private val selectedItems = mutableSetOf<Int>()
     
@@ -432,13 +427,59 @@ class AllListAdapter(
         }
     }
     
-    class AllListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    override fun onBindViewHolder(holder: AllListViewHolder, position: Int) {
+        val expense = expenses[position]
+        holder.bind(expense, languageManager, currencyManager) // Pass languageManager here
+    }
+
+    inner class AllListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) { // Added inner keyword
         val checkboxSelect: CheckBox = itemView.findViewById(R.id.checkboxSelect)
         val textViewName: TextView = itemView.findViewById(R.id.textViewName)
         val textViewPrice: TextView = itemView.findViewById(R.id.textViewPrice)
         val textViewDescription: TextView = itemView.findViewById(R.id.textViewDescription)
         val textViewDateTime: TextView = itemView.findViewById(R.id.textViewDateTime)
         val textViewStatus: TextView = itemView.findViewById(R.id.textViewStatus)
+
+        fun bind(expense: ExpenseItem, languageManager: LanguageManager, currencyManager: CurrencyManager) { // Add languageManager to bind parameters
+            // Handle selection checkbox
+            checkboxSelect.visibility = if (selectionMode) View.VISIBLE else View.GONE
+            checkboxSelect.isChecked = selectedItems.contains(adapterPosition)
+            
+            checkboxSelect.setOnCheckedChangeListener { _, isChecked ->
+                if (isChecked) {
+                    selectedItems.add(adapterPosition)
+                } else {
+                    selectedItems.remove(adapterPosition)
+                }
+                onSelectionChanged(selectedItems.size, isAllSelected())
+            }
+            
+            // Handle item click for selection
+            itemView.setOnClickListener {
+                if (selectionMode) {
+                    checkboxSelect.isChecked = !checkboxSelect.isChecked
+                }
+            }
+            
+            textViewName.text = expense.name
+            
+            // Use CurrencyManager's new method for display
+            val displayAmount = currencyManager.getDisplayAmountFromStored(expense.price, expense.currency)
+            textViewPrice.text = currencyManager.formatCurrency(displayAmount)
+            
+            textViewDescription.text = if (expense.description.isNotEmpty()) {
+                expense.description
+            } else {
+                languageManager.getString("all_list_no_description")
+            }
+            
+            textViewDateTime.text = "📅 ${expense.date} • 🕐 ${convertTo12HourFormat(expense.time)}"
+            
+            // Since we only show active items, set consistent styling
+            textViewStatus.text = languageManager.getString("all_list_status_active")
+            textViewStatus.setTextColor(itemView.context.getColor(android.R.color.holo_green_dark))
+            itemView.alpha = 1.0f
+        }
     }
     
     fun setSelectionMode(enabled: Boolean) {
@@ -479,55 +520,7 @@ class AllListAdapter(
             currencyManager = CurrencyManager.getInstance(parent.context)
         }
         
-        // Initialize LanguageManager if not already done
-        if (!::languageManager.isInitialized) {
-            languageManager = LanguageManager.getInstance(parent.context)
-        }
-        
         return AllListViewHolder(view)
-    }
-    
-    override fun onBindViewHolder(holder: AllListViewHolder, position: Int) {
-        val expense = expenses[position]
-        
-        // Handle selection checkbox
-        holder.checkboxSelect.visibility = if (selectionMode) View.VISIBLE else View.GONE
-        holder.checkboxSelect.isChecked = selectedItems.contains(position)
-        
-        holder.checkboxSelect.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked) {
-                selectedItems.add(position)
-            } else {
-                selectedItems.remove(position)
-            }
-            onSelectionChanged(selectedItems.size, isAllSelected())
-        }
-        
-        // Handle item click for selection
-        holder.itemView.setOnClickListener {
-            if (selectionMode) {
-                holder.checkboxSelect.isChecked = !holder.checkboxSelect.isChecked
-            }
-        }
-        
-        holder.textViewName.text = expense.name
-        
-        // Use CurrencyManager's new method for display
-        val displayAmount = currencyManager.getDisplayAmountFromStored(expense.price, expense.currency)
-        holder.textViewPrice.text = currencyManager.formatCurrency(displayAmount)
-        
-        holder.textViewDescription.text = if (expense.description.isNotEmpty()) {
-            expense.description
-        } else {
-            languageManager.getString("all_list_no_description")
-        }
-        
-        holder.textViewDateTime.text = "📅 ${expense.date} • 🕐 ${convertTo12HourFormat(expense.time)}"
-        
-        // Since we only show active items, set consistent styling
-        holder.textViewStatus.text = languageManager.getString("all_list_status_active")
-        holder.textViewStatus.setTextColor(holder.itemView.context.getColor(android.R.color.holo_green_dark))
-        holder.itemView.alpha = 1.0f
     }
     
     override fun getItemCount(): Int = expenses.size

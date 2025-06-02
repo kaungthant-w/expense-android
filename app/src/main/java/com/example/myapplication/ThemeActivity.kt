@@ -4,11 +4,12 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.widget.RadioButton
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.cardview.widget.CardView
 
-class ThemeActivity : AppCompatActivity() {
+class ThemeActivity : BaseActivity() {
     
     private lateinit var cardLightTheme: CardView
     private lateinit var cardDarkTheme: CardView
@@ -23,15 +24,17 @@ class ThemeActivity : AppCompatActivity() {
         const val THEME_KEY = "selected_theme"
         const val THEME_LIGHT = "light"
         const val THEME_DARK = "dark"
-        const val THEME_SYSTEM = "system"
+                const val THEME_SYSTEM = "system"
     }
-      override fun onCreate(savedInstanceState: Bundle?) {
+    
+    override fun onCreate(savedInstanceState: Bundle?) {
         applyTheme()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_theme)
         
         setupActionBar()
         initViews()
+        setupTranslations()
         loadCurrentTheme()
         setupClickListeners()
     }
@@ -45,13 +48,12 @@ class ThemeActivity : AppCompatActivity() {
             THEME_DARK -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
             THEME_SYSTEM -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
         }
-    }
-    
-    private fun setupActionBar() {
-        supportActionBar?.title = "🎨 Theme Settings"
+    }    private fun setupActionBar() {
+        supportActionBar?.title = languageManager.getString("theme_settings_title")
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
-      private fun initViews() {
+    
+    private fun initViews() {
         cardLightTheme = findViewById(R.id.cardLightTheme)
         cardDarkTheme = findViewById(R.id.cardDarkTheme)
         cardSystemTheme = findViewById(R.id.cardSystemTheme)
@@ -59,6 +61,33 @@ class ThemeActivity : AppCompatActivity() {
         radioButtonDark = findViewById(R.id.radioButtonDark)
         radioButtonSystem = findViewById(R.id.radioButtonSystem)
         sharedPreferences = getSharedPreferences(THEME_PREFS, Context.MODE_PRIVATE)
+    }
+      private fun setupTranslations() {
+        // Update main title
+        val themeTitleText = findViewById<TextView>(R.id.textThemeTitle)
+        themeTitleText?.text = languageManager.getString("choose_your_theme")
+        
+        // Update theme selection header
+        val themeDescriptionText = findViewById<TextView>(R.id.textThemeDescription)
+        themeDescriptionText?.text = languageManager.getString("theme_selection_description")
+        
+        // Update light theme
+        val lightThemeTitle = findViewById<TextView>(R.id.textLightThemeTitle)
+        val lightThemeDesc = findViewById<TextView>(R.id.textLightThemeDescription)
+        lightThemeTitle?.text = languageManager.getString("light_theme_title")
+        lightThemeDesc?.text = languageManager.getString("light_theme_description")
+        
+        // Update dark theme
+        val darkThemeTitle = findViewById<TextView>(R.id.textDarkThemeTitle)
+        val darkThemeDesc = findViewById<TextView>(R.id.textDarkThemeDescription)
+        darkThemeTitle?.text = languageManager.getString("dark_theme_title")
+        darkThemeDesc?.text = languageManager.getString("dark_theme_description")
+        
+        // Update system theme
+        val systemThemeTitle = findViewById<TextView>(R.id.textSystemThemeTitle)
+        val systemThemeDesc = findViewById<TextView>(R.id.textSystemThemeDescription)
+        systemThemeTitle?.text = languageManager.getString("system_theme_title")
+        systemThemeDesc?.text = languageManager.getString("system_theme_description")
     }
       private fun loadCurrentTheme() {
         val currentTheme = sharedPreferences.getString(THEME_KEY, THEME_SYSTEM)
