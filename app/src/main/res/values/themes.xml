@@ -15,7 +15,7 @@
         <item name="android:windowBackground">@color/background_color</item>
         <item name="colorSurface">@color/surface_color</item>
         <item name="colorOnSurface">@color/text_primary_color</item>
-        
+
         <!-- Custom theme attributes -->
         <item name="backgroundColor">@color/background_color</item>
         <item name="cardBackgroundColor">@color/card_background_color</item>
@@ -26,11 +26,11 @@
         <item name="errorColor">@color/error_color</item>
         <item name="inputBackgroundColor">@color/input_background_color</item>
         <item name="buttonBackgroundColor">@color/accent_color</item>
-        
+
         <!-- Font family -->
         <item name="android:fontFamily">@font/poppins</item>
         <item name="fontFamily">@font/poppins</item>
-        
+
         <!-- Text appearances -->
         <item name="android:textAppearance">@style/TextAppearance.Poppins</item>
         <item name="textAppearanceHeadline1">@style/TextAppearance.Poppins.Headline1</item>
@@ -46,7 +46,7 @@
         <item name="textAppearanceButton">@style/TextAppearance.Poppins.Button</item>
         <item name="textAppearanceCaption">@style/TextAppearance.Poppins.Caption</item>
         <item name="textAppearanceOverline">@style/TextAppearance.Poppins.Overline</item>
-        
+
         <!-- Customize your theme here. -->
     </style>
 </resources>

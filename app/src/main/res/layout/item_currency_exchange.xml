@@ -1,59 +1,20 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    app:cardCornerRadius="12dp"
-    app:cardElevation="4dp"
-    android:layout_marginBottom="8dp"
-    app:cardBackgroundColor="?attr/cardBackgroundColor">
+    xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent" android:layout_height="wrap_content" app:cardCornerRadius="12dp" app:cardElevation="4dp" android:layout_marginBottom="8dp" app:cardBackgroundColor="?attr/cardBackgroundColor">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp">
 
         <!-- Expense Name -->
-        <TextView
-            android:id="@+id/textExpenseName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Expense Name"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:textColor="?attr/textPrimaryColor"
-            android:layout_marginBottom="8dp" />
+        <TextView android:id="@+id/textExpenseName" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Expense Name" android:textSize="16sp" android:textStyle="bold" android:textColor="?attr/textPrimaryColor" android:layout_marginBottom="8dp" />
 
         <!-- Original Amount -->
-        <TextView
-            android:id="@+id/textOriginalAmount"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Original: $0.00 USD"
-            android:textSize="14sp"
-            android:textColor="?attr/textSecondaryColor"
-            android:layout_marginBottom="4dp" />
+        <TextView android:id="@+id/textOriginalAmount" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Original: $0.00 USD" android:textSize="14sp" android:textColor="?attr/textSecondaryColor" android:layout_marginBottom="4dp" />
 
         <!-- Converted Amount -->
-        <TextView
-            android:id="@+id/textConvertedAmount"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Display: $0.00 USD"
-            android:textSize="15sp"
-            android:textStyle="bold"
-            android:textColor="?attr/textPrimaryColor"
-            android:layout_marginBottom="8dp" />
+        <TextView android:id="@+id/textConvertedAmount" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Display: $0.00 USD" android:textSize="15sp" android:textStyle="bold" android:textColor="?attr/textPrimaryColor" android:layout_marginBottom="8dp" />
 
         <!-- Date and Time -->
-        <TextView
-            android:id="@+id/textExpenseDate"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="01/01/2024 â€¢ 12:00"
-            android:textSize="12sp"
-            android:textColor="?attr/textSecondaryColor" />
+        <TextView android:id="@+id/textExpenseDate" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="01/01/2024 â€¢ 12:00" android:textSize="12sp" android:textColor="?attr/textSecondaryColor" />
 
     </LinearLayout>
 

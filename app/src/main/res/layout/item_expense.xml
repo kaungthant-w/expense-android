@@ -1,138 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="8dp"    app:cardCornerRadius="8dp"
-    app:cardElevation="4dp"
-    app:cardBackgroundColor="?attr/cardBackgroundColor"
-    android:foreground="?android:attr/selectableItemBackground"
-    android:clickable="true"
-    android:focusable="true">
+    xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_margin="8dp" app:cardCornerRadius="8dp" app:cardElevation="4dp" app:cardBackgroundColor="?attr/cardBackgroundColor" android:foreground="?android:attr/selectableItemBackground" android:clickable="true" android:focusable="true">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="8dp">        
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="8dp">
         <!-- Header Row with Name and Price -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginBottom="8dp">
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginBottom="8dp">
 
             <!-- Left side: Name and Date/Time -->
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:layout_marginEnd="12dp">
+            <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:layout_marginEnd="12dp">
 
-                <TextView
-                    android:id="@+id/textViewName"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Expense Name"                    
-                    android:textSize="14sp"
-                    android:textStyle="bold"
-                    android:textColor="?attr/textPrimaryColor"
-                    android:layout_marginBottom="4dp" />
+                <TextView android:id="@+id/textViewName" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Expense Name" android:textSize="14sp" android:textStyle="bold" android:textColor="?attr/textPrimaryColor" android:layout_marginBottom="4dp" />
 
-                <TextView
-                    android:id="@+id/textViewDateTimeHeader"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="📅 01/01/2024 • 🕐 12:00"
-                    android:textSize="11sp"
-                    android:textColor="?attr/textSecondaryColor" />
+                <TextView android:id="@+id/textViewDateTimeHeader" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="📅 01/01/2024 • 🕐 12:00" android:textSize="11sp" android:textColor="?attr/textSecondaryColor" />
 
             </LinearLayout>
 
             <!-- Right side: Price -->
-            <TextView
-                android:id="@+id/textViewPrice"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="$0.00"
-                android:textSize="14sp"
-                android:textStyle="bold"
-                android:textColor="@color/accent_color"
-                android:gravity="center_vertical" />
+            <TextView android:id="@+id/textViewPrice" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="$0.00" android:textSize="14sp" android:textStyle="bold" android:textColor="@color/accent_color" android:gravity="center_vertical" />
 
         </LinearLayout>
         <!-- Expandable Details Section -->
-        <LinearLayout
-            android:id="@+id/layoutDetails"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:visibility="gone"
-            android:layout_marginBottom="12dp">
+        <LinearLayout android:id="@+id/layoutDetails" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:visibility="gone" android:layout_marginBottom="12dp">
 
             <!-- Description -->
-            <TextView
-                android:id="@+id/textViewDescription"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"                
-                android:text="Description"
-                android:textSize="14sp"
-                android:textColor="?attr/textSecondaryColor"
-                android:layout_marginBottom="8dp" />
+            <TextView android:id="@+id/textViewDescription" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Description" android:textSize="14sp" android:textColor="?attr/textSecondaryColor" android:layout_marginBottom="8dp" />
 
             <!-- Date and Time -->
-            <TextView
-                android:id="@+id/textViewDateTime"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="📅 Date • 🕐 Time"
-                android:textSize="13sp"
-                android:textColor="?attr/textSecondaryColor" />
+            <TextView android:id="@+id/textViewDateTime" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="📅 Date • 🕐 Time" android:textSize="13sp" android:textColor="?attr/textSecondaryColor" />
 
         </LinearLayout>
 
         <!-- Buttons Row -->
-        <LinearLayout
-            android:id="@+id/layoutButtons"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="end"
-            android:visibility="gone">
+        <LinearLayout android:id="@+id/layoutButtons" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="end" android:visibility="gone">
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/buttonEdit"
-                style="@style/Widget.MaterialComponents.Button.Icon"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:insetTop="0dp"
-                android:insetBottom="0dp"
-                android:layout_marginEnd="12dp"
-                app:icon="@drawable/ic_edit"
-                app:iconGravity="textStart"
-                app:iconPadding="0dp"
-                app:iconSize="24dp"
-                app:iconTint="@android:color/white"
-                app:backgroundTint="@color/edit_color"
-                app:cornerRadius="24dp"
-                android:contentDescription="Edit expense" />
+            <com.google.android.material.button.MaterialButton android:id="@+id/buttonEdit" style="@style/Widget.MaterialComponents.Button.Icon" android:layout_width="48dp" android:layout_height="48dp" android:insetTop="0dp" android:insetBottom="0dp" android:layout_marginEnd="12dp" app:icon="@drawable/ic_edit" app:iconGravity="textStart" app:iconPadding="0dp" app:iconSize="24dp" app:iconTint="@android:color/white" app:backgroundTint="@color/edit_color" app:cornerRadius="24dp" android:contentDescription="Edit expense" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/buttonDelete"
-                style="@style/Widget.MaterialComponents.Button.Icon"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:insetTop="0dp"
-                android:insetBottom="0dp"
-                app:icon="@drawable/ic_delete"
-                app:iconGravity="textStart"
-                app:iconPadding="0dp"
-                app:iconSize="24dp"
-                app:iconTint="@android:color/white"
-                app:backgroundTint="@color/error_color"
-                app:cornerRadius="24dp"
-                android:contentDescription="Delete expense" />
+            <com.google.android.material.button.MaterialButton android:id="@+id/buttonDelete" style="@style/Widget.MaterialComponents.Button.Icon" android:layout_width="48dp" android:layout_height="48dp" android:insetTop="0dp" android:insetBottom="0dp" app:icon="@drawable/ic_delete" app:iconGravity="textStart" app:iconPadding="0dp" app:iconSize="24dp" app:iconTint="@android:color/white" app:backgroundTint="@color/error_color" app:cornerRadius="24dp" android:contentDescription="Delete expense" />
 
         </LinearLayout>
 

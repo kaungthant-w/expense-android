@@ -8,6 +8,7 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
+import android.view.MotionEvent
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -26,7 +27,6 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
@@ -47,10 +47,8 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     // Navigation Drawer components
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var navigationView: NavigationView
-    private lateinit var drawerToggle: ActionBarDrawerToggle
-    
-    // New UI components
-    private lateinit var fab: FloatingActionButton
+    private lateinit var drawerToggle: ActionBarDrawerToggle    // New UI components
+    private lateinit var fab: DraggableFloatingActionButton
     private lateinit var todaySummaryCard: CardView
     private lateinit var todayExpensesCount: TextView
     private lateinit var todayTotalAmount: TextView
@@ -212,9 +210,8 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         // Navigation drawer components
         drawerLayout = findViewById<DrawerLayout>(R.id.drawer_layout)
         navigationView = findViewById<NavigationView>(R.id.nav_view)
-        toolbar = findViewById<Toolbar>(R.id.toolbar)
-        // New UI components
-        fab = findViewById<FloatingActionButton>(R.id.fab)
+        toolbar = findViewById<Toolbar>(R.id.toolbar)        // New UI components
+        fab = findViewById<DraggableFloatingActionButton>(R.id.fab)
         todaySummaryCard = findViewById<CardView>(R.id.todaySummaryCard)
         todayExpensesCount = findViewById<TextView>(R.id.todayExpensesCount)
         todayTotalAmount = findViewById<TextView>(R.id.todayTotalAmount)
@@ -272,11 +269,35 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             tab.text = viewPagerAdapter.getTabTitle(position)
         }.attach()
-    }
-      private fun setupFAB() {
+    }      private fun setupFAB() {
+        // Restore saved position if exists
+        restoreFABPosition()
+        
+        // Set click listener for adding expense
         fab.setOnClickListener {
             showAddExpenseModal()
         }
+        
+        // Set position change listener to save position
+        fab.onPositionChangedListener = { x, y ->
+            saveFABPosition(x, y)
+        }
+    }
+    
+    private fun restoreFABPosition() {
+        val savedX = sharedPreferences.getFloat("fab_position_x", -1f)
+        val savedY = sharedPreferences.getFloat("fab_position_y", -1f)
+        
+        if (savedX != -1f && savedY != -1f) {
+            fab.setPosition(savedX, savedY)
+        }
+    }
+    
+    private fun saveFABPosition(x: Float, y: Float) {
+        sharedPreferences.edit()
+            .putFloat("fab_position_x", x)
+            .putFloat("fab_position_y", y)
+            .apply()
     }
     
     private fun showAddExpenseModal() {

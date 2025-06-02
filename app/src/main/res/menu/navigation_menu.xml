@@ -1,43 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    
-    <group android:checkableBehavior="single">
-        <item
-            android:id="@+id/nav_home"
-            android:title="🏠 Home" />
 
-        <item
-            android:id="@+id/nav_all_list"
-            android:title="📋 All List" />
-        
-        <item
-            android:id="@+id/nav_history"
-            android:title="🗃️ History" />
-        
-        <item
-            android:id="@+id/nav_summary"
-            android:title="📊 Summary" />
-        
-        <item
-            android:id="@+id/nav_analytics"
-            android:title="📈 Analytics" />
-        
-        <item
-            android:id="@+id/nav_currency_exchange"
-            android:title="💱 Currency Exchange" />
+    <group android:checkableBehavior="single">
+        <item android:id="@+id/nav_home" android:title="🏠 Home" />
+
+        <item android:id="@+id/nav_all_list" android:title="📋 All List" />
+
+        <item android:id="@+id/nav_history" android:title="🗃️ History" />
+
+        <item android:id="@+id/nav_summary" android:title="📊 Summary" />
+
+        <item android:id="@+id/nav_analytics" android:title="📈 Analytics" />
+
+        <item android:id="@+id/nav_currency_exchange" android:title="💱 Currency Exchange" />
     </group>
-      <group android:id="@+id/group_settings">
-        <item
-            android:id="@+id/nav_settings"
-            android:title="⚙️ Settings" />
-        
-        <item
-            android:id="@+id/nav_feedback"
-            android:title="💬 Feedback" />
-        
-        <item
-            android:id="@+id/nav_about"
-            android:title="ℹ️ About Us" />
+    <group android:id="@+id/group_settings">
+        <item android:id="@+id/nav_settings" android:title="⚙️ Settings" />
+
+        <item android:id="@+id/nav_feedback" android:title="💬 Feedback" />
+
+        <item android:id="@+id/nav_about" android:title="ℹ️ About Us" />
     </group>
-    
+
 </menu>

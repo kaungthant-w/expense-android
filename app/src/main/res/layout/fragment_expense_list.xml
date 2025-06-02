@@ -1,27 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="?attr/backgroundColor">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" android:background="?attr/backgroundColor">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewExpenses"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="8dp"
-        android:clipToPadding="false" />
+    <androidx.recyclerview.widget.RecyclerView android:id="@+id/recyclerViewExpenses" android:layout_width="match_parent" android:layout_height="match_parent" android:padding="8dp" android:clipToPadding="false" />
 
     <!-- No Data Available Message -->
-    <TextView
-        android:id="@+id/noDataTextView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="📭 No Record available"
-        android:textSize="16sp"
-        android:textColor="?attr/textSecondaryColor"
-        android:visibility="gone"
-        android:padding="20dp" />
+    <TextView android:id="@+id/noDataTextView" android:layout_width="match_parent" android:layout_height="match_parent" android:gravity="center" android:text="📭 No Record available" android:textSize="16sp" android:textColor="?attr/textSecondaryColor" android:visibility="gone" android:padding="20dp" />
 
 </LinearLayout>
