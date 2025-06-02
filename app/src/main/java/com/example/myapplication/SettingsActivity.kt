@@ -188,7 +188,7 @@ class SettingsActivity : BaseActivity(), NavigationView.OnNavigationItemSelected
             
             // Create export data structure
             val exportData = mapOf(
-                "app_name" to "HsuPar Expense",
+                "app_name" to "Hsu Expense",
                 "export_version" to "1.0",
                 "export_date" to SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(Date()),
                 "expenses" to expensesJson,

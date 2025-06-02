@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">HsuPar Expense</string>
+    <string name="app_name">Hsu Expense</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_desc">Navigation header</string>
@@ -94,7 +94,7 @@
     <string name="submit_feedback">Submit Feedback</string>
     <string name="please_select_rating">Please select a rating</string>
     <string name="please_enter_feedback">Please enter your feedback</string>
-    <string name="feedback_subject">HsuPar Expense App Feedback</string>
+    <string name="feedback_subject">Hsu Expense App Feedback</string>
     <string name="thank_you_feedback">Thank you for your feedback! 😊</string>
     <string name="no_email_app">No email app found. Please install an email app to send feedback.</string>
     <string name="send_feedback_via">Send feedback via...</string>
@@ -139,7 +139,7 @@
     
     <!-- Main Activity New UI -->
     <string name="todays_summary">📅 Today\'s Summary</string>
-    <string name="add_expense_button">💰 Add Expense</string>
+    <string name="add_expense_button">Save</string>
     <string name="expense_price_hint">💵 Price</string>
     <string name="expense_description_hint">📝 Description (Optional)</string>
     <string name="expense_date_hint">📅 Date (DD/MM/YYYY)</string>

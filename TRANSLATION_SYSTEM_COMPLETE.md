@@ -15,7 +15,7 @@ Successfully implemented a comprehensive JSON-based translation system for the A
 #### About Page Translations:
 - `about_title`: "ℹ️ About Us"
 - `about_section_title`: "ℹ️ About"
-- `app_name_display`: "HsuPar Expense App"
+- `app_name_display`: "Hsu Expense App"
 - `app_version`: "Version 1.0.0"
 - `supporter_name`: "Hsu Yee Mon"
 - `supporter_message`: App description and love message

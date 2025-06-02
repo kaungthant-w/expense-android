@@ -1,7 +1,7 @@
 # Back Button Implementation - COMPLETE
 
 ## Task Overview ✅
-Successfully added custom back arrow buttons to all secondary activities in the HsuPar Expense app, matching the design pattern from the expense details page.
+Successfully added custom back arrow buttons to all secondary activities in the Hsu Expense app, matching the design pattern from the expense details page.
 
 ## Implementation Summary
 
@@ -136,4 +136,4 @@ Created and executed `test_back_buttons.ps1` script that:
 - ✅ Build successful with no critical errors
 - ✅ Testing completed and functionality verified
 
-The HsuPar Expense app now has consistent, user-friendly back navigation across all secondary activities!
+The Hsu Expense app now has consistent, user-friendly back navigation across all secondary activities!

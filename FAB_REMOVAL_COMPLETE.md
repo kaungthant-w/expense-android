@@ -1,7 +1,7 @@
 # FloatingActionButton (FAB) Removal - IMPLEMENTATION COMPLETE ✅
 
 ## Task Overview
-Successfully removed all FloatingActionButton (FAB) components from the Android HsuPar Expense application. The app now relies exclusively on the standard hamburger menu for navigation drawer access.
+Successfully removed all FloatingActionButton (FAB) components from the Android Hsu Expense application. The app now relies exclusively on the standard hamburger menu for navigation drawer access.
 
 ## Completed Changes
 

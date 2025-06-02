@@ -66,7 +66,7 @@ Write-Host "The Analytics screen now supports complete English and Myanmar trans
 Write-Host ""
 
 Write-Host "To start testing:" -ForegroundColor Cyan
-Write-Host "1. Open HsuPar Expense app on your device/emulator"
+Write-Host "1. Open Hsu Expense app on your device/emulator"
 Write-Host "2. Navigate to Analytics and test in English"
 Write-Host "3. Switch to Myanmar language and retest Analytics"
 Write-Host "4. Verify all text elements display correctly in Myanmar"

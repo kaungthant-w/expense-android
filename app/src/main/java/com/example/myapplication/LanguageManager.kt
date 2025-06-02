@@ -96,7 +96,7 @@ class LanguageManager private constructor(private val context: Context) {
     
     private fun getDefaultStrings(): Map<String, String> {
         return mapOf(
-            "app_name" to "HsuPar Expense",
+            "app_name" to "Hsu Expense",
             "settings" to "Settings",
             "language_settings" to "Language Settings",
             "theme_settings" to "Theme Settings",
