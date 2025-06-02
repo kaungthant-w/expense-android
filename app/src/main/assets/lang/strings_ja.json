@@ -280,6 +280,6 @@
   "expense_price_hint": "💵 価格",
   "expense_description_hint": "📝 説明（任意）",
   "expense_date_hint": "📅 日付 (DD/MM/YYYY)",
-  "expense_time_hint": "🕐 時間 (HH:MM)",
-  "add_expense_button": "💰 支出を追加"
+  "expense_time_hint": "🕐 時間 (HH:MM)",  "add_expense_button": "💰 支出を追加",
+  "no_data_available": "📭 データがありません"
 }

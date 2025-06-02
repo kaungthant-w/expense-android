@@ -274,11 +274,11 @@
   "please_enter_valid_price": "ကျေးဇူးပြု၍ မှန်ကန်သော စျေးနှုန်းကို ထည့်ပါ",
   "expense_added_successfully": "✅ ကုန်ကျစရိတ်ကို အောင်မြင်စွာ ထည့်ပြီးပါပြီ!",
   "expense_updated_successfully": "✅ ကုန်ကျစရိတ်ကို အောင်မြင်စွာ ပြင်ဆင်ပြီးပါပြီ!",
-  "expense_moved_to_history": "💾 ကုန်ကျစရိတ်ကို မှတ်တမ်းသို့ ရွှေ့လိုက်ပါပြီ။ ပြန်ယူမယ် မှတ်တမ်းကို ကြည့်ပါ။",
-  "expense_name_hint": "💼 ကုန်ကျစရိတ် အမည်",
+  "expense_moved_to_history": "💾 ကုန်ကျစရိတ်ကို မှတ်တမ်းသို့ ရွှေ့လိုက်ပါပြီ။ ပြန်ယူမယ် မှတ်တမ်းကို ကြည့်ပါ။",  "expense_name_hint": "💼 ကုန်ကျစရိတ် အမည်",
   "expense_price_hint": "💵 စျေးနှုန်း",
   "expense_description_hint": "📝 ဖော်ပြချက် (ရွေးချယ်ရန်)",
   "expense_date_hint": "📅 ရက်စွဲ (DD/MM/YYYY)",
   "expense_time_hint": "🕐 အချိန် (HH:MM)",
-  "add_expense_button": "💰 ကုန်ကျစရိတ် ထည့်သွင်းရန်"
+  "add_expense_button": "💰 ကုန်ကျစရိတ် ထည့်သွင်းရန်",
+  "no_data_available": "📭 မှတ်တမ်း မရှိပါ"
 }

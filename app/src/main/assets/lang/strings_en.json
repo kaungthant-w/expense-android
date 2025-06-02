@@ -267,11 +267,11 @@
   "please_enter_valid_price": "Please enter a valid price",
   "expense_added_successfully": "✅ Expense added successfully!",
   "expense_updated_successfully": "✅ Expense updated successfully!",
-  "expense_moved_to_history": "💾 Expense moved to history. Check History to restore.",
-  "expense_name_hint": "💼 Expense Name",
+  "expense_moved_to_history": "💾 Expense moved to history. Check History to restore.",  "expense_name_hint": "💼 Expense Name",
   "expense_price_hint": "💵 Price",
   "expense_description_hint": "📝 Description (Optional)",
   "expense_date_hint": "📅 Date (DD/MM/YYYY)",
   "expense_time_hint": "🕐 Time (HH:MM)",
-  "add_expense_button": "💾Save"
+  "add_expense_button": "💾Save",
+  "no_data_available": "📭 No data available"
 }

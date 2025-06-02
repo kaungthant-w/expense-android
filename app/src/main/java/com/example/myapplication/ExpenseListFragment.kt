@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -11,8 +12,10 @@ import androidx.recyclerview.widget.RecyclerView
 class ExpenseListFragment : Fragment() {
     
     private lateinit var recyclerView: RecyclerView
+    private lateinit var noDataTextView: TextView
     private lateinit var expenseAdapter: ExpenseAdapter
     private var expenseList = mutableListOf<ExpenseItem>()
+    private lateinit var languageManager: LanguageManager
     
     companion object {
         private const val ARG_FILTER_TYPE = "filter_type"
@@ -38,16 +41,25 @@ class ExpenseListFragment : Fragment() {
     ): View? {
         return inflater.inflate(R.layout.fragment_expense_list, container, false)
     }
-    
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+      override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         
+        // Initialize language manager
+        languageManager = LanguageManager.getInstance(requireContext())
+        
         recyclerView = view.findViewById(R.id.recyclerViewExpenses)
+        noDataTextView = view.findViewById(R.id.noDataTextView)
+        
         setupRecyclerView()
+        updateUITexts()
         
         // Get filter type from arguments
         val filterType = arguments?.getString(ARG_FILTER_TYPE) ?: FILTER_ALL
         loadExpensesForFilter(filterType)
+    }
+    
+    private fun updateUITexts() {
+        noDataTextView.text = languageManager.getString("no_data_available")
     }
     
     private fun setupRecyclerView() {
@@ -86,10 +98,18 @@ class ExpenseListFragment : Fragment() {
             FILTER_MONTH -> filterMonthExpenses(allExpenses)
             else -> allExpenses
         }
-        
-        expenseList.clear()
+          expenseList.clear()
         expenseList.addAll(filteredExpenses)
         expenseAdapter.notifyDataSetChanged()
+        
+        // Show/hide no data message
+        if (filteredExpenses.isEmpty()) {
+            recyclerView.visibility = View.GONE
+            noDataTextView.visibility = View.VISIBLE
+        } else {
+            recyclerView.visibility = View.VISIBLE
+            noDataTextView.visibility = View.GONE
+        }
     }
     
     private fun filterTodayExpenses(expenses: List<ExpenseItem>): List<ExpenseItem> {

@@ -114,7 +114,7 @@
     <string name="analytics_evening_label">Evening (6-11 PM):</string>
     <string name="analytics_night_label">Night (12-5 AM):</string>
     <string name="analytics_top_expenses">🏆 Top 3 Largest Expenses</string>
-    <string name="analytics_no_data_available">No data available</string>
+    <string name="analytics_no_data_available">No record available</string>
     <string name="analytics_no_expenses_yet">No expenses yet</string>
     
     <!-- Summary -->
