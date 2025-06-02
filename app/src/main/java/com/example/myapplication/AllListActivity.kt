@@ -34,7 +34,8 @@ class AllListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var languageManager: LanguageManager
     private val gson = Gson()
-      // Navigation Drawer components
+    
+    // Navigation Drawer components
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var navigationView: NavigationView
     
@@ -62,7 +63,8 @@ class AllListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
             time24 // Return original if conversion fails
         }
     }
-      override fun onCreate(savedInstanceState: Bundle?) {
+    
+    override fun onCreate(savedInstanceState: Bundle?) {
         applyTheme()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_all_list)
@@ -87,14 +89,18 @@ class AllListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
             ThemeActivity.THEME_SYSTEM -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
         }
     }
-      private fun setupActionBar() {
-        supportActionBar?.title = "📋 All Expenses"
+    
+    private fun setupActionBar() {
+        supportActionBar?.title = languageManager.getString("all_list_title")
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-    }    private fun initViews() {
+    }
+    
+    private fun initViews() {
         drawerLayout = findViewById(R.id.drawerLayout)
         navigationView = findViewById(R.id.navigationView)
         recyclerView = findViewById(R.id.recyclerViewAllList)
-          // Selection components
+        
+        // Selection components
         layoutSelectionControls = findViewById(R.id.layoutSelectionControls)
         checkboxSelectAll = findViewById(R.id.checkboxSelectAll)
         textViewSelectionCount = findViewById(R.id.textViewSelectionCount)
@@ -164,8 +170,8 @@ class AllListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
         isSelectionMode = true
         allListAdapter.setSelectionMode(true)
         layoutSelectionControls.visibility = View.VISIBLE
-        buttonToggleSelection.text = "📋 Selection Mode ON"
-        supportActionBar?.title = "📋 Select Expenses"
+        buttonToggleSelection.text = languageManager.getString("all_list_selection_mode_on")
+        supportActionBar?.title = languageManager.getString("all_list_select_expenses")
         updateSelectionUI(0, false)
     }
     
@@ -173,12 +179,12 @@ class AllListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
         isSelectionMode = false
         allListAdapter.setSelectionMode(false)
         layoutSelectionControls.visibility = View.GONE
-        buttonToggleSelection.text = "☑️ Select Items"
-        supportActionBar?.title = "📋 All Expenses"
+        buttonToggleSelection.text = languageManager.getString("all_list_select_items")
+        supportActionBar?.title = languageManager.getString("all_list_title")
     }
     
     private fun updateSelectionUI(selectedCount: Int, isAllSelected: Boolean) {
-        textViewSelectionCount.text = "$selectedCount selected"
+        textViewSelectionCount.text = languageManager.getString("all_list_selected_count").replace("{count}", selectedCount.toString())
         
         // Update "Select All" checkbox without triggering listener
         checkboxSelectAll.setOnCheckedChangeListener(null)
@@ -204,16 +210,21 @@ class AllListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
         
         val selectedItems = selectedIndices.map { allExpenses[it] }
         val itemNames = selectedItems.joinToString(", ") { it.name }
-          AlertDialog.Builder(this)
-            .setTitle("⚠️ Delete Selected Items")
-            .setMessage("Are you sure you want to delete these ${selectedIndices.size} item(s)?\n\n$itemNames\n\nDeleted items can be restored from History.")
-            .setPositiveButton("🗑️ Delete") { _, _ ->
+        
+        AlertDialog.Builder(this)
+            .setTitle(languageManager.getString("all_list_delete_dialog_title"))
+            .setMessage(languageManager.getString("all_list_delete_dialog_message")
+                .replace("{count}", selectedIndices.size.toString())
+                .replace("{items}", itemNames))
+            .setPositiveButton(languageManager.getString("all_list_delete_confirm")) { _, _ ->
                 performMultipleSoftDelete(selectedIndices.toList())
             }
-            .setNegativeButton("❌ Cancel", null)
+            .setNegativeButton(languageManager.getString("all_list_delete_cancel"), null)
             .show()
-    }    private fun performMultipleSoftDelete(indices: List<Int>) {
-        val currentDateTime = java.text.SimpleDateFormat("yyyy-MM-dd HH:mm", java.util.Locale.getDefault()).format(java.util.Date())
+    }
+    
+    private fun performMultipleSoftDelete(indices: List<Int>) {
+        val currentDateTime = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault()).format(Date())
         
         // Get the actual expenses from the original data source
         val expensesJson = sharedPreferences.getString("expenses", "[]")
@@ -240,7 +251,7 @@ class AllListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
         
         // Show success message with option to view history
         val deletedCount = indices.size
-        val message = "✅ Successfully deleted $deletedCount item(s). View in History to restore if needed."
+        val message = languageManager.getString("all_list_delete_success").replace("{count}", deletedCount.toString())
         
         val toast = android.widget.Toast.makeText(this, message, android.widget.Toast.LENGTH_LONG)
         toast.show()
@@ -248,18 +259,20 @@ class AllListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
         // Optional: Show a snackbar with action to view history
         showHistorySnackbar(deletedCount)
     }
-      private fun showHistorySnackbar(deletedCount: Int) {
+    
+    private fun showHistorySnackbar(deletedCount: Int) {
         // Create a simple dialog asking if user wants to view history
         AlertDialog.Builder(this)
-            .setTitle("📋 Items Deleted")
-            .setMessage("$deletedCount item(s) moved to History. Would you like to view the History page?")
-            .setPositiveButton("🗃️ View History") { _, _ ->
+            .setTitle(languageManager.getString("all_list_items_deleted_title"))
+            .setMessage(languageManager.getString("all_list_items_deleted_message").replace("{count}", deletedCount.toString()))
+            .setPositiveButton(languageManager.getString("all_list_view_history")) { _, _ ->
                 navigateToHistory()
             }
-            .setNegativeButton("✅ Continue", null)
+            .setNegativeButton(languageManager.getString("all_list_continue"), null)
             .show()
     }
     
+    @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
         if (isSelectionMode) {
             exitSelectionMode()
@@ -269,7 +282,8 @@ class AllListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
             super.onBackPressed()
         }
     }
-      private fun setupNavigationDrawer() {
+    
+    private fun setupNavigationDrawer() {
         val toggle = ActionBarDrawerToggle(
             this, drawerLayout, null,
             R.string.navigation_drawer_open, R.string.navigation_drawer_close
@@ -296,14 +310,16 @@ class AllListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
     private fun setupSharedPreferences() {
         sharedPreferences = getSharedPreferences("expense_prefs", Context.MODE_PRIVATE)
     }
-      private fun setupRecyclerView() {
+    
+    private fun setupRecyclerView() {
         allListAdapter = AllListAdapter(allExpenses) { selectedCount, isAllSelected ->
             updateSelectionUI(selectedCount, isAllSelected)
         }
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = allListAdapter
     }
-      private fun loadAllExpenses() {
+    
+    private fun loadAllExpenses() {
         val expensesJson = sharedPreferences.getString("expenses", "[]")
         val type = object : TypeToken<List<ExpenseItem>>() {}.type
         val expenses: List<ExpenseItem> = gson.fromJson(expensesJson, type) ?: emptyList()
@@ -341,7 +357,8 @@ class AllListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
             }
             R.id.nav_settings -> {
                 startActivity(Intent(this, SettingsActivity::class.java))
-            }            R.id.nav_feedback -> {
+            }
+            R.id.nav_feedback -> {
                 startActivity(Intent(this, FeedbackActivity::class.java))
             }
             R.id.nav_about -> {
@@ -362,6 +379,7 @@ class AllListAdapter(
 ) : RecyclerView.Adapter<AllListAdapter.AllListViewHolder>() {
     
     private lateinit var currencyManager: CurrencyManager
+    private lateinit var languageManager: LanguageManager
     private var selectionMode = false
     private val selectedItems = mutableSetOf<Int>()
     
@@ -408,15 +426,18 @@ class AllListAdapter(
         selectedItems.clear()
         selectedItems.addAll(0 until expenses.size)
         notifyDataSetChanged()
+        onSelectionChanged(selectedItems.size, isAllSelected())
     }
     
     fun clearSelection() {
         selectedItems.clear()
         notifyDataSetChanged()
+        onSelectionChanged(selectedItems.size, isAllSelected())
     }
     
     fun isAllSelected(): Boolean = selectedItems.size == expenses.size && expenses.isNotEmpty()
-      override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AllListViewHolder {
+    
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AllListViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_all_list, parent, false)
         
@@ -425,8 +446,15 @@ class AllListAdapter(
             currencyManager = CurrencyManager.getInstance(parent.context)
         }
         
+        // Initialize LanguageManager if not already done
+        if (!::languageManager.isInitialized) {
+            languageManager = LanguageManager.getInstance(parent.context)
+        }
+        
         return AllListViewHolder(view)
-    }      override fun onBindViewHolder(holder: AllListViewHolder, position: Int) {
+    }
+    
+    override fun onBindViewHolder(holder: AllListViewHolder, position: Int) {
         val expense = expenses[position]
         
         // Handle selection checkbox
@@ -448,21 +476,23 @@ class AllListAdapter(
                 holder.checkboxSelect.isChecked = !holder.checkboxSelect.isChecked
             }
         }
-          holder.textViewName.text = expense.name
+        
+        holder.textViewName.text = expense.name
         
         // Use CurrencyManager's new method for display
         val displayAmount = currencyManager.getDisplayAmountFromStored(expense.price, expense.currency)
         holder.textViewPrice.text = currencyManager.formatCurrency(displayAmount)
-          holder.textViewDescription.text = if (expense.description.isNotEmpty()) {
+        
+        holder.textViewDescription.text = if (expense.description.isNotEmpty()) {
             expense.description
         } else {
-            "No description"
+            languageManager.getString("all_list_no_description")
         }
         
         holder.textViewDateTime.text = "📅 ${expense.date} • 🕐 ${convertTo12HourFormat(expense.time)}"
         
         // Since we only show active items, set consistent styling
-        holder.textViewStatus.text = "✅ ACTIVE"
+        holder.textViewStatus.text = languageManager.getString("all_list_status_active")
         holder.textViewStatus.setTextColor(holder.itemView.context.getColor(android.R.color.holo_green_dark))
         holder.itemView.alpha = 1.0f
     }

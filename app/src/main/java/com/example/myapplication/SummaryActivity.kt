@@ -31,11 +31,11 @@ class SummaryActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
         applyTheme()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_summary)
-        
-        languageManager = LanguageManager.getInstance(this)
+          languageManager = LanguageManager.getInstance(this)
         setupActionBar()
         initViews()
-        setupNavigationDrawer()        setupSharedPreferences()
+        setupNavigationDrawer()
+        setupSharedPreferences()
         loadSummaryData()
         updateNavigationMenuTitles()
         updateTextElements()
@@ -163,9 +163,10 @@ class SummaryActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
         
         findViewById<TextView>(R.id.textTodayExpenses).text = todayExpenses.size.toString()
         findViewById<TextView>(R.id.textTodayAmount).text = currencyManager.formatCurrency(displayTodayAmount)
+          findViewById<TextView>(R.id.textMonthExpenses).text = monthExpenses.size.toString()
+        findViewById<TextView>(R.id.textMonthAmount).text = currencyManager.formatCurrency(displayMonthAmount)
         
-        findViewById<TextView>(R.id.textMonthExpenses).text = monthExpenses.size.toString()
-        findViewById<TextView>(R.id.textMonthAmount).text = currencyManager.formatCurrency(displayMonthAmount)        findViewById<TextView>(R.id.textHighestExpense).text =
+        findViewById<TextView>(R.id.textHighestExpense).text =
             if (highestExpense != null) {
                 val displayHighestAmount = currencyManager.getDisplayAmountFromStored(highestExpense.price, highestExpense.currency)
                 "${highestExpense.name}: ${currencyManager.formatCurrency(displayHighestAmount)}"

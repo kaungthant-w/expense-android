@@ -26,15 +26,16 @@ class ExpenseDetailActivity : AppCompatActivity() {
     private lateinit var buttonDelete: Button
     private lateinit var buttonBack: ImageButton
     private lateinit var currencyManager: CurrencyManager
-    
-    private var expenseId: Long = -1
+    private lateinit var languageManager: LanguageManager
+      private var expenseId: Long = -1
     private var isNewExpense = true
-      override fun onCreate(savedInstanceState: Bundle?) {
+    
+    override fun onCreate(savedInstanceState: Bundle?) {
         applyTheme()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_expense_detail)
-        
-        currencyManager = CurrencyManager.getInstance(this)
+          currencyManager = CurrencyManager.getInstance(this)
+        languageManager = LanguageManager.getInstance(this)
         initViews()
         setupData()
         setupClickListeners()
@@ -99,6 +100,9 @@ class ExpenseDetailActivity : AppCompatActivity() {
             editTextTime.setText(timeFormat.format(calendar.time))
             buttonDelete.isEnabled = false
         }
+        
+        // Update UI texts after determining the mode
+        updateUITexts()
     }
     
     private fun setupDateTimeFields() {
@@ -147,22 +151,22 @@ class ExpenseDetailActivity : AppCompatActivity() {
         val description = editTextDescription.text.toString().trim()
         val date = editTextDate.text.toString().trim()
         val time = editTextTime.text.toString().trim()
-        
-        // Validation
+          // Validation
         if (name.isEmpty()) {
-            editTextName.error = "Name is required"
+            editTextName.error = languageManager.getString("name_required")
             editTextName.requestFocus()
             return
         }
         
         if (priceText.isEmpty()) {
-            editTextPrice.error = "Price is required"
+            editTextPrice.error = languageManager.getString("price_required")
             editTextPrice.requestFocus()
             return
         }
-          val price = priceText.toDoubleOrNull()
+        
+        val price = priceText.toDoubleOrNull()
         if (price == null || price <= 0) {
-            editTextPrice.error = "Invalid price format"
+            editTextPrice.error = languageManager.getString("invalid_price_format")
             editTextPrice.requestFocus()
             return
         }
@@ -182,20 +186,18 @@ class ExpenseDetailActivity : AppCompatActivity() {
             putExtra("expense_currency", storageCurrency)
             putExtra("is_new_expense", isNewExpense)
         }
-        
-        setResult(RESULT_OK, resultIntent)
-        Toast.makeText(this, if (isNewExpense) "Expense added!" else "Expense updated!", Toast.LENGTH_SHORT).show()
+          setResult(RESULT_OK, resultIntent)
+        Toast.makeText(this, if (isNewExpense) languageManager.getString("expense_added") else languageManager.getString("expense_updated"), Toast.LENGTH_SHORT).show()
         finish()
     }
-    
-    private fun showDeleteConfirmation() {
+      private fun showDeleteConfirmation() {
         AlertDialog.Builder(this)
-            .setTitle("Delete Expense")
-            .setMessage("Are you sure you want to delete this expense?")
-            .setPositiveButton("Delete") { _, _ ->
+            .setTitle(languageManager.getString("delete_expense_title"))
+            .setMessage(languageManager.getString("delete_expense_message"))
+            .setPositiveButton(languageManager.getString("delete")) { _, _ ->
                 deleteExpense()
             }
-            .setNegativeButton("Cancel", null)
+            .setNegativeButton(languageManager.getString("cancel"), null)
             .show()
     }
     
@@ -204,9 +206,28 @@ class ExpenseDetailActivity : AppCompatActivity() {
             putExtra("expense_id", expenseId)
             putExtra("delete_expense", true)
         }
-        
-        setResult(RESULT_OK, resultIntent)
-        Toast.makeText(this, "Expense deleted!", Toast.LENGTH_SHORT).show()
+          setResult(RESULT_OK, resultIntent)
+        Toast.makeText(this, languageManager.getString("expense_deleted"), Toast.LENGTH_SHORT).show()
         finish()
+    }
+    
+    private fun updateUITexts() {
+        // Update button texts
+        buttonSave.text = languageManager.getString("save")
+        buttonDelete.text = languageManager.getString("delete")
+        
+        // Update EditText hints
+        editTextName.hint = languageManager.getString("expense_name")
+        editTextPrice.hint = languageManager.getString("expense_price")
+        editTextDescription.hint = languageManager.getString("expense_description")
+        editTextDate.hint = languageManager.getString("expense_date")
+        editTextTime.hint = languageManager.getString("expense_time")
+        
+        // Update title based on mode
+        supportActionBar?.title = if (isNewExpense) {
+            languageManager.getString("add_expense_title")
+        } else {
+            languageManager.getString("edit_expense_title")
+        }
     }
 }

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">HsuPar Despesas</string>
+    <string name="navigation_drawer_open">Abrir gaveta de navegação</string>
+    <string name="navigation_drawer_close">Fechar gaveta de navegação</string>
+    <string name="nav_header_desc">Cabeçalho de navegação</string>
+    
+    <!-- Navigation Menu -->
+    <string name="nav_home">Início</string>
+    <string name="nav_all_list">Lista Completa</string>
+    <string name="nav_history">Histórico</string>
+    <string name="nav_summary">Resumo</string>
+    <string name="nav_analytics">Análise</string>
+    <string name="nav_currency_exchange">Câmbio de Moeda</string>
+    <string name="nav_settings">Configurações</string>
+    <string name="nav_feedback">Comentários</string>
+    <string name="nav_about">Sobre</string>
+    <string name="nav_language">Idioma</string>
+    
+    <!-- Language Settings -->
+    <string name="language_settings">Configurações de Idioma</string>
+    <string name="language_description">Escolha seu idioma preferido para a interface do aplicativo</string>
+    <string name="english_description">Interface em inglês</string>
+    <string name="spanish_description">Interfaz en español</string>
+    <string name="french_description">Interface en français</string>
+    <string name="portuguese_description">Interface em português</string>
+    <string name="myanmar_description">မြန်မာဘာသာ မျက်နှာပြင်</string>
+    <string name="language_info">As mudanças de idioma se aplicam imediatamente</string>
+    <string name="back">Voltar</string>
+    <string name="apply">Aplicar</string>
+    
+    <!-- Activity Titles -->
+    <string name="main_activity_title">Rastreador de Despesas</string>
+    <string name="summary_title">Resumo de Despesas</string>
+    <string name="analytics_title">Análise de Despesas</string>
+    <string name="history_title">Histórico de Despesas</string>
+    <string name="all_list_title">Lista de Despesas</string>
+    <string name="settings_title">Configurações</string>
+    <string name="currency_exchange_title">Câmbio de Moeda</string>
+    <string name="about_title">Sobre</string>
+    
+    <!-- Main Activity -->
+    <string name="expense_name_hint">Nome da despesa</string>
+    <string name="amount_hint">Valor</string>
+    <string name="add_expense">Adicionar Despesa</string>
+    <string name="total_expenses">Total de Despesas</string>
+    <string name="currency_label">Moeda:</string>
+    
+    <!-- Summary Activity -->
+    <string name="overall_statistics">Estatísticas Gerais</string>
+    <string name="today_summary">Resumo de Hoje</string>
+    <string name="month_summary">Resumo do Mês</string>
+    <string name="expense_extremes">Extremos de Despesas</string>
+    <string name="total_amount">Valor Total</string>
+    <string name="average_amount">Valor Médio</string>
+    <string name="today_expenses">Despesas de Hoje</string>
+    <string name="today_total">Total de Hoje</string>
+    <string name="month_expenses">Despesas do Mês</string>
+    <string name="month_total">Total do Mês</string>
+    <string name="highest_expense">Maior Despesa</string>
+    <string name="lowest_expense">Menor Despesa</string>
+    <string name="no_expenses_yet">Ainda não há despesas</string>
+    
+    <!-- Common UI Elements -->
+    <string name="delete">Excluir</string>
+    <string name="edit">Editar</string>
+    <string name="save">Salvar</string>
+    <string name="cancel">Cancelar</string>
+    <string name="ok">OK</string>
+    <string name="yes">Sim</string>
+    <string name="no">Não</string>
+    <string name="confirm">Confirmar</string>
+    
+    <!-- Feedback -->
+    <string name="feedback">Comentários</string>
+    <string name="feedback_title">💬 Comentários</string>
+    <string name="rating_excellent">⭐⭐⭐⭐⭐ Excelente</string>
+    <string name="rating_good">⭐⭐⭐⭐ Bom</string>
+    <string name="rating_average">⭐⭐⭐ Médio</string>
+    <string name="feedback_hint">Digite seus comentários aqui...</string>
+    <string name="email_hint">Seu email (opcional)</string>
+    <string name="submit_feedback">Enviar Comentários</string>
+    <string name="please_select_rating">Por favor, selecione uma avaliação</string>
+    <string name="please_enter_feedback">Por favor, digite seus comentários</string>
+    <string name="feedback_subject">Comentários do App HsuPar Despesas</string>
+    <string name="thank_you_feedback">Obrigado pelos seus comentários! 😊</string>
+    <string name="no_email_app">Nenhum app de email encontrado. Por favor, instale um app de email para enviar comentários.</string>
+    <string name="send_feedback_via">Enviar comentários via...</string>
+    
+    <!-- Messages -->
+    <string name="expense_added">Despesa adicionada com sucesso</string>
+    <string name="expense_deleted">Despesa excluída</string>
+    <string name="expense_updated">Despesa atualizada</string>
+    <string name="error_occurred">Ocorreu um erro</string>
+    <string name="please_fill_all_fields">Por favor, preencha todos os campos</string>
+    <string name="invalid_amount">Valor inválido</string>
+    
+    <!-- Currency -->
+    <string name="currency_usd">Dólar Americano</string>
+    <string name="currency_eur">Euro</string>
+    <string name="currency_mmk">Kyat de Myanmar</string>
+    <string name="currency_jpy">Iene Japonês</string>
+    <string name="currency_cny">Yuan Chinês</string>
+</resources>

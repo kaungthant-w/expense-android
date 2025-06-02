@@ -33,9 +33,8 @@
                     android:background="@drawable/card_background"
                     android:src="@drawable/ic_arrow_back"
                     android:layout_marginEnd="16dp"
-                    android:contentDescription="Back" />
-
-                <TextView
+                    android:contentDescription="Back" />                <TextView
+                    android:id="@+id/textCurrencyExchangeTitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -66,9 +65,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:layout_marginBottom="16dp">
-
-                        <TextView
+                        android:layout_marginBottom="16dp">                        <TextView
+                            android:id="@+id/textLiveExchangeRatesTitle"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -105,9 +103,8 @@
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
                             android:paddingVertical="8dp"
-                            android:background="?attr/accentColor">
-
-                            <TextView
+                            android:background="?attr/accentColor">                            <TextView
+                                android:id="@+id/textCurrencyLabel"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
@@ -119,6 +116,7 @@
                                 android:gravity="start" />
 
                             <TextView
+                                android:id="@+id/textRateLabel"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
@@ -379,9 +377,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="20dp">
-
-                    <TextView
+                    android:padding="20dp">                    <TextView
+                        android:id="@+id/textCurrentExchangeRateTitle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="📊 Current Exchange Rate"
@@ -438,18 +435,16 @@
                         android:visibility="gone"
                         android:background="?attr/colorSurface"
                         android:padding="12dp"
-                        android:layout_marginTop="8dp">
-
-                        <TextView
+                        android:layout_marginTop="8dp">                        <TextView
+                            android:id="@+id/textManualRateEntryTitle"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="💡 Manual Exchange Rate Entry"
                             android:textSize="14sp"
                             android:textStyle="bold"
                             android:textColor="?attr/textPrimaryColor"
-                            android:layout_marginBottom="8dp" />
-
-                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_marginBottom="8dp" />                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/textInputCustomRate"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="Enter rate (e.g., 3600.0)"
@@ -503,8 +498,8 @@
 
             </androidx.cardview.widget.CardView>
 
-            <!-- Currency Selection Cards -->
-            <TextView
+            <!-- Currency Selection Cards -->            <TextView
+                android:id="@+id/textSelectDisplayCurrencyTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="🌍 Select Display Currency"
@@ -544,9 +539,8 @@
                             android:text="💵 USD"
                             android:textSize="16sp"
                             android:textStyle="bold"
-                            android:textColor="?attr/textPrimaryColor" />
-
-                        <TextView
+                            android:textColor="?attr/textPrimaryColor" />                        <TextView
+                            android:id="@+id/textUsDollarLabel"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="US Dollar"
@@ -582,9 +576,8 @@
                             android:text="🇲🇲 MMK"
                             android:textSize="16sp"
                             android:textStyle="bold"
-                            android:textColor="?attr/textPrimaryColor" />
-
-                        <TextView
+                            android:textColor="?attr/textPrimaryColor" />                        <TextView
+                            android:id="@+id/textMyanmarKyatLabel"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Myanmar Kyat"

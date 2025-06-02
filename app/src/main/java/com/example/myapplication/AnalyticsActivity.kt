@@ -50,19 +50,66 @@ class AnalyticsActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
             ThemeActivity.THEME_SYSTEM -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
         }
     }
-    
-    private fun setupActionBar() {
-        supportActionBar?.title = "📈 Expense Analytics"
+      private fun setupActionBar() {
+        supportActionBar?.title = languageManager.getString("analytics_title")
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
-    
-    private fun initViews() {
+      private fun initViews() {
         drawerLayout = findViewById(R.id.drawerLayout)
         navigationView = findViewById(R.id.navigationView)
         
         // Setup back button click listener
         findViewById<android.widget.ImageButton>(R.id.buttonBack).setOnClickListener {
             finish()
+        }
+        
+        // Set all static text elements using LanguageManager
+        setupStaticTexts()
+    }
+    
+    private fun setupStaticTexts() {
+        // Find and set all static text elements
+        try {            // Main title
+            findViewById<TextView>(R.id.textAnalyticsTitle)?.text = 
+                languageManager.getString("analytics_title")
+            
+            // Weekly Analysis section
+            findViewById<TextView>(R.id.textWeeklyAnalysisTitle)?.text = 
+                languageManager.getString("analytics_weekly_analysis")
+            findViewById<TextView>(R.id.textThisWeekExpensesLabel)?.text = 
+                languageManager.getString("analytics_this_week_expenses")
+            findViewById<TextView>(R.id.textThisWeekTotalLabel)?.text = 
+                languageManager.getString("analytics_this_week_total")
+            findViewById<TextView>(R.id.textAveragePerDayLabel)?.text = 
+                languageManager.getString("analytics_average_per_day")
+            
+            // Day of Week Analysis section
+            findViewById<TextView>(R.id.textDayOfWeekAnalysisTitle)?.text = 
+                languageManager.getString("analytics_day_of_week_analysis")
+            findViewById<TextView>(R.id.textMostExpensiveDayLabel)?.text = 
+                languageManager.getString("analytics_most_expensive_day_label")
+            findViewById<TextView>(R.id.textLeastExpensiveDayLabel)?.text = 
+                languageManager.getString("analytics_least_expensive_day_label")
+            
+            // Time of Day Analysis section
+            findViewById<TextView>(R.id.textTimeOfDayAnalysisTitle)?.text = 
+                languageManager.getString("analytics_time_of_day_analysis")
+            findViewById<TextView>(R.id.textMorningLabel)?.text = 
+                languageManager.getString("analytics_morning_label")
+            findViewById<TextView>(R.id.textAfternoonLabel)?.text = 
+                languageManager.getString("analytics_afternoon_label")
+            findViewById<TextView>(R.id.textEveningLabel)?.text = 
+                languageManager.getString("analytics_evening_label")
+            findViewById<TextView>(R.id.textNightLabel)?.text = 
+                languageManager.getString("analytics_night_label")
+            
+            // Top Expenses section
+            findViewById<TextView>(R.id.textTopExpensesTitle)?.text = 
+                languageManager.getString("analytics_top_expenses")
+                
+        } catch (e: Exception) {
+            // Handle any missing views gracefully
+            e.printStackTrace()
         }
     }
     
@@ -101,6 +148,14 @@ class AnalyticsActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
         val expensesList: List<ExpenseItem> = gson.fromJson(expensesJson, type) ?: emptyList()
         
         displayAnalytics(expensesList)
+    }
+    
+    override fun onResume() {
+        super.onResume()
+        // Update static texts when resuming (in case language was changed)
+        setupStaticTexts()
+        // Refresh analytics data to update with new language
+        loadAnalyticsData()
     }
     
     private fun displayAnalytics(expenses: List<ExpenseItem>) {
@@ -162,43 +217,53 @@ class AnalyticsActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
                 false
             }
         }
-        
-        // Update UI
+          // Update UI
         findViewById<TextView>(R.id.textMostExpensiveDay).text = 
             if (mostExpensiveDay != null) {
                 // Amount is already in display currency, no conversion needed
-                "${mostExpensiveDay.key}: ${currencyManager.formatCurrency(mostExpensiveDay.value)}"
-            } else "No data available"
+                languageManager.getString("analytics_most_expensive_day")
+                    .replace("{day}", mostExpensiveDay.key)
+                    .replace("{amount}", currencyManager.formatCurrency(mostExpensiveDay.value))
+            } else languageManager.getString("analytics_no_data")
             
         findViewById<TextView>(R.id.textLeastExpensiveDay).text = 
             if (leastExpensiveDay != null) {
                 // Amount is already in display currency, no conversion needed
-                "${leastExpensiveDay.key}: ${currencyManager.formatCurrency(leastExpensiveDay.value)}"
-            } else "No data available"
-        
-        val morningTotal = morningExpenses.sumOf { expense ->
+                languageManager.getString("analytics_least_expensive_day")
+                    .replace("{day}", leastExpensiveDay.key)
+                    .replace("{amount}", currencyManager.formatCurrency(leastExpensiveDay.value))
+            } else languageManager.getString("analytics_no_data")
+          val morningTotal = morningExpenses.sumOf { expense ->
             currencyManager.getDisplayAmountFromStored(expense.price, expense.currency)
         }
         findViewById<TextView>(R.id.textMorningExpenses).text = 
-            "${morningExpenses.size} expenses - ${currencyManager.formatCurrency(morningTotal)}"
+            languageManager.getString("analytics_morning_expenses")
+                .replace("{count}", morningExpenses.size.toString())
+                .replace("{amount}", currencyManager.formatCurrency(morningTotal))
             
         val afternoonTotal = afternoonExpenses.sumOf { expense ->
             currencyManager.getDisplayAmountFromStored(expense.price, expense.currency)
         }
         findViewById<TextView>(R.id.textAfternoonExpenses).text = 
-            "${afternoonExpenses.size} expenses - ${currencyManager.formatCurrency(afternoonTotal)}"
+            languageManager.getString("analytics_afternoon_expenses")
+                .replace("{count}", afternoonExpenses.size.toString())
+                .replace("{amount}", currencyManager.formatCurrency(afternoonTotal))
             
         val eveningTotal = eveningExpenses.sumOf { expense ->
             currencyManager.getDisplayAmountFromStored(expense.price, expense.currency)
         }
         findViewById<TextView>(R.id.textEveningExpenses).text = 
-            "${eveningExpenses.size} expenses - ${currencyManager.formatCurrency(eveningTotal)}"
+            languageManager.getString("analytics_evening_expenses")
+                .replace("{count}", eveningExpenses.size.toString())
+                .replace("{amount}", currencyManager.formatCurrency(eveningTotal))
             
         val nightTotal = nightExpenses.sumOf { expense ->
             currencyManager.getDisplayAmountFromStored(expense.price, expense.currency)
         }
         findViewById<TextView>(R.id.textNightExpenses).text = 
-            "${nightExpenses.size} expenses - ${currencyManager.formatCurrency(nightTotal)}"
+            languageManager.getString("analytics_night_expenses")
+                .replace("{count}", nightExpenses.size.toString())
+                .replace("{amount}", currencyManager.formatCurrency(nightTotal))
         
         findViewById<TextView>(R.id.textThisWeekExpenses).text = thisWeekExpenses.size.toString()
         val weekTotal = thisWeekExpenses.sumOf { expense ->
@@ -215,8 +280,7 @@ class AnalyticsActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
         } else 0.0
         
         findViewById<TextView>(R.id.textAveragePerDay).text = currencyManager.formatCurrency(averagePerDay)
-        
-        // Show top 3 most expensive expenses
+          // Show top 3 most expensive expenses
         val topExpenses = expenses.sortedByDescending { expense ->
             currencyManager.getDisplayAmountFromStored(expense.price, expense.currency)
         }.take(3)
@@ -225,7 +289,7 @@ class AnalyticsActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
                 val displayAmount = currencyManager.getDisplayAmountFromStored(expense.price, expense.currency)
                 "${index + 1}. ${expense.name}: ${currencyManager.formatCurrency(displayAmount)}"
             }.joinToString("\n")
-        } else "No expenses yet"
+        } else languageManager.getString("analytics_no_expenses")
         
         findViewById<TextView>(R.id.textTopExpenses).text = topExpensesText
     }

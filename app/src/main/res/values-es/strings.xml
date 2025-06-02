@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">HsuPar Gastos</string>
+    <string name="navigation_drawer_open">Abrir cajón de navegación</string>
+    <string name="navigation_drawer_close">Cerrar cajón de navegación</string>
+    <string name="nav_header_desc">Encabezado de navegación</string>
+    
+    <!-- Navigation Menu -->
+    <string name="nav_home">Inicio</string>
+    <string name="nav_all_list">Lista Completa</string>
+    <string name="nav_history">Historial</string>
+    <string name="nav_summary">Resumen</string>
+    <string name="nav_analytics">Análisis</string>
+    <string name="nav_currency_exchange">Cambio de Moneda</string>
+    <string name="nav_settings">Configuración</string>
+    <string name="nav_feedback">Comentarios</string>
+    <string name="nav_about">Acerca de</string>
+    <string name="nav_language">Idioma</string>
+    
+    <!-- Language Settings -->
+    <string name="language_settings">Configuración de Idioma</string>
+    <string name="language_description">Elige tu idioma preferido para la interfaz de la aplicación</string>
+    <string name="english_description">Interfaz en inglés</string>
+    <string name="spanish_description">Interfaz en español</string>
+    <string name="french_description">Interface en français</string>
+    <string name="portuguese_description">Interface em português</string>
+    <string name="myanmar_description">မြန်မာဘာသာ မျက်နှာပြင်</string>
+    <string name="language_info">Los cambios de idioma se aplican inmediatamente</string>
+    <string name="back">Atrás</string>
+    <string name="apply">Aplicar</string>
+    
+    <!-- Activity Titles -->
+    <string name="main_activity_title">Rastreador de Gastos</string>
+    <string name="summary_title">Resumen de Gastos</string>
+    <string name="analytics_title">Análisis de Gastos</string>
+    <string name="history_title">Historial de Gastos</string>
+    <string name="all_list_title">Lista de Gastos</string>
+    <string name="settings_title">Configuración</string>
+    <string name="currency_exchange_title">Cambio de Moneda</string>
+    <string name="about_title">Acerca de</string>
+    
+    <!-- Main Activity -->
+    <string name="expense_name_hint">Nombre del gasto</string>
+    <string name="amount_hint">Cantidad</string>
+    <string name="add_expense">Agregar Gasto</string>
+    <string name="total_expenses">Total de Gastos</string>
+    <string name="currency_label">Moneda:</string>
+    
+    <!-- Summary Activity -->
+    <string name="overall_statistics">Estadísticas Generales</string>
+    <string name="today_summary">Resumen de Hoy</string>
+    <string name="month_summary">Resumen del Mes</string>
+    <string name="expense_extremes">Extremos de Gastos</string>
+    <string name="total_amount">Cantidad Total</string>
+    <string name="average_amount">Cantidad Promedio</string>
+    <string name="today_expenses">Gastos de Hoy</string>
+    <string name="today_total">Total de Hoy</string>
+    <string name="month_expenses">Gastos del Mes</string>
+    <string name="month_total">Total del Mes</string>
+    <string name="highest_expense">Gasto Más Alto</string>
+    <string name="lowest_expense">Gasto Más Bajo</string>
+    <string name="no_expenses_yet">Aún no hay gastos</string>
+    
+    <!-- Common UI Elements -->
+    <string name="delete">Eliminar</string>
+    <string name="edit">Editar</string>
+    <string name="save">Guardar</string>
+    <string name="cancel">Cancelar</string>
+    <string name="ok">OK</string>
+    <string name="yes">Sí</string>
+    <string name="no">No</string>
+    <string name="confirm">Confirmar</string>
+    
+    <!-- Feedback -->
+    <string name="feedback">Comentarios</string>
+    <string name="feedback_title">💬 Comentarios</string>
+    <string name="rating_excellent">⭐⭐⭐⭐⭐ Excelente</string>
+    <string name="rating_good">⭐⭐⭐⭐ Bueno</string>
+    <string name="rating_average">⭐⭐⭐ Promedio</string>
+    <string name="feedback_hint">Ingresa tus comentarios aquí...</string>
+    <string name="email_hint">Tu email (opcional)</string>
+    <string name="submit_feedback">Enviar Comentarios</string>
+    <string name="please_select_rating">Por favor selecciona una calificación</string>
+    <string name="please_enter_feedback">Por favor ingresa tus comentarios</string>
+    <string name="feedback_subject">Comentarios de la App HsuPar Gastos</string>
+    <string name="thank_you_feedback">¡Gracias por tus comentarios! 😊</string>
+    <string name="no_email_app">No se encontró aplicación de email. Por favor instala una aplicación de email para enviar comentarios.</string>
+    <string name="send_feedback_via">Enviar comentarios a través de...</string>
+    
+    <!-- Messages -->
+    <string name="expense_added">Gasto agregado exitosamente</string>
+    <string name="expense_deleted">Gasto eliminado</string>
+    <string name="expense_updated">Gasto actualizado</string>
+    <string name="error_occurred">Ocurrió un error</string>
+    <string name="please_fill_all_fields">Por favor completa todos los campos</string>
+    <string name="invalid_amount">Cantidad inválida</string>
+    
+    <!-- Currency -->
+    <string name="currency_usd">Dólar Estadounidense</string>
+    <string name="currency_eur">Euro</string>
+    <string name="currency_mmk">Kyat de Myanmar</string>
+    <string name="currency_jpy">Yen Japonés</string>
+    <string name="currency_cny">Yuan Chino</string>
+</resources>

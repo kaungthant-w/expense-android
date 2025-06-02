@@ -23,6 +23,7 @@ import com.google.android.material.textfield.TextInputEditText
 class CurrencyExchangeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     private lateinit var currencyManager: CurrencyManager
     private lateinit var currencyApiService: CurrencyApiService
+    private lateinit var languageManager: LanguageManager
     private lateinit var sharedPreferences: SharedPreferences
     
     // Navigation Drawer components
@@ -42,7 +43,7 @@ class CurrencyExchangeActivity : AppCompatActivity(), NavigationView.OnNavigatio
     
     // Currency exchange table views
     private lateinit var buttonRefreshRates: MaterialButton
-    private lateinit var textRateUsd: TextView
+        private lateinit var textRateUsd: TextView
     private lateinit var textRateEur: TextView
     private lateinit var textRateSgd: TextView
     private lateinit var textRateMyr: TextView
@@ -58,12 +59,14 @@ class CurrencyExchangeActivity : AppCompatActivity(), NavigationView.OnNavigatio
         
         currencyManager = CurrencyManager.getInstance(this)
         currencyApiService = CurrencyApiService(this)
+        languageManager = LanguageManager.getInstance(this)
         sharedPreferences = getSharedPreferences("expense_prefs", Context.MODE_PRIVATE)
         setupActionBar()
         initViews()
         setupNavigationDrawer()
         setupClickListeners()
         updateUI()
+        updateNavigationMenuTitles()
         
         // Load initial exchange rates
         fetchAllExchangeRates()
@@ -79,10 +82,9 @@ class CurrencyExchangeActivity : AppCompatActivity(), NavigationView.OnNavigatio
             ThemeActivity.THEME_SYSTEM -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
         }
     }
-    
-    private fun setupActionBar() {
+      private fun setupActionBar() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.title = "💱 Currency Exchange"
+        supportActionBar?.title = languageManager.getString("currency_exchange_title")
     }
     
     private fun initViews() {
@@ -116,6 +118,55 @@ class CurrencyExchangeActivity : AppCompatActivity(), NavigationView.OnNavigatio
         textRateThb = findViewById(R.id.textRateThb)
         textRateJpy = findViewById(R.id.textRateJpy)
         textLastUpdated = findViewById(R.id.textLastUpdated)
+        
+        // Set up static texts with translation
+        setupStaticTexts()
+    }
+    
+    private fun setupStaticTexts() {
+        // Set all static text elements using LanguageManager
+        try {
+            // Main title
+            findViewById<TextView>(R.id.textCurrencyExchangeTitle)?.text = 
+                languageManager.getString("currency_exchange_title")
+            
+            // Live exchange rates section
+            findViewById<TextView>(R.id.textLiveExchangeRatesTitle)?.text = 
+                languageManager.getString("live_exchange_rates")
+            buttonRefreshRates.text = languageManager.getString("refresh_rates")
+            
+            // Table headers
+            findViewById<TextView>(R.id.textCurrencyLabel)?.text = 
+                languageManager.getString("currency")
+            findViewById<TextView>(R.id.textRateLabel)?.text = 
+                languageManager.getString("rate_mmk")
+            
+            // Current exchange rate section
+            findViewById<TextView>(R.id.textCurrentExchangeRateTitle)?.text = 
+                languageManager.getString("current_exchange_rate")
+            buttonFetchRate.text = languageManager.getString("fetch_latest_rate")
+            buttonCustomRate.text = languageManager.getString("custom_rate")
+            
+            // Manual rate entry section
+            findViewById<TextView>(R.id.textManualRateEntryTitle)?.text = 
+                languageManager.getString("manual_rate_entry")
+            findViewById<com.google.android.material.textfield.TextInputLayout>(R.id.textInputCustomRate)?.hint = 
+                languageManager.getString("enter_rate_hint")
+            buttonApplyCustomRate.text = languageManager.getString("apply_rate")
+            buttonCancelCustomRate.text = languageManager.getString("cancel_rate")
+            
+            // Currency selection section
+            findViewById<TextView>(R.id.textSelectDisplayCurrencyTitle)?.text = 
+                languageManager.getString("select_display_currency")
+            findViewById<TextView>(R.id.textUsDollarLabel)?.text = 
+                languageManager.getString("us_dollar")
+            findViewById<TextView>(R.id.textMyanmarKyatLabel)?.text = 
+                languageManager.getString("myanmar_kyat")
+                
+        } catch (e: Exception) {
+            // Log error but continue - fallback to hardcoded text in XML
+            android.util.Log.e("CurrencyExchange", "Error setting up static texts: ${e.message}")
+        }
     }
     
     private fun setupNavigationDrawer() {
@@ -167,35 +218,32 @@ class CurrencyExchangeActivity : AppCompatActivity(), NavigationView.OnNavigatio
         buttonRefreshRates.setOnClickListener {
             fetchAllExchangeRates()
         }
-    }
-    
-    private fun switchToCurrency(currency: String) {
+    }    private fun switchToCurrency(currency: String) {
         currencyManager.setCurrentCurrency(currency)
         updateUI()
         
         val message = when (currency) {
-            CurrencyManager.CURRENCY_USD -> "Switched to USD - Viewing original amounts"
-            CurrencyManager.CURRENCY_MMK -> "Switched to MMK - Converting amounts using exchange rate"
-            else -> "Currency switched"
+            CurrencyManager.CURRENCY_USD -> languageManager.getString("switched_to_usd")
+            CurrencyManager.CURRENCY_MMK -> languageManager.getString("switched_to_mmk")
+            else -> languageManager.getString("currency_switched")
         }
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
-    
-    private fun updateUI() {
+      private fun updateUI() {
         val currentCurrency = currencyManager.getCurrentCurrency()
         val exchangeRate = currencyManager.getExchangeRate()
         
         // Update currency selection visual feedback
         updateCurrencySelection(currentCurrency)
-        
-        // Update exchange rate display
-        textCurrentRate.text = "Exchange Rate: 1 USD = ${String.format("%.2f", exchangeRate)} MMK"
+          // Update exchange rate display
+        textCurrentRate.text = languageManager.getString("exchange_rate_display")
+            .replace("{rate}", String.format("%.2f", exchangeRate))
         
         // Update switch button text
         buttonSwitchCurrency.text = when (currentCurrency) {
-            CurrencyManager.CURRENCY_USD -> "💱 Switch to MMK"
-            CurrencyManager.CURRENCY_MMK -> "💱 Switch to USD"
-            else -> "💱 Switch Currency"
+            CurrencyManager.CURRENCY_USD -> languageManager.getString("switch_to_mmk")
+            CurrencyManager.CURRENCY_MMK -> languageManager.getString("switch_to_usd")
+            else -> languageManager.getString("switch_to_mmk")
         }
     }
     
@@ -211,24 +259,22 @@ class CurrencyExchangeActivity : AppCompatActivity(), NavigationView.OnNavigatio
             }
         }
     }
-    
-    private fun showCustomRateInput() {
+      private fun showCustomRateInput() {
         layoutCustomRateInput.visibility = View.VISIBLE
         editTextCustomRate.setText(currencyManager.getExchangeRate().toString())
         editTextCustomRate.requestFocus()
-        Toast.makeText(this, "💡 Enter a custom exchange rate", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, languageManager.getString("currency_exchange_enter_custom_rate"), Toast.LENGTH_SHORT).show()
     }
     
     private fun hideCustomRateInput() {
         layoutCustomRateInput.visibility = View.GONE
         editTextCustomRate.text?.clear()
     }
-    
-    private fun applyCustomRate() {
+      private fun applyCustomRate() {
         val customRateText = editTextCustomRate.text.toString().trim()
         
         if (customRateText.isEmpty()) {
-            Toast.makeText(this, "❌ Please enter an exchange rate", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, languageManager.getString("currency_exchange_enter_rate_error"), Toast.LENGTH_SHORT).show()
             return
         }
         
@@ -236,12 +282,13 @@ class CurrencyExchangeActivity : AppCompatActivity(), NavigationView.OnNavigatio
             val customRate = customRateText.toDouble()
             
             if (customRate <= 0) {
-                Toast.makeText(this, "❌ Exchange rate must be greater than 0", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, languageManager.getString("currency_exchange_rate_positive_error"), Toast.LENGTH_SHORT).show()
                 return
             }
             
             if (customRate < 100 || customRate > 10000) {
-                Toast.makeText(this, "⚠️ Are you sure? Rate seems unusual (${customRate} MMK per USD)", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, languageManager.getString("currency_exchange_rate_unusual_warning")
+                    .replace("{rate}", customRate.toString()), Toast.LENGTH_LONG).show()
             }
             
             // Apply the custom rate
@@ -250,17 +297,17 @@ class CurrencyExchangeActivity : AppCompatActivity(), NavigationView.OnNavigatio
             updateUI()
             
             Toast.makeText(this,
-                "✅ Custom rate applied: 1 USD = ${String.format("%.2f", customRate)} MMK", 
+                languageManager.getString("currency_exchange_custom_rate_applied")
+                    .replace("{rate}", String.format("%.2f", customRate)), 
                 Toast.LENGTH_LONG).show()
                 
         } catch (e: NumberFormatException) {
-            Toast.makeText(this, "❌ Invalid number format. Please enter a valid decimal number", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, languageManager.getString("currency_exchange_invalid_number_error"), Toast.LENGTH_LONG).show()
         }
     }
-    
-    private fun fetchLatestExchangeRate() {
+      private fun fetchLatestExchangeRate() {
         buttonFetchRate.isEnabled = false
-        buttonFetchRate.text = "⏳ Fetching..."
+        buttonFetchRate.text = languageManager.getString("currency_exchange_fetching")
         
         currencyApiService.fetchLatestExchangeRate(object : CurrencyApiService.CurrencyRateCallback {
             override fun onSuccess(usdToMmk: Double) {
@@ -268,9 +315,10 @@ class CurrencyExchangeActivity : AppCompatActivity(), NavigationView.OnNavigatio
                     currencyManager.setExchangeRate(usdToMmk)
                     updateUI()
                     buttonFetchRate.isEnabled = true
-                    buttonFetchRate.text = "🔄 Fetch Latest Rate"
+                    buttonFetchRate.text = languageManager.getString("currency_exchange_fetch_latest")
                     Toast.makeText(this@CurrencyExchangeActivity, 
-                        "✅ Rate updated: 1 USD = ${String.format("%.2f", usdToMmk)} MMK", 
+                        languageManager.getString("currency_exchange_rate_updated")
+                            .replace("{rate}", String.format("%.2f", usdToMmk)), 
                         Toast.LENGTH_LONG).show()
                 }
             }
@@ -278,10 +326,11 @@ class CurrencyExchangeActivity : AppCompatActivity(), NavigationView.OnNavigatio
             override fun onError(error: String) {
                 runOnUiThread {
                     buttonFetchRate.isEnabled = true
-                    buttonFetchRate.text = "🔄 Fetch Latest Rate"
+                    buttonFetchRate.text = languageManager.getString("currency_exchange_fetch_latest")
                     
                     // Show error message and suggest custom rate input
-                    val errorMsg = "❌ Failed to fetch rate: $error\n💡 Try using 'Custom Rate' to set manually"
+                    val errorMsg = languageManager.getString("currency_exchange_fetch_error")
+                        .replace("{error}", error)
                     Toast.makeText(this@CurrencyExchangeActivity, errorMsg, Toast.LENGTH_LONG).show()
                     
                     // Automatically show custom rate input on API failure
@@ -290,33 +339,33 @@ class CurrencyExchangeActivity : AppCompatActivity(), NavigationView.OnNavigatio
             }
         })
     }
-    
-    private fun fetchAllExchangeRates() {
+      private fun fetchAllExchangeRates() {
         buttonRefreshRates.isEnabled = false
-        buttonRefreshRates.text = "⏳ Loading..."
+        buttonRefreshRates.text = languageManager.getString("currency_exchange_loading")
         
         // Reset all rates to loading state
-        textRateUsd.text = "Loading..."
-        textRateEur.text = "Loading..."
-        textRateSgd.text = "Loading..."
-        textRateMyr.text = "Loading..."
-        textRateCny.text = "Loading..."
-        textRateThb.text = "Loading..."
-        textRateJpy.text = "Loading..."
-        
-        currencyApiService.fetchAllExchangeRates(object : CurrencyApiService.AllRatesCallback {
+        val loadingText = languageManager.getString("currency_exchange_loading_rates")
+        textRateUsd.text = loadingText
+        textRateEur.text = loadingText
+        textRateSgd.text = loadingText
+        textRateMyr.text = loadingText
+        textRateCny.text = loadingText
+        textRateThb.text = loadingText
+        textRateJpy.text = loadingText
+          currencyApiService.fetchAllExchangeRates(object : CurrencyApiService.AllRatesCallback {
             override fun onSuccess(rates: Map<String, Double>) {
                 runOnUiThread {
                     updateExchangeRateTable(rates)
                     buttonRefreshRates.isEnabled = true
-                    buttonRefreshRates.text = "🔄 Refresh"
+                    buttonRefreshRates.text = languageManager.getString("currency_exchange_refresh")
                     
                     val currentTime = java.text.SimpleDateFormat("MMM dd, yyyy HH:mm", java.util.Locale.getDefault())
                         .format(java.util.Date())
-                    textLastUpdated.text = "📅 Last updated: $currentTime"
+                    textLastUpdated.text = languageManager.getString("currency_exchange_last_updated")
+                        .replace("{time}", currentTime)
                     
                     Toast.makeText(this@CurrencyExchangeActivity, 
-                        "✅ Exchange rates updated successfully", 
+                        languageManager.getString("currency_exchange_rates_updated"), 
                         Toast.LENGTH_SHORT).show()
                 }
             }
@@ -324,27 +373,30 @@ class CurrencyExchangeActivity : AppCompatActivity(), NavigationView.OnNavigatio
             override fun onError(error: String) {
                 runOnUiThread {
                     buttonRefreshRates.isEnabled = true
-                    buttonRefreshRates.text = "🔄 Refresh"
+                    buttonRefreshRates.text = languageManager.getString("currency_exchange_refresh")
                     
                     // Set error state for all rates
-                    textRateUsd.text = "Error"
-                    textRateEur.text = "Error"
-                    textRateSgd.text = "Error"
-                    textRateMyr.text = "Error"
-                    textRateCny.text = "Error"
-                    textRateThb.text = "Error"
-                    textRateJpy.text = "Error"
-                    textLastUpdated.text = "📅 Failed to update rates"
+                    val errorText = languageManager.getString("currency_exchange_error")
+                    textRateUsd.text = errorText
+                    textRateEur.text = errorText
+                    textRateSgd.text = errorText
+                    textRateMyr.text = errorText
+                    textRateCny.text = errorText
+                    textRateThb.text = errorText
+                    textRateJpy.text = errorText
+                    textLastUpdated.text = languageManager.getString("currency_exchange_failed_update")
                     
                     Toast.makeText(this@CurrencyExchangeActivity, 
-                        "❌ Failed to fetch rates: $error", 
+                        languageManager.getString("currency_exchange_fetch_rates_error")
+                            .replace("{error}", error), 
                         Toast.LENGTH_LONG).show()
                 }
             }
         })
     }
-    
-    private fun updateExchangeRateTable(rates: Map<String, Double>) {
+      private fun updateExchangeRateTable(rates: Map<String, Double>) {
+        val naText = languageManager.getString("currency_exchange_na")
+        
         // Update USD rate (this is also used for the main currency conversion)
         rates["USD"]?.let { usdRate ->
             textRateUsd.text = String.format("%.2f", usdRate)
@@ -353,16 +405,29 @@ class CurrencyExchangeActivity : AppCompatActivity(), NavigationView.OnNavigatio
             currencyManager.setExchangeRate(usdRate)
             updateUI()
         } ?: run {
-            textRateUsd.text = "N/A"
+            textRateUsd.text = naText
         }
         
         // Update other currency rates
-        rates["EUR"]?.let { textRateEur.text = String.format("%.2f", it) } ?: run { textRateEur.text = "N/A" }
-        rates["SGD"]?.let { textRateSgd.text = String.format("%.2f", it) } ?: run { textRateSgd.text = "N/A" }
-        rates["MYR"]?.let { textRateMyr.text = String.format("%.2f", it) } ?: run { textRateMyr.text = "N/A" }
-        rates["CNY"]?.let { textRateCny.text = String.format("%.2f", it) } ?: run { textRateCny.text = "N/A" }
-        rates["THB"]?.let { textRateThb.text = String.format("%.2f", it) } ?: run { textRateThb.text = "N/A" }
-        rates["JPY"]?.let { textRateJpy.text = String.format("%.2f", it) } ?: run { textRateJpy.text = "N/A" }
+        rates["EUR"]?.let { textRateEur.text = String.format("%.2f", it) } ?: run { textRateEur.text = naText }
+        rates["SGD"]?.let { textRateSgd.text = String.format("%.2f", it) } ?: run { textRateSgd.text = naText }
+        rates["MYR"]?.let { textRateMyr.text = String.format("%.2f", it) } ?: run { textRateMyr.text = naText }
+        rates["CNY"]?.let { textRateCny.text = String.format("%.2f", it) } ?: run { textRateCny.text = naText }
+        rates["THB"]?.let { textRateThb.text = String.format("%.2f", it) } ?: run { textRateThb.text = naText }
+        rates["JPY"]?.let { textRateJpy.text = String.format("%.2f", it) } ?: run { textRateJpy.text = naText }
+    }
+    
+    private fun updateNavigationMenuTitles() {
+        val menu = navigationView.menu
+        menu.findItem(R.id.nav_home)?.title = languageManager.getString("nav_home")
+        menu.findItem(R.id.nav_all_list)?.title = languageManager.getString("nav_all_list")
+        menu.findItem(R.id.nav_history)?.title = languageManager.getString("nav_history")
+        menu.findItem(R.id.nav_summary)?.title = languageManager.getString("nav_summary")
+        menu.findItem(R.id.nav_analytics)?.title = languageManager.getString("nav_analytics")
+        menu.findItem(R.id.nav_currency_exchange)?.title = languageManager.getString("nav_currency_exchange")
+        menu.findItem(R.id.nav_settings)?.title = languageManager.getString("nav_settings")
+        menu.findItem(R.id.nav_feedback)?.title = languageManager.getString("nav_feedback")
+        menu.findItem(R.id.nav_about)?.title = languageManager.getString("nav_about")
     }
     
     override fun onSupportNavigateUp(): Boolean {
@@ -411,5 +476,13 @@ class CurrencyExchangeActivity : AppCompatActivity(), NavigationView.OnNavigatio
         } else {
             super.onBackPressed()
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        // Update static texts when resuming (in case language was changed)
+        setupStaticTexts()
+        // Update dynamic texts as well
+        updateUI()
     }
 }

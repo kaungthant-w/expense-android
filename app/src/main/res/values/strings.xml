@@ -4,11 +4,82 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_desc">Navigation header</string>
     
+    <!-- Navigation Menu -->
+    <string name="nav_home">Home</string>
+    <string name="nav_all_list">All List</string>
+    <string name="nav_history">History</string>
+    <string name="nav_analytics">Analytics</string>
+    <string name="nav_summary">Summary</string>
+    <string name="nav_currency_exchange">Currency Exchange</string>
+    <string name="nav_language">Language</string>
+    <string name="nav_settings">Settings</string>
+    <string name="nav_about">About</string>
+    <string name="nav_feedback">Feedback</string>
+    
+    <!-- Activity Titles -->
+    <string name="main_activity_title">Home</string>
+    <string name="all_list_title">All Expenses</string>
+    <string name="history_title">History</string>
+    <string name="analytics_title">Analytics</string>
+    <string name="summary_title">Summary</string>
+    <string name="currency_exchange_title">Currency Exchange</string>
+    <string name="settings_title">Settings</string>
+    <string name="about_title">About</string>
+    
+    <!-- Expense Management -->
+    <string name="add_expense">Add Expense</string>
+    <string name="expense_name_hint">Expense name</string>
+    <string name="amount_hint">Amount</string>
+    <string name="expense_added">Expense added successfully</string>
+    <string name="expense_updated">Expense updated successfully</string>
+    <string name="expense_deleted">Expense deleted successfully</string>
+    <string name="please_fill_all_fields">Please fill all fields</string>
+    <string name="invalid_amount">Invalid amount</string>
+    <string name="no_expenses_yet">No expenses yet</string>
+    
+    <!-- Summary Stats -->
+    <string name="overall_statistics">Overall Statistics</string>
+    <string name="total_expenses">Total Expenses</string>
+    <string name="total_amount">Total Amount</string>
+    <string name="average_amount">Average Amount</string>
+    <string name="today_summary">Today Summary</string>
+    <string name="today_expenses">Today Expenses</string>
+    <string name="today_total">Today Total</string>
+    <string name="month_summary">Month Summary</string>
+    <string name="month_expenses">Month Expenses</string>
+    <string name="month_total">Month Total</string>
+    <string name="expense_extremes">Expense Extremes</string>
+    <string name="highest_expense">Highest Expense</string>
+    <string name="lowest_expense">Lowest Expense</string>
+    
+    <!-- Currency -->
+    <string name="currency_label">Currency</string>
+    <string name="currency_usd">USD</string>
+    <string name="currency_eur">EUR</string>
+    <string name="currency_mmk">MMK</string>
+    <string name="currency_jpy">JPY</string>
+    <string name="currency_cny">CNY</string>
+    
+    <!-- Common Actions -->
+    <string name="save">Save</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
+    <string name="cancel">Cancel</string>
+    <string name="confirm">Confirm</string>
+    <string name="apply">Apply</string>
+    <string name="ok">OK</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="error_occurred">An error occurred</string>
+    
     <!-- Language Settings -->
     <string name="language_settings">Language Settings</string>
     <string name="language_description">Choose your preferred language for the app interface</string>
     <string name="english_description">English language interface</string>
     <string name="myanmar_description">မြန်မာဘာသာ မျက်နှာပြင်</string>
+    <string name="spanish_description">Spanish language interface</string>
+    <string name="french_description">French language interface</string>
+    <string name="portuguese_description">Portuguese language interface</string>
     <string name="language_info">Language changes apply immediately</string>
     <string name="back">Back</string>
     
@@ -27,4 +98,20 @@
     <string name="thank_you_feedback">Thank you for your feedback! 😊</string>
     <string name="no_email_app">No email app found. Please install an email app to send feedback.</string>
     <string name="send_feedback_via">Send feedback via...</string>
+    
+    <!-- Analytics -->
+    <string name="analytics_expense_title">📈 Expense Analytics</string>
+    <string name="analytics_weekly_analysis">📅 Weekly Analysis</string>
+    <string name="analytics_this_week_expenses">This Week\'s Expenses:</string>
+    <string name="analytics_this_week_total">This Week\'s Total:</string>
+    <string name="analytics_average_per_day">Average per Day:</string>
+    <string name="analytics_day_of_week_analysis">📊 Day of Week Analysis</string>
+    <string name="analytics_most_expensive_day_label">Most Expensive Day:</string>
+    <string name="analytics_least_expensive_day_label">Least Expensive Day:</string>
+    <string name="analytics_time_of_day_analysis">🕐 Time of Day Analysis</string>
+    <string name="analytics_morning_label">Morning (6-11 AM):</string>
+    <string name="analytics_afternoon_label">Afternoon (12-5 PM):</string>
+    <string name="analytics_evening_label">Evening (6-11 PM):</string>
+    <string name="analytics_night_label">Night (12-5 AM):</string>
+    <string name="analytics_top_expenses">🏆 Top 3 Largest Expenses</string>
 </resources>
