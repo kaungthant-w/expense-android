@@ -205,7 +205,12 @@
   "analytics_morning_label": "နံနက် (6-11 နာရီ):",
   "analytics_afternoon_label": "နေ့လည် (12-17 နာရီ):",
   "analytics_evening_label": "ညနေ (18-23 နာရီ):",
-  "analytics_night_label": "ညသန်းခေါင် (0-5 နာရီ):",
-  "analytics_top_expenses": "🏆 အကြီးဆုံး ကုန်ကျစရိတ် ၃ ခု",
-  "analytics_expense_title": "📈 ကုန်ကျစရိတ် ခွဲခြမ်းစိတ်ဖြာခြင်း"
+  "analytics_night_label": "ညသန်းခေါင် (0-5 နာရီ):",  "analytics_top_expenses": "🏆 အကြီးဆုံး ကုန်ကျစရိတ် ၃ ခု",
+  "analytics_expense_title": "📈 ကုန်ကျစရိတ် ခွဲခြမ်းစိတ်ဖြာခြင်း",
+  
+  "deleted_items_history_title": "🗃️ ဖျက်ပစ်သောအရာများ မှတ်တမ်း",
+  "enable_selection": "✅ ရွေးချယ်မှု ဖွင့်ရန်",
+  "delete_forever": "အပြီးအပိုင် ဖျက်ပစ်ရန်",
+  "selection_mode_on": "📋 ရွေးချယ်မှု မုဒ် ဖွင့်ထားသည်",
+  "all_expenses_active_title": "ကုန်ကျစရိတ်များအားလုံး (တက်ကြွ)"
 }

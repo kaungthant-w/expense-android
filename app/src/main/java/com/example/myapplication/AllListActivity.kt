@@ -68,14 +68,21 @@ class AllListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
         applyTheme()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_all_list)
-        
-        languageManager = LanguageManager.getInstance(this)
+          languageManager = LanguageManager.getInstance(this)
         setupActionBar()
         initViews()
+        setupStaticTexts()
         setupNavigationDrawer()
         setupSharedPreferences()
         setupRecyclerView()
         loadAllExpenses()
+        updateNavigationMenuTitles()
+    }
+    
+    override fun onResume() {
+        super.onResume()
+        // Refresh translations when activity resumes
+        setupStaticTexts()
         updateNavigationMenuTitles()
     }
     
@@ -89,10 +96,38 @@ class AllListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
             ThemeActivity.THEME_SYSTEM -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
         }
     }
-    
-    private fun setupActionBar() {
+      private fun setupActionBar() {
         supportActionBar?.title = languageManager.getString("all_list_title")
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    }
+    
+    private fun setupStaticTexts() {
+        // Update action bar title
+        supportActionBar?.title = languageManager.getString("all_list_title")
+        
+        // Update title TextView
+        findViewById<TextView>(R.id.textViewTitle)?.text = languageManager.getString("all_expenses_active_title")
+        
+        // Update history button text
+        findViewById<Button>(R.id.buttonViewHistory)?.text = languageManager.getString("view_history")
+        
+        // Update button texts
+        updateSelectionModeTexts()
+        
+        // Update checkbox text
+        checkboxSelectAll.text = languageManager.getString("select_all")
+        
+        // Update delete button text
+        buttonDeleteSelected.text = languageManager.getString("delete_selected")
+    }
+    
+    private fun updateSelectionModeTexts() {
+        if (isSelectionMode) {
+            buttonToggleSelection.text = languageManager.getString("selection_mode_on")
+        } else {
+            buttonToggleSelection.text = languageManager.getString("toggle_selection")
+        }
+        buttonCancelSelection.text = languageManager.getString("cancel_selection")
     }
     
     private fun initViews() {
@@ -165,13 +200,12 @@ class AllListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
             enterSelectionMode()
         }
     }
-    
-    private fun enterSelectionMode() {
+      private fun enterSelectionMode() {
         isSelectionMode = true
         allListAdapter.setSelectionMode(true)
         layoutSelectionControls.visibility = View.VISIBLE
-        buttonToggleSelection.text = languageManager.getString("all_list_selection_mode_on")
-        supportActionBar?.title = languageManager.getString("all_list_select_expenses")
+        buttonToggleSelection.text = languageManager.getString("selection_mode_on")
+        supportActionBar?.title = languageManager.getString("all_list_title")
         updateSelectionUI(0, false)
     }
     
@@ -179,12 +213,11 @@ class AllListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
         isSelectionMode = false
         allListAdapter.setSelectionMode(false)
         layoutSelectionControls.visibility = View.GONE
-        buttonToggleSelection.text = languageManager.getString("all_list_select_items")
+        buttonToggleSelection.text = languageManager.getString("toggle_selection")
         supportActionBar?.title = languageManager.getString("all_list_title")
     }
-    
-    private fun updateSelectionUI(selectedCount: Int, isAllSelected: Boolean) {
-        textViewSelectionCount.text = languageManager.getString("all_list_selected_count").replace("{count}", selectedCount.toString())
+      private fun updateSelectionUI(selectedCount: Int, isAllSelected: Boolean) {
+        textViewSelectionCount.text = languageManager.getString("selection_count").replace("{count}", selectedCount.toString())
         
         // Update "Select All" checkbox without triggering listener
         checkboxSelectAll.setOnCheckedChangeListener(null)

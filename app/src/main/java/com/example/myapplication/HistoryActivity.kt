@@ -52,10 +52,10 @@ class HistoryActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
         applyTheme()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_history)
-        
-        languageManager = LanguageManager.getInstance(this)
+          languageManager = LanguageManager.getInstance(this)
         setupActionBar()
         initViews()
+        setupStaticTexts()
         setupNavigationDrawer()
         setupSharedPreferences()
         setupRecyclerView()
@@ -88,16 +88,44 @@ class HistoryActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
         menu.findItem(R.id.nav_feedback)?.title = languageManager.getString("nav_feedback")
         menu.findItem(R.id.nav_about)?.title = languageManager.getString("nav_about")
     }
-    
-    override fun onResume() {
+      override fun onResume() {
         super.onResume()
         // Refresh deleted expenses list when activity resumes        // This ensures we always show the latest deleted data
         loadDeletedExpenses()
+        // Refresh translations when activity resumes
+        setupStaticTexts()
+        updateNavigationMenuTitles()
     }
-    
-    private fun setupActionBar() {
+      private fun setupActionBar() {
         supportActionBar?.title = "🗃️ Deleted Items History"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    }
+    
+    private fun setupStaticTexts() {
+        // Update action bar title
+        supportActionBar?.title = languageManager.getString("deleted_items_history_title")
+        
+        // Update title TextView
+        findViewById<TextView>(R.id.textViewTitle)?.text = languageManager.getString("deleted_items_history_title")
+        
+        // Update button texts
+        updateSelectionModeTexts()
+        
+        // Update checkbox text
+        checkboxSelectAll.text = languageManager.getString("select_all")
+          // Update delete button text
+        buttonDeleteSelected.text = languageManager.getString("delete_forever")
+    }
+    
+    private fun updateSelectionModeTexts() {
+        if (isSelectionMode) {
+            buttonToggleSelection.text = languageManager.getString("selection_mode_on")
+            supportActionBar?.title = languageManager.getString("deleted_items_history_title")
+        } else {
+            buttonToggleSelection.text = languageManager.getString("enable_selection")
+            supportActionBar?.title = languageManager.getString("deleted_items_history_title")
+        }
+        buttonCancelSelection.text = languageManager.getString("cancel_selection")
     }
     
     private fun initViews() {        drawerLayout = findViewById(R.id.drawerLayout)
@@ -311,13 +339,12 @@ class HistoryActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
             enterSelectionMode()
         }
     }
-    
-    private fun enterSelectionMode() {
+      private fun enterSelectionMode() {
         isSelectionMode = true
         historyAdapter.setSelectionMode(true)
         layoutSelectionControls.visibility = View.VISIBLE
-        buttonToggleSelection.text = "📋 Selection Mode ON"
-        supportActionBar?.title = "🗃️ Select History Items"
+        buttonToggleSelection.text = languageManager.getString("selection_mode_on")
+        supportActionBar?.title = languageManager.getString("deleted_items_history_title")
         updateSelectionUI(0, false)
     }
     
@@ -325,12 +352,11 @@ class HistoryActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
         isSelectionMode = false
         historyAdapter.setSelectionMode(false)
         layoutSelectionControls.visibility = View.GONE
-        buttonToggleSelection.text = "☑️ Select Items"
-        supportActionBar?.title = "🗃️ Deleted Items History"
+        buttonToggleSelection.text = languageManager.getString("enable_selection")
+        supportActionBar?.title = languageManager.getString("deleted_items_history_title")
     }
-    
-    private fun updateSelectionUI(selectedCount: Int, isAllSelected: Boolean) {
-        textViewSelectionCount.text = "$selectedCount selected"
+      private fun updateSelectionUI(selectedCount: Int, isAllSelected: Boolean) {
+        textViewSelectionCount.text = languageManager.getString("selection_count").replace("{count}", selectedCount.toString())
         
         // Update "Select All" checkbox without triggering listener
         checkboxSelectAll.setOnCheckedChangeListener(null)

@@ -201,7 +201,12 @@
   "analytics_morning_label": "上午 (6-11点):",
   "analytics_afternoon_label": "下午 (12-17点):",
   "analytics_evening_label": "晚上 (18-23点):",
-  "analytics_night_label": "深夜 (0-5点):",
-  "analytics_top_expenses": "🏆 最大支出前3名",
-  "analytics_expense_title": "📈 支出分析"
+  "analytics_night_label": "深夜 (0-5点):",  "analytics_top_expenses": "🏆 最大支出前3名",
+  "analytics_expense_title": "📈 支出分析",
+  
+  "deleted_items_history_title": "🗃️ 已删除项目历史记录",
+  "enable_selection": "✅ 启用选择",
+  "delete_forever": "永久删除",
+  "selection_mode_on": "📋 选择模式开启",
+  "all_expenses_active_title": "所有支出（活跃）"
 }

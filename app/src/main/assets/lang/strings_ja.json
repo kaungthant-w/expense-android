@@ -207,7 +207,12 @@
   "analytics_morning_label": "朝 (6-11時):",
   "analytics_afternoon_label": "午後 (12-17時):",
   "analytics_evening_label": "夜 (18-23時):",
-  "analytics_night_label": "深夜 (0-5時):",
-  "analytics_top_expenses": "🏆 上位3件の支出",
-  "analytics_expense_title": "📈 支出分析"
+  "analytics_night_label": "深夜 (0-5時):",  "analytics_top_expenses": "🏆 上位3件の支出",
+  "analytics_expense_title": "📈 支出分析",
+  
+  "deleted_items_history_title": "🗃️ 削除されたアイテムの履歴",
+  "enable_selection": "✅ 選択を有効にする",
+  "delete_forever": "完全に削除",
+  "selection_mode_on": "📋 選択モード ON",
+  "all_expenses_active_title": "すべての支出（アクティブ）"
 }
