@@ -209,10 +209,18 @@
   "analytics_evening_label": "夜 (18-23時):",
   "analytics_night_label": "深夜 (0-5時):",  "analytics_top_expenses": "🏆 上位3件の支出",
   "analytics_expense_title": "📈 支出分析",
-  
-  "deleted_items_history_title": "🗃️ 削除されたアイテムの履歴",
+    "deleted_items_history_title": "🗃️ 削除されたアイテムの履歴",
   "enable_selection": "✅ 選択を有効にする",
   "delete_forever": "完全に削除",
   "selection_mode_on": "📋 選択モード ON",
-  "all_expenses_active_title": "すべての支出（アクティブ）"
+  "all_expenses_active_title": "すべての支出（アクティブ）",
+  
+  "restore_expense_title": "✅ 支出を復元",
+  "restore_expense_message": "'{name}' を復元してもよろしいですか？",
+  "restore_button": "復元",
+  "restore_success": "✅ 支出が正常に復元されました！",
+  "delete_permanently_title": "⚠️ 完全に削除",
+  "delete_permanently_message": "'{name}' を完全に削除してもよろしいですか？この操作は元に戻せません！",
+  "delete_permanently_button": "完全に削除",
+  "delete_permanently_success": "✅ {count} 個のアイテムを完全に削除しました"
 }

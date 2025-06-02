@@ -208,10 +208,27 @@
   "analytics_evening_label": "Evening (6-11 PM):",
   "analytics_night_label": "Night (12-5 AM):",  "analytics_top_expenses": "🏆 Top 3 Largest Expenses",
   "analytics_expense_title": "📈 Expense Analytics",
-  
-  "deleted_items_history_title": "🗃️ Deleted Items History",
+    "deleted_items_history_title": "🗃️ Deleted Items History",
   "enable_selection": "✅ Enable Selection",
   "delete_forever": "Delete Forever",
   "selection_mode_on": "📋 Selection Mode ON",
-  "all_expenses_active_title": "All Expenses (Active)"
+  "all_expenses_active_title": "All Expenses (Active)",
+  
+  "restore_expense_title": "✅ Restore Expense",
+  "restore_expense_message": "Are you sure you want to restore '{name}'?",
+  "restore_button": "Restore",
+  "restore_success": "✅ Expense restored successfully!",
+  "delete_permanently_title": "⚠️ Delete Permanently",
+  "delete_permanently_message": "Are you sure you want to permanently delete '{name}'? This action cannot be undone!",
+  "delete_permanently_button": "Delete Permanently",  "delete_permanently_success": "✅ Successfully deleted {count} item(s) forever",
+  
+  "theme_settings_title": "🎨 Theme Settings",
+  "choose_your_theme": "🎨 Choose Your Theme",
+  "theme_selection_description": "Select your preferred theme for the app",
+  "light_theme_title": "☀️ Light Theme",
+  "light_theme_description": "Perfect for daytime use with bright, clean interface",
+  "dark_theme_title": "🌙 Dark Theme", 
+  "dark_theme_description": "Ideal for low-light environments and battery saving",
+  "system_theme_title": "🔄 System Default",
+  "system_theme_description": "Automatically matches your device's theme setting"
 }

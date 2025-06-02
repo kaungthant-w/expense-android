@@ -207,10 +207,26 @@
   "analytics_evening_label": "ညနေ (18-23 နာရီ):",
   "analytics_night_label": "ညသန်းခေါင် (0-5 နာရီ):",  "analytics_top_expenses": "🏆 အကြီးဆုံး ကုန်ကျစရိတ် ၃ ခု",
   "analytics_expense_title": "📈 ကုန်ကျစရိတ် ခွဲခြမ်းစိတ်ဖြာခြင်း",
-  
-  "deleted_items_history_title": "🗃️ ဖျက်ပစ်သောအရာများ မှတ်တမ်း",
+    "deleted_items_history_title": "🗃️ ဖျက်ပစ်သောအရာများ မှတ်တမ်း",
   "enable_selection": "✅ ရွေးချယ်မှု ဖွင့်ရန်",
   "delete_forever": "အပြီးအပိုင် ဖျက်ပစ်ရန်",
   "selection_mode_on": "📋 ရွေးချယ်မှု မုဒ် ဖွင့်ထားသည်",
-  "all_expenses_active_title": "ကုန်ကျစရိတ်များအားလုံး (တက်ကြွ)"
+  "all_expenses_active_title": "ကုန်ကျစရိတ်များအားလုံး (တက်ကြွ)",
+  
+  "restore_expense_title": "✅ ကုန်ကျစရိတ် ပြန်လည်ရယူရန်",
+  "restore_expense_message": "'{name}' ကို ပြန်လည်ရယူရန် သေချာပါသလား?",
+  "restore_button": "ပြန်လည်ရယူရန်",
+  "restore_success": "✅ ကုန်ကျစရိတ် အောင်မြင်စွာ ပြန်လည်ရယူပြီးပါပြီ!",
+  "delete_permanently_title": "⚠️ အပြီးအပိုင် ဖျက်ပစ်ရန်",
+  "delete_permanently_message": "'{name}' ကို အပြီးအပိုင် ဖျက်ပစ်ရန် သေချာပါသလား? ဤလုပ်ဆောင်မှုကို ပြန်လည်ပြင်ဆင်၍ မရပါ!",  "delete_permanently_button": "အပြီးအပိုင် ဖျက်ပစ်ရန်",
+  "delete_permanently_success": "✅ {count} ပစ္စည်း(များ)ကို အပြီးအပိုင် အောင်မြင်စွာ ဖျက်ပစ်ပြီးပါပြီ",
+  
+  "theme_settings_title": "🎨 အပြင်အဆင် ဆက်တင်များ",
+  "theme_selection_description": "အက်ပ်အတွက် သင်နှစ်သက်သော အပြင်အဆင်ကို ရွေးချယ်ပါ",
+  "light_theme_title": "☀️ အလင်း အပြင်အဆင်",
+  "light_theme_description": "တောက်ပပြီး သန့်ရှင်းသော မျက်နှာပြင်ဖြင့် နေ့ချိန်အသုံးပြုရန် ကောင်းမွန်သည်",
+  "dark_theme_title": "🌙 မှောင်မဲ အပြင်အဆင်", 
+  "dark_theme_description": "အလင်းနည်းသော ပတ်ဝန်းကျင်နှင့် ဘက်ထရီချွေတာရန်အတွက် သင့်လျော်သည်",
+  "system_theme_title": "🔄 စနစ် မူရင်း",
+  "system_theme_description": "သင့်စက်ပစ္စည်း၏ အပြင်အဆင် ဆက်တင်နှင့် အလိုအလျောက် ကိုက်ညီသည်"
 }

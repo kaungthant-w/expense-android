@@ -203,10 +203,18 @@
   "analytics_evening_label": "晚上 (18-23点):",
   "analytics_night_label": "深夜 (0-5点):",  "analytics_top_expenses": "🏆 最大支出前3名",
   "analytics_expense_title": "📈 支出分析",
-  
-  "deleted_items_history_title": "🗃️ 已删除项目历史记录",
+    "deleted_items_history_title": "🗃️ 已删除项目历史记录",
   "enable_selection": "✅ 启用选择",
   "delete_forever": "永久删除",
   "selection_mode_on": "📋 选择模式开启",
-  "all_expenses_active_title": "所有支出（活跃）"
+  "all_expenses_active_title": "所有支出（活跃）",
+  
+  "restore_expense_title": "✅ 恢复支出",
+  "restore_expense_message": "您确定要恢复 '{name}' 吗？",
+  "restore_button": "恢复",
+  "restore_success": "✅ 支出恢复成功！",
+  "delete_permanently_title": "⚠️ 永久删除",
+  "delete_permanently_message": "您确定要永久删除 '{name}' 吗？此操作无法撤销！",
+  "delete_permanently_button": "永久删除",
+  "delete_permanently_success": "✅ 成功永久删除 {count} 个项目"
 }

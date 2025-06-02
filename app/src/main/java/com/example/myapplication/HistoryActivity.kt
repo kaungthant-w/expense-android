@@ -233,9 +233,9 @@ class HistoryActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
             val expense = deletedExpenses[position]
             
             AlertDialog.Builder(this)
-                .setTitle("✅ Restore Expense")
-                .setMessage("Are you sure you want to restore '${expense.name}'?")
-                .setPositiveButton("Restore") { _, _ ->
+                .setTitle(languageManager.getString("restore_expense_title"))
+                .setMessage(languageManager.getString("restore_expense_message").replace("{name}", expense.name))
+                .setPositiveButton(languageManager.getString("restore_button")) { _, _ ->
                     // Mark as not deleted
                     expense.isDeleted = false
                     expense.deletedAt = null
@@ -248,27 +248,26 @@ class HistoryActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
                     // Save the restored expense specifically
                     saveRestoredExpense(expense)
                     
-                    Toast.makeText(this, "✅ Expense restored successfully!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, languageManager.getString("restore_success"), Toast.LENGTH_SHORT).show()
                     
                     // Set result to notify MainActivity to refresh
                     setResult(RESULT_OK)
                 }
-                .setNegativeButton("Cancel", null)
+                .setNegativeButton(languageManager.getString("cancel"), null)
                 .show()
         }
     }
-    
-    private fun showDeletePermanentlyDialog(position: Int) {
+      private fun showDeletePermanentlyDialog(position: Int) {
         if (position >= 0 && position < deletedExpenses.size) {
             val expense = deletedExpenses[position]
             
             AlertDialog.Builder(this)
-                .setTitle("⚠️ Delete Permanently")
-                .setMessage("This will permanently delete '${expense.name}'. This action cannot be undone. Are you sure?")
-                .setPositiveButton("Delete Forever") { _, _ ->
+                .setTitle(languageManager.getString("delete_permanently_title"))
+                .setMessage(languageManager.getString("delete_permanently_message").replace("{name}", expense.name))
+                .setPositiveButton(languageManager.getString("delete_permanently_button")) { _, _ ->
                     deletePermanently(position)
                 }
-                .setNegativeButton("Cancel", null)
+                .setNegativeButton(languageManager.getString("cancel"), null)
                 .show()
         }
     }
@@ -285,7 +284,7 @@ class HistoryActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
             // Remove from all expenses permanently
             removeExpensePermanently(expense.id)
             
-            Toast.makeText(this, "🗑️ Item permanently deleted", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, languageManager.getString("delete_permanently_success").replace("{count}", "1"), Toast.LENGTH_SHORT).show()
         }
     }
     
@@ -409,12 +408,11 @@ class HistoryActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
         // Update UI
         historyAdapter.notifyDataSetChanged()
         exitSelectionMode()
-        
-        // Show success message
+          // Show success message
         val deletedCount = indices.size
         Toast.makeText(
             this,
-            "✅ Successfully deleted $deletedCount item(s) forever",
+            languageManager.getString("delete_permanently_success").replace("{count}", deletedCount.toString()),
             Toast.LENGTH_SHORT
         ).show()
     }
