@@ -448,15 +448,14 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         dialog.dismiss()
         Toast.makeText(this, languageManager.getString("expense_added_successfully"), Toast.LENGTH_SHORT).show()
     }
-    
-    private fun updateTodaySummary() {
+      private fun updateTodaySummary() {
         val today = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date())
         val todayExpenses = expenseList.filter { it.date == today }
 
         todayExpensesCount.text = todayExpenses.size.toString()
 
-        val total = todayExpenses.sumOf {
-            currencyManager.getDisplayAmount(it.price)
+        val total = todayExpenses.sumOf { expense ->
+            currencyManager.getDisplayAmountFromStored(expense.price, expense.currency)
         }
 
         // Use CurrencyManager to format the total with the correct symbol (MMK or $)
@@ -616,9 +615,10 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         val editDescription = dialogView.findViewById<EditText>(R.id.editDialogDescription)
         val editDate = dialogView.findViewById<EditText>(R.id.editDialogDate)
         val editTime = dialogView.findViewById<EditText>(R.id.editDialogTime)
-        
-        editName.setText(expense.name)
-        editPrice.setText(expense.price.toString())
+          editName.setText(expense.name)
+        // Display the price in the current currency format for editing
+        val displayAmount = currencyManager.getDisplayAmountFromStored(expense.price, expense.currency)
+        editPrice.setText(displayAmount.toString())
         editDescription.setText(expense.description)
         editDate.setText(expense.date)
         editTime.setText(expense.time)
@@ -732,8 +732,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         }
     }
     
-    private fun openExpenseDetail(position: Int) {
-        if (position >= 0 && position < expenseList.size) {
+    private fun openExpenseDetail(position: Int) {        if (position >= 0 && position < expenseList.size) {
             val expense = expenseList[position]
             val intent = Intent(this, ExpenseDetailActivity::class.java)
             intent.putExtra("expense_id", expense.id)
@@ -742,6 +741,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             intent.putExtra("expense_description", expense.description)
             intent.putExtra("expense_date", expense.date)
             intent.putExtra("expense_time", expense.time)
+            intent.putExtra("expense_currency", expense.currency)
             intent.putExtra("expense_position", position)
             
             expenseDetailLauncher.launch(intent)

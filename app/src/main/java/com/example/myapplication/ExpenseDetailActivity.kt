@@ -89,12 +89,17 @@ class ExpenseDetailActivity : BaseActivity() {
     
     private fun setupData() {
         expenseId = intent.getLongExtra("expense_id", -1)
-        
-        if (expenseId != -1L) {
+          if (expenseId != -1L) {
             // Editing existing expense
             isNewExpense = false
             editTextName.setText(intent.getStringExtra("expense_name") ?: "")
-            editTextPrice.setText(intent.getDoubleExtra("expense_price", 0.0).toString())
+            
+            // Get stored price and currency to display in current currency format
+            val storedPrice = intent.getDoubleExtra("expense_price", 0.0)
+            val storedCurrency = intent.getStringExtra("expense_currency") ?: "USD"
+            val displayAmount = currencyManager.getDisplayAmountFromStored(storedPrice, storedCurrency)
+            editTextPrice.setText(displayAmount.toString())
+            
             editTextDescription.setText(intent.getStringExtra("expense_description") ?: "")
             editTextDate.setText(intent.getStringExtra("expense_date") ?: "")
             editTextTime.setText(intent.getStringExtra("expense_time") ?: "")
