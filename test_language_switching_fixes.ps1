@@ -44,14 +44,14 @@ Write-Host "HISTORY PAGE - BUTTON TRANSLATIONS:" -ForegroundColor Yellow
 Write-Host "1. Go to Main page, add some expenses"
 Write-Host "2. Long-press to delete some expenses"
 Write-Host "3. Go to History page"
-Write-Host "4. ✅ VERIFY: 'Restore' and 'Delete Permanently' buttons show in current language"
+Write-Host "4. ✅ VERIFY: 'Restore' and 'Erase' buttons show in current language"
 Write-Host "5. Change language in Settings"
 Write-Host "6. Return to History page"
 Write-Host "7. ✅ VERIFY: Button text updates to new language"
 Write-Host ""
 
 Write-Host "EXPECTED BUTTON TRANSLATIONS:" -ForegroundColor Yellow
-Write-Host "• English: 'Restore' / 'Delete Permanently'"
+Write-Host "• English: 'Restore' / 'Erase'"
 Write-Host "• Myanmar: Should show Myanmar translation"
 Write-Host "• Chinese: Should show Chinese translation"
 Write-Host "• Japanese: Should show Japanese translation"

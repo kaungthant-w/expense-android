@@ -139,7 +139,7 @@ fun refreshTranslations() {
 
 ### History Buttons:
 - `"restore_button"` - Restore button text
-- `"delete_permanently_button"` - Delete permanently button text
+- `"delete_permanently_button"` - Erase button text
 
 ---
 

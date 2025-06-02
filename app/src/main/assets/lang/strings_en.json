@@ -58,7 +58,7 @@
   "save": "Save",
   "edit": "Edit",
   "delete": "Delete",
-  "total_expenses": "Total Expenses",
+  "total_expenses": "Total Number:",
   "today_expenses": "Today's Expenses",
   "this_month": "This Month",
   "expense_analytics": "Expense Analytics",
@@ -249,9 +249,9 @@
   "restore_expense_message": "Are you sure you want to restore '{name}'?",
   "restore_button": "Restore",
   "restore_success": "✅ Expense restored successfully!",
-  "delete_permanently_title": "⚠️ Delete Permanently",
+  "delete_permanently_title": "⚠️ Erase",
   "delete_permanently_message": "Are you sure you want to permanently delete '{name}'? This action cannot be undone!",
-  "delete_permanently_button": "Delete Permanently",  "delete_permanently_success": "✅ Successfully deleted {count} item(s) forever",
+  "delete_permanently_button": "Erase",  "delete_permanently_success": "✅ Successfully deleted {count} item(s) forever",
     "settings_title": "⚙️ Settings",
   "theme_settings_title": "🎨 Theme Settings",
   "choose_your_theme": "🎨 Choose Your Theme",
@@ -273,5 +273,5 @@
   "expense_description_hint": "📝 Description (Optional)",
   "expense_date_hint": "📅 Date (DD/MM/YYYY)",
   "expense_time_hint": "🕐 Time (HH:MM)",
-  "add_expense_button": "Save"
+  "add_expense_button": "💾Save"
 }

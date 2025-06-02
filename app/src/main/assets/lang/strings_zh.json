@@ -1,5 +1,5 @@
 {
-  "app_name": "HsuPar 支出",
+  "app_name": "Hsu Expense",
   
   "welcome_to_expense_tracker": "欢迎使用支出跟踪器",
   "setup_preferences": "让我们设置您的偏好",
@@ -72,7 +72,7 @@
   "email_hint": "您的邮箱（可选）",
   "submit_feedback": "提交反馈",
   "please_select_rating": "请选择评分",
-  "please_enter_feedback": "请输入您的反馈",  "feedback_subject": "HsuPar 支出应用反馈",
+  "please_enter_feedback": "请输入您的反馈",  "feedback_subject": "Hsu 支出应用反馈",
   "thank_you_feedback": "感谢您的反馈！😊",
   "no_email_app": "未找到邮件应用。请安装邮件应用以发送反馈。",
   "send_feedback_via": "通过以下方式发送反馈...",
@@ -92,7 +92,7 @@
   "nav_about": "ℹ️ 关于我们",
   "about_title": "ℹ️ 关于我们",
   "about_section_title": "ℹ️ 关于",
-  "app_name_display": "HsuPar 费用应用",
+  "app_name_display": "Hsu 费用应用",
   "app_version": "版本 1.0.0",  "supporter_name": "Hsu Yee Mon",
   "supporter_message": "这个应用是用爱制作的。我的爱人帮助了测试、反馈和设计。她的支持使这一切成为可能。",
   "summary_title": "📊 费用摘要",

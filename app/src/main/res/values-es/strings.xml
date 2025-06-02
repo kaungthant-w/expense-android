@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">HsuPar Gastos</string>
+    <string name="app_name">Hsu Expense</string>
     <string name="navigation_drawer_open">Abrir cajón de navegación</string>
     <string name="navigation_drawer_close">Cerrar cajón de navegación</string>
     <string name="nav_header_desc">Encabezado de navegación</string>
@@ -82,7 +82,7 @@
     <string name="submit_feedback">Enviar Comentarios</string>
     <string name="please_select_rating">Por favor selecciona una calificación</string>
     <string name="please_enter_feedback">Por favor ingresa tus comentarios</string>
-    <string name="feedback_subject">Comentarios de la App HsuPar Gastos</string>
+    <string name="feedback_subject">Comentarios de la App Hsu Gastos</string>
     <string name="thank_you_feedback">¡Gracias por tus comentarios! 😊</string>
     <string name="no_email_app">No se encontró aplicación de email. Por favor instala una aplicación de email para enviar comentarios.</string>
     <string name="send_feedback_via">Enviar comentarios a través de...</string>

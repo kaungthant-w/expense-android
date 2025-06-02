@@ -73,7 +73,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="💰 Total Expenses:"
+                            android:text="💰Total Number:"
                             android:textSize="14sp"
                             android:textColor="?attr/textSecondaryColor" />
 
@@ -112,7 +112,8 @@
                     </LinearLayout>
 
                 </LinearLayout>
-            </androidx.cardview.widget.CardView>            <!-- TabLayout for Data Lists -->
+            </androidx.cardview.widget.CardView>            
+            <!-- TabLayout for Data Lists -->
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/tabLayout"
                 android:layout_width="match_parent"
