@@ -408,24 +408,24 @@ class CurrencyExchangeActivity : BaseActivity(), NavigationView.OnNavigationItem
         rates["JPY"]?.let { textRateJpy.text = String.format("%.2f", it) } ?: run { textRateJpy.text = naText }
     }
     
+    // --- Utility and callback functions ---
     private fun updateNavigationMenuTitles() {
         val menu = navigationView.menu
         menu.findItem(R.id.nav_home)?.title = languageManager.getString("nav_home")
         menu.findItem(R.id.nav_all_list)?.title = languageManager.getString("nav_all_list")
         menu.findItem(R.id.nav_history)?.title = languageManager.getString("nav_history")
         menu.findItem(R.id.nav_summary)?.title = languageManager.getString("nav_summary")
-        menu.findItem(R.id.nav_analytics)?.title = languageManager.getString("nav_analytics")
         menu.findItem(R.id.nav_currency_exchange)?.title = languageManager.getString("nav_currency_exchange")
         menu.findItem(R.id.nav_settings)?.title = languageManager.getString("nav_settings")
         menu.findItem(R.id.nav_feedback)?.title = languageManager.getString("nav_feedback")
         menu.findItem(R.id.nav_about)?.title = languageManager.getString("nav_about")
     }
-    
+
     override fun onSupportNavigateUp(): Boolean {
         finish()
         return true
     }
-    
+
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.nav_home -> {
@@ -433,9 +433,6 @@ class CurrencyExchangeActivity : BaseActivity(), NavigationView.OnNavigationItem
             }
             R.id.nav_summary -> {
                 startActivity(Intent(this, SummaryActivity::class.java))
-            }
-            R.id.nav_analytics -> {
-                startActivity(Intent(this, AnalyticsActivity::class.java))
             }
             R.id.nav_all_list -> {
                 startActivity(Intent(this, AllListActivity::class.java))

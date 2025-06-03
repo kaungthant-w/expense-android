@@ -7,10 +7,8 @@
     
     <!-- Navigation Menu -->
     <string name="nav_home">Accueil</string>
-    <string name="nav_all_list">Liste Complète</string>
-    <string name="nav_history">Historique</string>
+    <string name="nav_all_list">Liste Complète</string>    <string name="nav_history">Historique</string>
     <string name="nav_summary">Résumé</string>
-    <string name="nav_analytics">Analyses</string>
     <string name="nav_currency_exchange">Change de Devise</string>
     <string name="nav_settings">Paramètres</string>
     <string name="nav_feedback">Commentaires</string>
@@ -29,10 +27,8 @@
     <string name="back">Retour</string>
     <string name="apply">Appliquer</string>
     
-    <!-- Activity Titles -->
-    <string name="main_activity_title">Suivi des Dépenses</string>
+    <!-- Activity Titles -->    <string name="main_activity_title">Suivi des Dépenses</string>
     <string name="summary_title">Résumé des Dépenses</string>
-    <string name="analytics_title">Analyses des Dépenses</string>
     <string name="history_title">Historique des Dépenses</string>
     <string name="all_list_title">Liste des Dépenses</string>
     <string name="settings_title">Paramètres</string>

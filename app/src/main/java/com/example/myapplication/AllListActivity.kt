@@ -534,12 +534,8 @@ class AllListActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
             }
             R.id.nav_all_list -> {
                 // Already in AllListActivity
-            }
-            R.id.nav_history -> {
+            }            R.id.nav_history -> {
                 startActivity(Intent(this, HistoryActivity::class.java))
-            }
-            R.id.nav_analytics -> {
-                startActivity(Intent(this, AnalyticsActivity::class.java))
             }
             R.id.nav_settings -> {
                 startActivity(Intent(this, SettingsActivity::class.java))

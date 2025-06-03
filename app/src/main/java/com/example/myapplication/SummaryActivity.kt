@@ -69,14 +69,12 @@ class SummaryActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
         toggle.syncState()
         
         navigationView.setNavigationItemSelectedListener(this)
-    }
-      private fun updateNavigationMenuTitles() {
+    }    private fun updateNavigationMenuTitles() {
         val menu = navigationView.menu
         menu.findItem(R.id.nav_home)?.title = languageManager.getString("nav_home")
         menu.findItem(R.id.nav_all_list)?.title = languageManager.getString("nav_all_list")
         menu.findItem(R.id.nav_history)?.title = languageManager.getString("nav_history")
         menu.findItem(R.id.nav_summary)?.title = languageManager.getString("nav_summary")
-        menu.findItem(R.id.nav_analytics)?.title = languageManager.getString("nav_analytics")
         menu.findItem(R.id.nav_currency_exchange)?.title = languageManager.getString("nav_currency_exchange")
         menu.findItem(R.id.nav_settings)?.title = languageManager.getString("nav_settings")
         menu.findItem(R.id.nav_feedback)?.title = languageManager.getString("nav_feedback")
@@ -107,14 +105,16 @@ class SummaryActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
         sharedPreferences = getSharedPreferences("expense_prefs", Context.MODE_PRIVATE)
         currencyManager = CurrencyManager.getInstance(this)
     }
-    
-    private fun loadSummaryData() {
+      private fun loadSummaryData() {
         val expensesJson = sharedPreferences.getString("expenses", "[]")
         val type = object : TypeToken<List<ExpenseItem>>() {}.type
-        val expensesList: List<ExpenseItem> = gson.fromJson(expensesJson, type) ?: emptyList()
+        val allExpensesList: List<ExpenseItem> = gson.fromJson(expensesJson, type) ?: emptyList()
         
-        displaySummary(expensesList)
-    }    private fun displaySummary(expenses: List<ExpenseItem>) {
+        // Filter out soft deleted expenses - only show active expenses
+        val activeExpensesList = allExpensesList.filter { !it.isDeleted }
+        
+        displaySummary(activeExpensesList)
+    }private fun displaySummary(expenses: List<ExpenseItem>) {
         val totalExpenses = expenses.size
         
         // Calculate totals using display amounts to handle mixed currencies properly
@@ -175,13 +175,15 @@ class SummaryActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
                 "${lowestExpense.name}: ${currencyManager.formatCurrency(displayLowestAmount)}"
             } else languageManager.getString("no_expenses_yet")
     }
-    
-    private fun loadDetailedStats() {
+      private fun loadDetailedStats() {
         val expensesJson = sharedPreferences.getString("expenses", "[]")
         val type = object : TypeToken<List<ExpenseItem>>() {}.type
-        val expensesList: List<ExpenseItem> = gson.fromJson(expensesJson, type) ?: emptyList()
+        val allExpensesList: List<ExpenseItem> = gson.fromJson(expensesJson, type) ?: emptyList()
         
-        displayDetailedStats(expensesList)
+        // Filter out soft deleted expenses - only show active expenses
+        val activeExpensesList = allExpensesList.filter { !it.isDeleted }
+        
+        displayDetailedStats(activeExpensesList)
     }
     
     private fun displayDetailedStats(expenses: List<ExpenseItem>) {
@@ -268,17 +270,13 @@ class SummaryActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
         finish()
         return true
     }
-    
-    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+      override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.nav_home -> {
                 startActivity(Intent(this, MainActivity::class.java))
             }
             R.id.nav_summary -> {
                 // Already in this activity, just close drawer
-            }
-            R.id.nav_analytics -> {
-                startActivity(Intent(this, AnalyticsActivity::class.java))
             }
             R.id.nav_all_list -> {
                 startActivity(Intent(this, AllListActivity::class.java))
@@ -291,7 +289,7 @@ class SummaryActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
             }
             R.id.nav_settings -> {
                 startActivity(Intent(this, SettingsActivity::class.java))
-            }            R.id.nav_feedback -> {
+            }R.id.nav_feedback -> {
                 startActivity(Intent(this, FeedbackActivity::class.java))
             }
             R.id.nav_about -> {

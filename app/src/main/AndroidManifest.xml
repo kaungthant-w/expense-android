@@ -20,8 +20,6 @@
 
         <activity android:name=".SummaryActivity" android:exported="false" android:parentActivityName=".MainActivity" />
 
-        <activity android:name=".AnalyticsActivity" android:exported="false" android:parentActivityName=".MainActivity" />
-
         <activity android:name=".HistoryActivity" android:exported="false" android:parentActivityName=".MainActivity" />
 
         <activity android:name=".AllListActivity" android:exported="false" android:parentActivityName=".MainActivity" />
