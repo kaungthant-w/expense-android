@@ -4,7 +4,7 @@
 
 ### New Keys in strings_en.json:
 - `deleted_items_history_title`: "🗃️ Deleted Items History"
-- `enable_selection`: "✅ Enable Selection"  
+- `enable_selection`: "✅ ✅ Selection"  
 - `delete_forever`: "Delete Forever"
 - `selection_mode_on`: "📋 Selection Mode ON"
 - `all_expenses_active_title`: "All Expenses (Active)"
@@ -50,7 +50,7 @@
 
 ### History Page:
 1. Title should show translated "🗃️ Deleted Items History"
-2. "Enable Selection" button should be translated
+2. "✅ Selection" button should be translated
 3. "Selection Mode ON" should be translated when active
 4. "Delete Forever" button should be translated
 5. "Select All" checkbox should be translated

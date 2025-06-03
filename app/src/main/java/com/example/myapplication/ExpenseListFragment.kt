@@ -61,8 +61,7 @@ class ExpenseListFragment : Fragment() {
     private fun updateUITexts() {
         noDataTextView.text = languageManager.getString("no_data_available")
     }
-    
-    private fun setupRecyclerView() {
+      private fun setupRecyclerView() {
         expenseAdapter = ExpenseAdapter(expenseList,
             onDeleteClick = { position -> 
                 // Delegate to MainActivity
@@ -75,7 +74,8 @@ class ExpenseListFragment : Fragment() {
             onItemClick = { position -> 
                 // Delegate to MainActivity
                 (activity as? MainActivity)?.openExpenseDetailFromFragment(position, getFilteredExpenses())
-            }
+            },
+            languageManager = languageManager
         )
         
         recyclerView.apply {
@@ -157,10 +157,19 @@ class ExpenseListFragment : Fragment() {
             }
         }
     }
-    
-    fun refreshExpenses() {
+      fun refreshExpenses() {
         val filterType = arguments?.getString(ARG_FILTER_TYPE) ?: FILTER_ALL
         loadExpensesForFilter(filterType)
+    }
+    
+    fun refreshTranslations() {
+        // Update UI texts
+        updateUITexts()
+        
+        // Refresh adapter translations
+        if (::expenseAdapter.isInitialized) {
+            expenseAdapter.refreshTranslations()
+        }
     }
     
     private fun getFilteredExpenses(): List<ExpenseItem> {

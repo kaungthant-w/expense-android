@@ -105,9 +105,9 @@
             <!-- Enhanced Action Buttons -->
             <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginBottom="12dp">
 
-                <Button android:id="@+id/buttonToggleSelection" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="✅ Enable Selection" android:backgroundTint="?attr/accentColor" android:textColor="@android:color/white" android:layout_marginEnd="8dp" android:drawableStart="@drawable/ic_checklist" android:drawablePadding="8dp" />
+                <Button android:id="@+id/buttonToggleSelection" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="✅ Selection" android:backgroundTint="?attr/accentColor" android:textColor="@android:color/white" android:layout_marginEnd="8dp" android:drawableStart="@drawable/ic_checklist" android:drawablePadding="8dp" />
 
-                <Button android:id="@+id/buttonToggleFilter" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="🔍 Show Filters" android:backgroundTint="@color/filter_button_color" android:textColor="@android:color/white" android:layout_marginStart="8dp" android:drawableStart="@drawable/ic_filter" android:drawablePadding="8dp" />
+                <Button android:id="@+id/buttonToggleFilter" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="🔍 Filters" android:backgroundTint="@color/filter_button_color" android:textColor="@android:color/white" android:layout_marginStart="8dp" android:drawableStart="@drawable/ic_filter" android:drawablePadding="8dp" />
 
             </LinearLayout>
 

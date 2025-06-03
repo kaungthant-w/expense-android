@@ -15,7 +15,8 @@ class ExpenseAdapter(
     private val expenseList: MutableList<ExpenseItem>,
     private val onDeleteClick: (Int) -> Unit,
     private val onEditClick: (Int) -> Unit,
-    private val onItemClick: (Int) -> Unit
+    private val onItemClick: (Int) -> Unit,
+    private val languageManager: LanguageManager
 ) : RecyclerView.Adapter<ExpenseAdapter.ExpenseViewHolder>() {
     
     private lateinit var currencyManager: CurrencyManager
@@ -68,12 +69,17 @@ class ExpenseAdapter(
         
         // Set date and time in header (always visible)
         holder.textViewDateTimeHeader.text = "📅 ${expenseItem.date} • 🕐 $formattedTime"
-        
-        holder.textViewDescription.text = if (expenseItem.description.isNotEmpty()) {
+          holder.textViewDescription.text = if (expenseItem.description.isNotEmpty()) {
             expenseItem.description
         } else {
-            "No description"        }
-          holder.textViewDateTime.text = "📅 ${expenseItem.date} • 🕐 $formattedTime"
+            languageManager.getString("no_description")
+        }
+        
+        holder.textViewDateTime.text = "📅 ${expenseItem.date} • 🕐 $formattedTime"
+        
+        // Set button text using language manager
+        holder.buttonEdit.text = languageManager.getString("edit_button")
+        holder.buttonDelete.text = languageManager.getString("delete_button")
           // Details and buttons are hidden by default - only name and price shown
         holder.layoutDetails.visibility = View.GONE
         holder.layoutButtons.visibility = View.GONE
@@ -90,7 +96,9 @@ class ExpenseAdapter(
         holder.buttonDelete.setOnClickListener {
             onDeleteClick(position)
         }
+    }    override fun getItemCount(): Int = expenseList.size
+    
+    fun refreshTranslations() {
+        notifyDataSetChanged()
     }
-
-    override fun getItemCount(): Int = expenseList.size
 }

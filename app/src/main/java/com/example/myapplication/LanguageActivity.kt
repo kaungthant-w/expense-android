@@ -51,14 +51,11 @@ class LanguageActivity : BaseActivity() {
         findViewById<ImageButton>(R.id.buttonBack).setOnClickListener {
             finish()
         }
-    }
-
-    private fun setupSpinner() {
+    }    private fun setupSpinner() {
         val languages = languageManager.getAvailableLanguages()
         languageAdapter = LanguageSpinnerAdapter(this, languages)
         spinnerLanguage.adapter = languageAdapter
-        
-        // Set current language as selected
+          // Set current language as selected
         val currentLanguage = languageManager.getCurrentLanguage()
         val currentIndex = languages.indexOfFirst { it.first == currentLanguage }
         if (currentIndex >= 0) {
@@ -68,7 +65,23 @@ class LanguageActivity : BaseActivity() {
         
         spinnerLanguage.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
-                selectedLanguageCode = languages[position].first
+                val newLanguageCode = languages[position].first
+                
+                // Only apply change if it's different from current language
+                if (newLanguageCode != languageManager.getCurrentLanguage()) {
+                    selectedLanguageCode = newLanguageCode
+                    
+                    // Apply language change immediately
+                    languageManager.setLanguage(selectedLanguageCode)
+                    
+                    // Update this activity's UI
+                    updateUITexts()
+                    
+                    // Show confirmation message
+                    showLanguageChangedMessage()
+                } else {
+                    selectedLanguageCode = newLanguageCode
+                }
             }
             
             override fun onNothingSelected(parent: AdapterView<*>) {}
@@ -77,7 +90,9 @@ class LanguageActivity : BaseActivity() {
 
     private fun setupClickListeners() {
         buttonApply.setOnClickListener {
-            applyLanguageChange()
+            // Language changes are now applied immediately when selected
+            // Just close the activity
+            finish()
         }
     }
     
@@ -91,19 +106,6 @@ class LanguageActivity : BaseActivity() {
         // Refresh spinner adapter to use new language
         val languages = languageManager.getAvailableLanguages()
         languageAdapter.updateLanguages(languages)
-    }    private fun applyLanguageChange() {
-        if (selectedLanguageCode != languageManager.getCurrentLanguage()) {
-            languageManager.setLanguage(selectedLanguageCode)
-            showLanguageChangedMessage()
-            updateUITexts()
-            
-            // Small delay to let user see the success message before finishing
-            buttonApply.postDelayed({
-                finish()
-            }, 1000)
-        } else {
-            finish()
-        }
     }
 
     private fun showLanguageChangedMessage() {

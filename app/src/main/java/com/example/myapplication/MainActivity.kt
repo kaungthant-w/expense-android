@@ -34,6 +34,9 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.text.SimpleDateFormat
 import java.util.*
+import java.util.Calendar
+import java.util.Date
+import java.util.Locale
 
 class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
     
@@ -43,12 +46,12 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     private lateinit var currencyManager: CurrencyManager
     private val gson = Gson()
     private lateinit var toolbar: Toolbar
-    
-    // Navigation Drawer components
+      // Navigation Drawer components
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var navigationView: NavigationView
-    private lateinit var drawerToggle: ActionBarDrawerToggle    // New UI components
-    private lateinit var fab: DraggableFloatingActionButton
+    private lateinit var drawerToggle: ActionBarDrawerToggle
+    
+    // New UI components
     private lateinit var todaySummaryCard: CardView
     private lateinit var todayExpensesCount: TextView
     private lateinit var todayTotalAmount: TextView
@@ -58,6 +61,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     private lateinit var tabLayout: TabLayout
     private lateinit var viewPager: ViewPager2
     private lateinit var viewPagerAdapter: ExpenseViewPagerAdapter
+    private lateinit var fab: DraggableFloatingActionButton
     
     // Activity result launcher for expense detail activity
     private val expenseDetailLauncher = registerForActivityResult(
@@ -171,11 +175,10 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             setupToolbar()
             setupNavigationDrawer()
             setupViewPager()
-            setupFAB()
             // setCurrentDateTime() removed: obsolete with modal dialog
             loadExpenses()
             updateNavigationMenuTitles()
-            updateUITexts()
+            updateTodaySummaryCard()
             updateTodaySummary()
         } catch (e: Exception) {
             Log.e("MainActivity", "Initialization error", e)
@@ -187,10 +190,10 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
-        // Sync the toggle state after onRestoreInstanceState has occurred
-        drawerToggle.syncState()
+        // Sync the toggle state after onRestoreInstanceState has occurred        drawerToggle.syncState()
     }
-      override fun onResume() {
+    
+    override fun onResume() {
         super.onResume()
         // Refresh expenses when returning to MainActivity
         // This ensures restored items appear in the list
@@ -200,18 +203,36 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             refreshAllFragments()
         }
     }
-    
-    override fun onLanguageChanged() {
+      override fun onLanguageChanged() {
         super.onLanguageChanged()
+        Log.d("MainActivity", "onLanguageChanged called - updating all UI elements")
+        
+        // Update all UI elements in the correct order
+        updateToolbarTitle()
         updateNavigationMenuTitles()
-        updateUITexts()
+        updateTodaySummaryCard()
+        updateTabTitles()
+        
+        // Refresh fragment translations
+        if (::viewPagerAdapter.isInitialized) {
+            refreshAllFragments()
+        }
+        
+        // Force refresh the views
+        runOnUiThread {
+            navigationView.invalidate()
+            todaySummaryCard.invalidate()
+            tabLayout.invalidate()
+        }
+          Log.d("MainActivity", "onLanguageChanged completed - all UI elements updated")
     }
-      private fun initViews() {
+    
+    private fun initViews() {
         // Navigation drawer components
         drawerLayout = findViewById<DrawerLayout>(R.id.drawer_layout)
         navigationView = findViewById<NavigationView>(R.id.nav_view)
-        toolbar = findViewById<Toolbar>(R.id.toolbar)        // New UI components
-        fab = findViewById<DraggableFloatingActionButton>(R.id.fab)
+        toolbar = findViewById<Toolbar>(R.id.toolbar)
+        // New UI components
         todaySummaryCard = findViewById<CardView>(R.id.todaySummaryCard)
         todayExpensesCount = findViewById<TextView>(R.id.todayExpensesCount)
         todayTotalAmount = findViewById<TextView>(R.id.todayTotalAmount)
@@ -220,14 +241,16 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         todayAmountLabel = findViewById<TextView>(R.id.todayAmountLabel)
         tabLayout = findViewById<TabLayout>(R.id.tabLayout)
         viewPager = findViewById<ViewPager2>(R.id.viewPager)
+        fab = findViewById<DraggableFloatingActionButton>(R.id.fab)
     }
-      private fun setupRecyclerView() {
-        // RecyclerView setup is now handled by ExpenseListFragment
-        // Initialize the adapter for fragment communication
+    
+    private fun setupRecyclerView() {
+        // RecyclerView setup is now handled by ExpenseListFragment        // Initialize the adapter for fragment communication
         expenseAdapter = ExpenseAdapter(expenseList,
             onDeleteClick = { position -> deleteExpenseItem(position) },
             onEditClick = { position -> editExpenseItem(position) },
-            onItemClick = { position -> openExpenseDetail(position) }
+            onItemClick = { position -> openExpenseDetail(position) },
+            languageManager = languageManager
         )
     }
     
@@ -237,9 +260,12 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     }
     
     private fun setupClickListeners() {
-        // No-op: old form elements removed, click listeners not needed
+        // Set up FAB click listener to show add expense modal
+        fab.setOnClickListener {
+            showAddExpenseModal()        }
     }
-      private fun setupToolbar() {
+    
+    private fun setupToolbar() {
         // Set up the toolbar as the action bar
         setSupportActionBar(toolbar)
         
@@ -269,37 +295,8 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             tab.text = viewPagerAdapter.getTabTitle(position)
         }.attach()
-    }      private fun setupFAB() {
-        // Restore saved position if exists
-        restoreFABPosition()
-        
-        // Set click listener for adding expense
-        fab.setOnClickListener {
-            showAddExpenseModal()
-        }
-        
-        // Set position change listener to save position
-        fab.onPositionChangedListener = { x, y ->
-            saveFABPosition(x, y)
-        }
     }
-    
-    private fun restoreFABPosition() {
-        val savedX = sharedPreferences.getFloat("fab_position_x", -1f)
-        val savedY = sharedPreferences.getFloat("fab_position_y", -1f)
-        
-        if (savedX != -1f && savedY != -1f) {
-            fab.setPosition(savedX, savedY)
-        }
-    }
-    
-    private fun saveFABPosition(x: Float, y: Float) {
-        sharedPreferences.edit()
-            .putFloat("fab_position_x", x)
-            .putFloat("fab_position_y", y)
-            .apply()
-    }
-    
+
     private fun showAddExpenseModal() {
         val dialogView = layoutInflater.inflate(R.layout.dialog_add_expense_modal, null)
         
@@ -313,6 +310,12 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         val modalLayoutAdditional = dialogView.findViewById<LinearLayout>(R.id.layoutAdditionalOptions)
         val modalButtonAdd = dialogView.findViewById<Button>(R.id.buttonAdd)
         val modalButtonCancel = dialogView.findViewById<Button>(R.id.buttonCancel)
+        val modalDialogTitle = dialogView.findViewById<TextView>(R.id.dialogTitle)
+        
+        // Set localized text for modal dialog elements
+        updateModalDialogTexts(dialogView, modalEditTextName, modalEditTextPrice, modalEditTextDescription, 
+                               modalEditTextDate, modalEditTextTime, modalButtonSeeMore, modalButtonAdd, 
+                               modalButtonCancel, modalDialogTitle)
         
         // Set current date and time
         val calendar = Calendar.getInstance()
@@ -326,7 +329,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         modalButtonSeeMore.setOnClickListener {
             isModalAdditionalOptionsVisible = !isModalAdditionalOptionsVisible
             modalLayoutAdditional.visibility = if (isModalAdditionalOptionsVisible) View.VISIBLE else View.GONE
-            modalButtonSeeMore.text = if (isModalAdditionalOptionsVisible) "See Less" else "See More"
+            modalButtonSeeMore.text = if (isModalAdditionalOptionsVisible) languageManager.getString("see_less") else languageManager.getString("see_more")
         }
         
         modalEditTextDate.setOnClickListener {
@@ -349,9 +352,9 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         }
         
         modalButtonAdd.setOnClickListener {
-            addExpenseFromModal(dialog, modalEditTextName, modalEditTextPrice, modalEditTextDescription, modalEditTextDate, modalEditTextTime)
-        }
-          dialog.show()
+            addExpenseFromModal(dialog, modalEditTextName, modalEditTextPrice, modalEditTextDescription, modalEditTextDate, modalEditTextTime)        }
+        
+        dialog.show()
     }
     
     private fun showDatePickerForModal(editText: EditText) {
@@ -499,16 +502,19 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             }
         }
     }
-    
-    private fun refreshAllFragments() {
+      private fun refreshAllFragments() {
         // Refresh all fragments in the ViewPager
         for (i in 0 until viewPagerAdapter.itemCount) {
             val fragment = supportFragmentManager.findFragmentByTag("f$i") as? ExpenseListFragment
             fragment?.refreshExpenses()
+            fragment?.refreshTranslations()
         }
         updateTodaySummary()
     }
-      private fun updateNavigationMenuTitles() {
+    
+    private fun updateNavigationMenuTitles() {
+        Log.d("MainActivity", "Updating navigation menu titles")
+        
         val menu = navigationView.menu
         menu.findItem(R.id.nav_home)?.title = languageManager.getString("nav_home")
         menu.findItem(R.id.nav_all_list)?.title = languageManager.getString("nav_all_list")
@@ -518,6 +524,12 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         menu.findItem(R.id.nav_settings)?.title = languageManager.getString("nav_settings")
         menu.findItem(R.id.nav_feedback)?.title = languageManager.getString("nav_feedback")
         menu.findItem(R.id.nav_about)?.title = languageManager.getString("nav_about")
+        
+        // Force refresh the navigation view
+        navigationView.invalidate()
+        navigationView.requestLayout()
+        
+        Log.d("MainActivity", "Navigation menu titles updated")
     }
     
     // New function to save a deleted expense specifically
@@ -547,7 +559,9 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         val allExpensesJson = gson.toJson(allExpenses)
         editor.putString("expenses", allExpensesJson)
         editor.apply()
-    }    private fun loadExpenses() {
+    }
+    
+    private fun loadExpenses() {
         val json = sharedPreferences.getString("expenses", null)
         if (!json.isNullOrEmpty()) {
             val type = object : TypeToken<List<ExpenseItem>>() {}.type
@@ -756,20 +770,81 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             ThemeActivity.THEME_SYSTEM -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
         }
     }
-      private fun updateUITexts() {
-        // Only update today's summary card texts (input field hints/buttons are now handled in modal dialog)
+    
+    private fun updateTodaySummaryCard() {
+        Log.d("MainActivity", "Updating Today's Summary Card")
+        
+        // Update Today's Summary card texts
         todaySummaryTitle.text = languageManager.getString("todays_summary")
         todayExpensesLabel.text = languageManager.getString("total_expenses")
         todayAmountLabel.text = languageManager.getString("total_amount")
-        // Refresh the today's summary data
+        
+        // Force refresh the card view
+        todaySummaryCard.invalidate()
+        todaySummaryCard.requestLayout()
+        
+        // Refresh the today's summary data to ensure proper display
         updateTodaySummary()
+        
+        Log.d("MainActivity", "Today's Summary Card updated: title=${todaySummaryTitle.text}, expenses=${todayExpensesLabel.text}, amount=${todayAmountLabel.text}")
+    }
+      private fun updateTabTitles() {
+        Log.d("MainActivity", "Updating tab titles")
+        
+        // Refresh tab titles by updating each tab
+        for (i in 0 until tabLayout.tabCount) {
+            val tab = tabLayout.getTabAt(i)
+            val newTitle = viewPagerAdapter.getTabTitle(i)
+            tab?.text = newTitle
+            Log.d("MainActivity", "Tab $i updated to: $newTitle")
+        }
+        
+        // Force refresh the tab layout
+        tabLayout.invalidate()
+        tabLayout.requestLayout()
+        
+        Log.d("MainActivity", "Tab titles update completed")
+    }
+    
+    private fun updateToolbarTitle() {
+        Log.d("MainActivity", "Updating toolbar title")
+        
+        val newTitle = languageManager.getString("app_name")
+        toolbar.title = newTitle
+        supportActionBar?.title = newTitle
+        
+        // Force refresh the toolbar
+        toolbar.invalidate()
+        
+        Log.d("MainActivity", "Toolbar title updated to: $newTitle")
+    }
+    
+    private fun updateModalDialogTexts(dialogView: View, modalEditTextName: EditText, modalEditTextPrice: EditText, 
+                                      modalEditTextDescription: EditText, modalEditTextDate: EditText, 
+                                      modalEditTextTime: EditText, modalButtonSeeMore: TextView, 
+                                      modalButtonAdd: Button, modalButtonCancel: Button, modalDialogTitle: TextView?) {
+        // Update dialog title
+        modalDialogTitle?.text = languageManager.getString("add_new_expense")
+        
+        // Update input field hints
+        modalEditTextName.hint = languageManager.getString("expense_name_hint")
+        modalEditTextPrice.hint = languageManager.getString("price_hint")
+        modalEditTextDescription.hint = languageManager.getString("description_hint")
+        modalEditTextDate.hint = languageManager.getString("date_hint")
+        modalEditTextTime.hint = languageManager.getString("time_hint")
+        
+        // Update button texts
+        modalButtonSeeMore.text = languageManager.getString("see_more")
+        modalButtonAdd.text = languageManager.getString("add")
+        modalButtonCancel.text = languageManager.getString("cancel")
     }
     
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.nav_home -> {
                 // Already in MainActivity, just close drawer
-            }            R.id.nav_summary -> {
+            }
+            R.id.nav_summary -> {
                 startActivity(Intent(this, SummaryActivity::class.java))
             }
             R.id.nav_all_list -> {
@@ -782,7 +857,8 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             }
             R.id.nav_currency_exchange -> {
                 startActivity(Intent(this, CurrencyExchangeActivity::class.java))
-            }            R.id.nav_settings -> {
+            }
+            R.id.nav_settings -> {
                 startActivity(Intent(this, SettingsActivity::class.java))
             }
             R.id.nav_feedback -> {
@@ -794,7 +870,9 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         }
         drawerLayout.closeDrawer(GravityCompat.START)
         return true
-    }    @Suppress("DEPRECATION")
+    }
+    
+    @Suppress("DEPRECATION")
     @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {

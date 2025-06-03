@@ -25,7 +25,7 @@
             <!-- Action Buttons -->
             <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginBottom="8dp">
 
-                <Button android:id="@+id/buttonToggleSelection" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="✅ Enable Selection" android:backgroundTint="?attr/accentColor" android:textColor="@android:color/white" android:layout_marginEnd="8dp" />
+                <Button android:id="@+id/buttonToggleSelection" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="✅ ✅ Selection" android:backgroundTint="?attr/accentColor" android:textColor="@android:color/white" android:layout_marginEnd="8dp" />
 
                 <Button android:id="@+id/buttonCancelSelection" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="❌ Cancel Selection" android:backgroundTint="?attr/textSecondaryColor" android:textColor="@android:color/white" android:visibility="gone" />
 

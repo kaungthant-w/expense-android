@@ -40,14 +40,36 @@ class LanguageManager private constructor(private val context: Context) {
     
     fun getCurrentLanguage(): String {
         return sharedPreferences.getString(LANGUAGE_KEY, LANGUAGE_ENGLISH) ?: LANGUAGE_ENGLISH
-    }
-    
-    fun setLanguage(language: String) {
+    }    fun setLanguage(language: String) {
         if (language in listOf(LANGUAGE_ENGLISH, LANGUAGE_MYANMAR, LANGUAGE_CHINESE, LANGUAGE_JAPANESE)) {
+            val oldLanguage = getCurrentLanguage()
+            
+            // Debug log
+            android.util.Log.d("LanguageManager", "Setting language from $oldLanguage to $language")
+            
             sharedPreferences.edit()
                 .putString(LANGUAGE_KEY, language)
                 .apply()
             loadLanguageStrings()
+            
+            // Only broadcast if language actually changed
+            if (oldLanguage != language) {
+                // Debug log
+                android.util.Log.d("LanguageManager", "Broadcasting language change: $oldLanguage -> $language")
+                
+                // Broadcast language change to all activities
+                val intent = Intent(LANGUAGE_CHANGED_ACTION)
+                intent.putExtra("old_language", oldLanguage)
+                intent.putExtra("new_language", language)
+                try {
+                    LocalBroadcastManager.getInstance(context).sendBroadcast(intent)
+                    android.util.Log.d("LanguageManager", "Broadcast sent successfully")
+                } catch (e: Exception) {
+                    android.util.Log.e("LanguageManager", "Error sending broadcast: ${e.message}")
+                }
+            } else {
+                android.util.Log.d("LanguageManager", "Language unchanged, no broadcast needed")
+            }
         }
     }
     
