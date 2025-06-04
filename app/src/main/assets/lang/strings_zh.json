@@ -318,6 +318,51 @@
   "apply_filters": "✅ 应用筛选",
   "clear_filters": "🗑️ 清除筛选",  "from_date": "开始日期",
   "to_date": "结束日期",  "filter_results": "找到 {count} 个，共 {total} 个支出",
-  "filters_cleared": "筛选已清除"
+  "filters_cleared": "筛选已清除",
+  
+  "filter_modal_title": "🔍 筛选选项",
+  "filter_year_label": "年份:",
+  "filter_month_label": "月份:",
+  "filter_date_range_label": "日期范围:",
+  "filter_from_date_label": "开始日期:",
+  "filter_to_date_label": "结束日期:",
+  "filter_apply_button": "✅ 应用筛选",
+  "filter_clear_button": "🗑️ 清除",
+  "filter_close_button": "❌ 关闭",
+  
+  "filter_all": "全部",
+  "month_january": "一月",
+  "month_february": "二月", 
+  "month_march": "三月",
+  "month_april": "四月",
+  "month_may": "五月",
+  "month_june": "六月",
+  "month_july": "七月",
+  "month_august": "八月",
+  "month_september": "九月",
+  "month_october": "十月",
+  "month_november": "十一月",
+  "month_december": "十二月",
+  
+  "month_jan": "1月",
+  "month_feb": "2月",
+  "month_mar": "3月",
+  "month_apr": "4月",
+  "month_may_short": "5月",
+  "month_jun": "6月",
+  "month_jul": "7月",
+  "month_aug": "8月",
+  "month_sep": "9月",
+  "month_oct": "10月",
+  "month_nov": "11月",
+  "month_dec": "12月",
+  
+  "filter_status_prefix": "🔍 筛选:",
+  "filter_year_prefix": "年份:",
+  "filter_month_prefix": "月份:",
+  "filter_from_prefix": "从:",
+  "filter_to_prefix": "到:",
+  
+  "history_button": "🗃️历史"
   
 }

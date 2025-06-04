@@ -20,9 +20,8 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_marginBottom="20dp"
-            android:gravity="center_vertical">
-
-            <TextView
+            android:gravity="center_vertical">            <TextView
+                android:id="@+id/textFilterModalTitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -46,9 +45,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginBottom="16dp">
-
-            <TextView
+            android:layout_marginBottom="16dp">            <TextView
+                android:id="@+id/textYearLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="📅 Year"
@@ -71,9 +69,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginBottom="16dp">
-
-            <TextView
+            android:layout_marginBottom="16dp">            <TextView
+                android:id="@+id/textMonthLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="🗓️ Month"
@@ -89,10 +86,9 @@
                 android:background="@drawable/input_background"
                 android:padding="12dp" />
 
-        </LinearLayout>
-
-        <!-- Date Range Section -->
+        </LinearLayout>        <!-- Date Range Section -->
         <TextView
+            android:id="@+id/textDateRangeLabel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="📅 Date Range (Optional)"
@@ -106,9 +102,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginBottom="12dp">
-
-            <TextView
+            android:layout_marginBottom="12dp">            <TextView
+                android:id="@+id/textFromDateLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="From Date"
@@ -136,9 +131,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginBottom="20dp">
-
-            <TextView
+            android:layout_marginBottom="20dp">            <TextView
+                android:id="@+id/textToDateLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="To Date"
@@ -165,24 +159,20 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <Button
+            android:orientation="horizontal">            <Button
                 android:id="@+id/buttonModalClearFilters"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="clear"
+                android:text=""
                 android:backgroundTint="?attr/textSecondaryColor"
                 android:textColor="@android:color/white"
-                android:layout_marginEnd="8dp" />
-
-            <Button
+                android:layout_marginEnd="8dp" />            <Button
                 android:id="@+id/buttonModalApplyFilter"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Filters"
+                android:text=""
                 android:backgroundTint="?attr/accentColor"
                 android:textColor="@android:color/white"
                 android:layout_marginStart="8dp" />

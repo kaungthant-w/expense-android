@@ -83,14 +83,21 @@ class AllListActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
     private var currentMonthFilter = 0
     private var currentStartDate = ""
     private var currentEndDate = ""
-    
-    override fun onCreate(savedInstanceState: Bundle?) {        super.onCreate(savedInstanceState)
+      override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_all_list)
-          initViews()
+        
+        initViews()
         setupNavigationDrawer()
         setupSharedPreferences()
         setupRecyclerView()
         setupStaticTexts()
+        
+        // Initialize filter values with translated text
+        if (currentYearFilter.isEmpty()) {
+            currentYearFilter = languageManager.getString("filter_all")
+        }
+        
         loadAllExpenses()
         updateNavigationMenuTitles()
         
@@ -195,6 +202,9 @@ class AllListActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
         val buttonModalApplyFilter = dialogView.findViewById<Button>(R.id.buttonModalApplyFilter)
         val buttonModalClearFilters = dialogView.findViewById<Button>(R.id.buttonModalClearFilters)
         
+        // Set dynamic text for modal elements
+        setupModalTexts(dialogView, buttonModalApplyFilter, buttonModalClearFilters)
+        
         // Setup modal components
         setupModalSpinners()
         setupModalDatePickers()
@@ -218,17 +228,29 @@ class AllListActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
         
         dialog.show()
     }
-    
-    private fun setupModalSpinners() {
+      private fun setupModalSpinners() {
         // Setup year spinner
-        val years = listOf("All") + (2020..2030).map { it.toString() }
+        val years = listOf(languageManager.getString("filter_all")) + (2020..2030).map { it.toString() }
         val yearAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, years)
         yearAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         modalSpinnerYear.adapter = yearAdapter
         
         // Setup month spinner
-        val months = listOf("All", "January", "February", "March", "April", "May", "June",
-            "July", "August", "September", "October", "November", "December")
+        val months = listOf(
+            languageManager.getString("filter_all"),
+            languageManager.getString("month_january"),
+            languageManager.getString("month_february"),
+            languageManager.getString("month_march"),
+            languageManager.getString("month_april"),
+            languageManager.getString("month_may"),
+            languageManager.getString("month_june"),
+            languageManager.getString("month_july"),
+            languageManager.getString("month_august"),
+            languageManager.getString("month_september"),
+            languageManager.getString("month_october"),
+            languageManager.getString("month_november"),
+            languageManager.getString("month_december")
+        )
         val monthAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, months)
         monthAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         modalSpinnerMonth.adapter = monthAdapter
@@ -267,15 +289,14 @@ class AllListActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
         modalEditTextStartDate.setText(currentStartDate)
         modalEditTextEndDate.setText(currentEndDate)
     }
-    
-    private fun applyModalFilters() {
-        currentYearFilter = modalSpinnerYear.selectedItem?.toString() ?: "All"
+      private fun applyModalFilters() {
+        currentYearFilter = modalSpinnerYear.selectedItem?.toString() ?: languageManager.getString("filter_all")
         currentMonthFilter = modalSpinnerMonth.selectedItemPosition
         currentStartDate = modalEditTextStartDate.text.toString().trim()
         currentEndDate = modalEditTextEndDate.text.toString().trim()
         
         // Check if any filters are active
-        isFiltersActive = currentYearFilter != "All" || 
+        isFiltersActive = currentYearFilter != languageManager.getString("filter_all") || 
                          currentMonthFilter > 0 || 
                          currentStartDate.isNotEmpty() || 
                          currentEndDate.isNotEmpty()
@@ -294,27 +315,40 @@ class AllListActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
         modalEditTextStartDate.text.clear()
         modalEditTextEndDate.text.clear()
     }
-    
-    private fun showFilterStatus() {
+      private fun showFilterStatus() {
         cardViewFilterStatus.visibility = View.VISIBLE
         
         val filterText = buildString {
-            append("🔍 Filters: ")
+            append(languageManager.getString("filter_status_prefix"))
+            append(" ")
             val filters = mutableListOf<String>()
             
-            if (currentYearFilter != "All") {
-                filters.add("Year: $currentYearFilter")
+            if (currentYearFilter != languageManager.getString("filter_all")) {
+                filters.add("${languageManager.getString("filter_year_prefix")} $currentYearFilter")
             }
             if (currentMonthFilter > 0) {
-                val monthNames = listOf("", "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-                    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")
-                filters.add("Month: ${monthNames[currentMonthFilter]}")
+                val monthNames = listOf(
+                    "", 
+                    languageManager.getString("month_jan"),
+                    languageManager.getString("month_feb"),
+                    languageManager.getString("month_mar"),
+                    languageManager.getString("month_apr"),
+                    languageManager.getString("month_may_short"),
+                    languageManager.getString("month_jun"),
+                    languageManager.getString("month_jul"),
+                    languageManager.getString("month_aug"),
+                    languageManager.getString("month_sep"),
+                    languageManager.getString("month_oct"),
+                    languageManager.getString("month_nov"),
+                    languageManager.getString("month_dec")
+                )
+                filters.add("${languageManager.getString("filter_month_prefix")} ${monthNames[currentMonthFilter]}")
             }
             if (currentStartDate.isNotEmpty()) {
-                filters.add("From: $currentStartDate")
+                filters.add("${languageManager.getString("filter_from_prefix")} $currentStartDate")
             }
             if (currentEndDate.isNotEmpty()) {
-                filters.add("To: $currentEndDate")
+                filters.add("${languageManager.getString("filter_to_prefix")} $currentEndDate")
             }
             
             append(filters.joinToString(", "))
@@ -323,8 +357,7 @@ class AllListActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
         textViewFilterStatus.text = filterText
     }
     
-    private fun clearAllFilters() {
-        currentYearFilter = "All"
+    private fun clearAllFilters() {        currentYearFilter = languageManager.getString("filter_all")
         currentMonthFilter = 0
         currentStartDate = ""
         currentEndDate = ""
@@ -360,9 +393,8 @@ class AllListActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
 
     private fun filterExpenses(): List<ExpenseItem> {
         var filtered = originalExpenses.toList()
-        
-        // Year filter
-        if (currentYearFilter.isNotEmpty() && currentYearFilter != "All") {
+          // Year filter
+        if (currentYearFilter.isNotEmpty() && currentYearFilter != languageManager.getString("filter_all")) {
             filtered = filtered.filter { expense ->
                 val expenseYear = expense.date.split("/").lastOrNull()
                 expenseYear == currentYearFilter
@@ -657,13 +689,15 @@ class AllListActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
         toggle.syncState()
         navigationView.setNavigationItemSelectedListener(this)
     }
-    
-    private fun setupStaticTexts() {
+      private fun setupStaticTexts() {
         // Update action bar title
         supportActionBar?.title = languageManager.getString("all_list_title")
         
         // Update title TextView if it exists
         findViewById<TextView>(R.id.textViewTitle)?.text = languageManager.getString("all_list_title")
+        
+        // Update History button text
+        findViewById<Button>(R.id.buttonViewHistory)?.text = languageManager.getString("history_button")
         
         // Update selection mode texts
         updateSelectionModeTexts()
@@ -818,5 +852,31 @@ class AllListActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
                 }
             }
         }
+    }
+    
+    private fun setupModalTexts(dialogView: View, buttonModalApplyFilter: Button, buttonModalClearFilters: Button) {
+        // Set modal title
+        dialogView.findViewById<TextView>(R.id.textFilterModalTitle)?.text = 
+            languageManager.getString("filter_modal_title")
+        
+        // Set field labels
+        dialogView.findViewById<TextView>(R.id.textYearLabel)?.text = 
+            languageManager.getString("filter_year_label")
+        dialogView.findViewById<TextView>(R.id.textMonthLabel)?.text = 
+            languageManager.getString("filter_month_label")
+        dialogView.findViewById<TextView>(R.id.textDateRangeLabel)?.text = 
+            languageManager.getString("filter_date_range_label")
+        dialogView.findViewById<TextView>(R.id.textFromDateLabel)?.text = 
+            languageManager.getString("filter_from_date_label")
+        dialogView.findViewById<TextView>(R.id.textToDateLabel)?.text = 
+            languageManager.getString("filter_to_date_label")
+        
+        // Set button text
+        buttonModalApplyFilter.text = languageManager.getString("filter_apply_button")
+        buttonModalClearFilters.text = languageManager.getString("filter_clear_button")
+        
+        // Set date picker hints
+        modalEditTextStartDate.hint = languageManager.getString("select_start_date")
+        modalEditTextEndDate.hint = languageManager.getString("select_end_date")
     }
 }

@@ -333,9 +333,8 @@ class CurrencyExchangeActivity : BaseActivity(), NavigationView.OnNavigationItem
       private fun fetchAllExchangeRates() {
         buttonRefreshRates.isEnabled = false
         buttonRefreshRates.text = languageManager.getString("currency_exchange_loading")
-        
-        // Reset all rates to loading state
-        val loadingText = languageManager.getString("currency_exchange_loading_rates")
+          // Reset all rates to loading state
+        val loadingText = languageManager.getString("loading_rates")
         textRateUsd.text = loadingText
         textRateEur.text = loadingText
         textRateSgd.text = loadingText
@@ -353,9 +352,8 @@ class CurrencyExchangeActivity : BaseActivity(), NavigationView.OnNavigationItem
                         .format(java.util.Date())
                     textLastUpdated.text = languageManager.getString("last_updated")
                         .replace("{time}", currentTime)
-                    
-                    Toast.makeText(this@CurrencyExchangeActivity, 
-                        languageManager.getString("currency_exchange_rates_updated"), 
+                      Toast.makeText(this@CurrencyExchangeActivity, 
+                        languageManager.getString("rates_updated"), 
                         Toast.LENGTH_SHORT).show()
                 }
             }
@@ -364,9 +362,8 @@ class CurrencyExchangeActivity : BaseActivity(), NavigationView.OnNavigationItem
                 runOnUiThread {
                     buttonRefreshRates.isEnabled = true
                     buttonRefreshRates.text = languageManager.getString("currency_exchange_refresh")
-                    
-                    // Set error state for all rates
-                    val errorText = languageManager.getString("currency_exchange_error")
+                      // Set error state for all rates
+                    val errorText = languageManager.getString("error_rate")
                     textRateUsd.text = errorText
                     textRateEur.text = errorText
                     textRateSgd.text = errorText
@@ -375,9 +372,8 @@ class CurrencyExchangeActivity : BaseActivity(), NavigationView.OnNavigationItem
                     textRateThb.text = errorText
                     textRateJpy.text = errorText
                     textLastUpdated.text = languageManager.getString("last_updated_failed")
-                    
-                    Toast.makeText(this@CurrencyExchangeActivity, 
-                        languageManager.getString("currency_exchange_fetch_rates_error")
+                      Toast.makeText(this@CurrencyExchangeActivity, 
+                        languageManager.getString("rates_fetch_failed")
                             .replace("{error}", error), 
                         Toast.LENGTH_LONG).show()
                 }
