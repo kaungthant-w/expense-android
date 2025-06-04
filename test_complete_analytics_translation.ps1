@@ -35,7 +35,7 @@ Write-Host ""
 
 Write-Host "📋 Main Analytics Elements:" -ForegroundColor Yellow
 Write-Host "  • Analytics title (📈 Expense Analytics)"
-Write-Host "  • Weekly Analysis section (📅 Weekly Analysis)"
+Write-Host "  • Weekly Analysis section (📅 Weekly Summary)"
 Write-Host "  • This Week's Expenses label"
 Write-Host "  • This Week's Total label"
 Write-Host "  • Average per Day label"

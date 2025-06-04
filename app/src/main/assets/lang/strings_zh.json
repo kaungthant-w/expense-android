@@ -364,7 +364,16 @@
   
   "select_start_date": "选择开始日期",
   "select_end_date": "选择结束日期",
+    "history_button": "🗃️历史",
   
-  "history_button": "🗃️历史"
+  "singapore_dollar": "新加坡元",
+  "thai_baht": "泰铢", 
+  "japanese_yen": "日元",
+  "switched_to_sgd": "已切换到 SGD - 新加坡元",
+  "switched_to_thb": "已切换到 THB - 泰铢",
+  "switched_to_jpy": "已切换到 JPY - 日元",
+  "switch_to_sgd": "💱 切换到 SGD",
+  "switch_to_thb": "💱 切换到 THB",
+  "switch_to_jpy": "💱 切换到 JPY"
   
 }

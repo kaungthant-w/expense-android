@@ -112,7 +112,7 @@
     <string name="summary_no_expenses_yet">No expenses yet</string>
     
     <!-- Weekly Analytics for Summary -->
-    <string name="analytics_weekly_analysis">📅 Weekly Analysis</string>
+    <string name="analytics_weekly_analysis">📅 Weekly Summary</string>
     <string name="analytics_this_week_expenses">This Week\'s Expenses:</string>
     <string name="analytics_this_week_total">This Week\'s Total:</string>
     <string name="analytics_average_per_day">Average per Day:</string>

@@ -13,34 +13,73 @@
                     <ImageButton android:id="@+id/buttonBack" android:layout_width="48dp" android:layout_height="48dp" android:background="@drawable/card_background" android:src="@drawable/ic_arrow_back" android:layout_marginEnd="16dp" android:contentDescription="Back" />
                     <TextView android:id="@+id/textCurrencyExchangeTitle" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="💱 Currency &amp; Rate Viewer" android:textSize="20sp" android:textStyle="bold" android:gravity="center_vertical" android:textColor="?attr/textPrimaryColor" />
 
-                </LinearLayout>
-
-                <!-- Currency Selection Cards -->
+                </LinearLayout>                <!-- Currency Selection Cards -->
                 <TextView android:id="@+id/textSelectDisplayCurrencyTitle" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="🌍 Select Display Currency" android:textSize="18sp" android:textStyle="bold" android:textColor="?attr/textPrimaryColor" android:layout_marginBottom="12dp" />
 
+                <!-- First Row: USD, MMK, SGD -->
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginBottom="8dp">
+
+                    <androidx.cardview.widget.CardView android:id="@+id/cardUsd" android:layout_width="0dp" android:layout_height="50dp" android:layout_weight="1" app:cardCornerRadius="10dp" app:cardElevation="4dp" android:layout_marginEnd="4dp" android:clickable="true" android:focusable="true" android:foreground="?attr/selectableItemBackground">
+
+                        <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" android:gravity="center" android:padding="8dp">
+
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="💵 USD" android:textSize="14sp" android:textStyle="bold" android:textColor="?attr/textPrimaryColor" />
+                            <TextView android:id="@+id/textUsDollarLabel" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="US Dollar" android:textSize="10sp" android:textColor="?attr/textSecondaryColor" />
+
+                        </LinearLayout>
+
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView android:id="@+id/cardMmk" android:layout_width="0dp" android:layout_height="50dp" android:layout_weight="1" app:cardCornerRadius="10dp" app:cardElevation="4dp" android:layout_marginStart="4dp" android:layout_marginEnd="4dp" android:clickable="true" android:focusable="true" android:foreground="?attr/selectableItemBackground">
+
+                        <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" android:gravity="center" android:padding="8dp">
+
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="🇲🇲 MMK" android:textSize="14sp" android:textStyle="bold" android:textColor="?attr/textPrimaryColor" />
+                            <TextView android:id="@+id/textMyanmarKyatLabel" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Myanmar Kyat" android:textSize="10sp" android:textColor="?attr/textSecondaryColor" />
+
+                        </LinearLayout>
+
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView android:id="@+id/cardSgd" android:layout_width="0dp" android:layout_height="50dp" android:layout_weight="1" app:cardCornerRadius="10dp" app:cardElevation="4dp" android:layout_marginStart="4dp" android:clickable="true" android:focusable="true" android:foreground="?attr/selectableItemBackground">
+
+                        <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" android:gravity="center" android:padding="8dp">
+
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="🇸🇬 SGD" android:textSize="14sp" android:textStyle="bold" android:textColor="?attr/textPrimaryColor" />
+                            <TextView android:id="@+id/textSingaporeDollarLabel" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Singapore Dollar" android:textSize="10sp" android:textColor="?attr/textSecondaryColor" />
+
+                        </LinearLayout>
+
+                    </androidx.cardview.widget.CardView>
+                </LinearLayout>
+
+                <!-- Second Row: THB, JPY -->
                 <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginBottom="16dp">
 
-                    <androidx.cardview.widget.CardView android:id="@+id/cardUsd" android:layout_width="0dp" android:layout_height="50dp" android:layout_weight="1" app:cardCornerRadius="10dp" app:cardElevation="4dp" android:layout_marginEnd="8dp" android:clickable="true" android:focusable="true" android:foreground="?attr/selectableItemBackground">
+                    <androidx.cardview.widget.CardView android:id="@+id/cardThb" android:layout_width="0dp" android:layout_height="50dp" android:layout_weight="1" app:cardCornerRadius="10dp" app:cardElevation="4dp" android:layout_marginEnd="4dp" android:clickable="true" android:focusable="true" android:foreground="?attr/selectableItemBackground">
 
-                        <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" android:gravity="center" android:padding="12dp">
+                        <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" android:gravity="center" android:padding="8dp">
 
-                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="💵 USD" android:textSize="16sp" android:textStyle="bold" android:textColor="?attr/textPrimaryColor" />
-                            <TextView android:id="@+id/textUsDollarLabel" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="US Dollar" android:textSize="12sp" android:textColor="?attr/textSecondaryColor" />
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="🇹🇭 THB" android:textSize="14sp" android:textStyle="bold" android:textColor="?attr/textPrimaryColor" />
+                            <TextView android:id="@+id/textThaiBahtLabel" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Thai Baht" android:textSize="10sp" android:textColor="?attr/textSecondaryColor" />
+
+                        </LinearLayout>
+
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView android:id="@+id/cardJpy" android:layout_width="0dp" android:layout_height="50dp" android:layout_weight="1" app:cardCornerRadius="10dp" app:cardElevation="4dp" android:layout_marginStart="4dp" android:clickable="true" android:focusable="true" android:foreground="?attr/selectableItemBackground">
+
+                        <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" android:gravity="center" android:padding="8dp">
+
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="🇯🇵 JPY" android:textSize="14sp" android:textStyle="bold" android:textColor="?attr/textPrimaryColor" />
+                            <TextView android:id="@+id/textJapaneseYenLabel" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Japanese Yen" android:textSize="10sp" android:textColor="?attr/textSecondaryColor" />
 
                         </LinearLayout>
 
                     </androidx.cardview.widget.CardView>
 
-                    <androidx.cardview.widget.CardView android:id="@+id/cardMmk" android:layout_width="0dp" android:layout_height="50dp" android:layout_weight="1" app:cardCornerRadius="10dp" app:cardElevation="4dp" android:layout_marginStart="8dp" android:clickable="true" android:focusable="true" android:foreground="?attr/selectableItemBackground">
-
-                        <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" android:gravity="center" android:padding="12dp">
-
-                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="🇲🇲 MMK" android:textSize="16sp" android:textStyle="bold" android:textColor="?attr/textPrimaryColor" />
-                            <TextView android:id="@+id/textMyanmarKyatLabel" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Myanmar Kyat" android:textSize="12sp" android:textColor="?attr/textSecondaryColor" />
-
-                        </LinearLayout>
-
-                    </androidx.cardview.widget.CardView>
+                    <!-- Empty space to balance the layout -->
+                    <View android:layout_width="0dp" android:layout_height="50dp" android:layout_weight="1" android:layout_marginStart="4dp" />
                 </LinearLayout>
 
                 <!-- Quick Switch Button -->
@@ -56,7 +95,7 @@
 
                         <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginBottom="12dp">
 
-                            <com.google.android.material.button.MaterialButton android:id="@+id/buttonFetchRate" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="🔄 Fetch Latest Rate" android:textSize="10sp" app:backgroundTint="?attr/accentColor" android:textColor="@android:color/white" android:layout_marginEnd="8dp" />
+                            <com.google.android.material.button.MaterialButton android:id="@+id/buttonFetchRate" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="🔄 Fetch Latest" android:textSize="10sp" app:backgroundTint="?attr/accentColor" android:textColor="@android:color/white" android:layout_marginEnd="8dp" />
 
                             <com.google.android.material.button.MaterialButton android:id="@+id/buttonCustomRate" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="✏️ Custom Rate" android:textSize="10sp" app:backgroundTint="?attr/colorSecondary" android:textColor="@android:color/white" android:layout_marginStart="8dp" />
 

@@ -13,7 +13,7 @@
 - `all_list_title`: "📋 All Expenses"
 - `select_all`: "Select All"
 - `delete_selected`: "🗑️ Delete Selected"
-- `toggle_selection`: "🔘 Select Items"
+- `toggle_selection`: "🔘 Select"
 - `cancel_selection`: "❌ Cancel"
 - `view_history`: "📋History"
 - `selection_count`: "{count} items selected"

@@ -82,7 +82,7 @@
 
 ### Layout Translation Keys (All 4 Languages)
 ```json
-"analytics_weekly_analysis": "📅 Weekly Analysis"
+"analytics_weekly_analysis": "📅 Weekly Summary"
 "analytics_this_week_expenses": "This Week's Expenses:"
 "analytics_this_week_total": "This Week's Total:"
 "analytics_average_per_day": "Average per Day:"

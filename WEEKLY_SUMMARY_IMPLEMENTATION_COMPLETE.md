@@ -48,7 +48,7 @@
 ### String Resources ✅
 **File: `app/src/main/res/values/strings.xml`**
 - Added 4 weekly analysis string resources:
-  - `analytics_weekly_analysis`: "📅 Weekly Analysis"
+  - `analytics_weekly_analysis`: "📅 Weekly Summary"
   - `analytics_this_week_expenses`: "This Week's Expenses:"
   - `analytics_this_week_total`: "This Week's Total:"
   - `analytics_average_per_day`: "Average per Day:"
@@ -115,7 +115,7 @@ val weekExpenses = expenses.filter { expense ->
 ### Summary Page Flow
 1. **Overall Statistics** - Total app statistics
 2. **Today's Summary** - Current day expenses
-3. **📅 Weekly Analysis** - **NEW: This week's expenses and average**
+3. **📅 Weekly Summary** - **NEW: This week's expenses and average**
 4. **This Month's Summary** - Current month expenses
 5. **Expense Extremes** - Highest/lowest expenses
 
@@ -160,7 +160,7 @@ The weekly summary implementation is now complete and ready for use. The feature
 ## 📊 FEATURE SUMMARY
 
 **New Weekly Summary Section:**
-- **Header**: "📅 Weekly Analysis" (translated)
+- **Header**: "📅 Weekly Summary" (translated)
 - **Expense Count**: "This Week's Expenses: X" (translated)
 - **Total Amount**: "This Week's Total: $XXX.XX" (translated, currency formatted)
 - **Daily Average**: "Average per Day: $XX.XX" (translated, currency formatted)

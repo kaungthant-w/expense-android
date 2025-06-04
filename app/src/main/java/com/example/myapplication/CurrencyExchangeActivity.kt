@@ -28,9 +28,11 @@ class CurrencyExchangeActivity : BaseActivity(), NavigationView.OnNavigationItem
     // Navigation Drawer components
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var navigationView: NavigationView
-    
-    private lateinit var cardUsd: CardView
+      private lateinit var cardUsd: CardView
     private lateinit var cardMmk: CardView
+    private lateinit var cardSgd: CardView
+    private lateinit var cardThb: CardView
+    private lateinit var cardJpy: CardView
     private lateinit var textCurrentRate: TextView
     private lateinit var buttonFetchRate: MaterialButton
     private lateinit var buttonCustomRate: MaterialButton
@@ -93,9 +95,11 @@ class CurrencyExchangeActivity : BaseActivity(), NavigationView.OnNavigationItem
         findViewById<ImageButton>(R.id.buttonBack).setOnClickListener {
             finish()
         }
-        
-        cardUsd = findViewById(R.id.cardUsd)
+          cardUsd = findViewById(R.id.cardUsd)
         cardMmk = findViewById(R.id.cardMmk)
+        cardSgd = findViewById(R.id.cardSgd)
+        cardThb = findViewById(R.id.cardThb)
+        cardJpy = findViewById(R.id.cardJpy)
         textCurrentRate = findViewById(R.id.textCurrentRate)
         buttonFetchRate = findViewById(R.id.buttonFetchRate)
         buttonCustomRate = findViewById(R.id.buttonCustomRate)
@@ -125,8 +129,7 @@ class CurrencyExchangeActivity : BaseActivity(), NavigationView.OnNavigationItem
         try {
             // Main title
             findViewById<TextView>(R.id.textCurrencyExchangeTitle)?.text = 
-                languageManager.getString("currency_exchange_title")
-            // Live exchange rates section
+                languageManager.getString("currency_exchange_title")            // Live exchange rates section
             findViewById<TextView>(R.id.textLiveExchangeRatesTitle)?.text = 
                 languageManager.getString("live_exchange_rates")
             buttonRefreshRates.text = languageManager.getString("currency_exchange_refresh")
@@ -134,12 +137,12 @@ class CurrencyExchangeActivity : BaseActivity(), NavigationView.OnNavigationItem
             findViewById<TextView>(R.id.textCurrencyLabel)?.text = 
                 languageManager.getString("currency")
             findViewById<TextView>(R.id.textRateLabel)?.text = 
-                languageManager.getString("rate_mmk")
-            // Current exchange rate section
+                languageManager.getString("rate_mmk")            // Current exchange rate section
             findViewById<TextView>(R.id.textCurrentExchangeRateTitle)?.text = 
                 languageManager.getString("currency_exchange_current_rate")
             buttonFetchRate.text = languageManager.getString("currency_exchange_fetch_latest")
             buttonCustomRate.text = languageManager.getString("currency_exchange_custom_rate")
+            
             // Manual rate entry section
             findViewById<TextView>(R.id.textManualRateEntryTitle)?.text = 
                 languageManager.getString("manual_rate_entry")
@@ -154,6 +157,12 @@ class CurrencyExchangeActivity : BaseActivity(), NavigationView.OnNavigationItem
                 languageManager.getString("us_dollar")
             findViewById<TextView>(R.id.textMyanmarKyatLabel)?.text = 
                 languageManager.getString("myanmar_kyat")
+            findViewById<TextView>(R.id.textSingaporeDollarLabel)?.text = 
+                languageManager.getString("singapore_dollar")
+            findViewById<TextView>(R.id.textThaiBahtLabel)?.text = 
+                languageManager.getString("thai_baht")
+            findViewById<TextView>(R.id.textJapaneseYenLabel)?.text = 
+                languageManager.getString("japanese_yen")
         } catch (e: Exception) {
             // Log error but continue - fallback to hardcoded text in XML
             android.util.Log.e("CurrencyExchange", "Error setting up static texts: ${e.message}")
@@ -170,14 +179,25 @@ class CurrencyExchangeActivity : BaseActivity(), NavigationView.OnNavigationItem
         
         navigationView.setNavigationItemSelectedListener(this)
     }
-    
-    private fun setupClickListeners() {
+      private fun setupClickListeners() {
         cardUsd.setOnClickListener {
             switchToCurrency(CurrencyManager.CURRENCY_USD)
         }
         
         cardMmk.setOnClickListener {
             switchToCurrency(CurrencyManager.CURRENCY_MMK)
+        }
+        
+        cardSgd.setOnClickListener {
+            switchToCurrency(CurrencyManager.CURRENCY_SGD)
+        }
+        
+        cardThb.setOnClickListener {
+            switchToCurrency(CurrencyManager.CURRENCY_THB)
+        }
+        
+        cardJpy.setOnClickListener {
+            switchToCurrency(CurrencyManager.CURRENCY_JPY)
         }
         
         buttonFetchRate.setOnClickListener {
@@ -195,14 +215,13 @@ class CurrencyExchangeActivity : BaseActivity(), NavigationView.OnNavigationItem
         buttonCancelCustomRate.setOnClickListener {
             hideCustomRateInput()
         }
-        
-        buttonSwitchCurrency.setOnClickListener {
+          buttonSwitchCurrency.setOnClickListener {
             val currentCurrency = currencyManager.getCurrentCurrency()
-            val newCurrency = if (currentCurrency == CurrencyManager.CURRENCY_USD) {
-                CurrencyManager.CURRENCY_MMK
-            } else {
-                CurrencyManager.CURRENCY_USD
-            }
+            val supportedCurrencies = CurrencyManager.SUPPORTED_CURRENCIES
+            val currentIndex = supportedCurrencies.indexOf(currentCurrency)
+            val nextIndex = (currentIndex + 1) % supportedCurrencies.size
+            val newCurrency = supportedCurrencies[nextIndex]
+            
             switchToCurrency(newCurrency)
         }
         
@@ -212,41 +231,69 @@ class CurrencyExchangeActivity : BaseActivity(), NavigationView.OnNavigationItem
     }    private fun switchToCurrency(currency: String) {
         currencyManager.setCurrentCurrency(currency)
         updateUI()
-        
-        val message = when (currency) {
+          val message = when (currency) {
             CurrencyManager.CURRENCY_USD -> languageManager.getString("switched_to_usd")
             CurrencyManager.CURRENCY_MMK -> languageManager.getString("switched_to_mmk")
+            CurrencyManager.CURRENCY_SGD -> languageManager.getString("switched_to_sgd")
+            CurrencyManager.CURRENCY_THB -> languageManager.getString("switched_to_thb")
+            CurrencyManager.CURRENCY_JPY -> languageManager.getString("switched_to_jpy")
             else -> languageManager.getString("currency_switched")
         }
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
-    }
-      private fun updateUI() {
+    }    private fun updateUI() {
         val currentCurrency = currencyManager.getCurrentCurrency()
-        val exchangeRate = currencyManager.getExchangeRate()
         
         // Update currency selection visual feedback
-        updateCurrencySelection(currentCurrency)
-          // Update exchange rate display
-        textCurrentRate.text = languageManager.getString("exchange_rate_display")
-            .replace("{rate}", String.format("%.2f", exchangeRate))
+        updateCurrencySelection(currentCurrency)// Update exchange rate display
+        val currentRate = currencyManager.getExchangeRateForCurrency(currentCurrency)
+        textCurrentRate.text = when (currentCurrency) {
+            CurrencyManager.CURRENCY_USD -> "Exchange Rate: 1 USD = ${String.format("%.2f", currentRate)} MMK"
+            CurrencyManager.CURRENCY_MMK -> "Exchange Rate: 1 USD = ${String.format("%.2f", currencyManager.getExchangeRateForCurrency(CurrencyManager.CURRENCY_USD))} MMK"
+            CurrencyManager.CURRENCY_SGD -> "Exchange Rate: 1 SGD = ${String.format("%.2f", currentRate)} MMK"
+            CurrencyManager.CURRENCY_THB -> "Exchange Rate: 1 THB = ${String.format("%.2f", currentRate)} MMK"
+            CurrencyManager.CURRENCY_JPY -> "Exchange Rate: 1 JPY = ${String.format("%.2f", currentRate)} MMK"
+            else -> "Exchange Rate: 1 USD = ${String.format("%.2f", currencyManager.getExchangeRateForCurrency(CurrencyManager.CURRENCY_USD))} MMK"
+        }
         
-        // Update switch button text
-        buttonSwitchCurrency.text = when (currentCurrency) {
-            CurrencyManager.CURRENCY_USD -> languageManager.getString("switch_to_mmk")
-            CurrencyManager.CURRENCY_MMK -> languageManager.getString("switch_to_usd")
-            else -> languageManager.getString("switch_to_mmk")
+        // Update switch button text to show next currency
+        val supportedCurrencies = CurrencyManager.SUPPORTED_CURRENCIES
+        val currentIndex = supportedCurrencies.indexOf(currentCurrency)
+        val nextIndex = (currentIndex + 1) % supportedCurrencies.size
+        val nextCurrency = supportedCurrencies[nextIndex]
+          buttonSwitchCurrency.text = when (nextCurrency) {
+            CurrencyManager.CURRENCY_USD -> languageManager.getString("switch_to_usd")
+            CurrencyManager.CURRENCY_MMK -> languageManager.getString("switch_to_mmk")
+            CurrencyManager.CURRENCY_SGD -> languageManager.getString("switch_to_sgd")
+            CurrencyManager.CURRENCY_THB -> languageManager.getString("switch_to_thb")
+            CurrencyManager.CURRENCY_JPY -> languageManager.getString("switch_to_jpy")
+            else -> "💱 Switch Currency"
         }
     }
-    
-    private fun updateCurrencySelection(currency: String) {
+      private fun updateCurrencySelection(currency: String) {
+        // Reset all cards to default color
+        val defaultColor = getColor(android.R.color.white)
+        cardUsd.setCardBackgroundColor(defaultColor)
+        cardMmk.setCardBackgroundColor(defaultColor)
+        cardSgd.setCardBackgroundColor(defaultColor)
+        cardThb.setCardBackgroundColor(defaultColor)
+        cardJpy.setCardBackgroundColor(defaultColor)
+        
+        // Highlight selected currency
         when (currency) {
             CurrencyManager.CURRENCY_USD -> {
                 cardUsd.setCardBackgroundColor(getColor(android.R.color.holo_blue_light))
-                cardMmk.setCardBackgroundColor(getColor(android.R.color.white))
             }
             CurrencyManager.CURRENCY_MMK -> {
                 cardMmk.setCardBackgroundColor(getColor(android.R.color.holo_green_light))
-                cardUsd.setCardBackgroundColor(getColor(android.R.color.white))
+            }
+            CurrencyManager.CURRENCY_SGD -> {
+                cardSgd.setCardBackgroundColor(getColor(android.R.color.holo_orange_light))
+            }
+            CurrencyManager.CURRENCY_THB -> {
+                cardThb.setCardBackgroundColor(getColor(android.R.color.holo_purple))
+            }
+            CurrencyManager.CURRENCY_JPY -> {
+                cardJpy.setCardBackgroundColor(getColor(android.R.color.holo_red_light))
             }
         }
     }
@@ -379,17 +426,18 @@ class CurrencyExchangeActivity : BaseActivity(), NavigationView.OnNavigationItem
                 }
             }
         })
-    }
-      private fun updateExchangeRateTable(rates: Map<String, Double>) {
+    }    private fun updateExchangeRateTable(rates: Map<String, Double>) {
         val naText = languageManager.getString("currency_exchange_na")
+        
+        // Store all rates in CurrencyManager
+        currencyManager.setAllExchangeRates(rates)
         
         // Update USD rate (this is also used for the main currency conversion)
         rates["USD"]?.let { usdRate ->
             textRateUsd.text = String.format("%.2f", usdRate)
             
-            // Also update the main currency manager rate
+            // Also update the main currency manager rate for backward compatibility
             currencyManager.setExchangeRate(usdRate)
-            updateUI()
         } ?: run {
             textRateUsd.text = naText
         }
@@ -401,6 +449,9 @@ class CurrencyExchangeActivity : BaseActivity(), NavigationView.OnNavigationItem
         rates["CNY"]?.let { textRateCny.text = String.format("%.2f", it) } ?: run { textRateCny.text = naText }
         rates["THB"]?.let { textRateThb.text = String.format("%.2f", it) } ?: run { textRateThb.text = naText }
         rates["JPY"]?.let { textRateJpy.text = String.format("%.2f", it) } ?: run { textRateJpy.text = naText }
+        
+        // Update the main UI after storing new rates
+        updateUI()
     }
     
     // --- Utility and callback functions ---

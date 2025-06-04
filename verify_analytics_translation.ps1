@@ -29,7 +29,7 @@ Write-Host ""
 
 Write-Host "STEP 2: Verify English Analytics (Default)" -ForegroundColor Yellow
 Write-Host "  □ Title shows '📈 Expense Analytics'"
-Write-Host "  □ Weekly Analysis section shows '📅 Weekly Analysis'"
+Write-Host "  □ Weekly Analysis section shows '📅 Weekly Summary'"
 Write-Host "  □ Labels show 'This Week's Expenses:', 'This Week's Total:', 'Average per Day:'"
 Write-Host "  □ Day analysis shows '📊 Day of Week Analysis'"
 Write-Host "  □ Time analysis shows '🕐 Time of Day Analysis'"

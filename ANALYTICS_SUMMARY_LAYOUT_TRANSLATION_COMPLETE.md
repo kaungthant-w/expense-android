@@ -14,7 +14,7 @@ Updated all hardcoded text elements to use string resources:
 - `"📈 Expense Analytics"` → `@string/analytics_expense_title`
 
 #### Weekly Analysis Section:
-- `"📅 Weekly Analysis"` → `@string/analytics_weekly_analysis`
+- `"📅 Weekly Summary"` → `@string/analytics_weekly_analysis`
 - `"This Week's Expenses:"` → `@string/analytics_this_week_expenses`
 - `"This Week's Total:"` → `@string/analytics_this_week_total`
 - `"Average per Day:"` → `@string/analytics_average_per_day`
