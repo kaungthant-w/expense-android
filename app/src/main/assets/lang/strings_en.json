@@ -130,9 +130,9 @@
   "tab_this_month": "This Month",
   
   "add_new_expense": "💰 Add New Expense",
-  "expense_name_hint": "💼 Expense Name",
-  "price_hint": "💵 Price",
+  "expense_name_hint": "💼 Expense Name",  "price_hint": "💵 Price",
   "description_hint": "📝 Description (Optional)",
+  "expense_description_hint": "📝 Description (Optional)",
   "date_hint": "📅 Date (DD/MM/YYYY)",
   "time_hint": "🕐 Time (HH:MM)",
   "see_more": "See More",
