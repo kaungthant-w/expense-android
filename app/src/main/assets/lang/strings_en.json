@@ -149,9 +149,9 @@
   "delete_confirmation_message": "Are you sure you want to delete these {count} item(s)?\n\n{items}\n\nDeleted items can be restored from History.",
   "delete_button": "🗑️ Delete",
   "edit_button": "✏️ Edit",
-  "cancel_button": "❌ Cancel",
-  "deleted_successfully": "✅ Successfully deleted {count} item(s). View in History to restore if needed.",
+  "cancel_button": "❌ Cancel",  "deleted_successfully": "✅ Successfully deleted {count} item(s). View in History to restore if needed.",
   "no_description": "No description",
+  "deleted_on": "Deleted on",
   
   "analytics_title": "📈 Expense Analytics",
   "analytics_overview": "📊 Analytics Overview",
@@ -351,12 +351,14 @@
   "month_oct": "Oct",
   "month_nov": "Nov",
   "month_dec": "Dec",
-  
-  "filter_status_prefix": "🔍 Filters:",
+    "filter_status_prefix": "🔍 Filters:",
   "filter_year_prefix": "Year:",
   "filter_month_prefix": "Month:",
   "filter_from_prefix": "From:",
   "filter_to_prefix": "To:",
+  
+  "select_start_date": "Select start date",
+  "select_end_date": "Select end date",
   
   "history_button": "🗃️History"
 }

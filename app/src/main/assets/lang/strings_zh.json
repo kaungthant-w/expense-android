@@ -147,9 +147,9 @@
   "delete_confirmation_message": "您确定要删除这 {count} 项吗？\n\n{items}\n\n已删除的项目可以从历史记录中恢复。",
   "delete_button": "🗑️ 删除",
   "edit_button": "✏️ 编辑",
-  "cancel_button": "❌ 取消",
-  "deleted_successfully": "✅ 成功删除 {count} 项。如需恢复，请查看历史记录。",
+  "cancel_button": "❌ 取消",  "deleted_successfully": "✅ 成功删除 {count} 项。如需恢复，请查看历史记录。",
   "no_description": "无描述",
+  "deleted_on": "删除日期",
   
   "analytics_title": "📈 支出分析",
   "analytics_overview": "📊 分析概览",
@@ -357,11 +357,13 @@
   "month_nov": "11月",
   "month_dec": "12月",
   
-  "filter_status_prefix": "🔍 筛选:",
-  "filter_year_prefix": "年份:",
+  "filter_status_prefix": "🔍 筛选:",  "filter_year_prefix": "年份:",
   "filter_month_prefix": "月份:",
   "filter_from_prefix": "从:",
   "filter_to_prefix": "到:",
+  
+  "select_start_date": "选择开始日期",
+  "select_end_date": "选择结束日期",
   
   "history_button": "🗃️历史"
   

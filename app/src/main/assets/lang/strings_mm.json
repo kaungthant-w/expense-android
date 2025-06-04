@@ -138,9 +138,9 @@
   "delete_confirmation_title": "⚠️ ရွေးချယ်ထားသော ပစ္စည်းများ ဖျက်ပါ",
   "delete_confirmation_message": "သင် ဤ {count} ပစ္စည်း(များ)ကို ဖျက်ရန် သေချာပါသလား?\n\n{items}\n\nဖျက်ထားသော ပစ္စည်းများကို မှတ်တမ်းမှ ပြန်လည်ရယူနိုင်ပါသည်။",  "delete_button": "🗑️ ဖျက်ပါ",
   "edit_button": "✏️ ပြင်ပါ",
-  "cancel_button": "❌ ပယ်ဖျက်ပါ",
-  "deleted_successfully": "✅ {count} ပစ္စည်း(များ)ကို အောင်မြင်စွာ ဖျက်ပြီးပါပြီ။ ပြန်ယူမယ် မှတ်တမ်းတွင် ကြည့်ပါ။",
+  "cancel_button": "❌ ပယ်ဖျက်ပါ",  "deleted_successfully": "✅ {count} ပစ္စည်း(များ)ကို အောင်မြင်စွာ ဖျက်ပြီးပါပြီ။ ပြန်ယူမယ် မှတ်တမ်းတွင် ကြည့်ပါ။",
   "no_description": "ဖော်ပြချက် မရှိပါ",
+  "deleted_on": "ဖျက်ပစ်သည့်ရက်",
   
   "analytics_title": "📈 ကုန်ကျစရိတ် ခွဲခြမ်းစိတ်ဖြာမှု",
   "analytics_overview": "📊 ခွဲခြမ်းစိတ်ဖြာမှု ခြုံငုံသုံးသပ်ချက်",
@@ -334,12 +334,14 @@
   "month_oct": "အောက်",
   "month_nov": "နို",
   "month_dec": "ဒီ",
-  
-  "filter_status_prefix": "🔍 စစ်ခြေးမှုများ:",
+    "filter_status_prefix": "🔍 စစ်ခြေးမှုများ:",
   "filter_year_prefix": "နှစ်:",
   "filter_month_prefix": "လ:",
   "filter_from_prefix": "စမှ:",
   "filter_to_prefix": "အထိ:",
+  
+  "select_start_date": "စတင်ရက် ရွေးပါ",
+  "select_end_date": "ဆုံးရက် ရွေးပါ",
   
   "history_button": "🗃️မှတ်တမ်း"
 }

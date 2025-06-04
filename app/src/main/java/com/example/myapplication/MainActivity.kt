@@ -210,6 +210,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         // Update all UI elements in the correct order
         updateToolbarTitle()
         updateNavigationMenuTitles()
+        updateNavigationHeaderText()
         updateTodaySummaryCard()
         updateTabTitles()
         
@@ -224,7 +225,8 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             todaySummaryCard.invalidate()
             tabLayout.invalidate()
         }
-          Log.d("MainActivity", "onLanguageChanged completed - all UI elements updated")
+        
+        Log.d("MainActivity", "onLanguageChanged completed - all UI elements updated")
     }
     
     private fun initViews() {
@@ -837,6 +839,18 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         modalButtonSeeMore.text = languageManager.getString("see_more")
         modalButtonAdd.text = languageManager.getString("add")
         modalButtonCancel.text = languageManager.getString("cancel")
+    }
+    
+    private fun updateNavigationHeaderText() {
+        Log.d("MainActivity", "Updating navigation header text")
+        
+        // Get the navigation header view
+        val headerView = navigationView.getHeaderView(0)
+        val headerTextView = headerView?.findViewById<TextView>(R.id.textView)
+        
+        headerTextView?.text = "📊 " + languageManager.getString("app_description")
+        
+        Log.d("MainActivity", "Navigation header text updated")
     }
     
     override fun onNavigationItemSelected(item: MenuItem): Boolean {

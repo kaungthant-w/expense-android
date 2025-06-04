@@ -571,17 +571,17 @@ class HistoryAdapter(
             }
         }
           holder.textViewName.text = expense.name
-        
-        // Use CurrencyManager's new method for display
+          // Use CurrencyManager's new method for display
         val displayAmount = currencyManager.getDisplayAmountFromStored(expense.price, expense.currency)
         holder.textViewPrice.text = currencyManager.formatCurrency(displayAmount)
-          holder.textViewDescription.text = if (expense.description.isNotEmpty()) expense.description else "No description"
+        
+        holder.textViewDescription.text = if (expense.description.isNotEmpty()) expense.description else languageManager.getString("no_description")
         
         // Convert time to 12-hour format with AM/PM
         val formattedTime = convertTo12HourFormat(expense.time)
         holder.textViewDateTime.text = "${expense.date} at $formattedTime"
         
-        holder.textViewDeletedDate.text = "Deleted on ${expense.deletedAt ?: "Unknown date"}"
+        holder.textViewDeletedDate.text = "${languageManager.getString("deleted_on")} ${expense.deletedAt ?: "Unknown date"}"
           // Hide/show action buttons based on selection mode
         val buttonVisibility = if (selectionMode) View.GONE else View.VISIBLE
         holder.buttonRestore.visibility = buttonVisibility

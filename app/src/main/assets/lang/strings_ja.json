@@ -140,9 +140,9 @@
   "delete_confirmation_title": "⚠️ 選択項目を削除",
   "delete_confirmation_message": "この{count}項目を削除してもよろしいですか？\n\n{items}\n\n削除された項目は履歴から復元できます。",  "delete_button": "🗑️ 削除",
   "edit_button": "✏️ 編集",
-  "cancel_button": "❌ キャンセル",
-  "deleted_successfully": "✅ {count}項目を正常に削除しました。復元が必要な場合は履歴をご確認ください。",
+  "cancel_button": "❌ キャンセル",  "deleted_successfully": "✅ {count}項目を正常に削除しました。復元が必要な場合は履歴をご確認ください。",
   "no_description": "説明なし",
+  "deleted_on": "削除日",
   
   "analytics_title": "📈 支出分析",
   "analytics_overview": "📊 分析概要",
@@ -339,12 +339,14 @@
   "month_oct": "10月",
   "month_nov": "11月",
   "month_dec": "12月",
-  
-  "filter_status_prefix": "🔍 フィルター:",
+    "filter_status_prefix": "🔍 フィルター:",
   "filter_year_prefix": "年:",
   "filter_month_prefix": "月:",
   "filter_from_prefix": "開始:",
   "filter_to_prefix": "終了:",
+  
+  "select_start_date": "開始日を選択",
+  "select_end_date": "終了日を選択",
   
   "history_button": "🗃️履歴"
 }
