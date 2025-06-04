@@ -26,6 +26,10 @@
         <item name="inputBackgroundColor">@color/input_background_color</item>
         <item name="buttonBackgroundColor">@color/accent_color</item>
         
+        <!-- Tab colors -->
+        <item name="tabSelectedTextColor">@color/text_primary_color</item>
+        <item name="tabUnselectedTextColor">@color/text_secondary_color</item>
+        
         <!-- Font family -->
         <item name="android:fontFamily">@font/poppins</item>
         <item name="fontFamily">@font/poppins</item>

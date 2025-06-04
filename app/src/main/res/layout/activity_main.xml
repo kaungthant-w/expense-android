@@ -24,7 +24,7 @@
                     </LinearLayout>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>            <!-- TabLayout for Data Lists -->
-            <com.google.android.material.tabs.TabLayout android:id="@+id/tabLayout" android:layout_width="match_parent" android:layout_height="wrap_content" android:background="@android:color/transparent" app:tabIndicatorColor="@android:color/black" app:tabSelectedTextColor="@android:color/white" app:tabTextColor="@android:color/darker_gray" />
+            <com.google.android.material.tabs.TabLayout android:id="@+id/tabLayout" android:layout_width="match_parent" android:layout_height="wrap_content" android:background="@android:color/transparent" app:tabIndicatorColor="?attr/textPrimaryColor" app:tabSelectedTextColor="?attr/tabSelectedTextColor" app:tabTextColor="?attr/tabUnselectedTextColor" />
             <androidx.viewpager2.widget.ViewPager2 android:id="@+id/viewPager" android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" />
         </LinearLayout>
         <!-- Draggable Floating Action Button -->
