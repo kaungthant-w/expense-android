@@ -9,14 +9,14 @@ import com.google.gson.reflect.TypeToken
 import java.io.InputStreamReader
 
 class LanguageManager private constructor(private val context: Context) {
-    
-    companion object {
+      companion object {
         const val LANGUAGE_PREFS = "language_preferences"
         const val LANGUAGE_KEY = "selected_language"
         const val LANGUAGE_ENGLISH = "en"
         const val LANGUAGE_MYANMAR = "mm"
         const val LANGUAGE_CHINESE = "zh"
         const val LANGUAGE_JAPANESE = "ja"
+        const val LANGUAGE_THAI = "th"
         const val LANGUAGE_CHANGED_ACTION = "com.example.myapplication.LANGUAGE_CHANGED"
         
         @Volatile
@@ -41,7 +41,7 @@ class LanguageManager private constructor(private val context: Context) {
     fun getCurrentLanguage(): String {
         return sharedPreferences.getString(LANGUAGE_KEY, LANGUAGE_ENGLISH) ?: LANGUAGE_ENGLISH
     }    fun setLanguage(language: String) {
-        if (language in listOf(LANGUAGE_ENGLISH, LANGUAGE_MYANMAR, LANGUAGE_CHINESE, LANGUAGE_JAPANESE)) {
+        if (language in listOf(LANGUAGE_ENGLISH, LANGUAGE_MYANMAR, LANGUAGE_CHINESE, LANGUAGE_JAPANESE, LANGUAGE_THAI)) {
             val oldLanguage = getCurrentLanguage()
             
             // Debug log
@@ -76,13 +76,13 @@ class LanguageManager private constructor(private val context: Context) {
     fun getString(key: String): String {
         return currentStrings[key] ?: key
     }
-    
-    fun getAvailableLanguages(): List<Pair<String, String>> {
+      fun getAvailableLanguages(): List<Pair<String, String>> {
         return listOf(
             Pair(LANGUAGE_ENGLISH, "English"),
             Pair(LANGUAGE_MYANMAR, "မြန်မာ"),
             Pair(LANGUAGE_CHINESE, "中文"),
-            Pair(LANGUAGE_JAPANESE, "日本語")
+            Pair(LANGUAGE_JAPANESE, "日本語"),
+            Pair(LANGUAGE_THAI, "ไทย")
         )
     }
     
@@ -125,10 +125,10 @@ class LanguageManager private constructor(private val context: Context) {
             "export_data" to "Export Data",
             "import_data" to "Import Data",
             "about" to "About",
-            "english" to "English",
-            "myanmar" to "မြန်မာ",
+            "english" to "English",            "myanmar" to "မြန်မာ",
             "chinese" to "中文",
             "japanese" to "日本語",
+            "thai" to "ไทย",
             "select_language" to "Select Language",
             "current_language" to "Current Language",
             "apply" to "Apply",

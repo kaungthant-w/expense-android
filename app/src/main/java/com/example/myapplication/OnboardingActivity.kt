@@ -56,13 +56,13 @@ class OnboardingActivity : AppCompatActivity() {
             finish()
         }
     }
-    
-    private fun setupLanguageSpinner() {
+      private fun setupLanguageSpinner() {
         val languages = listOf(
             Pair("en", "English"),
             Pair("mm", "မြန်မာ"),
             Pair("zh", "中文"),
-            Pair("ja", "日本語")
+            Pair("ja", "日本語"),
+            Pair("th", "ไทย")
         )
         
         val languageNames = languages.map { it.second }
