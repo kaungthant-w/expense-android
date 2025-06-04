@@ -85,11 +85,11 @@ class OnboardingActivity : AppCompatActivity() {
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
     }
-    
-    private fun setupCurrencySpinner() {
+      private fun setupCurrencySpinner() {
         val currencies = listOf(
             Pair("USD", "💵 USD"),
-            Pair("MMK", "🇲🇲 MMK (Myanmar Kyat)")
+            Pair("MMK", "🇲🇲 MMK (Myanmar Kyat)"),
+            Pair("CNY", "🇨🇳 CNY (Chinese Yuan)")
         )
         
         val currencyNames = currencies.map { it.second }

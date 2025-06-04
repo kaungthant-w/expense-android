@@ -5,13 +5,13 @@ import android.content.SharedPreferences
 import java.text.NumberFormat
 import java.util.*
 
-class CurrencyManager private constructor(private val context: Context) {
-      companion object {
+class CurrencyManager private constructor(private val context: Context) {    companion object {
         const val CURRENCY_USD = "USD"
         const val CURRENCY_MMK = "MMK"
         const val CURRENCY_SGD = "SGD"
         const val CURRENCY_THB = "THB"
         const val CURRENCY_JPY = "JPY"
+        const val CURRENCY_CNY = "CNY"
         
         const val DEFAULT_EXCHANGE_RATE = 3600.0 // Default MMK per USD
         
@@ -21,7 +21,7 @@ class CurrencyManager private constructor(private val context: Context) {
         private const val KEY_EXCHANGE_RATES = "exchange_rates"
         
         // Supported currencies list
-        val SUPPORTED_CURRENCIES = listOf(CURRENCY_USD, CURRENCY_MMK, CURRENCY_SGD, CURRENCY_THB, CURRENCY_JPY)
+        val SUPPORTED_CURRENCIES = listOf(CURRENCY_USD, CURRENCY_MMK, CURRENCY_SGD, CURRENCY_THB, CURRENCY_JPY, CURRENCY_CNY)
         
         @Volatile
         private var INSTANCE: CurrencyManager? = null
@@ -89,24 +89,24 @@ class CurrencyManager private constructor(private val context: Context) {
     fun getExchangeRateForCurrency(currency: String): Double {
         return getAllExchangeRates()[currency] ?: getDefaultRateForCurrency(currency)
     }
-    
-    private fun getDefaultRates(): Map<String, Double> {
+      private fun getDefaultRates(): Map<String, Double> {
         return mapOf(
             CURRENCY_USD to 3600.0,
             CURRENCY_MMK to 1.0,
             CURRENCY_SGD to 2650.0,
             CURRENCY_THB to 102.0,
-            CURRENCY_JPY to 24.0
+            CURRENCY_JPY to 24.0,
+            CURRENCY_CNY to 500.0
         )
     }
-    
-    private fun getDefaultRateForCurrency(currency: String): Double {
+      private fun getDefaultRateForCurrency(currency: String): Double {
         return when (currency) {
             CURRENCY_USD -> 3600.0
             CURRENCY_MMK -> 1.0
             CURRENCY_SGD -> 2650.0
             CURRENCY_THB -> 102.0
             CURRENCY_JPY -> 24.0
+            CURRENCY_CNY -> 500.0
             else -> 1.0
         }
     }
@@ -140,8 +140,7 @@ class CurrencyManager private constructor(private val context: Context) {
         // Convert to USD first, then to target currency
         val usdAmount = convertToUsd(amount, fromCurrency)
         return convertFromUsd(usdAmount, toCurrency)
-    }
-      fun formatCurrency(amount: Double): String {
+    }      fun formatCurrency(amount: Double): String {
         return when (getCurrentCurrency()) {
             CURRENCY_USD -> {
                 val formatter = NumberFormat.getCurrencyInstance(Locale.US)
@@ -163,28 +162,32 @@ class CurrencyManager private constructor(private val context: Context) {
                 val formatter = NumberFormat.getNumberInstance(Locale.US)
                 "${formatter.format(amount.toInt())} JPY" // JPY doesn't use decimals
             }
+            CURRENCY_CNY -> {
+                val formatter = NumberFormat.getNumberInstance(Locale.US)
+                "¥${formatter.format(amount)}"
+            }
             else -> amount.toString()
         }
     }
-    
-    fun getCurrencySymbol(): String {
+      fun getCurrencySymbol(): String {
         return when (getCurrentCurrency()) {
             CURRENCY_USD -> "$"
             CURRENCY_MMK -> "MMK"
             CURRENCY_SGD -> "SGD"
             CURRENCY_THB -> "THB"
             CURRENCY_JPY -> "¥"
+            CURRENCY_CNY -> "¥"
             else -> ""
         }
     }
-    
-    fun getCurrencyDisplayName(): String {
+      fun getCurrencyDisplayName(): String {
         return when (getCurrentCurrency()) {
             CURRENCY_USD -> "US Dollar"
             CURRENCY_MMK -> "Myanmar Kyat"
             CURRENCY_SGD -> "Singapore Dollar"
             CURRENCY_THB -> "Thai Baht"
             CURRENCY_JPY -> "Japanese Yen"
+            CURRENCY_CNY -> "Chinese Yuan"
             else -> getCurrentCurrency()
         }
     }
