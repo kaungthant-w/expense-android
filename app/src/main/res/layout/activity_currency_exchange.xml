@@ -118,7 +118,7 @@
 
                             <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
 
-                                <com.google.android.material.button.MaterialButton android:id="@+id/buttonApplyCustomRate" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="✅ Apply Rate" android:textSize="12sp" app:backgroundTint="?attr/colorPrimary" android:textColor="@android:color/white" android:layout_marginEnd="8dp" />
+                                <com.google.android.material.button.MaterialButton android:id="@+id/buttonApplyCustomRate" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="✅ Apply" android:textSize="12sp" app:backgroundTint="?attr/colorPrimary" android:textColor="@android:color/white" android:layout_marginEnd="8dp" />
 
                                 <com.google.android.material.button.MaterialButton android:id="@+id/buttonCancelCustomRate" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="❌ Cancel" android:textSize="14sp" style="@style/Widget.Material3.Button.OutlinedButton" app:strokeColor="?attr/textSecondaryColor" android:textColor="?attr/textSecondaryColor" android:layout_marginStart="8dp" />
 

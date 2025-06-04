@@ -179,7 +179,7 @@
   "currency_exchange_custom_rate": "✏️ Custom Rate",
   "manual_rate_entry": "💡 Manual Exchange Rate Entry",
   "enter_rate_hint": "Enter rate (e.g., 3600.0)",
-  "currency_exchange_apply": "✅ Apply Rate",
+  "currency_exchange_apply": "✅ Apply",
   "currency_exchange_cancel": "❌ Cancel",
   "select_display_currency": "🌍 Select Display Currency",
   "us_dollar": "US Dollar",
