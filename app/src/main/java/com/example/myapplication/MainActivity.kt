@@ -272,7 +272,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         // Enable the home button
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowTitleEnabled(true)
-        supportActionBar?.title = "Hsu Expense"
+        supportActionBar?.title = "HSU Expense"
     }
     
     private fun setupNavigationDrawer() {

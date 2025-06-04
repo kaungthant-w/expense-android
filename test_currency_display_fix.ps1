@@ -7,7 +7,7 @@ Write-Host "🧪 TESTING CURRENCY DISPLAY FIX" -ForegroundColor Cyan
 Write-Host "=================================" -ForegroundColor Cyan
 Write-Host ""
 
-Write-Host "📱 Testing App: Hsu Expense" -ForegroundColor Green
+Write-Host "📱 Testing App: HSU Expense" -ForegroundColor Green
 Write-Host ""
 
 Write-Host "🎯 Test Objective:" -ForegroundColor Yellow

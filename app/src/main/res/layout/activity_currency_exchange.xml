@@ -112,7 +112,7 @@
                             <!-- USD Row -->
                             <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:paddingVertical="10dp" android:background="?attr/cardBackgroundColor">
 
-                                <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="💵 USD (US Dollar)" android:textSize="10sp" android:textColor="?attr/textPrimaryColor" android:paddingStart="8dp" />
+                                <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="💵 USD" android:textSize="10sp" android:textColor="?attr/textPrimaryColor" android:paddingStart="8dp" />
 
                                 <TextView android:id="@+id/textRateUsd" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Loading..." android:textSize="12sp" android:textColor="?attr/textPrimaryColor" android:paddingEnd="10dp" android:gravity="end" android:textStyle="bold" />
 
@@ -121,7 +121,7 @@
                             <!-- EUR Row -->
                             <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:paddingVertical="10dp" android:background="?attr/colorSurface">
 
-                                <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="💶 EUR (Euro)" android:textSize="12sp" android:textColor="?attr/textPrimaryColor" android:paddingStart="10dp" />
+                                <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="💶 EUR" android:textSize="12sp" android:textColor="?attr/textPrimaryColor" android:paddingStart="10dp" />
 
                                 <TextView android:id="@+id/textRateEur" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Loading..." android:textSize="12sp" android:textColor="?attr/textPrimaryColor" android:paddingEnd="10dp" android:gravity="end" android:textStyle="bold" />
 
@@ -130,7 +130,7 @@
                             <!-- SGD Row -->
                             <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:paddingVertical="10dp" android:background="?attr/cardBackgroundColor">
 
-                                <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="🇸🇬 SGD (Singapore Dollar)" android:textSize="12sp" android:textColor="?attr/textPrimaryColor" android:paddingStart="10dp" />
+                                <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="🇸🇬 SGD" android:textSize="12sp" android:textColor="?attr/textPrimaryColor" android:paddingStart="10dp" />
 
                                 <TextView android:id="@+id/textRateSgd" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Loading..." android:textSize="12sp" android:textColor="?attr/textPrimaryColor" android:paddingEnd="10dp" android:gravity="end" android:textStyle="bold" />
 
@@ -139,7 +139,7 @@
                             <!-- MYR Row -->
                             <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:paddingVertical="10dp" android:background="?attr/colorSurface">
 
-                                <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="🇲🇾 MYR (Malaysian Ringgit)" android:textSize="12sp" android:textColor="?attr/textPrimaryColor" android:paddingStart="10dp" />
+                                <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="🇲🇾 MYR" android:textSize="12sp" android:textColor="?attr/textPrimaryColor" android:paddingStart="10dp" />
 
                                 <TextView android:id="@+id/textRateMyr" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Loading..." android:textSize="12sp" android:textColor="?attr/textPrimaryColor" android:paddingEnd="10dp" android:gravity="end" android:textStyle="bold" />
 
@@ -148,7 +148,7 @@
                             <!-- CNY Row -->
                             <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:paddingVertical="10dp" android:background="?attr/cardBackgroundColor">
 
-                                <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="🇨🇳 CNY (Chinese Yuan)" android:textSize="12sp" android:textColor="?attr/textPrimaryColor" android:paddingStart="10dp" />
+                                <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="🇨🇳 CNY" android:textSize="12sp" android:textColor="?attr/textPrimaryColor" android:paddingStart="10dp" />
 
                                 <TextView android:id="@+id/textRateCny" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Loading..." android:textSize="12sp" android:textColor="?attr/textPrimaryColor" android:paddingEnd="12dp" android:gravity="end" android:textStyle="bold" />
 
@@ -157,7 +157,7 @@
                             <!-- THB Row -->
                             <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:paddingVertical="10dp" android:background="?attr/colorSurface">
 
-                                <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="🇹🇭 THB (Thai Baht)" android:textSize="12sp" android:textColor="?attr/textPrimaryColor" android:paddingStart="10dp" />
+                                <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="🇹🇭 THB" android:textSize="12sp" android:textColor="?attr/textPrimaryColor" android:paddingStart="10dp" />
 
                                 <TextView android:id="@+id/textRateThb" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Loading..." android:textSize="12sp" android:textColor="?attr/textPrimaryColor" android:paddingEnd="12dp" android:gravity="end" android:textStyle="bold" />
 
@@ -166,7 +166,7 @@
                             <!-- JPY Row -->
                             <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:paddingVertical="10dp" android:background="?attr/cardBackgroundColor">
 
-                                <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="🇯🇵 JPY (Japanese Yen)" android:textSize="12sp" android:textColor="?attr/textPrimaryColor" android:paddingStart="10dp" />
+                                <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="🇯🇵 JPY" android:textSize="12sp" android:textColor="?attr/textPrimaryColor" android:paddingStart="10dp" />
 
                                 <TextView android:id="@+id/textRateJpy" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Loading..." android:textSize="12sp" android:textColor="?attr/textPrimaryColor" android:paddingEnd="12dp" android:gravity="end" android:textStyle="bold" />
 

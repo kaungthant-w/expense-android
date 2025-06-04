@@ -15,9 +15,9 @@ Successfully implemented a comprehensive JSON-based translation system for the A
 #### About Page Translations:
 - `about_title`: "ℹ️ About Us"
 - `about_section_title`: "ℹ️ About"
-- `app_name_display`: "Hsu Expense App"
+- `app_name_display`: "HSU Expense App"
 - `app_version`: "Version 1.0.0"
-- `supporter_name`: "Hsu Yee Mon"
+- `supporter_name`: "HSU Yee Mon"
 - `supporter_message`: App description and love message
 
 #### Summary Page Translations:
@@ -70,7 +70,7 @@ Successfully implemented a comprehensive JSON-based translation system for the A
 - Updated `displaySummary()` to use translated "no_expenses_yet" message
 - Added proper IDs to layout elements:
   - `textViewSummaryTitle`
-  - `textViewOverallStats`, `textViewTodaysSummary`, `textViewMonthSummary`
+  - `textViewOverallStats`, `textViewTodaysSummary`, `textViewMontHSUmmary`
   - `textViewExpenseExtremes`
   - All label TextViews with corresponding IDs
 

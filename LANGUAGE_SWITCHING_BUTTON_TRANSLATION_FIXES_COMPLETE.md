@@ -1,7 +1,7 @@
 # Language Switching and Button Translation Fixes - COMPLETE ✅
 
 ## Summary
-Successfully fixed two critical translation issues in the Hsu Expense Android app:
+Successfully fixed two critical translation issues in the HSU Expense Android app:
 
 1. **Real-time language switching in Settings page** - Now updates immediately without app restart
 2. **Restore/Delete button translations in History screen** - Now uses proper translations instead of hardcoded text

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Hsu Expense</string>
+    <string name="app_name">HSU Expense</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_desc">Navigation header</string>
@@ -92,7 +92,7 @@
     <string name="submit_feedback">Submit Feedback</string>
     <string name="please_select_rating">Please select a rating</string>
     <string name="please_enter_feedback">Please enter your feedback</string>
-    <string name="feedback_subject">Hsu Expense App Feedback</string>
+    <string name="feedback_subject">HSU Expense App Feedback</string>
     <string name="thank_you_feedback">Thank you for your feedback! 😊</string>
     <string name="no_email_app">No email app found. Please install an email app to send feedback.</string>
     <string name="send_feedback_via">Send feedback via...</string>
@@ -110,6 +110,12 @@
     <string name="summary_month_expenses">Month\'s Expenses:</string>
     <string name="summary_month_total">Month\'s Total:</string>
     <string name="summary_no_expenses_yet">No expenses yet</string>
+    
+    <!-- Weekly Analytics for Summary -->
+    <string name="analytics_weekly_analysis">📅 Weekly Analysis</string>
+    <string name="analytics_this_week_expenses">This Week\'s Expenses:</string>
+    <string name="analytics_this_week_total">This Week\'s Total:</string>
+    <string name="analytics_average_per_day">Average per Day:</string>
     
     <!-- Settings Activity -->
     <string name="theme_settings">Theme Settings</string>

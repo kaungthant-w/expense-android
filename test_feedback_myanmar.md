@@ -25,7 +25,7 @@
 
 ### **Testing Steps:**
 
-1. **Launch the App** - Open Hsu Expense app
+1. **Launch the App** - Open HSU Expense app
 2. **Go to Language Settings** - Navigate to Settings → Language Settings
 3. **Switch to Myanmar** - Select မြန်မာဘာသာ option
 4. **Open Feedback Page** - Navigate to Feedback from menu

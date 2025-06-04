@@ -1,8 +1,8 @@
-# Complete Functionality Test Script for Hsu Expense App
-Write-Host "=== Hsu Expense APP - COMPLETE FUNCTIONALITY TEST ===" -ForegroundColor Green
+# Complete Functionality Test Script for HSU Expense App
+Write-Host "=== HSU Expense APP - COMPLETE FUNCTIONALITY TEST ===" -ForegroundColor Green
 
 # 1. Launch the app
-Write-Host "`n1. Launching Hsu Expense App..." -ForegroundColor Yellow
+Write-Host "`n1. Launching HSU Expense App..." -ForegroundColor Yellow
 adb shell am start -n com.example.myapplication/.MainActivity
 Start-Sleep 3
 

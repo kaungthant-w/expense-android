@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="24dp"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="8dp"
+    app:cardBackgroundColor="?attr/cardBackgroundColor">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <!-- Modal Header -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="20dp"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="🔍 Filter Options"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="?attr/textPrimaryColor" />
+
+            <ImageButton
+                android:id="@+id/buttonCloseModal"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@drawable/ic_close"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="Close" />
+
+        </LinearLayout>
+
+        <!-- Year Selection -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginBottom="16dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="📅 Year"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="?attr/textPrimaryColor"
+                android:layout_marginBottom="8dp" />
+
+            <Spinner
+                android:id="@+id/spinnerModalYear"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:background="@drawable/input_background"
+                android:padding="12dp" />
+
+        </LinearLayout>
+
+        <!-- Month Selection -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginBottom="16dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="🗓️ Month"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="?attr/textPrimaryColor"
+                android:layout_marginBottom="8dp" />
+
+            <Spinner
+                android:id="@+id/spinnerModalMonth"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:background="@drawable/input_background"
+                android:padding="12dp" />
+
+        </LinearLayout>
+
+        <!-- Date Range Section -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="📅 Date Range (Optional)"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textColor="?attr/textPrimaryColor"
+            android:layout_marginBottom="8dp" />
+
+        <!-- From Date -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginBottom="12dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="From Date"
+                android:textSize="12sp"
+                android:textColor="?attr/textSecondaryColor"
+                android:layout_marginBottom="4dp" />
+
+            <EditText
+                android:id="@+id/editTextModalFromDate"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:background="@drawable/input_background"
+                android:padding="12dp"
+                android:focusable="false"
+                android:clickable="true"
+                android:hint="Select start date"
+                android:textColor="?attr/textPrimaryColor"
+                android:textColorHint="?attr/textSecondaryColor"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+        <!-- To Date -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginBottom="20dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="To Date"
+                android:textSize="12sp"
+                android:textColor="?attr/textSecondaryColor"
+                android:layout_marginBottom="4dp" />
+
+            <EditText
+                android:id="@+id/editTextModalToDate"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:background="@drawable/input_background"
+                android:padding="12dp"
+                android:focusable="false"
+                android:clickable="true"
+                android:hint="Select end date"
+                android:textColor="?attr/textPrimaryColor"
+                android:textColorHint="?attr/textSecondaryColor"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+        <!-- Action Buttons -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/buttonModalClearFilters"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="clear"
+                android:backgroundTint="?attr/textSecondaryColor"
+                android:textColor="@android:color/white"
+                android:layout_marginEnd="8dp" />
+
+            <Button
+                android:id="@+id/buttonModalApplyFilter"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Filters"
+                android:backgroundTint="?attr/accentColor"
+                android:textColor="@android:color/white"
+                android:layout_marginStart="8dp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

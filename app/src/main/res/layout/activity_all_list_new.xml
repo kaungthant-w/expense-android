@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto" 
+    android:id="@+id/drawerLayout" 
+    android:layout_width="match_parent" 
+    android:layout_height="match_parent">
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout 
+        android:layout_width="match_parent" 
+        android:layout_height="match_parent" 
+        android:background="?attr/backgroundColor">
+        
+        <LinearLayout 
+            android:layout_width="match_parent" 
+            android:layout_height="match_parent" 
+            android:orientation="vertical" 
+            android:padding="16dp">            
+            
+            <!-- Header with Back Button and History Button -->
+            <LinearLayout 
+                android:layout_width="match_parent" 
+                android:layout_height="wrap_content" 
+                android:orientation="horizontal" 
+                android:layout_marginBottom="16dp">
+
+                <ImageButton 
+                    android:id="@+id/buttonBack" 
+                    android:layout_width="48dp" 
+                    android:layout_height="48dp" 
+                    android:background="@drawable/card_background" 
+                    android:src="@drawable/ic_arrow_back" 
+                    android:layout_marginEnd="16dp" 
+                    android:contentDescription="Back" />
+                    
+                <TextView 
+                    android:id="@+id/textViewTitle" 
+                    android:layout_width="0dp" 
+                    android:layout_height="wrap_content" 
+                    android:layout_weight="1" 
+                    android:text="All Expenses" 
+                    android:textSize="18sp" 
+                    android:textStyle="bold" 
+                    android:gravity="center_vertical" 
+                    android:textColor="?attr/textPrimaryColor" />
+
+                <Button 
+                    android:id="@+id/buttonViewHistory" 
+                    android:layout_width="wrap_content" 
+                    android:layout_height="36dp" 
+                    android:text="🗃️ History" 
+                    android:textSize="12sp" 
+                    android:backgroundTint="?attr/accentColor" 
+                    android:textColor="@android:color/white" 
+                    android:layout_marginStart="8dp" />
+
+            </LinearLayout>
+
+            <!-- Filter Status Card (shows when filters are active) -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardViewFilterStatus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:visibility="gone"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="4dp"
+                app:cardBackgroundColor="?attr/accentColor">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="12dp"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:id="@+id/textViewFilterStatus"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="🔍 Filters applied"
+                        android:textSize="14sp"
+                        android:textColor="@android:color/white" />
+
+                    <Button
+                        android:id="@+id/buttonClearActiveFilters"
+                        android:layout_width="wrap_content"
+                        android:layout_height="32dp"
+                        android:text="Clear"
+                        android:textSize="11sp"
+                        android:backgroundTint="@android:color/white"
+                        android:textColor="?attr/accentColor"
+                        android:padding="8dp" />
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <!-- Selection Controls -->
+            <androidx.cardview.widget.CardView 
+                android:id="@+id/layoutSelectionControls" 
+                android:layout_width="match_parent" 
+                android:layout_height="wrap_content" 
+                android:layout_marginBottom="12dp" 
+                android:visibility="gone" 
+                app:cardCornerRadius="12dp" 
+                app:cardElevation="6dp" 
+                app:cardBackgroundColor="@color/selection_card_background">
+
+                <LinearLayout 
+                    android:layout_width="match_parent" 
+                    android:layout_height="wrap_content" 
+                    android:orientation="vertical" 
+                    android:padding="16dp">
+
+                    <!-- Selection Header -->
+                    <LinearLayout 
+                        android:layout_width="match_parent" 
+                        android:layout_height="wrap_content" 
+                        android:orientation="horizontal" 
+                        android:layout_marginBottom="12dp">
+
+                        <TextView 
+                            android:layout_width="0dp" 
+                            android:layout_height="wrap_content" 
+                            android:layout_weight="1" 
+                            android:text="✅ Selection Active" 
+                            android:textSize="9sp" 
+                            android:textStyle="bold" 
+                            android:textColor="@color/selection_text_color" />
+
+                        <TextView 
+                            android:id="@+id/textViewSelectionCount" 
+                            android:layout_width="wrap_content" 
+                            android:layout_height="wrap_content" 
+                            android:text="0 items selected" 
+                            android:textSize="9sp" 
+                            android:textColor="@color/selection_count_color" 
+                            android:background="@drawable/selection_count_background" 
+                            android:padding="6dp" />
+
+                    </LinearLayout>
+
+                    <!-- Selection Controls Row -->
+                    <LinearLayout 
+                        android:layout_width="match_parent" 
+                        android:layout_height="wrap_content" 
+                        android:orientation="horizontal">
+
+                        <CheckBox 
+                            android:id="@+id/checkboxSelectAll" 
+                            android:layout_width="wrap_content" 
+                            android:layout_height="wrap_content" 
+                            android:text="Select All" 
+                            android:textColor="@color/selection_text_color" 
+                            android:layout_marginEnd="16dp" />
+
+                        <Button 
+                            android:id="@+id/buttonDeleteSelected" 
+                            android:layout_width="0dp" 
+                            android:layout_height="wrap_content" 
+                            android:layout_weight="1" 
+                            android:text="🗑️ Delete" 
+                            android:textSize="10sp" 
+                            android:backgroundTint="@color/delete_button_color" 
+                            android:textColor="@android:color/white" 
+                            android:enabled="false" 
+                            android:layout_marginEnd="8dp" />
+
+                        <Button 
+                            android:id="@+id/buttonCancelSelection" 
+                            android:layout_width="0dp" 
+                            android:layout_height="wrap_content" 
+                            android:layout_weight="1" 
+                            android:text="❌ Cancel" 
+                            android:textSize="10sp" 
+                            android:backgroundTint="@color/cancel_button_color" 
+                            android:textColor="@android:color/white" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+            
+            <!-- Action Buttons -->
+            <LinearLayout 
+                android:layout_width="match_parent" 
+                android:layout_height="wrap_content" 
+                android:orientation="horizontal" 
+                android:layout_marginBottom="12dp">
+
+                <Button 
+                    android:id="@+id/buttonToggleSelection" 
+                    android:layout_width="0dp" 
+                    android:layout_height="wrap_content" 
+                    android:layout_weight="1" 
+                    android:text="✅ Selection" 
+                    android:backgroundTint="?attr/accentColor" 
+                    android:textColor="@android:color/white" 
+                    android:layout_marginEnd="8dp" 
+                    android:drawableStart="@drawable/ic_checklist" 
+                    android:drawablePadding="8dp" />
+
+                <Button 
+                    android:id="@+id/buttonToggleFilter" 
+                    android:layout_width="0dp" 
+                    android:layout_height="wrap_content" 
+                    android:layout_weight="1" 
+                    android:text="🔍 Filters" 
+                    android:backgroundTint="@color/filter_button_color" 
+                    android:textColor="@android:color/white" 
+                    android:layout_marginStart="8dp" 
+                    android:drawableStart="@drawable/ic_filter" 
+                    android:drawablePadding="8dp" />
+
+            </LinearLayout>
+
+            <!-- RecyclerView -->
+            <androidx.recyclerview.widget.RecyclerView 
+                android:id="@+id/recyclerViewAllList" 
+                android:layout_width="match_parent" 
+                android:layout_height="0dp" 
+                android:layout_weight="1" 
+                android:layout_marginTop="8dp" 
+                android:clipToPadding="false" 
+                android:paddingBottom="16dp" />
+                
+        </LinearLayout>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    <!-- Navigation Drawer -->
+    <com.google.android.material.navigation.NavigationView 
+        android:id="@+id/navigationView" 
+        android:layout_width="wrap_content" 
+        android:layout_height="match_parent" 
+        android:layout_gravity="start" 
+        app:headerLayout="@layout/nav_header" 
+        app:menu="@menu/navigation_menu" />
+
+</androidx.drawerlayout.widget.DrawerLayout>

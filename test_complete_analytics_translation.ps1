@@ -25,7 +25,7 @@ Write-Host "6. Verify all analytics elements are translated"
 Write-Host ""
 
 # Start the app
-Write-Host "🚀 Launching Hsu Expense app..." -ForegroundColor Blue
+Write-Host "🚀 Launching HSU Expense app..." -ForegroundColor Blue
 adb shell am start -n com.example.myapplication/.MainActivity
 Start-Sleep -Seconds 3
 

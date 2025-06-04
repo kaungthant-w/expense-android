@@ -33,12 +33,12 @@
 06-03 12:24:25.797 MainActivity: Updating navigation menu titles
 06-03 12:24:25.801 MainActivity: Navigation menu titles updated
 06-03 12:24:25.801 MainActivity: Updating Today's Summary Card
-06-03 12:24:25.998 MainActivity: Today's Summary Card updated: title=📅 ယနေ့ အနှစ်ချုပ်, expenses=စুစုပေါင်း အရေအတွက်:, amount=စုစုပေါင်း ပမာဏ:
+06-03 12:24:25.998 MainActivity: Today's Summary Card updated: title=📅 ယနေ့ စာရင်းချုပ်, expenses=စুစုပေါင်း အရေအတွက်:, amount=စုစုပေါင်း ပမာဏ:
 ```
 
 **Evidence of Working Features:**
 - ✅ Navigation menu titles updating (logs show update process)
-- ✅ Today's Summary Card updating with Myanmar language (ယနေ့ အနှစ်ချုပ်)
+- ✅ Today's Summary Card updating with Myanmar language (ယနေ့ စာရင်းချုပ်)
 - ✅ Language switching system functional (Myanmar text displayed)
 - ✅ App stable and running without crashes
 

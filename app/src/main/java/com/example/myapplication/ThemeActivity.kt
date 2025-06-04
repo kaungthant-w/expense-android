@@ -119,7 +119,7 @@ class ThemeActivity : BaseActivity() {
     }
     
     private fun selectTheme(theme: String) {
-        // Clear all selections first
+        // clear selections first
         clearAllSelections()
         
         // Set the selected theme

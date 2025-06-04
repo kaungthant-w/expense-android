@@ -1,7 +1,7 @@
 # Translation System Testing Script
 # This script tests the complete translation system implementation
 
-Write-Host "=== Hsu Expense App - Translation System Test ===" -ForegroundColor Green
+Write-Host "=== HSU Expense App - Translation System Test ===" -ForegroundColor Green
 Write-Host ""
 
 # Function to check device connection
@@ -33,7 +33,7 @@ function Wait-ForDevice {
 # Function to install and test app
 function Test-TranslationSystem {
     Write-Host ""
-    Write-Host "=== Installing Hsu Expense App ===" -ForegroundColor Green
+    Write-Host "=== Installing HSU Expense App ===" -ForegroundColor Green
     
     # Clean and build
     Write-Host "🧹 Cleaning project..." -ForegroundColor Cyan
@@ -53,7 +53,7 @@ function Test-TranslationSystem {
             Write-Host "✅ Installation successful!" -ForegroundColor Green
             Write-Host ""
             Write-Host "=== Translation System Test Instructions ===" -ForegroundColor Green
-            Write-Host "1. Open the Hsu Expense app on your device/emulator" -ForegroundColor White
+            Write-Host "1. Open the HSU Expense app on your device/emulator" -ForegroundColor White
             Write-Host "2. Tap the hamburger menu (☰) in the top-left corner" -ForegroundColor White
             Write-Host "3. Navigate to: ⚙️ Settings → Language Settings" -ForegroundColor White
             Write-Host "4. Test switching between languages:" -ForegroundColor White

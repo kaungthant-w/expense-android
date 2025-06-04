@@ -125,6 +125,6 @@ echo ✅ Tap items to open detail view
 echo ✅ Edit/delete functionality
 echo ✅ Modern UI with theme-aware colors
 echo.
-echo Enjoy testing your Hsu Expense!
+echo Enjoy testing your HSU Expense!
 echo.
 pause

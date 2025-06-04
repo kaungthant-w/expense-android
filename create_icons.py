@@ -73,5 +73,5 @@ if __name__ == "__main__":
     base_logo = "logo_base.png"
     output_dir = "app/src/main/res"
     
-    print("🎨 Creating Android app icons from Hsu Expense logo...")
+    print("🎨 Creating Android app icons from HSU Expense logo...")
     create_android_icons(base_logo, output_dir)

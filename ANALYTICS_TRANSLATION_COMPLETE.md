@@ -54,7 +54,7 @@ The AnalyticsActivity.kt already had proper LanguageManager integration with:
 
 ### **Step 1: Launch the App**
 ```
-Open Hsu Expense app on your device/emulator
+Open HSU Expense app on your device/emulator
 ```
 
 ### **Step 2: Test Analytics in English (Default)**

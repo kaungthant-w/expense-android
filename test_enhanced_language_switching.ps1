@@ -59,7 +59,7 @@ Write-Host "     ✅ Should see: '📋 စာရင်းအားလုံး' 
 Write-Host "     ✅ Should see: '🗃️ မှတ်တမ်း' instead of 'History'" -ForegroundColor Green
 
 Write-Host "`n   • Check Today's Summary Card:" -ForegroundColor White
-Write-Host "     ✅ Title should show: '📅 ယနေ့ အနှစ်ချုပ်' instead of 'Today's Summary'" -ForegroundColor Green
+Write-Host "     ✅ Title should show: '📅 ယနေ့ စာရင်းချုပ်' instead of 'Today's Summary'" -ForegroundColor Green
 Write-Host "     ✅ Labels should be in Myanmar" -ForegroundColor Green
 
 Write-Host "`n   • Check TabLayout at the bottom:" -ForegroundColor White

@@ -19,8 +19,8 @@ Write-Host "   ✓ Month filtering (All Months + specific months)" -ForegroundCo
 Write-Host "   ✓ Date range filtering (From Date to To Date)" -ForegroundColor Green
 Write-Host "   ✓ Combined filter options" -ForegroundColor Green
 Write-Host "   ✓ Show/Hide filters toggle" -ForegroundColor Green
-Write-Host "   ✓ Apply Filters button with result count" -ForegroundColor Green
-Write-Host "   ✓ Clear All Filters functionality" -ForegroundColor Green
+Write-Host "   ✓ Filters button with result count" -ForegroundColor Green
+Write-Host "   ✓ clear Filters functionality" -ForegroundColor Green
 Write-Host "   ✓ Multi-language support for all filter strings" -ForegroundColor Green
 Write-Host ""
 
@@ -54,39 +54,39 @@ Write-Host ""
 
 Write-Host "2. YEAR FILTERING:" -ForegroundColor Cyan
 Write-Host "   □ Select a specific year from spinner" -ForegroundColor White
-Write-Host "   □ Click 'Apply Filters'" -ForegroundColor White
+Write-Host "   □ Click 'Filters'" -ForegroundColor White
 Write-Host "   □ Verify only expenses from selected year are shown" -ForegroundColor White
 Write-Host "   □ Check action bar title shows filtered count" -ForegroundColor White
 Write-Host ""
 
 Write-Host "3. MONTH FILTERING:" -ForegroundColor Cyan
 Write-Host "   □ Select a specific month from spinner" -ForegroundColor White
-Write-Host "   □ Click 'Apply Filters'" -ForegroundColor White
+Write-Host "   □ Click 'Filters'" -ForegroundColor White
 Write-Host "   □ Verify only expenses from selected month are shown" -ForegroundColor White
 Write-Host ""
 
 Write-Host "4. DATE RANGE FILTERING:" -ForegroundColor Cyan
 Write-Host "   □ Set a From Date" -ForegroundColor White
 Write-Host "   □ Set a To Date" -ForegroundColor White
-Write-Host "   □ Click 'Apply Filters'" -ForegroundColor White
+Write-Host "   □ Click 'Filters'" -ForegroundColor White
 Write-Host "   □ Verify only expenses within date range are shown" -ForegroundColor White
 Write-Host ""
 
 Write-Host "5. COMBINED FILTERING:" -ForegroundColor Cyan
 Write-Host "   □ Set year, month, and date range together" -ForegroundColor White
-Write-Host "   □ Click 'Apply Filters'" -ForegroundColor White
+Write-Host "   □ Click 'Filters'" -ForegroundColor White
 Write-Host "   □ Verify filters work in combination" -ForegroundColor White
 Write-Host ""
 
 Write-Host "6. CLEAR FILTERS:" -ForegroundColor Cyan
 Write-Host "   □ Apply some filters" -ForegroundColor White
-Write-Host "   □ Click 'Clear All Filters'" -ForegroundColor White
+Write-Host "   □ Click 'clear Filters'" -ForegroundColor White
 Write-Host "   □ Verify all filter fields are reset" -ForegroundColor White
 Write-Host "   □ Verify all expenses are shown again" -ForegroundColor White
 Write-Host ""
 
 Write-Host "7. SELECTION MODE WITH FILTERING:" -ForegroundColor Cyan
-Write-Host "   □ Apply filters to show subset of expenses" -ForegroundColor White
+Write-Host "   □ Filters to show subset of expenses" -ForegroundColor White
 Write-Host "   □ Long-press an expense to enter selection mode" -ForegroundColor White
 Write-Host "   □ Select multiple filtered expenses" -ForegroundColor White
 Write-Host "   □ Test delete functionality with filtered selection" -ForegroundColor White

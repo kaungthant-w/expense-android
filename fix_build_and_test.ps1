@@ -100,7 +100,7 @@ try {
         Write-Host "❌ Build failed with code $LASTEXITCODE" -ForegroundColor Red
         Write-Host ""
         Write-Host "📋 Manual Solution:" -ForegroundColor Yellow
-        Write-Host "1. Restart your computer to clear all file locks" -ForegroundColor White
+        Write-Host "1. Restart your computer to clear file locks" -ForegroundColor White
         Write-Host "2. Open Android Studio fresh" -ForegroundColor White        Write-Host "3. Use Build -> Clean Project" -ForegroundColor White
         Write-Host "4. Use Build -> Rebuild Project" -ForegroundColor White
         Write-Host "5. Run the app directly from Android Studio" -ForegroundColor White

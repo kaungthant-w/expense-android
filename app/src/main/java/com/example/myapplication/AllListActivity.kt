@@ -10,6 +10,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -28,7 +29,7 @@ import java.util.*
 
 class AllListActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
     private lateinit var recyclerView: RecyclerView
-        private lateinit var allListAdapter: AllListAdapter
+    private lateinit var allListAdapter: AllListAdapter
     private val allExpenses = mutableListOf<ExpenseItem>()
     private val originalExpenses = mutableListOf<ExpenseItem>()
     private lateinit var sharedPreferences: SharedPreferences
@@ -56,9 +57,7 @@ class AllListActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
                 handleExpenseSave(data)
             }
         }
-    }
-
-    // Selection components
+    }    // Selection components
     private lateinit var layoutSelectionControls: CardView
     private lateinit var checkboxSelectAll: CheckBox
     private lateinit var textViewSelectionCount: TextView
@@ -66,33 +65,54 @@ class AllListActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
     private lateinit var buttonToggleSelection: Button
     private lateinit var buttonCancelSelection: Button
     private var isSelectionMode = false
-
+    
     // Filter components
-    private lateinit var cardViewFilterControls: CardView
-    private lateinit var spinnerYear: Spinner
-    private lateinit var spinnerMonth: Spinner
-    private lateinit var editTextStartDate: EditText
-    private lateinit var editTextEndDate: EditText
-    private lateinit var buttonFilter: Button
-    private lateinit var buttonToggleFilter: Button
-    private lateinit var buttonClearFilter: Button
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    private lateinit var cardViewFilterStatus: CardView
+    private lateinit var textViewFilterStatus: TextView
+    private lateinit var buttonClearActiveFilters: Button
+    
+    // Modal filter components
+    private lateinit var modalSpinnerYear: Spinner
+    private lateinit var modalSpinnerMonth: Spinner
+    private lateinit var modalEditTextStartDate: EditText
+    private lateinit var modalEditTextEndDate: EditText
+    
+    // Filter state
+    private var isFiltersActive = false
+    private var currentYearFilter = ""
+    private var currentMonthFilter = 0
+    private var currentStartDate = ""
+    private var currentEndDate = ""
+    
+    override fun onCreate(savedInstanceState: Bundle?) {        super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_all_list)
-        
-        initViews()
+          initViews()
         setupNavigationDrawer()
         setupSharedPreferences()
         setupRecyclerView()
+        setupStaticTexts()
         loadAllExpenses()
         updateNavigationMenuTitles()
-    }    override fun onResume() {
+        
+        // Setup back press handling
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+                    drawerLayout.closeDrawer(GravityCompat.START)
+                } else {
+                    finish()
+                }
+            }
+        })
+    }
+    
+    override fun onResume() {
         super.onResume()
+        setupStaticTexts()
         loadAllExpenses()
         updateNavigationMenuTitles()
     }
-
+    
     private fun initViews() {
         recyclerView = findViewById(R.id.recyclerViewAllList)
         
@@ -100,27 +120,37 @@ class AllListActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
         drawerLayout = findViewById(R.id.drawerLayout)
         navigationView = findViewById(R.id.navigationView)
         
-        // Selection controls
-        layoutSelectionControls = findViewById(R.id.layoutSelectionControls)
-        checkboxSelectAll = findViewById(R.id.checkboxSelectAll)
-        textViewSelectionCount = findViewById(R.id.textViewSelectionCount)
-        buttonDeleteSelected = findViewById(R.id.buttonDeleteSelected)
-        buttonToggleSelection = findViewById(R.id.buttonToggleSelection)
-        buttonCancelSelection = findViewById(R.id.buttonCancelSelection)
+        // Back button click listener
+        findViewById<android.widget.ImageButton>(R.id.buttonBack).setOnClickListener {
+            finish()
+        }
         
-        // Filter controls
-        cardViewFilterControls = findViewById(R.id.cardViewFilterControls)
-        spinnerYear = findViewById(R.id.spinnerYear)
-        spinnerMonth = findViewById(R.id.spinnerMonth)
-        editTextStartDate = findViewById(R.id.editTextFromDate)
-        editTextEndDate = findViewById(R.id.editTextToDate)
-        buttonFilter = findViewById(R.id.buttonApplyFilter)
-        buttonToggleFilter = findViewById(R.id.buttonToggleFilter)
-        buttonClearFilter = findViewById(R.id.buttonClearFilters)
+        // History button click listener
+        findViewById<Button>(R.id.buttonViewHistory).setOnClickListener {
+            navigateToHistory()
+        }
+        
+        // Filter status components
+        cardViewFilterStatus = findViewById(R.id.cardViewFilterStatus)
+        textViewFilterStatus = findViewById(R.id.textViewFilterStatus)
+        buttonClearActiveFilters = findViewById(R.id.buttonClearActiveFilters)        // Selection controls
+        layoutSelectionControls = findViewById(R.id.layoutSelectionControls)
+        checkboxSelectAll = findViewById<CheckBox>(R.id.checkboxSelectAll)
+        textViewSelectionCount = findViewById<TextView>(R.id.textViewSelectionCount)
+        buttonDeleteSelected = findViewById<Button>(R.id.buttonDeleteSelected)
+        buttonToggleSelection = findViewById<Button>(R.id.buttonToggleSelection)
+        buttonCancelSelection = findViewById<Button>(R.id.buttonCancelSelection)
+        
+        // Action buttons
+        findViewById<Button>(R.id.buttonToggleFilter).setOnClickListener {
+            showFilterModal()
+        }
+        
+        buttonClearActiveFilters.setOnClickListener {
+            clearAllFilters()
+        }
         
         setupSelectionControls()
-        setupFilterControls()
-        setupDatePickerFields()
     }
 
     private fun setupSelectionControls() {
@@ -147,36 +177,166 @@ class AllListActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
             deleteSelectedItems()
         }
     }
-
-    private fun setupFilterControls() {
-        buttonToggleFilter.setOnClickListener {
-            toggleFilterVisibility()
+    
+    private fun showFilterModal() {
+        val dialogView = LayoutInflater.from(this).inflate(R.layout.modal_filter, null)
+        val dialog = AlertDialog.Builder(this)
+            .setView(dialogView)
+            .setCancelable(true)
+            .create()
+        
+        // Get modal components
+        modalSpinnerYear = dialogView.findViewById(R.id.spinnerModalYear)
+        modalSpinnerMonth = dialogView.findViewById(R.id.spinnerModalMonth)
+        modalEditTextStartDate = dialogView.findViewById(R.id.editTextModalFromDate)
+        modalEditTextEndDate = dialogView.findViewById(R.id.editTextModalToDate)
+        
+        val buttonCloseModal = dialogView.findViewById<ImageButton>(R.id.buttonCloseModal)
+        val buttonModalApplyFilter = dialogView.findViewById<Button>(R.id.buttonModalApplyFilter)
+        val buttonModalClearFilters = dialogView.findViewById<Button>(R.id.buttonModalClearFilters)
+        
+        // Setup modal components
+        setupModalSpinners()
+        setupModalDatePickers()
+        
+        // Set current filter values
+        setCurrentFilterValues()
+        
+        // Set click listeners
+        buttonCloseModal.setOnClickListener {
+            dialog.dismiss()
         }
         
-        buttonFilter.setOnClickListener {
-            applyFilters()
+        buttonModalApplyFilter.setOnClickListener {
+            applyModalFilters()
+            dialog.dismiss()
         }
         
-        buttonClearFilter.setOnClickListener {
-            clearFilters()
+        buttonModalClearFilters.setOnClickListener {
+            clearModalFilters()
         }
         
-        setupYearSpinner()
-        setupMonthSpinner()
+        dialog.show()
     }
-
-    private fun setupDatePickerFields() {        editTextStartDate.setOnClickListener {
+    
+    private fun setupModalSpinners() {
+        // Setup year spinner
+        val years = listOf("All") + (2020..2030).map { it.toString() }
+        val yearAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, years)
+        yearAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        modalSpinnerYear.adapter = yearAdapter
+        
+        // Setup month spinner
+        val months = listOf("All", "January", "February", "March", "April", "May", "June",
+            "July", "August", "September", "October", "November", "December")
+        val monthAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, months)
+        monthAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        modalSpinnerMonth.adapter = monthAdapter
+    }
+    
+    private fun setupModalDatePickers() {
+        modalEditTextStartDate.setOnClickListener {
             showDatePickerDialog { date ->
-                editTextStartDate.setText(date)
+                modalEditTextStartDate.setText(date)
             }
         }
         
-        editTextEndDate.setOnClickListener {
+        modalEditTextEndDate.setOnClickListener {
             showDatePickerDialog { date ->
-                editTextEndDate.setText(date)
+                modalEditTextEndDate.setText(date)
             }
         }
-    }    private fun showDatePickerDialog(onDateSelected: (String) -> Unit) {
+    }
+    
+    private fun setCurrentFilterValues() {
+        // Set current year filter
+        if (currentYearFilter.isNotEmpty()) {
+            val yearAdapter = modalSpinnerYear.adapter
+            for (i in 0 until yearAdapter.count) {
+                if (yearAdapter.getItem(i).toString() == currentYearFilter) {
+                    modalSpinnerYear.setSelection(i)
+                    break
+                }
+            }
+        }
+        
+        // Set current month filter
+        modalSpinnerMonth.setSelection(currentMonthFilter)
+        
+        // Set current date filters
+        modalEditTextStartDate.setText(currentStartDate)
+        modalEditTextEndDate.setText(currentEndDate)
+    }
+    
+    private fun applyModalFilters() {
+        currentYearFilter = modalSpinnerYear.selectedItem?.toString() ?: "All"
+        currentMonthFilter = modalSpinnerMonth.selectedItemPosition
+        currentStartDate = modalEditTextStartDate.text.toString().trim()
+        currentEndDate = modalEditTextEndDate.text.toString().trim()
+        
+        // Check if any filters are active
+        isFiltersActive = currentYearFilter != "All" || 
+                         currentMonthFilter > 0 || 
+                         currentStartDate.isNotEmpty() || 
+                         currentEndDate.isNotEmpty()
+        
+        if (isFiltersActive) {
+            applyFilters()
+            showFilterStatus()
+        } else {
+            clearAllFilters()
+        }
+    }
+    
+    private fun clearModalFilters() {
+        modalSpinnerYear.setSelection(0)
+        modalSpinnerMonth.setSelection(0)
+        modalEditTextStartDate.text.clear()
+        modalEditTextEndDate.text.clear()
+    }
+    
+    private fun showFilterStatus() {
+        cardViewFilterStatus.visibility = View.VISIBLE
+        
+        val filterText = buildString {
+            append("🔍 Filters: ")
+            val filters = mutableListOf<String>()
+            
+            if (currentYearFilter != "All") {
+                filters.add("Year: $currentYearFilter")
+            }
+            if (currentMonthFilter > 0) {
+                val monthNames = listOf("", "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+                    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")
+                filters.add("Month: ${monthNames[currentMonthFilter]}")
+            }
+            if (currentStartDate.isNotEmpty()) {
+                filters.add("From: $currentStartDate")
+            }
+            if (currentEndDate.isNotEmpty()) {
+                filters.add("To: $currentEndDate")
+            }
+            
+            append(filters.joinToString(", "))
+        }
+        
+        textViewFilterStatus.text = filterText
+    }
+    
+    private fun clearAllFilters() {
+        currentYearFilter = "All"
+        currentMonthFilter = 0
+        currentStartDate = ""
+        currentEndDate = ""
+        isFiltersActive = false
+        
+        cardViewFilterStatus.visibility = View.GONE
+        
+        // Reset to show all expenses
+        allExpenses.clear()
+        allExpenses.addAll(originalExpenses)
+        allListAdapter.notifyDataSetChanged()
+    }private fun showDatePickerDialog(onDateSelected: (String) -> Unit) {
         val calendar = Calendar.getInstance()
         val datePickerDialog = DatePickerDialog(
             this,
@@ -190,20 +350,60 @@ class AllListActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
         )
         datePickerDialog.show()
     }
-
-    private fun setupYearSpinner() {
-        val years = (2020..2030).map { it.toString() }
-        val yearAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, years)
-        yearAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        spinnerYear.adapter = yearAdapter
+    
+    private fun applyFilters() {
+        val filteredExpenses = filterExpenses()
+        allExpenses.clear()
+        allExpenses.addAll(filteredExpenses)
+        allListAdapter.notifyDataSetChanged()
     }
 
-    private fun setupMonthSpinner() {
-        val months = listOf("All", "January", "February", "March", "April", "May", "June",
-            "July", "August", "September", "October", "November", "December")
-        val monthAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, months)
-        monthAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        spinnerMonth.adapter = monthAdapter
+    private fun filterExpenses(): List<ExpenseItem> {
+        var filtered = originalExpenses.toList()
+        
+        // Year filter
+        if (currentYearFilter.isNotEmpty() && currentYearFilter != "All") {
+            filtered = filtered.filter { expense ->
+                val expenseYear = expense.date.split("/").lastOrNull()
+                expenseYear == currentYearFilter
+            }
+        }
+        
+        // Month filter
+        if (currentMonthFilter > 0) {
+            filtered = filtered.filter { expense ->
+                val expenseMonth = expense.date.split("/").getOrNull(1)?.toIntOrNull()
+                expenseMonth == currentMonthFilter
+            }
+        }
+        
+        // Date range filter
+        if (currentStartDate.isNotEmpty() || currentEndDate.isNotEmpty()) {
+            val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+            
+            filtered = filtered.filter { expense ->
+                try {
+                    val expenseDate = dateFormat.parse(expense.date)
+                    var isInRange = true
+                    
+                    if (currentStartDate.isNotEmpty()) {
+                        val start = dateFormat.parse(currentStartDate)
+                        isInRange = isInRange && expenseDate != null && start != null && !expenseDate.before(start)
+                    }
+                    
+                    if (currentEndDate.isNotEmpty()) {
+                        val end = dateFormat.parse(currentEndDate)
+                        isInRange = isInRange && expenseDate != null && end != null && !expenseDate.after(end)
+                    }
+                    
+                    isInRange
+                } catch (e: Exception) {
+                    false
+                }
+            }
+        }
+        
+        return filtered
     }
 
     private fun toggleSelectionMode() {
@@ -213,12 +413,12 @@ class AllListActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
             enterSelectionMode()
         }
     }
-
+    
     private fun enterSelectionMode() {
         isSelectionMode = true
         allListAdapter.setSelectionMode(true)
         layoutSelectionControls.visibility = View.VISIBLE
-        buttonToggleSelection.text = "Cancel Selection"
+        buttonToggleSelection.text = languageManager.getString("cancel_selection")
         updateSelectionUI()
     }
 
@@ -226,12 +426,12 @@ class AllListActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
         isSelectionMode = false
         allListAdapter.setSelectionMode(false)
         layoutSelectionControls.visibility = View.GONE
-        buttonToggleSelection.text = "Select Items"
+        buttonToggleSelection.text = languageManager.getString("toggle_selection")
     }
-
+    
     private fun updateSelectionUI() {
         val selectedCount = allListAdapter.getSelectedCount()
-        textViewSelectionCount.text = "$selectedCount selected"
+        textViewSelectionCount.text = languageManager.getString("selection_count").replace("{count}", selectedCount.toString())
         
         val totalItems = allExpenses.size
         checkboxSelectAll.isChecked = selectedCount == totalItems && totalItems > 0
@@ -256,17 +456,19 @@ class AllListActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
             }
         }
     }
-
+    
     private fun deleteSelectedItems() {
         val selectedItems = allListAdapter.getSelectedItems()
         if (selectedItems.isNotEmpty()) {
             AlertDialog.Builder(this)
-                .setTitle("Delete Selected Items")
-                .setMessage("Are you sure you want to delete ${selectedItems.size} item(s)?")
-                .setPositiveButton("Delete") { _, _ ->
+                .setTitle(languageManager.getString("delete_confirmation_title"))
+                .setMessage(languageManager.getString("delete_confirmation_message")
+                    .replace("{count}", selectedItems.size.toString())
+                    .replace("{items}", selectedItems.joinToString(", ") { it.name }))
+                .setPositiveButton(languageManager.getString("delete_button")) { _, _ ->
                     performMultipleSoftDelete(selectedItems)
                 }
-                .setNegativeButton("Cancel", null)
+                .setNegativeButton(languageManager.getString("cancel_button"), null)
                 .show()
         }
     }
@@ -309,86 +511,15 @@ class AllListActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
             }
             .show()
     }
-
+    
     private fun navigateToHistory() {
         startActivity(Intent(this, HistoryActivity::class.java))
-    }
-
-    private fun toggleFilterVisibility() {
-        cardViewFilterControls.visibility = if (cardViewFilterControls.visibility == View.VISIBLE) {
-            View.GONE
-        } else {
-            View.VISIBLE
-        }
-    }
-
-    private fun applyFilters() {
-        val filteredExpenses = filterExpenses()
-        allExpenses.clear()
-        allExpenses.addAll(filteredExpenses)
-        allListAdapter.notifyDataSetChanged()
-    }
-
-    private fun filterExpenses(): List<ExpenseItem> {
-        var filtered = originalExpenses.toList()
-        
-        val selectedYear = spinnerYear.selectedItem?.toString()
-        if (!selectedYear.isNullOrEmpty() && selectedYear != "All") {
-            filtered = filtered.filter { expense ->
-                val expenseYear = expense.date.split("/").lastOrNull()
-                expenseYear == selectedYear
-            }
-        }
-        
-        val selectedMonthIndex = spinnerMonth.selectedItemPosition
-        if (selectedMonthIndex > 0) {
-            filtered = filtered.filter { expense ->
-                val expenseMonth = expense.date.split("/").getOrNull(1)?.toIntOrNull()
-                expenseMonth == selectedMonthIndex
-            }
-        }
-        
-        val startDate = editTextStartDate.text.toString().trim()
-        val endDate = editTextEndDate.text.toString().trim()
-        
-        if (startDate.isNotEmpty() || endDate.isNotEmpty()) {
-            val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-            
-            filtered = filtered.filter { expense ->
-                try {
-                    val expenseDate = dateFormat.parse(expense.date)
-                    var isInRange = true
-                    
-                    if (startDate.isNotEmpty()) {
-                        val start = dateFormat.parse(startDate)
-                        isInRange = isInRange && expenseDate != null && start != null && !expenseDate.before(start)
-                    }
-                    
-                    if (endDate.isNotEmpty()) {
-                        val end = dateFormat.parse(endDate)
-                        isInRange = isInRange && expenseDate != null && end != null && !expenseDate.after(end)
-                    }
-                    
-                    isInRange
-                } catch (e: Exception) {
-                    false
-                }
-            }
-        }
-        
-        return filtered
-    }    private fun clearFilters() {
-        spinnerYear.setSelection(0)
-        spinnerMonth.setSelection(0)
-        editTextStartDate.text.clear()
-        editTextEndDate.text.clear()
-        allExpenses.clear()
-        allExpenses.addAll(originalExpenses)
-        allListAdapter.notifyDataSetChanged()
-    }    private fun setupSharedPreferences() {
+    }private fun setupSharedPreferences() {
         sharedPreferences = getSharedPreferences("expense_prefs", Context.MODE_PRIVATE)
         currencyManager = CurrencyManager.getInstance(this)
-    }private fun setupRecyclerView() {
+    }
+    
+    private fun setupRecyclerView() {
         allListAdapter = AllListAdapter(allExpenses) { item ->
             if (isSelectionMode) {
                 allListAdapter.toggleSelection(item)
@@ -411,7 +542,9 @@ class AllListActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
         allExpenses.clear()
         allExpenses.addAll(activeExpenses)
         allListAdapter.notifyDataSetChanged()
-    }    private fun loadAllStoredExpenses(): List<ExpenseItem> {
+    }
+    
+    private fun loadAllStoredExpenses(): List<ExpenseItem> {
         return try {
             val expensesJson = sharedPreferences.getString("expenses", "[]") ?: "[]"
             val type = object : TypeToken<List<ExpenseItem>>() {}.type
@@ -419,7 +552,9 @@ class AllListActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
         } catch (e: Exception) {
             emptyList()
         }
-    }    private fun saveExpenses(expenses: List<ExpenseItem>) {
+    }
+    
+    private fun saveExpenses(expenses: List<ExpenseItem>) {
         val expensesJson = gson.toJson(expenses)
         sharedPreferences.edit().putString("expenses", expensesJson).apply()
     }
@@ -456,7 +591,7 @@ class AllListActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
                 saveExpenses(allStoredExpenses)
                 loadAllExpenses()
                 
-                Toast.makeText(this, "💾 Expense moved to history. Check History to restore.", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, languageManager.getString("expense_moved_to_history"), Toast.LENGTH_LONG).show()
             }
         }
     }
@@ -488,7 +623,7 @@ class AllListActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
                         currency = currency
                     )
                     allStoredExpenses.add(newExpense)
-                    Toast.makeText(this, "✅ Expense added successfully", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, languageManager.getString("expense_added_successfully"), Toast.LENGTH_SHORT).show()
                 } else {
                     // Update existing expense
                     val expenseIndex = allStoredExpenses.indexOfFirst { it.id == expenseId }
@@ -503,7 +638,7 @@ class AllListActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
                             currency = currency
                         )
                         allStoredExpenses[expenseIndex] = updatedExpense
-                        Toast.makeText(this, "✅ Expense updated successfully", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, languageManager.getString("expense_updated_successfully"), Toast.LENGTH_SHORT).show()
                     }
                 }
                 
@@ -522,9 +657,39 @@ class AllListActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
         toggle.syncState()
         navigationView.setNavigationItemSelectedListener(this)
     }
+    
+    private fun setupStaticTexts() {
+        // Update action bar title
+        supportActionBar?.title = languageManager.getString("all_list_title")
+        
+        // Update title TextView if it exists
+        findViewById<TextView>(R.id.textViewTitle)?.text = languageManager.getString("all_list_title")
+        
+        // Update selection mode texts
+        updateSelectionModeTexts()
+    }
+    
+    private fun updateSelectionModeTexts() {
+        // Update selection buttons if they exist
+        try {
+            buttonToggleSelection.text = languageManager.getString("toggle_selection")
+            buttonCancelSelection.text = languageManager.getString("cancel_selection")
+            buttonDeleteSelected.text = languageManager.getString("delete_selected")
+            checkboxSelectAll.text = languageManager.getString("select_all")
+        } catch (e: Exception) {
+            // Views not initialized yet, ignore
+        }
+    }
 
-    private fun updateNavigationMenuTitles() {
-        // Update navigation menu titles if needed
+    private fun updateNavigationMenuTitles() {        val menu = navigationView.menu
+        menu.findItem(R.id.nav_home)?.title = languageManager.getString("nav_home")
+        menu.findItem(R.id.nav_all_list)?.title = languageManager.getString("nav_all_list")
+        menu.findItem(R.id.nav_history)?.title = languageManager.getString("nav_history")
+        menu.findItem(R.id.nav_summary)?.title = languageManager.getString("nav_summary")
+        menu.findItem(R.id.nav_currency_exchange)?.title = languageManager.getString("nav_currency_exchange")
+        menu.findItem(R.id.nav_settings)?.title = languageManager.getString("nav_settings")
+        menu.findItem(R.id.nav_feedback)?.title = languageManager.getString("nav_feedback")
+        menu.findItem(R.id.nav_about)?.title = languageManager.getString("nav_about")
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
@@ -542,17 +707,9 @@ class AllListActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
             }
             R.id.nav_feedback -> {
                 startActivity(Intent(this, FeedbackActivity::class.java))
-            }
-        }
+            }        }
         drawerLayout.closeDrawer(GravityCompat.START)
         return true
-    }    @Deprecated("Deprecated in Java")
-    override fun onBackPressed() {
-        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            drawerLayout.closeDrawer(GravityCompat.START)
-        } else {
-            super.onBackPressed()
-        }
     }
 
     inner class AllListAdapter(

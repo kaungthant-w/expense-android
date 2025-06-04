@@ -309,7 +309,7 @@ class HistoryActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
             toggleSelectionMode()
         }
         
-        // Cancel Selection button - Exit selection mode without action
+        // cancel button - Exit selection mode without action
         buttonCancelSelection.setOnClickListener {
             exitSelectionMode()
         }

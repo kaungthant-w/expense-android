@@ -349,10 +349,9 @@ class CurrencyExchangeActivity : BaseActivity(), NavigationView.OnNavigationItem
                     updateExchangeRateTable(rates)
                     buttonRefreshRates.isEnabled = true
                     buttonRefreshRates.text = languageManager.getString("currency_exchange_refresh")
-                    
-                    val currentTime = java.text.SimpleDateFormat("MMM dd, yyyy HH:mm", java.util.Locale.getDefault())
+                      val currentTime = java.text.SimpleDateFormat("MMM dd, yyyy HH:mm", java.util.Locale.getDefault())
                         .format(java.util.Date())
-                    textLastUpdated.text = languageManager.getString("currency_exchange_last_updated")
+                    textLastUpdated.text = languageManager.getString("last_updated")
                         .replace("{time}", currentTime)
                     
                     Toast.makeText(this@CurrencyExchangeActivity, 
@@ -375,7 +374,7 @@ class CurrencyExchangeActivity : BaseActivity(), NavigationView.OnNavigationItem
                     textRateCny.text = errorText
                     textRateThb.text = errorText
                     textRateJpy.text = errorText
-                    textLastUpdated.text = languageManager.getString("currency_exchange_failed_update")
+                    textLastUpdated.text = languageManager.getString("last_updated_failed")
                     
                     Toast.makeText(this@CurrencyExchangeActivity, 
                         languageManager.getString("currency_exchange_fetch_rates_error")

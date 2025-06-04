@@ -1,4 +1,4 @@
-# TROUBLESHOOTING GUIDE - MyApplication Hsu Expense
+# TROUBLESHOOTING GUIDE - MyApplication HSU Expense
 
 ## 🚨 FILE LOCK ERRORS (Current Issue)
 
@@ -117,4 +117,4 @@ Once successfully installed:
 - Ensure only one Android IDE/emulator is running
 - Clear gradle cache if needed: Delete `.gradle` folder in user home
 
-Your Hsu Expense app is fully implemented and ready to test!
+Your HSU Expense app is fully implemented and ready to test!

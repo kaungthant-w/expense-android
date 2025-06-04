@@ -1,7 +1,7 @@
 # Soft Delete History Feature - Test Plan
 
 ## Overview
-This document outlines the testing procedure for the newly implemented soft delete history feature in the Hsu Expense app.
+This document outlines the testing procedure for the newly implemented soft delete history feature in the HSU Expense app.
 
 ## Features Implemented ✅
 

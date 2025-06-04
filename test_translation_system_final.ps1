@@ -1,7 +1,7 @@
 # Translation System Test and Verification Script
-# This script tests the multi-language support in the Hsu Expense app
+# This script tests the multi-language support in the HSU Expense app
 
-Write-Host "=== Hsu Expense Translation System Test ===" -ForegroundColor Green
+Write-Host "=== HSU Expense Translation System Test ===" -ForegroundColor Green
 Write-Host ""
 
 # Check if emulator is running

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Hsu Expense</string>
+    <string name="app_name">HSU Expense</string>
     <string name="navigation_drawer_open">Ouvrir le tiroir de navigation</string>
     <string name="navigation_drawer_close">Fermer le tiroir de navigation</string>
     <string name="nav_header_desc">En-tête de navigation</string>
@@ -78,7 +78,7 @@
     <string name="submit_feedback">Envoyer Commentaires</string>
     <string name="please_select_rating">Veuillez sélectionner une note</string>
     <string name="please_enter_feedback">Veuillez entrer vos commentaires</string>
-    <string name="feedback_subject">Commentaires App Hsu Expense</string>
+    <string name="feedback_subject">Commentaires App HSU Expense</string>
     <string name="thank_you_feedback">Merci pour vos commentaires ! 😊</string>
     <string name="no_email_app">Aucune application email trouvée. Veuillez installer une application email pour envoyer des commentaires.</string>
     <string name="send_feedback_via">Envoyer commentaires via...</string>

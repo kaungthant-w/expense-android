@@ -1,6 +1,6 @@
 # AllListActivity Edit Functionality Test
 Write-Host "Testing AllListActivity Edit Functionality" -ForegroundColor Cyan
-Write-Host "Starting Hsu Expense App..." -ForegroundColor Green
+Write-Host "Starting HSU Expense App..." -ForegroundColor Green
 
 adb shell am start -n com.example.myapplication/.MainActivity
 

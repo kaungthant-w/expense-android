@@ -1,4 +1,4 @@
-# Hsu Expense App - Implementation Complete
+# HSU Expense App - Implementation Complete
 
 ## ✅ COMPLETED FEATURES
 

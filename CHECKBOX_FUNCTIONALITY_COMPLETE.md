@@ -15,7 +15,7 @@ Successfully implemented comprehensive checkbox functionality for multiple delet
   - "Select All" checkbox
   - Selection count display
   - "Delete Selected" button
-  - Toggle/Cancel selection buttons
+  - Toggle/cancel buttons
 - ✅ Updated `activity_history.xml` with similar selection controls:
   - "Delete Forever" button instead of "Delete Selected"
 
@@ -27,7 +27,7 @@ Successfully implemented comprehensive checkbox functionality for multiple delet
   - `getSelectedItems()` - Get set of selected item indices
   - `getSelectedCount()` - Get count of selected items
   - `selectAll()` - Select all items
-  - `clearSelection()` - Clear all selections
+  - `clearSelection()` - clear selections
   - `isAllSelected()` - Check if all items are selected
 - ✅ Updated ViewHolder to include checkbox reference
 - ✅ Enhanced `onBindViewHolder()` to handle:
@@ -41,7 +41,7 @@ Successfully implemented comprehensive checkbox functionality for multiple delet
 - ✅ Updated `initViews()` to initialize selection components
 - ✅ Implemented complete `setupSelectionControls()` method with:
   - Toggle Selection button functionality
-  - Cancel Selection button functionality
+  - cancel button functionality
   - Select All checkbox with proper event handling
   - Delete Selected button with confirmation dialog
 - ✅ Added selection management methods:

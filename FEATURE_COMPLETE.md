@@ -15,7 +15,7 @@ Successfully implemented comprehensive checkbox functionality for multiple delet
   - Select All checkbox
   - Selection count display
   - Delete Selected button
-  - Toggle/Cancel selection buttons
+  - Toggle/cancel buttons
   - History navigation button
 - ✅ Added selection controls to `activity_history.xml`:
   - Similar controls with "Delete Forever" button

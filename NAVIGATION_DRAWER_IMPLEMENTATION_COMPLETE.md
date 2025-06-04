@@ -1,7 +1,7 @@
 # Navigation Drawer Implementation Complete ✅
 
 ## Summary
-Successfully converted the existing FAB (Floating Action Button) menu system to a Material Design navigation drawer across all activities in the Android Hsu Expense application.
+Successfully converted the existing FAB (Floating Action Button) menu system to a Material Design navigation drawer across all activities in the Android HSU Expense application.
 
 ## ✅ Completed Tasks
 
@@ -106,7 +106,7 @@ import com.google.android.material.navigation.NavigationView
 - **Functional Integration**: ✅ All existing features preserved
 
 ## 🎉 Implementation Complete
-The navigation drawer system has been successfully implemented across the entire Hsu Expense application. Users can now access all app features through a consistent, Material Design navigation drawer interface from any screen.
+The navigation drawer system has been successfully implemented across the entire HSU Expense application. Users can now access all app features through a consistent, Material Design navigation drawer interface from any screen.
 
 **Total Activities Updated**: 8/8 ✅
 **Build Status**: SUCCESS ✅  

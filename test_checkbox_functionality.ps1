@@ -76,7 +76,7 @@ Write-Host "      ✓ Confirmation dialog appears with item names"
 Write-Host "      ✓ Confirm deletion"
 Write-Host "      ✓ Items are deleted and UI updates"
 Write-Host "   7. Test exit selection mode:"
-Write-Host "      ✓ Click 'Cancel Selection' button"
+Write-Host "      ✓ Click 'cancel' button"
 Write-Host "      ✓ Press back button"
 Write-Host "      ✓ Selection mode exits properly"
 

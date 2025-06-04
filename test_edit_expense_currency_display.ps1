@@ -4,7 +4,7 @@ Write-Host "🧪 Testing Edit Expense Currency Display Fix" -ForegroundColor Blu
 Write-Host "=============================================" -ForegroundColor Blue
 Write-Host ""
 
-Write-Host "📱 Launching Hsu Expense App..." -ForegroundColor Yellow
+Write-Host "📱 Launching HSU Expense App..." -ForegroundColor Yellow
 adb shell am start -n com.example.myapplication/.MainActivity
 
 Start-Sleep -Seconds 3

@@ -88,7 +88,7 @@ class OnboardingActivity : AppCompatActivity() {
     
     private fun setupCurrencySpinner() {
         val currencies = listOf(
-            Pair("USD", "💵 USD (US Dollar)"),
+            Pair("USD", "💵 USD"),
             Pair("MMK", "🇲🇲 MMK (Myanmar Kyat)")
         )
         
@@ -124,14 +124,14 @@ class OnboardingActivity : AppCompatActivity() {
                 buttonGetStarted.text = languageManager.getString("get_started")
             } else {
                 // Use default texts if managers are not initialized
-                textViewWelcome.text = "Welcome to Expense Tracker"
+                textViewWelcome.text = "welcome to HSU Expense"
                 textViewLanguageLabel.text = "Choose your language"
                 textViewCurrencyLabel.text = "Choose your currency"
                 buttonGetStarted.text = "Get Started"
             }
         } catch (e: Exception) {
             // Use default texts if language strings fail
-            textViewWelcome.text = "Welcome to Expense Tracker"
+            textViewWelcome.text = "welcome to HSU Expense"
             textViewLanguageLabel.text = "Choose your language"
             textViewCurrencyLabel.text = "Choose your currency"
             buttonGetStarted.text = "Get Started"

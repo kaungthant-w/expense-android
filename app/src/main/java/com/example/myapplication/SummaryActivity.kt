@@ -80,21 +80,24 @@ class SummaryActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
         menu.findItem(R.id.nav_feedback)?.title = languageManager.getString("nav_feedback")
         menu.findItem(R.id.nav_about)?.title = languageManager.getString("nav_about")
     }
-    
-    private fun updateTextElements() {
+      private fun updateTextElements() {
         // Update header and section titles
         findViewById<TextView>(R.id.textViewSummaryTitle)?.text = languageManager.getString("summary_title")
         findViewById<TextView>(R.id.textViewOverallStats)?.text = languageManager.getString("overall_statistics")
         findViewById<TextView>(R.id.textViewTodaysSummary)?.text = languageManager.getString("today_summary")
-        findViewById<TextView>(R.id.textViewMonthSummary)?.text = languageManager.getString("month_summary")
+        findViewById<TextView>(R.id.textViewWeeklySummary)?.text = languageManager.getString("analytics_weekly_analysis")
+        findViewById<TextView>(R.id.textViewMontHSUmmary)?.text = languageManager.getString("month_summary")
         findViewById<TextView>(R.id.textViewExpenseExtremes)?.text = languageManager.getString("expense_extremes")
         
         // Update labels
         findViewById<TextView>(R.id.textViewTotalExpensesLabel)?.text = languageManager.getString("total_expenses")
         findViewById<TextView>(R.id.textViewTotalAmountLabel)?.text = languageManager.getString("total_amount")
         findViewById<TextView>(R.id.textViewAverageAmountLabel)?.text = languageManager.getString("average_amount")
-        findViewById<TextView>(R.id.textViewTodayExpensesLabel)?.text = languageManager.getString("today_expenses")
+        findViewById<TextView>(R.id.textViewTodayExpensesLabel)?.text = languageManager.getString("summary_today_expenses")
         findViewById<TextView>(R.id.textViewTodayTotalLabel)?.text = languageManager.getString("today_total")
+        findViewById<TextView>(R.id.textViewWeekExpensesLabel)?.text = languageManager.getString("analytics_this_week_expenses")
+        findViewById<TextView>(R.id.textViewWeekTotalLabel)?.text = languageManager.getString("analytics_this_week_total")
+        findViewById<TextView>(R.id.textViewWeekAverageLabel)?.text = languageManager.getString("analytics_average_per_day")
         findViewById<TextView>(R.id.textViewMonthExpensesLabel)?.text = languageManager.getString("month_expenses")
         findViewById<TextView>(R.id.textViewMonthTotalLabel)?.text = languageManager.getString("month_total")
         findViewById<TextView>(R.id.textViewHighestExpenseLabel)?.text = languageManager.getString("highest_expense")
@@ -130,6 +133,29 @@ class SummaryActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
             currencyManager.getDisplayAmountFromStored(expense.price, expense.currency)
         }
         
+        // Calculate this week's expenses
+        val calendar = Calendar.getInstance()
+        val startOfWeek = calendar.clone() as Calendar
+        // Set to Monday of this week
+        startOfWeek.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
+        startOfWeek.set(Calendar.HOUR_OF_DAY, 0)
+        startOfWeek.set(Calendar.MINUTE, 0)
+        startOfWeek.set(Calendar.SECOND, 0)
+        startOfWeek.set(Calendar.MILLISECOND, 0)
+        
+        val weekExpenses = expenses.filter { expense ->
+            try {
+                val expenseDate = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).parse(expense.date)
+                expenseDate != null && !expenseDate.before(startOfWeek.time)
+            } catch (e: Exception) {
+                false
+            }
+        }
+        val weekAmount = weekExpenses.sumOf { expense ->
+            currencyManager.getDisplayAmountFromStored(expense.price, expense.currency)
+        }
+        val weekAveragePerDay = if (weekExpenses.isNotEmpty()) weekAmount / 7 else 0.0
+        
         // Calculate this month's expenses
         val currentMonth = SimpleDateFormat("MM/yyyy", Locale.getDefault()).format(Date())
         val monthExpenses = expenses.filter { 
@@ -151,6 +177,8 @@ class SummaryActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
         val displayTotalAmount = totalAmount
         val displayAverageAmount = averageAmount
         val displayTodayAmount = todayAmount
+        val displayWeekAmount = weekAmount
+        val displayWeekAveragePerDay = weekAveragePerDay
         val displayMonthAmount = monthAmount
         
         // Update UI
@@ -160,6 +188,10 @@ class SummaryActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
         
         findViewById<TextView>(R.id.textTodayExpenses).text = todayExpenses.size.toString()
         findViewById<TextView>(R.id.textTodayAmount).text = currencyManager.formatCurrency(displayTodayAmount)
+        
+        findViewById<TextView>(R.id.textWeekExpenses).text = weekExpenses.size.toString()
+        findViewById<TextView>(R.id.textWeekAmount).text = currencyManager.formatCurrency(displayWeekAmount)
+        findViewById<TextView>(R.id.textWeekAverage).text = currencyManager.formatCurrency(displayWeekAveragePerDay)
           findViewById<TextView>(R.id.textMonthExpenses).text = monthExpenses.size.toString()
         findViewById<TextView>(R.id.textMonthAmount).text = currencyManager.formatCurrency(displayMonthAmount)
         
