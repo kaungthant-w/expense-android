@@ -19,8 +19,8 @@
   "export_data": "导出数据",
   "export_data_desc": "将所有支出数据备份到文件以便安全保存",
   "import_data": "导入数据",
-  "import_data_desc": "从先前导出的备份文件恢复支出数据",  "about": "关于",
-  "track_expenses_efficiently": "高效跟踪您的支出",
+  "import_data_desc": "从先前导出的备份文件恢复支出数据",
+  "about": "关于",
   "english": "英语",
   "myanmar": "缅甸语",
   "chinese": "中文",
@@ -377,7 +377,8 @@
   "thai_baht": "泰铢", 
   "japanese_yen": "日元",
   "switched_to_sgd": "已切换到 SGD - 新加坡元",
-  "switched_to_thb": "已切换到 THB - 泰铢",  "switched_to_jpy": "已切换到 JPY - 日元",
+  "switched_to_thb": "已切换到 THB - 泰铢",
+  "switched_to_jpy": "已切换到 JPY - 日元",
   "switch_to_sgd": "💱 切换到 SGD",
   "switch_to_thb": "💱 切换到 THB",
   "switch_to_jpy": "💱 切换到 JPY",
@@ -387,5 +388,6 @@
   "select_preferred_language": "选择您的首选语言：",
   "language_changes_immediate": "语言更改将立即生效",
   "theme_changes_immediate": "主题更改立即应用",
+  
   "history_button": "🗃️历史"
 }

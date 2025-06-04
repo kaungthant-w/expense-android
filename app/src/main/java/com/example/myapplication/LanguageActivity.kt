@@ -95,13 +95,18 @@ class LanguageActivity : BaseActivity() {
             finish()
         }
     }
-    
-    private fun updateUITexts() {
+      private fun updateUITexts() {
         // Update title
         findViewById<TextView>(R.id.textViewTitle).text = languageManager.getString("language_settings")
         
+        // Update description text to use "select_preferred_language"
+        findViewById<TextView>(R.id.textViewDescription)?.text = languageManager.getString("select_preferred_language")
+        
         // Update apply button
         buttonApply.text = languageManager.getString("apply")
+        
+        // Update language info text to use "language_changes_immediate"
+        findViewById<TextView>(R.id.textViewLanguageInfo)?.text = languageManager.getString("language_changes_immediate")
         
         // Refresh spinner adapter to use new language
         val languages = languageManager.getAvailableLanguages()

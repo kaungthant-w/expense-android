@@ -1,7 +1,7 @@
-{
-  "app_name": "HSU Expense",
+{  "app_name": "HSU Expense",
   
   "welcome_to_expense_tracker": "welcome to HSU Expense",
+  "track_expenses_efficiently": "Track your expenses efficiently",
   "setup_preferences": "Let's set up your preferences",
   "choose_language": "Choose your language",
   "choose_currency": "Choose your currency",
@@ -95,7 +95,7 @@
   "email": "Email",
   "feedback_label": "Tell us what you think",
   "nav_home": "🏠 Home",
-  "nav_all_list": "📋 All List",
+  "nav_all_list": "📋 All Expense",
   "nav_history": "🗃️ History",
   "nav_summary": "📊 Summary",
   "nav_analytics": "📈 Analytics",
@@ -140,10 +140,10 @@
   "add": "Add",
   
   "all_list_title": "📋 All Expenses",
-  "select_all": "Select All",
-  "delete_selected": "🗑️ Delete Selected",
+  "select_all": "All",
+  "delete_selected": "🗑️ Delete",
   "toggle_selection": "🔘 Select",
-  "cancel_selection": "❌ Cancel",
+  "cancel_selection": "Cancel",
   "view_history": "📋History",
   "selection_count": "{count} items selected",  "delete_confirmation_title": "⚠️ Delete Selected Items",
   "delete_confirmation_message": "Are you sure you want to delete these {count} item(s)?\n\n{items}\n\nDeleted items can be restored from History.",
@@ -321,7 +321,7 @@
   "filter_date_range_label": "Date Range:",
   "filter_from_date_label": "From Date:",
   "filter_to_date_label": "To Date:",
-  "filter_apply_button": "✅ Apply Filters",
+  "filter_apply_button": "✅ Apply",
   "filter_clear_button": "🗑️ Clear",
   "filter_close_button": "❌ Close",
   
@@ -364,10 +364,15 @@
   "japanese_yen": "Japanese Yen",
   "switched_to_sgd": "Switched to SGD - Singapore Dollar",
   "switched_to_thb": "Switched to THB - Thai Baht",
-  "switched_to_jpy": "Switched to JPY - Japanese Yen",
-  "switch_to_sgd": "💱 Switch to SGD",
+  "switched_to_jpy": "Switched to JPY - Japanese Yen",  "switch_to_sgd": "💱 Switch to SGD",
   "switch_to_thb": "💱 Switch to THB",
   "switch_to_jpy": "💱 Switch to JPY",
+  
+  "filters_button": "🔍 Filters",
+  "feedback_rating_question": "How would you rate our app?",
+  "select_preferred_language": "Select your preferred language:",
+  "language_changes_immediate": "Language changes will take effect immediately",
+  "theme_changes_immediate": "Theme changes apply immediately",
   
   "history_button": "🗃️History"
 }

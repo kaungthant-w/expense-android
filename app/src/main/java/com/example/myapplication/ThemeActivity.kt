@@ -3,6 +3,7 @@ package com.example.myapplication
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.widget.ImageButton
 import android.widget.RadioButton
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -10,13 +11,13 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.cardview.widget.CardView
 
 class ThemeActivity : BaseActivity() {
-    
-    private lateinit var cardLightTheme: CardView
+      private lateinit var cardLightTheme: CardView
     private lateinit var cardDarkTheme: CardView
     private lateinit var cardSystemTheme: CardView
     private lateinit var radioButtonLight: RadioButton
     private lateinit var radioButtonDark: RadioButton
     private lateinit var radioButtonSystem: RadioButton
+    private lateinit var buttonBack: ImageButton
     private lateinit var sharedPreferences: SharedPreferences
     
     companion object {
@@ -31,9 +32,9 @@ class ThemeActivity : BaseActivity() {
         applyTheme()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_theme)
-        
-        setupActionBar()
+          setupActionBar()
         initViews()
+        setupBackButton()
         setupTranslations()
         loadCurrentTheme()
         setupClickListeners()
@@ -52,15 +53,21 @@ class ThemeActivity : BaseActivity() {
         supportActionBar?.title = languageManager.getString("theme_settings_title")
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
-    
-    private fun initViews() {
+      private fun initViews() {
         cardLightTheme = findViewById(R.id.cardLightTheme)
         cardDarkTheme = findViewById(R.id.cardDarkTheme)
         cardSystemTheme = findViewById(R.id.cardSystemTheme)
         radioButtonLight = findViewById(R.id.radioButtonLight)
         radioButtonDark = findViewById(R.id.radioButtonDark)
         radioButtonSystem = findViewById(R.id.radioButtonSystem)
+        buttonBack = findViewById(R.id.buttonBack)
         sharedPreferences = getSharedPreferences(THEME_PREFS, Context.MODE_PRIVATE)
+    }
+
+    private fun setupBackButton() {
+        buttonBack.setOnClickListener {
+            finish()
+        }
     }
       private fun setupTranslations() {
         // Update main title
@@ -82,12 +89,14 @@ class ThemeActivity : BaseActivity() {
         val darkThemeDesc = findViewById<TextView>(R.id.textDarkThemeDescription)
         darkThemeTitle?.text = languageManager.getString("dark_theme_title")
         darkThemeDesc?.text = languageManager.getString("dark_theme_description")
-        
-        // Update system theme
+          // Update system theme
         val systemThemeTitle = findViewById<TextView>(R.id.textSystemThemeTitle)
         val systemThemeDesc = findViewById<TextView>(R.id.textSystemThemeDescription)
         systemThemeTitle?.text = languageManager.getString("system_theme_title")
         systemThemeDesc?.text = languageManager.getString("system_theme_description")
+        
+        // Update theme info text
+        findViewById<TextView>(R.id.textViewThemeInfo)?.text = languageManager.getString("theme_changes_immediate")
     }
       private fun loadCurrentTheme() {
         val currentTheme = sharedPreferences.getString(THEME_KEY, THEME_SYSTEM)

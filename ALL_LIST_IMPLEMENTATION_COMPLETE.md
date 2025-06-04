@@ -14,7 +14,7 @@ Successfully implemented the "All List" feature that shows ALL expenses (both ac
 - **Comprehensive Data**: All expense details including status and timestamps
 
 #### 2. **FAB Menu Integration**
-- **New FAB Button**: Added "📋 All List" button to existing FAB menu
+- **New FAB Button**: Added "📋 All Expense" button to existing FAB menu
 - **Proper Positioning**: Positioned between Analytics and History buttons
 - **Color Coding**: Blue theme (#2196F3) to distinguish from other functions
 - **Activity Launcher**: Proper navigation with result handling
@@ -59,7 +59,7 @@ Successfully implemented the "All List" feature that shows ALL expenses (both ac
 
 #### FAB Menu Flow:
 1. **Tap Main FAB** → Menu overlay appears
-2. **Tap "📋 All List"** → AllListActivity opens
+2. **Tap "📋 All Expense"** → AllListActivity opens
 3. **View All Expenses** → See complete list with status indicators
 4. **Navigate Back** → Return to main activity with updated data
 
@@ -85,7 +85,7 @@ Successfully implemented the "All List" feature that shows ALL expenses (both ac
 #### Menu Structure (Top to Bottom):
 1. **📊 Summary** (Green) - Summary statistics
 2. **📈 Analytics** (Orange) - Analytics and charts  
-3. **📋 All List** (Blue) - NEW: All expenses with status
+3. **📋 All Expense** (Blue) - NEW: All expenses with status
 4. **🗃️ History** (Purple) - Deleted expenses only
 5. **💬 Feedback** (Red) - User feedback
 

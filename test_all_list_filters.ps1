@@ -37,7 +37,7 @@ Write-Host "🌐 TRANSLATION STRINGS ADDED:" -ForegroundColor Yellow
 Write-Host "   ✓ English: show_filters, hide_filters, apply_filters, clear_filters" -ForegroundColor Green
 Write-Host "   ✓ Myanmar: Filter အရင်းအမြစ်များ" -ForegroundColor Green
 Write-Host "   ✓ Chinese: 显示筛选器, 隐藏筛选器, 应用筛选器" -ForegroundColor Green
-Write-Host "   ✓ Japanese: フィルターを表示, フィルターを非表示, フィルターを適用" -ForegroundColor Green
+Write-Host "   ✓ Japanese: フィルターを表示, フィルターを非表示, 申し込む" -ForegroundColor Green
 Write-Host ""
 
 Write-Host "📱 MANUAL TESTING CHECKLIST:" -ForegroundColor Magenta

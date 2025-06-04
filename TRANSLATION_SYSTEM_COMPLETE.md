@@ -37,7 +37,7 @@ Successfully implemented a comprehensive JSON-based translation system for the A
 
 #### Navigation Menu Translations:
 - `nav_home`: "🏠 Home"
-- `nav_all_list`: "📋 All List"
+- `nav_all_list`: "📋 All Expense"
 - `nav_history`: "🗃️ History"
 - `nav_summary`: "📊 Summary"
 - `nav_analytics`: "📈 Analytics"

@@ -53,10 +53,12 @@ class FeedbackActivity : BaseActivity(), NavigationView.OnNavigationItemSelected
         supportActionBar?.title = languageManager.getString("feedback_title")
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
-    
-    private fun updateUITexts() {
+      private fun updateUITexts() {
         // Update action bar title
         supportActionBar?.title = languageManager.getString("feedback_title")
+        
+        // Update rating question
+        findViewById<TextView>(R.id.textViewRatingQuestion)?.text = languageManager.getString("feedback_rating_question")
         
         // Update hints for input fields
         editTextFeedback.hint = languageManager.getString("feedback_hint")

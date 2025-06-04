@@ -54,7 +54,7 @@ Write-Host "`n📋 MANUAL TESTING CHECKLIST" -ForegroundColor Magenta
 Write-Host "===========================" -ForegroundColor Magenta
 
 Write-Host "`n🔹 ALL LIST PAGE TESTING:" -ForegroundColor Cyan
-Write-Host "   1. Navigate to '📋 All List' from navigation drawer"
+Write-Host "   1. Navigate to '📋 All Expense' from navigation drawer"
 Write-Host "   2. Click '☑️ Select Items' button"
 Write-Host "   3. Verify:"
 Write-Host "      ✓ Checkboxes appear on all items"

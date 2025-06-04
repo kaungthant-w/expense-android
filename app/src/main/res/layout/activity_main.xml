@@ -23,9 +23,8 @@
                         <TextView android:id="@+id/todayTotalAmount" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="$0.00" android:textSize="14sp" android:textStyle="bold" android:textColor="?attr/textPrimaryColor" />
                     </LinearLayout>
                 </LinearLayout>
-            </androidx.cardview.widget.CardView>
-            <!-- TabLayout for Data Lists -->
-            <com.google.android.material.tabs.TabLayout android:id="@+id/tabLayout" android:layout_width="match_parent" android:layout_height="wrap_content" android:background="@android:color/transparent" app:tabIndicatorColor="@android:color/black" app:tabSelectedTextColor="@android:color/black" app:tabTextColor="@android:color/darker_gray" />
+            </androidx.cardview.widget.CardView>            <!-- TabLayout for Data Lists -->
+            <com.google.android.material.tabs.TabLayout android:id="@+id/tabLayout" android:layout_width="match_parent" android:layout_height="wrap_content" android:background="@android:color/transparent" app:tabIndicatorColor="@android:color/black" app:tabSelectedTextColor="@android:color/white" app:tabTextColor="@android:color/darker_gray" />
             <androidx.viewpager2.widget.ViewPager2 android:id="@+id/viewPager" android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" />
         </LinearLayout>
         <!-- Draggable Floating Action Button -->

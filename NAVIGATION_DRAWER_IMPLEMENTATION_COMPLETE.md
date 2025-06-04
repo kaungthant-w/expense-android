@@ -87,7 +87,7 @@ import com.google.android.material.navigation.NavigationView
 🏠 Home
 📊 Summary  
 📈 Analytics
-📋 All List
+📋 All Expense
 📜 History
 💱 Currency Exchange
 ⚙️ Settings

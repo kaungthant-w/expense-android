@@ -147,10 +147,12 @@ class AllListActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
         buttonDeleteSelected = findViewById<Button>(R.id.buttonDeleteSelected)
         buttonToggleSelection = findViewById<Button>(R.id.buttonToggleSelection)
         buttonCancelSelection = findViewById<Button>(R.id.buttonCancelSelection)
-        
-        // Action buttons
-        findViewById<Button>(R.id.buttonToggleFilter).setOnClickListener {
-            showFilterModal()
+          // Action buttons
+        findViewById<Button>(R.id.buttonToggleFilter).apply {
+            text = languageManager.getString("filters_button")
+            setOnClickListener {
+                showFilterModal()
+            }
         }
         
         buttonClearActiveFilters.setOnClickListener {

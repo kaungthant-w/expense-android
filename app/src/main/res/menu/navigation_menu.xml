@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">    <group android:checkableBehavior="single">
         <item android:id="@+id/nav_home" android:title="🏠 Home" />
 
-        <item android:id="@+id/nav_all_list" android:title="📋 All List" />
+        <item android:id="@+id/nav_all_list" android:title="📋 All Expense" />
 
         <item android:id="@+id/nav_history" android:title="🗃️ History" />
 

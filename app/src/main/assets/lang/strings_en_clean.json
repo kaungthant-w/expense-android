@@ -95,7 +95,7 @@
   "email": "Email",
   "feedback_label": "Tell us what you think",
   "nav_home": "🏠 Home",
-  "nav_all_list": "📋 All List",
+  "nav_all_list": "📋 All Expense",
   "nav_history": "🗃️ History",
   "nav_summary": "📊 Summary",
   "nav_analytics": "📈 Analytics",
@@ -140,7 +140,7 @@
   "add": "Add",
   
   "all_list_title": "📋 All Expenses",
-  "select_all": "Select All",
+  "select_all": "All",
   "delete_selected": "🗑️ Delete Selected",
   "toggle_selection": "🔘 Select",
   "cancel_selection": "❌ Cancel",

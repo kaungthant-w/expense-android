@@ -33,7 +33,7 @@ Write-Host "🎯 Navigation Drawer Features:" -ForegroundColor Cyan
 Write-Host "   🏠 Home - MainActivity (current)" -ForegroundColor White
 Write-Host "   📊 Summary - SummaryActivity" -ForegroundColor White
 Write-Host "   📈 Analytics - AnalyticsActivity" -ForegroundColor White
-Write-Host "   📋 All List - AllListActivity" -ForegroundColor White
+Write-Host "   📋 All Expense - AllListActivity" -ForegroundColor White
 Write-Host "   🗃️ History - HistoryActivity" -ForegroundColor White
 Write-Host "   💱 Currency Exchange - CurrencyExchangeActivity" -ForegroundColor White
 Write-Host "   ⚙️ Settings - SettingsActivity" -ForegroundColor White
