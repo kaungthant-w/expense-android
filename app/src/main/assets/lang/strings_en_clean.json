@@ -1,6 +1,5 @@
 {
   "app_name": "HSU Expense",
-  
   "welcome_to_expense_tracker": "welcome to HSU Expense",
   "setup_preferences": "Let's set up your preferences",
   "choose_language": "Choose your language",
@@ -8,7 +7,6 @@
   "get_started": "Get Started",
   "onboarding_complete": "Setup Complete!",
   "redirecting_message": "Redirecting to main app...",
-  
   "settings": "Settings",
   "language_settings": "Language Settings",
   "language_settings_desc": "Choose your preferred language for the app interface",
@@ -123,12 +121,10 @@
   "highest_expense": "Highest Expense:",
   "lowest_expense": "Lowest Expense:",
   "no_expenses_yet": "No expenses yet",
-  
   "tab_all": "All",
   "tab_today": "Today",
   "tab_this_week": "This Week",
   "tab_this_month": "This Month",
-  
   "add_new_expense": "💰 Add New Expense",
   "expense_name_hint": "💼 Expense Name",
   "price_hint": "💵 Price",
@@ -138,7 +134,6 @@
   "see_more": "See More",
   "see_less": "See Less",
   "add": "Add",
-  
   "all_list_title": "📋 All Expenses",
   "select_all": "All",
   "delete_selected": "🗑️ Delete Selected",
@@ -152,7 +147,6 @@
   "cancel_button": "❌ Cancel",
   "deleted_successfully": "✅ Successfully deleted {count} item(s). View in History to restore if needed.",
   "no_description": "No description",
-  
   "analytics_title": "📈 Expense Analytics",
   "analytics_overview": "📊 Analytics Overview",
   "total_analytics": "Total Analytics",
@@ -166,7 +160,6 @@
   "weekly_analytics": "📅 Weekly Analytics",
   "monthly_analytics": "📊 Monthly Analytics",
   "category_analytics": "📋 Category Analytics",
-  
   "currency_exchange_title": "💱 Currency Exchange & Rate Viewer",
   "live_exchange_rates": "🌍 Live Exchange Rates",
   "refresh_rates": "🔄 Refresh",
@@ -200,18 +193,17 @@
   "enter_exchange_rate": "❌ Please enter an exchange rate",
   "invalid_rate": "❌ Exchange rate must be greater than 0",
   "unusual_rate": "⚠️ Are you sure? Rate seems unusual ({rate} MMK per USD)",
-  "custom_rate_applied": "✅ Custom rate applied: 1 USD = {rate} MMK",  "invalid_number_format": "❌ Invalid number format. Please enter a valid decimal number",
+  "custom_rate_applied": "✅ Custom rate applied: 1 USD = {rate} MMK",
+  "invalid_number_format": "❌ Invalid number format. Please enter a valid decimal number",
   "custom_rate_tip": "💡 Enter a custom exchange rate",
   "original_amount": "Original: {amount} {currency}",
   "display_amount": "Display: {amount} {currency}",
   "error_rate": "Error",
   "na_rate": "N/A",
-  
   "price_too_long": "❌ Price is too long. Maximum 12 characters allowed",
   "price_no_exponential": "❌ Scientific notation not allowed. Use regular decimal format",
   "price_too_large": "❌ Price too large. Maximum value is 999,999,999.99",
   "price_max_two_decimals": "❌ Maximum 2 decimal places allowed",
-  
   "currency_exchange_enter_custom_rate": "💡 Enter a custom exchange rate",
   "currency_exchange_enter_rate_error": "❌ Please enter an exchange rate",
   "currency_exchange_rate_positive_error": "❌ Exchange rate must be greater than 0",
@@ -222,7 +214,6 @@
   "currency_exchange_rate_updated": "✅ Rate updated: 1 USD = {rate} MMK",
   "currency_exchange_fetch_error": "❌ Failed to fetch rate: {error}\n💡 Try using 'Custom Rate' to set manually",
   "currency_exchange_loading": "⏳ Loading...",
-  
   "analytics_most_expensive_day": "Most expensive day: {day} - {amount}",
   "analytics_least_expensive_day": "Least expensive day: {day} - {amount}",
   "analytics_no_data": "no record available",
@@ -231,7 +222,6 @@
   "analytics_evening_expenses": "🌆 Evening ({count} expenses): {amount}",
   "analytics_night_expenses": "🌙 Night ({count} expenses): {amount}",
   "analytics_no_expenses": "No expenses to display",
-  
   "expense_detail_title": "Expense Details",
   "add_expense_title": "Add New Expense",
   "edit_expense_title": "Edit Expense",
@@ -248,7 +238,6 @@
   "expense_added": "Expense added!",
   "expense_updated": "Expense updated!",
   "expense_deleted": "Expense deleted!",
-  
   "analytics_weekly_analysis": "📅 Weekly Summary",
   "analytics_this_week_expenses": "This Week's Expenses:",
   "analytics_this_week_total": "This Week's Total:",
@@ -265,7 +254,6 @@
   "analytics_expense_title": "📈 Expense Analytics",
   "analytics_no_data_available": "no record available",
   "analytics_no_expenses_yet": "No expenses yet",
-  
   "summary_expense_title": "📊 Expense Summary",
   "summary_overall_statistics": "💰 Overall Statistics",
   "summary_today_summary": "📅 Today's Summary",
@@ -276,13 +264,11 @@
   "summary_month_expenses": "Month's Expenses:",
   "summary_month_total": "Month's Total:",
   "summary_no_expenses_yet": "No expenses yet",
-  
   "deleted_items_history_title": "🗃️ Deleted Items History",
   "enable_selection": "✅ Selection",
   "delete_forever": "Delete Forever",
   "selection_mode_on": "📋 Selection ON",
   "all_expenses_active_title": "All Expenses",
-  
   "restore_expense_title": "✅ Restore Expense",
   "restore_expense_message": "Are you sure you want to restore '{name}'?",
   "restore_button": "Restore",
@@ -291,7 +277,6 @@
   "delete_permanently_message": "Are you sure you want to permanently delete '{name}'? This action cannot be undone!",
   "delete_permanently_button": "Erase",
   "delete_permanently_success": "✅ Successfully deleted {count} item(s) forever",
-  
   "settings_title": "⚙️ Settings",
   "theme_settings_title": "🎨 Theme Settings",
   "choose_your_theme": "🎨 Choose Your Theme",
@@ -302,14 +287,13 @@
   "dark_theme_description": "Ideal for low-light environments and battery saving",
   "system_theme_title": "🔄 System Default",
   "system_theme_description": "Automatically matches your device's theme setting",
-  
   "please_enter_expense_name": "Please enter expense name",
   "please_enter_valid_price": "Please enter a valid price",
   "expense_added_successfully": "✅ Expense added successfully!",
   "expense_updated_successfully": "✅ Expense updated successfully!",
-  "expense_moved_to_history": "💾 Expense moved to history. Check History to restore.",  "add_expense_button": "💾Save",
+  "expense_moved_to_history": "💾 Expense moved to history. Check History to restore.",
+  "add_expense_button": "💾Save",
   "no_data_available": "📭 no record available",
-  
   "show_filters": "🔍 Filters",
   "hide_filters": "🔍 Filters",
   "apply_filters": "✅ Filters",
@@ -318,11 +302,10 @@
   "to_date": "To Date",
   "filter_results": "Found {count} of {total} expenses",
   "filters_cleared": "Filters cleared",
-  
   "pdf_export_title": "📄 PDF Export",
   "pdf_export_today": "Today",
   "pdf_export_weekly": "This Week",
-  "pdf_export_monthly": "This Month", 
+  "pdf_export_monthly": "This Month",
   "pdf_export_yearly": "This Year",
   "pdf_export_english": "English",
   "pdf_export_myanmar": "Myanmar",
