@@ -19,12 +19,12 @@ class PdfExportFacade(private val context: Context) {
         private val SUPPORTED_CURRENCIES = listOf("USD", "MMK", "JPY", "CNY", "THB")
         private val SUPPORTED_LANGUAGES = listOf("en", "mm", "ja", "zh", "th")
     }
-    
-    fun exportPdf(
+      fun exportPdf(
         period: String,
         expenses: List<Expense>,
         targetCurrency: String = "USD",
-        targetLanguage: String = "en"
+        targetLanguage: String = "en",
+        customAppTitle: String = ""
     ): Boolean {
         try {
             // Create strategies
@@ -40,14 +40,26 @@ class PdfExportFacade(private val context: Context) {
             }
             
             // Calculate total
-            val totalAmount = filteredExpenses.sumOf { it.amount }
+            val totalAmount = filteredExpenses.sumOf { it.amount }            // Determine app title (use custom if provided, otherwise default HSU app title)
+            val appTitle = if (customAppTitle.isNotEmpty()) {
+                customAppTitle
+            } else {
+                "HSU Expense App" // Default title if no custom title provided
+            }
+            
+            // Generate thank you messages using templates
+            val thankYouMessage = languageStrategy.getString(context, "pdf_thank_you")
+                .replace("{appTitle}", appTitle)
+            
+            val thankYouAppName = languageStrategy.getString(context, "pdf_thank_you_app")
+                .replace("{appTitle}", appTitle)
             
             // Generate PDF using Builder pattern
             val document = PdfReportBuilder(context)
                 .initializeDocument()
                 .createNewPage()
                 .addHeader(
-                    title = languageStrategy.getString(context, "pdf_app_title"),
+                    title = appTitle,
                     subtitle = languageStrategy.getString(context, "pdf_period_${period}")
                 )
                 .addDivider()
@@ -60,11 +72,10 @@ class PdfExportFacade(private val context: Context) {
                     totalLabel = languageStrategy.getString(context, "pdf_total"),
                     totalAmount = totalAmount,
                     currencyStrategy = currencyStrategy
-                )
-                .addFooter(
-                    thankYouMessage = languageStrategy.getString(context, "pdf_thank_you"),
-                    appName = languageStrategy.getString(context, "pdf_thank_you_app"),
-                    generatedTime = languageStrategy.getString(context, "pdf_generated") + 
+                )                .addFooter(
+                    thankYouMessage = thankYouMessage,
+                    appName = thankYouAppName,
+                    generatedTime = languageStrategy.getString(context, "pdf_created") + 
                                    " " + SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault()).format(Date())
                 )
                 .build()

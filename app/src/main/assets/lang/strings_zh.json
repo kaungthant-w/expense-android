@@ -393,7 +393,9 @@
   "pdf_export_generate": "📄 生成PDF",
   "pdf_export_success": "✅ PDF导出成功！",
   "pdf_export_failed": "❌ PDF导出失败",
-  "pdf_app_title": "HSU费用应用",
+  "pdf_export_custom_title": "📱 自定义应用标题",
+  "pdf_export_custom_title_hint": "输入自定义应用标题（可选）",
+  "pdf_app_title": "{appTitle}",
   "pdf_period_today": "今日支出",
   "pdf_period_weekly": "本周支出",
   "pdf_period_monthly": "本月支出",
@@ -401,7 +403,9 @@
   "pdf_item_header": "项目",
   "pdf_amount_header": "金额",
   "pdf_total": "总计:",
-  "pdf_thank_you": "感谢您使用HSU费用应用！",
-  "pdf_thank_you_app": "HSU费用应用",
-  "pdf_generated": "生成于"
+  "pdf_thank_you": "感谢您使用{appTitle}！",
+  "pdf_thank_you_app": "{appTitle}",
+  "pdf_thank_you_custom": "感谢您使用{appTitle}我们的服务！",
+  "pdf_thank_you_app_custom": "{appTitle}服务",
+  "pdf_created": "创建于"
 }

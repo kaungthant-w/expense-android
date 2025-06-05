@@ -393,7 +393,9 @@
   "pdf_export_generate": "PDF を生成",
   "pdf_export_success": "PDF が正常にエクスポートされました",
   "pdf_export_failed": "PDF エクスポートに失敗しました",
-  "pdf_app_title": "HSU 支出アプリ",
+  "pdf_export_custom_title": "📱 カスタム アプリ タイトル",
+  "pdf_export_custom_title_hint": "カスタム アプリ タイトルを入力 (オプション)",
+  "pdf_app_title": "{appTitle}",
   "pdf_period_today": "今日",
   "pdf_period_weekly": "今週",
   "pdf_period_monthly": "今月",
@@ -401,7 +403,9 @@
   "pdf_item_header": "項目",
   "pdf_amount_header": "金額",
   "pdf_total": "合計",
-  "pdf_thank_you": "HSU 支出アプリをご利用いただき、ありがとうございます！",
-  "pdf_thank_you_app": "HSU 支出アプリからお送りします",
-  "pdf_generated": "生成日時"
+  "pdf_thank_you": "{appTitle}をご利用いただき、ありがとうございます！",
+  "pdf_thank_you_app": "{appTitle}",
+  "pdf_thank_you_custom": "{appTitle}私たちのサービスをご利用いただき、ありがとうございます！",
+  "pdf_thank_you_app_custom": "{appTitle}サービス",
+  "pdf_created": "作成日"
 }

@@ -48,13 +48,34 @@
         android:textSize="16sp"
         android:textStyle="bold"
         android:textColor="?attr/textPrimaryColor"
-        android:layout_marginBottom="8dp" />
-
-    <Spinner
+        android:layout_marginBottom="8dp" />    <Spinner
         android:id="@+id/spinnerLanguage"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:background="@drawable/input_background"
+        android:layout_marginBottom="20dp" />    <!-- Custom App Title -->
+    <TextView
+        android:id="@+id/tvCustomAppTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="📱 Custom App Title"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textColor="?attr/textPrimaryColor"
+        android:layout_marginBottom="8dp" />
+
+    <EditText
+        android:id="@+id/etCustomAppTitle"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@drawable/input_background"
+        android:hint="Enter custom app title (optional)"
+        android:textSize="14sp"
+        android:textColor="?attr/textPrimaryColor"
+        android:textColorHint="?attr/textSecondaryColor"
+        android:padding="12dp"
+        android:maxLength="50"
+        android:inputType="text"
         android:layout_marginBottom="16dp" />
 
     <!-- Information Text -->

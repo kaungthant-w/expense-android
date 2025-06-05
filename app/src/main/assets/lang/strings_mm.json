@@ -389,7 +389,9 @@
   "pdf_export_generate": "📄 PDF ထုတ်လုပ်ရန်",
   "pdf_export_success": "✅ PDF ထုတ်ယူခြင်း အောင်မြင်ပါပြီ!",
   "pdf_export_failed": "❌ PDF ထုတ်ယူခြင်း မအောင်မြင်ပါ",
-  "pdf_app_title": "HSU ကုန်ကျစရိတ် အက်ပ်",
+  "pdf_export_custom_title": "📱 စိတ်ကြိုက် အက်ပ် ခေါင်းစဉ်",
+  "pdf_export_custom_title_hint": "စိတ်ကြိုက် အက်ပ် ခေါင်းစဉ် ရိုက်ထည့်ပါ (စိတ်ကြိုက်)",
+  "pdf_app_title": "{appTitle}",
   "pdf_period_today": "ယနေ့၏ ကုန်ကျစရိတ်များ",
   "pdf_period_weekly": "ဤအပတ်၏ ကုန်ကျစရိတ်များ",
   "pdf_period_monthly": "ဤလ၏ ကုန်ကျစရိတ်များ",
@@ -397,7 +399,9 @@
   "pdf_item_header": "အရာဝတ္ထု",
   "pdf_amount_header": "ပမာဏ",
   "pdf_total": "စုစုပေါင်း:",
-  "pdf_thank_you": "HSU ကုန်ကျစရိတ် အက်ပ်ကို အသုံးပြုသည့်အတွက် ကျေးဇူးတင်ပါသည်!",
-  "pdf_thank_you_app": "HSU ကုန်ကျစရိတ် အက်ပ်",
-  "pdf_generated": "ထုတ်လုပ်သည့်ရက်စွဲ"
+  "pdf_thank_you": "{appTitle} ကို အသုံးပြုသည့်အတွက် ကျေးဇူးတင်ပါသည်!",
+  "pdf_thank_you_app": "{appTitle}",
+  "pdf_thank_you_custom": "{appTitle} ကျွန်ုပ်တို့ရဲ့ ဝန်ဆောင်မှုကို အသုံးပြုသည့်အတွက် ကျေးဇူးတင်ပါသည်!",
+  "pdf_thank_you_app_custom": "{appTitle} ဝန်ဆောင်မှု",
+  "pdf_created": "ဖန်တီးသည့်ရက်စွဲ"
 }

@@ -384,7 +384,9 @@
   "pdf_export_generate": "📄 Generate PDF",
   "pdf_export_success": "✅ PDF exported successfully!",
   "pdf_export_failed": "❌ Failed to export PDF",
-  "pdf_app_title": "HSU Expense App",
+  "pdf_export_custom_title": "📱 Custom App Title",
+  "pdf_export_custom_title_hint": "Enter custom app title (optional)",
+  "pdf_app_title": "{appTitle}",
   "pdf_period_today": "Today's Expenses",
   "pdf_period_weekly": "This Week's Expenses",
   "pdf_period_monthly": "This Month's Expenses",
@@ -392,7 +394,9 @@
   "pdf_item_header": "Item",
   "pdf_amount_header": "Amount",
   "pdf_total": "Total:",
-  "pdf_thank_you": "Thank you for using HSU Expense App!",
-  "pdf_thank_you_app": "HSU Expense App",
-  "pdf_generated": "Generated on"
+  "pdf_thank_you": "Thank you for using {appTitle}!",
+  "pdf_thank_you_app": "{appTitle}",
+  "pdf_thank_you_custom": "Thank you for using {appTitle} Our Service!",
+  "pdf_thank_you_app_custom": "{appTitle} Service",
+  "pdf_created": "Created on"
 }

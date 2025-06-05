@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.widget.ArrayAdapter
 import android.widget.Button
+import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.Spinner
 import android.widget.TextView
@@ -340,14 +341,19 @@ class SummaryActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
             @Suppress("DEPRECATION")
             super.onBackPressed()
         }
-    }
-      private fun showPdfExportDialog() {
+    }    private fun showPdfExportDialog() {
         val dialogView = layoutInflater.inflate(R.layout.dialog_pdf_export, null)
         
-        // Find spinners in the dialog
+        // Find views in the dialog
         val spinnerPeriod: Spinner = dialogView.findViewById(R.id.spinnerPeriod)
         val spinnerCurrency: Spinner = dialogView.findViewById(R.id.spinnerCurrency)
         val spinnerLanguage: Spinner = dialogView.findViewById(R.id.spinnerLanguage)
+        val etCustomAppTitle: EditText = dialogView.findViewById(R.id.etCustomAppTitle)
+        val tvCustomAppTitle: TextView = dialogView.findViewById(R.id.tvCustomAppTitle)
+        
+        // Set translated text for custom app title
+        tvCustomAppTitle.text = languageManager.getString("pdf_export_custom_title")
+        etCustomAppTitle.hint = languageManager.getString("pdf_export_custom_title_hint")
         
         // Setup period options
         val periodOptions = arrayOf(
@@ -380,23 +386,23 @@ class SummaryActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
         
         // Set default selections
         spinnerCurrency.setSelection(currencyOptions.indexOf(currencyManager.getCurrentDisplayCurrency()))
-        
-        val dialog = AlertDialog.Builder(this)
+          val dialog = AlertDialog.Builder(this)
             .setTitle(languageManager.getString("pdf_export_title"))
-            .setView(dialogView)            .setPositiveButton(languageManager.getString("pdf_export_generate")) { _, _ ->
+            .setView(dialogView)
+            .setPositiveButton(languageManager.getString("pdf_export_generate")) { _, _ ->
                 val periodIndex = spinnerPeriod.selectedItemPosition
                 val selectedCurrency = currencyOptions[spinnerCurrency.selectedItemPosition]
                 val languageIndex = spinnerLanguage.selectedItemPosition
+                val customAppTitle = etCustomAppTitle.text.toString().trim()
                 
-                generatePdfExport(periodIndex, selectedCurrency, languageIndex)
+                generatePdfExport(periodIndex, selectedCurrency, languageIndex, customAppTitle)
             }.setNegativeButton(languageManager.getString("cancel_button")) { dialog, _ ->
                 dialog.dismiss()
             }
             .create()
             
         dialog.show()
-    }
-      private fun generatePdfExport(periodIndex: Int, targetCurrency: String, languageIndex: Int) {
+    }    private fun generatePdfExport(periodIndex: Int, targetCurrency: String, languageIndex: Int, customAppTitle: String) {
         try {
             // Load all expenses
             val expensesJson = sharedPreferences.getString("expenses", "[]")
@@ -430,13 +436,13 @@ class SummaryActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
                 4 -> "th"
                 else -> "en"
             }
-            
-            // Generate PDF using the correct method name
+              // Generate PDF using the correct method name
             val success = pdfExportFacade.exportPdf(
                 period = periodString,
                 expenses = expensesForPdf,
                 targetCurrency = targetCurrency,
-                targetLanguage = languageString
+                targetLanguage = languageString,
+                customAppTitle = customAppTitle
             )
             
             if (success) {
