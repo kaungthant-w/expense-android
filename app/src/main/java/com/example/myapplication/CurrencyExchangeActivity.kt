@@ -59,11 +59,14 @@ class CurrencyExchangeActivity : BaseActivity(), NavigationView.OnNavigationItem
         applyTheme()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_currency_exchange)
-          currencyManager = CurrencyManager.getInstance(this)
+        
+        currencyManager = CurrencyManager.getInstance(this)
         currencyApiService = CurrencyApiService(this)
         sharedPreferences = getSharedPreferences("expense_prefs", Context.MODE_PRIVATE)
+        
         setupActionBar()
         initViews()
+        initProblematicViews()
         setupNavigationDrawer()
         setupClickListeners()
         updateUI()
@@ -81,18 +84,18 @@ class CurrencyExchangeActivity : BaseActivity(), NavigationView.OnNavigationItem
             ThemeActivity.THEME_LIGHT -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
             ThemeActivity.THEME_DARK -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
             ThemeActivity.THEME_SYSTEM -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
-        }
-    }
-      private fun setupActionBar() {
+        }    }
+    
+    private fun setupActionBar() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.title = languageManager.getString("currency_exchange_title")
     }
-    
-    private fun initViews() {
+      private fun initViews() {
         // Navigation drawer components
         drawerLayout = findViewById(R.id.drawerLayout)
         navigationView = findViewById(R.id.navigationView)
-          // Setup back button click listener
+        
+        // Setup back button click listener
         findViewById<ImageButton>(R.id.buttonBack).setOnClickListener {
             finish()
         }
@@ -102,8 +105,10 @@ class CurrencyExchangeActivity : BaseActivity(), NavigationView.OnNavigationItem
         cardMmk = findViewById(R.id.cardMmk)
         cardSgd = findViewById(R.id.cardSgd)
         cardThb = findViewById(R.id.cardThb)
-        cardJpy = findViewById(R.id.cardJpy)
-        cardCny = findViewById(R.id.cardCny)
+        
+        // Skip JPY and CNY cards for now - will be initialized separately
+        // cardJpy = findViewById(R.id.cardJpy)
+        // cardCny = findViewById(R.id.cardCny)
         textCurrentRate = findViewById(R.id.textCurrentRate)
         buttonFetchRate = findViewById(R.id.buttonFetchRate)
         buttonCustomRate = findViewById(R.id.buttonCustomRate)
@@ -112,6 +117,8 @@ class CurrencyExchangeActivity : BaseActivity(), NavigationView.OnNavigationItem
         editTextCustomRate = findViewById(R.id.editTextCustomRate)
         buttonApplyCustomRate = findViewById(R.id.buttonApplyCustomRate)
         buttonCancelCustomRate = findViewById(R.id.buttonCancelCustomRate)
+          // Setup enhanced price input field with validation and security for custom rate
+        InputValidationHelper.setupPriceInputField(editTextCustomRate, languageManager, preventCopyPaste = true)
         
         // Currency exchange table views
         buttonRefreshRates = findViewById(R.id.buttonRefreshRates)
@@ -128,20 +135,28 @@ class CurrencyExchangeActivity : BaseActivity(), NavigationView.OnNavigationItem
         setupStaticTexts()
     }
     
+    private fun initProblematicViews() {
+        // Initialize CardViews that have findViewById type inference issues
+        cardJpy = findViewById(R.id.cardJpy)
+        cardCny = findViewById(R.id.cardCny)
+    }
+    
     private fun setupStaticTexts() {
         // Set all static text elements using LanguageManager
-        try {
-            // Main title
+        try {            // Main title
             findViewById<TextView>(R.id.textCurrencyExchangeTitle)?.text = 
-                languageManager.getString("currency_exchange_title")            // Live exchange rates section
+                languageManager.getString("currency_exchange_title")
+            
+            // Live exchange rates section
             findViewById<TextView>(R.id.textLiveExchangeRatesTitle)?.text = 
                 languageManager.getString("live_exchange_rates")
             buttonRefreshRates.text = languageManager.getString("currency_exchange_refresh")
-            // Table headers
-            findViewById<TextView>(R.id.textCurrencyLabel)?.text = 
+            // Table headers            findViewById<TextView>(R.id.textCurrencyLabel)?.text = 
                 languageManager.getString("currency")
             findViewById<TextView>(R.id.textRateLabel)?.text = 
-                languageManager.getString("rate_mmk")            // Current exchange rate section
+                languageManager.getString("rate_mmk")
+            
+            // Current exchange rate section
             findViewById<TextView>(R.id.textCurrentExchangeRateTitle)?.text = 
                 languageManager.getString("currency_exchange_current_rate")
             buttonFetchRate.text = languageManager.getString("currency_exchange_fetch_latest")
@@ -161,7 +176,8 @@ class CurrencyExchangeActivity : BaseActivity(), NavigationView.OnNavigationItem
                 languageManager.getString("us_dollar")
             findViewById<TextView>(R.id.textMyanmarKyatLabel)?.text = 
                 languageManager.getString("myanmar_kyat")
-            findViewById<TextView>(R.id.textSingaporeDollarLabel)?.text =                languageManager.getString("singapore_dollar")
+            findViewById<TextView>(R.id.textSingaporeDollarLabel)?.text = 
+                languageManager.getString("singapore_dollar")
             findViewById<TextView>(R.id.textThaiBahtLabel)?.text = 
                 languageManager.getString("thai_baht")
             findViewById<TextView>(R.id.textJapaneseYenLabel)?.text = 
@@ -173,15 +189,15 @@ class CurrencyExchangeActivity : BaseActivity(), NavigationView.OnNavigationItem
             android.util.Log.e("CurrencyExchange", "Error setting up static texts: ${e.message}")
         }
     }
-    
-    private fun setupNavigationDrawer() {
+      private fun setupNavigationDrawer() {
         val toggle = ActionBarDrawerToggle(
             this, drawerLayout, null,
             R.string.navigation_drawer_open, R.string.navigation_drawer_close
         )
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
-          navigationView.setNavigationItemSelectedListener(this)
+        
+        navigationView.setNavigationItemSelectedListener(this)
     }
     
     private fun setupClickListeners() {
@@ -219,9 +235,9 @@ class CurrencyExchangeActivity : BaseActivity(), NavigationView.OnNavigationItem
         buttonApplyCustomRate.setOnClickListener {
             applyCustomRate()
         }
-        
-        buttonCancelCustomRate.setOnClickListener {
-            hideCustomRateInput()        }
+          buttonCancelCustomRate.setOnClickListener {
+            hideCustomRateInput()
+        }
         
         buttonSwitchCurrency.setOnClickListener {
             val currentCurrency = currencyManager.getCurrentCurrency()
@@ -232,8 +248,8 @@ class CurrencyExchangeActivity : BaseActivity(), NavigationView.OnNavigationItem
             
             switchToCurrency(newCurrency)
         }
-        
-        buttonRefreshRates.setOnClickListener {        fetchAllExchangeRates()
+          buttonRefreshRates.setOnClickListener {
+            fetchAllExchangeRates()
         }
     }
     
@@ -250,10 +266,10 @@ class CurrencyExchangeActivity : BaseActivity(), NavigationView.OnNavigationItem
             CurrencyManager.CURRENCY_CNY -> languageManager.getString("switched_to_cny")
             else -> languageManager.getString("currency_switched")
         }
-        
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+          Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
-      private fun updateUI() {
+    
+    private fun updateUI() {
         val currentCurrency = currencyManager.getCurrentCurrency()
         
         // Update currency selection visual feedback
@@ -277,7 +293,8 @@ class CurrencyExchangeActivity : BaseActivity(), NavigationView.OnNavigationItem
         val currentIndex = supportedCurrencies.indexOf(currentCurrency)
         val nextIndex = (currentIndex + 1) % supportedCurrencies.size
         val nextCurrency = supportedCurrencies[nextIndex]
-          buttonSwitchCurrency.text = when (nextCurrency) {
+        
+        buttonSwitchCurrency.text = when (nextCurrency) {
             CurrencyManager.CURRENCY_USD -> languageManager.getString("switch_to_usd")
             CurrencyManager.CURRENCY_MMK -> languageManager.getString("switch_to_mmk")
             CurrencyManager.CURRENCY_SGD -> languageManager.getString("switch_to_sgd")
@@ -314,19 +331,19 @@ class CurrencyExchangeActivity : BaseActivity(), NavigationView.OnNavigationItem
             }
             CurrencyManager.CURRENCY_JPY -> {
                 cardJpy.setCardBackgroundColor(getColor(android.R.color.holo_red_light))
-            }
-            CurrencyManager.CURRENCY_CNY -> {
+            }            CurrencyManager.CURRENCY_CNY -> {
                 cardCny.setCardBackgroundColor(getColor(android.R.color.holo_orange_dark))
-            }        }
+            }
+        }
     }
-    
-    private fun showCustomRateInput() {
+      private fun showCustomRateInput() {
         layoutCustomRateInput.visibility = View.VISIBLE
         editTextCustomRate.setText(currencyManager.getExchangeRate().toString())
         editTextCustomRate.requestFocus()
         Toast.makeText(this, languageManager.getString("currency_exchange_enter_custom_rate"), Toast.LENGTH_SHORT).show()
     }
-      private fun hideCustomRateInput() {
+    
+    private fun hideCustomRateInput() {
         layoutCustomRateInput.visibility = View.GONE
         editTextCustomRate.text?.clear()
     }
@@ -394,7 +411,8 @@ class CurrencyExchangeActivity : BaseActivity(), NavigationView.OnNavigationItem
                         .replace("{error}", error)
                     Toast.makeText(this@CurrencyExchangeActivity, errorMsg, Toast.LENGTH_LONG).show()
                     
-                    // Automatically show custom rate input on API failure                    showCustomRateInput()
+                    // Automatically show custom rate input on API failure
+                    showCustomRateInput()
                 }
             }
         })
@@ -414,16 +432,15 @@ class CurrencyExchangeActivity : BaseActivity(), NavigationView.OnNavigationItem
         textRateThb.text = loadingText
         textRateJpy.text = loadingText
         
-        currencyApiService.fetchAllExchangeRates(object : CurrencyApiService.AllRatesCallback {
-            override fun onSuccess(rates: Map<String, Double>) {                runOnUiThread {
+        currencyApiService.fetchAllExchangeRates(object : CurrencyApiService.AllRatesCallback {            override fun onSuccess(rates: Map<String, Double>) {
+                runOnUiThread {
                     updateExchangeRateTable(rates)
                     buttonRefreshRates.isEnabled = true
                     buttonRefreshRates.text = languageManager.getString("currency_exchange_refresh")
                     
-                    val currentTime = java.text.SimpleDateFormat("MMM dd, yyyy HH:mm", java.util.Locale.getDefault())
-                        .format(java.util.Date())
                     textLastUpdated.text = languageManager.getString("last_updated")
-                        .replace("{time}", currentTime)
+                        .replace("{time}", java.text.SimpleDateFormat("MMM dd, yyyy HH:mm", java.util.Locale.getDefault())
+                            .format(java.util.Date()))
                     
                     Toast.makeText(this@CurrencyExchangeActivity,
                         languageManager.getString("rates_updated"), 

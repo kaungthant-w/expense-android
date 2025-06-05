@@ -1,0 +1,39 @@
+// Analyzing the SQL_INJECTION_PATTERN regex structure
+// Current pattern (broken down by lines for clarity):
+
+(('|(\\-\\-)|(;)|(\\|)|(\\*)|(%)|(\\?)|(\\[)|(\\])|(\\{)|(\\}))
+|(union(\\s+(all|distinct))?\\s+(select))
+|(insert\\s+(into)?)
+|(update\\s+\\w+\\s+set)
+|(delete\\s+(from)?)
+|(drop\\s+(table|database|schema|view|index))
+|(alter\\s+(table|database|schema))
+|(exec(ute)?\\s+)
+|(script\\s*:)
+
+// Let me count parentheses:
+// Line 1: Opening: 17, Closing: 17 ✓
+// Line 2: Opening: 3, Closing: 3 ✓  
+// Line 3: Opening: 2, Closing: 2 ✓
+// Line 4: Opening: 1, Closing: 1 ✓
+// Line 5: Opening: 2, Closing: 2 ✓
+// Line 6: Opening: 2, Closing: 2 ✓
+// Line 7: Opening: 2, Closing: 2 ✓
+// Line 8: Opening: 2, Closing: 2 ✓
+// Line 9: Opening: 1, Closing: 1 ✓
+
+// The issue might be with the question marks after groups like (into)?
+// These make the groups optional, but the groups themselves might have issues.
+
+// Let me check character positions:
+// Length would be approximately: 
+// Line 1: ~70 chars
+// Line 2: ~40 chars (total ~110)
+// Line 3: ~20 chars (total ~130) 
+// Line 4: ~25 chars (total ~155)
+// Line 5: ~20 chars (total ~175)
+// Line 6: ~50 chars (total ~225)
+// Line 7: ~35 chars (total ~260) <-- Around index 259!
+
+// The issue is likely in line 7: |(alter\\s+(table|database|schema))
+// This looks correct, so let me check if there's a missing escape or extra character.

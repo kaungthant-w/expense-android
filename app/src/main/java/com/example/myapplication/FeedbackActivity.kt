@@ -52,10 +52,12 @@ class FeedbackActivity : BaseActivity(), NavigationView.OnNavigationItemSelected
     private fun setupActionBar() {
         supportActionBar?.title = languageManager.getString("feedback_title")
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-    }
-      private fun updateUITexts() {
+    }    private fun updateUITexts() {
         // Update action bar title
         supportActionBar?.title = languageManager.getString("feedback_title")
+        
+        // Update page title
+        findViewById<TextView>(R.id.textViewPageTitle)?.text = languageManager.getString("we_value_your_feedback")
         
         // Update rating question
         findViewById<TextView>(R.id.textViewRatingQuestion)?.text = languageManager.getString("feedback_rating_question")

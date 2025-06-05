@@ -112,7 +112,7 @@
                             <TextView android:id="@+id/textManualRateEntryTitle" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="💡 Manual Exchange Rate Entry" android:textSize="12sp" android:textStyle="bold" android:textColor="?attr/textPrimaryColor" android:layout_marginBottom="8dp" />
                             <com.google.android.material.textfield.TextInputLayout android:id="@+id/textInputCustomRate" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Enter rate (e.g., 3600.0)" app:boxStrokeColor="?attr/accentColor" app:hintTextColor="?attr/textSecondaryColor" android:layout_marginBottom="12dp">
 
-                                <com.google.android.material.textfield.TextInputEditText android:id="@+id/editTextCustomRate" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="numberDecimal" android:textColor="?attr/textPrimaryColor" android:maxLines="1" />
+                                <com.google.android.material.textfield.TextInputEditText android:id="@+id/editTextCustomRate" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="numberDecimal" android:textColor="?attr/textPrimaryColor" android:maxLines="1" android:maxLength="12" android:digits="0123456789." />
 
                             </com.google.android.material.textfield.TextInputLayout>
 

@@ -132,11 +132,11 @@ class LanguageManager private constructor(private val context: Context) {
             "select_language" to "Select Language",
             "current_language" to "Current Language",
             "apply" to "Apply",
-            "language_changed" to "Language changed successfully",
-            "restart_required" to "Please restart the app for all changes to take effect",
+            "language_changed" to "Language changed successfully",            "restart_required" to "Please restart the app for all changes to take effect",
             "back" to "Back",
             "cancel" to "Cancel",
-            "ok" to "OK"
+            "ok" to "OK",
+            "we_value_your_feedback" to "💬 We Value Your Feedback"
         )
     }
     

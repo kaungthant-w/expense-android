@@ -45,8 +45,10 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var currencyManager: CurrencyManager
     private val gson = Gson()
+    private var currentCSRFToken: String? = null
     private lateinit var toolbar: Toolbar
-      // Navigation Drawer components
+    
+    // Navigation Drawer components
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var navigationView: NavigationView
     private lateinit var drawerToggle: ActionBarDrawerToggle
@@ -82,7 +84,8 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                         // Mark as deleted with timestamp
                         expenseToDelete.isDeleted = true
                         expenseToDelete.deletedAt = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault()).format(Date())
-                          // Remove from main list
+                        
+                        // Remove from main list
                         expenseList.removeAt(position)
                         expenseAdapter.notifyItemRemoved(position)
                         expenseAdapter.notifyItemRangeChanged(position, expenseList.size)
@@ -105,7 +108,8 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                         val date = activityResult.getStringExtra("expense_date") ?: ""
                         val time = activityResult.getStringExtra("expense_time") ?: ""
                         val currency = activityResult.getStringExtra("expense_currency") ?: "USD"
-                          if (isNewExpense) {
+                        
+                        if (isNewExpense) {
                             // Add new expense
                             val newExpense = ExpenseItem(
                                 id = expenseId,
@@ -144,7 +148,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             }
         }
     }
-    
+      
     // Activity result launcher for history activity
     private val historyActivityLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
@@ -153,7 +157,8 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         // This will update the main list in case any expenses were restored
         loadExpenses()
     }
-      // Activity result launcher for all list activity
+    
+    // Activity result launcher for all list activity
     private val allListActivityLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { _ ->
@@ -161,7 +166,8 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         // This will update the main list in case any expenses were restored
         loadExpenses()
     }
-      override fun onCreate(savedInstanceState: Bundle?) {
+    
+    override fun onCreate(savedInstanceState: Bundle?) {
         try {
             // Apply theme before calling super.onCreate()
             applyTheme()
@@ -180,6 +186,9 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             updateNavigationMenuTitles()
             updateTodaySummaryCard()
             updateTodaySummary()
+            
+            // Initialize CSRF token for security
+            currentCSRFToken = InputValidationHelper.generateCSRFToken()
         } catch (e: Exception) {
             Log.e("MainActivity", "Initialization error", e)
             Toast.makeText(this, "App error: " + (e.message ?: "Unknown error"), Toast.LENGTH_LONG).show()
@@ -187,10 +196,11 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             // finish()
         }
     }
-
+    
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
-        // Sync the toggle state after onRestoreInstanceState has occurred        drawerToggle.syncState()
+        // Sync the toggle state after onRestoreInstanceState has occurred
+        drawerToggle.syncState()
     }
     
     override fun onResume() {
@@ -203,7 +213,8 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             refreshAllFragments()
         }
     }
-      override fun onLanguageChanged() {
+    
+    override fun onLanguageChanged() {
         super.onLanguageChanged()
         Log.d("MainActivity", "onLanguageChanged called - updating all UI elements")
         
@@ -247,7 +258,8 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     }
     
     private fun setupRecyclerView() {
-        // RecyclerView setup is now handled by ExpenseListFragment        // Initialize the adapter for fragment communication
+        // RecyclerView setup is now handled by ExpenseListFragment
+        // Initialize the adapter for fragment communication
         expenseAdapter = ExpenseAdapter(expenseList,
             onDeleteClick = { position -> deleteExpenseItem(position) },
             onEditClick = { position -> editExpenseItem(position) },
@@ -264,7 +276,8 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     private fun setupClickListeners() {
         // Set up FAB click listener to show add expense modal
         fab.setOnClickListener {
-            showAddExpenseModal()        }
+            showAddExpenseModal()
+        }
     }
     
     private fun setupToolbar() {
@@ -313,11 +326,13 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         val modalButtonAdd = dialogView.findViewById<Button>(R.id.buttonAdd)
         val modalButtonCancel = dialogView.findViewById<Button>(R.id.buttonCancel)
         val modalDialogTitle = dialogView.findViewById<TextView>(R.id.dialogTitle)
-        
-        // Set localized text for modal dialog elements
-        updateModalDialogTexts(dialogView, modalEditTextName, modalEditTextPrice, modalEditTextDescription, 
+          // Set localized text for modal dialog elements
+        updateModalDialogTexts(modalEditTextName, modalEditTextPrice, modalEditTextDescription,
                                modalEditTextDate, modalEditTextTime, modalButtonSeeMore, modalButtonAdd, 
                                modalButtonCancel, modalDialogTitle)
+        
+        // Setup enhanced price input field with validation and security
+        InputValidationHelper.setupPriceInputField(modalEditTextPrice, languageManager, preventCopyPaste = true)
         
         // Set current date and time
         val calendar = Calendar.getInstance()
@@ -354,7 +369,8 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         }
         
         modalButtonAdd.setOnClickListener {
-            addExpenseFromModal(dialog, modalEditTextName, modalEditTextPrice, modalEditTextDescription, modalEditTextDate, modalEditTextTime)        }
+            addExpenseFromModal(dialog, modalEditTextName, modalEditTextPrice, modalEditTextDescription, modalEditTextDate, modalEditTextTime)
+        }
         
         dialog.show()
     }
@@ -397,44 +413,56 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         modalEditTextDate: EditText,
         modalEditTextTime: EditText
     ) {
+        // CSRF token validation for security
+        if (!InputValidationHelper.validateCSRFToken(currentCSRFToken ?: "", currentCSRFToken)) {
+            Toast.makeText(this, languageManager.getString("csrf_token_invalid"), Toast.LENGTH_LONG).show()
+            // Regenerate token and close dialog
+            currentCSRFToken = InputValidationHelper.generateCSRFToken()
+            dialog.dismiss()
+            return
+        }
+        
         val name = modalEditTextName.text.toString().trim()
         val priceText = modalEditTextPrice.text.toString().trim()
         val description = modalEditTextDescription.text.toString().trim()
         val date = modalEditTextDate.text.toString().trim()
         val time = modalEditTextTime.text.toString().trim()
         
-        // Validation
-        if (name.isEmpty()) {
-            modalEditTextName.error = languageManager.getString("name_required")
-            modalEditTextName.requestFocus()
+        // Security validation for name using InputValidationHelper
+        val nameValidation = InputValidationHelper.validateName(name, languageManager)
+        if (!nameValidation.isValid) {
+            InputValidationHelper.applyValidationToField(modalEditTextName, nameValidation)
+            if (nameValidation.securityThreatDetected) {
+                Toast.makeText(this, languageManager.getString("input_sanitized"), Toast.LENGTH_LONG).show()
+            }
             return
         }
         
-        if (priceText.isEmpty()) {
-            modalEditTextPrice.error = languageManager.getString("price_required")
+        // Security validation for description using InputValidationHelper
+        val descriptionValidation = InputValidationHelper.validateDescription(description, languageManager)
+        if (!descriptionValidation.isValid) {
+            InputValidationHelper.applyValidationToField(modalEditTextDescription, descriptionValidation)
+            if (descriptionValidation.securityThreatDetected) {
+                Toast.makeText(this, languageManager.getString("input_sanitized"), Toast.LENGTH_LONG).show()
+            }
+            return
+        }
+          // Enhanced price validation using InputValidationHelper
+        val priceValidation = InputValidationHelper.validatePriceInput(priceText, languageManager)
+        if (!priceValidation.isValid) {
+            modalEditTextPrice.error = priceValidation.errorMessage
             modalEditTextPrice.requestFocus()
             return
         }
         
-        val price = try {
-            priceText.toDouble()
-        } catch (e: NumberFormatException) {
-            modalEditTextPrice.error = languageManager.getString("invalid_price_format")
-            modalEditTextPrice.requestFocus()
-            return
-        }
+        val price = priceValidation.sanitizedValue
         
-        if (price <= 0) {
-            modalEditTextPrice.error = languageManager.getString("price_must_be_positive")
-            modalEditTextPrice.requestFocus()
-            return
-        }
-          // Create expense item
+        // Create expense item with sanitized inputs
         val expenseItem = ExpenseItem(
             id = System.currentTimeMillis(),
-            name = name,
+            name = nameValidation.sanitizedInput,
             price = price,
-            description = description,
+            description = descriptionValidation.sanitizedInput,
             date = date,
             time = time,
             currency = currencyManager.getStorageCurrency()
@@ -449,11 +477,15 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         refreshAllFragments()
         updateTodaySummary()
         
+        // Regenerate CSRF token for next operation
+        currentCSRFToken = InputValidationHelper.generateCSRFToken()
+        
         // Close dialog and show success message
         dialog.dismiss()
         Toast.makeText(this, languageManager.getString("expense_added_successfully"), Toast.LENGTH_SHORT).show()
     }
-      private fun updateTodaySummary() {
+    
+    private fun updateTodaySummary() {
         val today = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date())
         val todayExpenses = expenseList.filter { it.date == today }
 
@@ -504,7 +536,8 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             }
         }
     }
-      private fun refreshAllFragments() {
+    
+    private fun refreshAllFragments() {
         // Refresh all fragments in the ViewPager
         for (i in 0 until viewPagerAdapter.itemCount) {
             val fragment = supportFragmentManager.findFragmentByTag("f$i") as? ExpenseListFragment
@@ -637,9 +670,11 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         editDate.setText(expense.date)
         editTime.setText(expense.time)
         
+        // Setup enhanced price input field with validation and security
+        InputValidationHelper.setupPriceInputField(editPrice, languageManager, preventCopyPaste = true)
+        
         editDate.setOnClickListener {
-            showDatePickerForDialog(editDate)
-        }
+            showDatePickerForDialog(editDate)        }
         
         editTime.setOnClickListener {
             showTimePickerForDialog(editTime)
@@ -649,28 +684,56 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             .setTitle("Edit Expense")
             .setView(dialogView)
             .setPositiveButton("Save") { _, _ ->
+                // CSRF token validation for security
+                if (!InputValidationHelper.validateCSRFToken(currentCSRFToken ?: "", currentCSRFToken)) {
+                    Toast.makeText(this, languageManager.getString("csrf_token_invalid"), Toast.LENGTH_LONG).show()
+                    // Regenerate token
+                    currentCSRFToken = InputValidationHelper.generateCSRFToken()
+                    return@setPositiveButton
+                }
+                
                 val newName = editName.text.toString().trim()
                 val newPriceText = editPrice.text.toString().trim()
                 val newDescription = editDescription.text.toString().trim()
                 val newDate = editDate.text.toString().trim()
                 val newTime = editTime.text.toString().trim()
                 
-                if (newName.isEmpty()) {
-                    Toast.makeText(this, "Please enter expense name", Toast.LENGTH_SHORT).show()
+                // Security validation for name using InputValidationHelper
+                val nameValidation = InputValidationHelper.validateName(newName, languageManager)
+                if (!nameValidation.isValid) {
+                    if (nameValidation.securityThreatDetected) {
+                        Toast.makeText(this, languageManager.getString("name_security_error"), Toast.LENGTH_LONG).show()
+                    } else {
+                        Toast.makeText(this, nameValidation.errorMessage, Toast.LENGTH_SHORT).show()
+                    }
                     return@setPositiveButton
                 }
-                  val newPrice = newPriceText.toDoubleOrNull()
-                if (newPrice == null || newPrice <= 0) {
-                    Toast.makeText(this, "Please enter a valid price", Toast.LENGTH_SHORT).show()
+                
+                // Security validation for description using InputValidationHelper
+                val descriptionValidation = InputValidationHelper.validateDescription(newDescription, languageManager)
+                if (!descriptionValidation.isValid) {
+                    if (descriptionValidation.securityThreatDetected) {
+                        Toast.makeText(this, languageManager.getString("description_security_error"), Toast.LENGTH_LONG).show()
+                    } else {
+                        Toast.makeText(this, descriptionValidation.errorMessage, Toast.LENGTH_SHORT).show()
+                    }
+                    return@setPositiveButton
+                }                  
+                // Enhanced price validation using InputValidationHelper
+                val priceValidation = InputValidationHelper.validatePriceInput(newPriceText, languageManager)
+                if (!priceValidation.isValid) {
+                    Toast.makeText(this, priceValidation.errorMessage, Toast.LENGTH_SHORT).show()
                     return@setPositiveButton
                 }
 
                 // Use CurrencyManager for native currency storage
-                val storageAmount = currencyManager.getStorageAmount(newPrice)
+                val storageAmount = currencyManager.getStorageAmount(priceValidation.sanitizedValue)
                 val storageCurrency = currencyManager.getStorageCurrency()
-                  expense.name = newName
+                  
+                // Update expense with sanitized inputs
+                expense.name = nameValidation.sanitizedInput
                 expense.price = storageAmount
-                expense.description = newDescription
+                expense.description = descriptionValidation.sanitizedInput
                 expense.date = newDate
                 expense.time = newTime
                 expense.currency = storageCurrency
@@ -680,6 +743,9 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                 
                 // Refresh fragments and summary
                 refreshAllFragments()
+                
+                // Regenerate CSRF token for next operation
+                currentCSRFToken = InputValidationHelper.generateCSRFToken()
                 
                 Toast.makeText(this, languageManager.getString("expense_updated_successfully"), Toast.LENGTH_SHORT).show()
             }
@@ -712,11 +778,11 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             },
             calendar.get(Calendar.HOUR_OF_DAY),
             calendar.get(Calendar.MINUTE),
-            true
-        )
+            true        )
         timePickerDialog.show()
     }
-      private fun deleteExpenseItem(position: Int) {
+    
+    private fun deleteExpenseItem(position: Int) {
         if (position >= 0 && position < expenseList.size) {
             val expenseToDelete = expenseList[position]
             
@@ -746,7 +812,8 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         }
     }
     
-    private fun openExpenseDetail(position: Int) {        if (position >= 0 && position < expenseList.size) {
+    private fun openExpenseDetail(position: Int) {
+        if (position >= 0 && position < expenseList.size) {
             val expense = expenseList[position]
             val intent = Intent(this, ExpenseDetailActivity::class.java)
             intent.putExtra("expense_id", expense.id)
@@ -790,7 +857,8 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         
         Log.d("MainActivity", "Today's Summary Card updated: title=${todaySummaryTitle.text}, expenses=${todayExpensesLabel.text}, amount=${todayAmountLabel.text}")
     }
-      private fun updateTabTitles() {
+    
+    private fun updateTabTitles() {
         Log.d("MainActivity", "Updating tab titles")
         
         // Refresh tab titles by updating each tab
@@ -821,7 +889,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         Log.d("MainActivity", "Toolbar title updated to: $newTitle")
     }
     
-    private fun updateModalDialogTexts(dialogView: View, modalEditTextName: EditText, modalEditTextPrice: EditText, 
+    private fun updateModalDialogTexts(modalEditTextName: EditText, modalEditTextPrice: EditText, 
                                       modalEditTextDescription: EditText, modalEditTextDate: EditText, 
                                       modalEditTextTime: EditText, modalButtonSeeMore: TextView, 
                                       modalButtonAdd: Button, modalButtonCancel: Button, modalDialogTitle: TextView?) {
@@ -848,7 +916,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         val headerView = navigationView.getHeaderView(0)
         val headerTextView = headerView?.findViewById<TextView>(R.id.textView)
         
-        headerTextView?.text = "📊 " + languageManager.getString("app_description")
+        headerTextView?.text = "📊 " + languageManager.getString("track_expenses_efficiently")
         
         Log.d("MainActivity", "Navigation header text updated")
     }

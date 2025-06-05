@@ -81,9 +81,9 @@
   "email_rating": "評価",
   "email_feedback": "フィードバック",
   "email_user_email": "ユーザーメール",
-  "email_app_version": "アプリバージョン",  "email_device": "デバイス",  "email_android_version": "Androidバージョン",  "email_developer": "開発者",
-  "email": "メール",
+  "email_app_version": "アプリバージョン",  "email_device": "デバイス",  "email_android_version": "Androidバージョン",  "email_developer": "開発者",  "email": "メール",
   "feedback_label": "ご意見をお聞かせください",
+  "we_value_your_feedback": "💬 皆様のご意見を大切にしています",
   "nav_home": "🏠 ホーム",
   "nav_all_list": "📄 すべてのリスト",
   "nav_history": "🗃️ 履歴",
@@ -363,6 +363,15 @@
   "filters_button": "🔍 フィルター",
   "feedback_rating_question": "私たちのアプリをどのように評価しますか？",
   "select_preferred_language": "お好みの言語を選択してください:",
-  "language_changes_immediate": "言語の変更は即座に反映されます",
-  "theme_changes_immediate": "テーマの変更は即座に適用されます"
+  "language_changes_immediate": "言語の変更は即座に反映されます",  "theme_changes_immediate": "テーマの変更は即座に適用されます",
+  
+  "name_too_short": "名前は少なくとも2文字必要です",
+  "name_too_long": "名前は20文字を超えることはできません",
+  "name_security_error": "⚠️ 名前フィールドでセキュリティ脅威が検出されました。疑わしいコンテンツを削除してください",
+  "name_invalid_characters": "名前に無効な文字が含まれています。文字、数字、一般的な記号のみを使用してください",
+  "description_too_long": "説明は300文字を超えることはできません",
+  "description_security_error": "⚠️ 説明フィールドでセキュリティ脅威が検出されました。疑わしいコンテンツを削除してください",
+  "csrf_token_invalid": "⚠️ セキュリティトークンが期限切れです。更新して再試行してください",
+  "input_sanitized": "⚠️ セキュリティのため入力が自動的にクリーンアップされました",
+  "validation_failed": "❌ 検証に失敗しました。入力を確認してください"
 }

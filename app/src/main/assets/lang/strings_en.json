@@ -91,9 +91,9 @@
   "email_app_version": "App Version",
   "email_device": "Device",
   "email_android_version": "Android Version",
-  "email_developer": "Developer",
-  "email": "Email",
+  "email_developer": "Developer",  "email": "Email",
   "feedback_label": "Tell us what you think",
+  "we_value_your_feedback": "💬 We Value Your Feedback",
   "nav_home": "🏠 Home",
   "nav_all_list": "📋 All Expense",
   "nav_history": "🗃️ History",
@@ -376,6 +376,15 @@
   "select_preferred_language": "Select your preferred language:",
   "language_changes_immediate": "Language changes will take effect immediately",
   "theme_changes_immediate": "Theme changes apply immediately",
+    "history_button": "🗃️History",
   
-  "history_button": "🗃️History"
+  "name_too_short": "Name must be at least 2 characters long",
+  "name_too_long": "Name cannot exceed 20 characters",
+  "name_security_error": "⚠️ Security threat detected in name field. Please remove any suspicious content",
+  "name_invalid_characters": "Name contains invalid characters. Please use only letters, numbers, and common symbols",
+  "description_too_long": "Description cannot exceed 300 characters",
+  "description_security_error": "⚠️ Security threat detected in description field. Please remove any suspicious content",
+  "csrf_token_invalid": "⚠️ Security token expired. Please refresh and try again",
+  "input_sanitized": "⚠️ Input has been automatically cleaned for security",
+  "validation_failed": "❌ Validation failed. Please check your input"
 }

@@ -17,7 +17,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class ExpenseDetailActivity : BaseActivity() {
-      private lateinit var editTextName: EditText
+    private lateinit var editTextName: EditText
     private lateinit var editTextPrice: EditText
     private lateinit var editTextDescription: EditText
     private lateinit var editTextDate: EditText
@@ -34,18 +34,23 @@ class ExpenseDetailActivity : BaseActivity() {
     private lateinit var currencyManager: CurrencyManager
     private var expenseId: Long = -1
     private var isNewExpense = true
-    
+    private var currentCSRFToken: String? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         applyTheme()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_expense_detail)
-          currencyManager = CurrencyManager.getInstance(this)
+          
+        currencyManager = CurrencyManager.getInstance(this)
         initViews()
         setupData()
         setupClickListeners()
         setupDateTimeFields()
+        
+        // Initialize CSRF token for security
+        currentCSRFToken = InputValidationHelper.generateCSRFToken()
     }
-    
+
     private fun applyTheme() {
         val themePrefs = getSharedPreferences(ThemeActivity.THEME_PREFS, Context.MODE_PRIVATE)
         val savedTheme = themePrefs.getString(ThemeActivity.THEME_KEY, ThemeActivity.THEME_SYSTEM)
@@ -53,10 +58,10 @@ class ExpenseDetailActivity : BaseActivity() {
         when (savedTheme) {
             ThemeActivity.THEME_LIGHT -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
             ThemeActivity.THEME_DARK -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-            ThemeActivity.THEME_SYSTEM -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)        }
+            ThemeActivity.THEME_SYSTEM -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+        }
     }
-    
-    private fun initViews() {
+      private fun initViews() {
         editTextName = findViewById<EditText>(R.id.editTextName)
         editTextPrice = findViewById<EditText>(R.id.editTextPrice)
         editTextDescription = findViewById<EditText>(R.id.editTextDescription)
@@ -71,6 +76,9 @@ class ExpenseDetailActivity : BaseActivity() {
         descriptionLabel = findViewById<TextView>(R.id.descriptionLabel)
         dateLabel = findViewById<TextView>(R.id.dateLabel)
         timeLabel = findViewById<TextView>(R.id.timeLabel)
+        
+        // Setup enhanced price input field with validation and security
+        InputValidationHelper.setupPriceInputField(editTextPrice, languageManager, preventCopyPaste = true)
     }
     
     private fun setupClickListeners() {
@@ -89,7 +97,8 @@ class ExpenseDetailActivity : BaseActivity() {
     
     private fun setupData() {
         expenseId = intent.getLongExtra("expense_id", -1)
-          if (expenseId != -1L) {
+          
+        if (expenseId != -1L) {
             // Editing existing expense
             isNewExpense = false
             editTextName.setText(intent.getStringExtra("expense_name") ?: "")
@@ -158,53 +167,69 @@ class ExpenseDetailActivity : BaseActivity() {
         )
         timePickerDialog.show()
     }
-    
+
     private fun saveExpense() {
+        // CSRF token validation for security
+        val token = currentCSRFToken ?: ""
+        if (!InputValidationHelper.validateCSRFToken(token, currentCSRFToken)) {
+            Toast.makeText(this, languageManager.getString("csrf_token_invalid"), Toast.LENGTH_LONG).show()
+            return
+        }
+        
         val name = editTextName.text.toString().trim()
         val priceText = editTextPrice.text.toString().trim()
         val description = editTextDescription.text.toString().trim()
         val date = editTextDate.text.toString().trim()
         val time = editTextTime.text.toString().trim()
-          // Validation
-        if (name.isEmpty()) {
-            editTextName.error = languageManager.getString("name_required")
-            editTextName.requestFocus()
+          
+        // Security validation for name using InputValidationHelper
+        val nameValidation = InputValidationHelper.validateName(name, languageManager)
+        if (!nameValidation.isValid) {
+            InputValidationHelper.applyValidationToField(editTextName, nameValidation)
+            if (nameValidation.securityThreatDetected) {
+                Toast.makeText(this, languageManager.getString("name_security_error"), Toast.LENGTH_LONG).show()
+            }
             return
         }
         
-        if (priceText.isEmpty()) {
-            editTextPrice.error = languageManager.getString("price_required")
-            editTextPrice.requestFocus()
+        // Security validation for description using InputValidationHelper
+        val descriptionValidation = InputValidationHelper.validateDescription(description, languageManager)
+        if (!descriptionValidation.isValid) {
+            InputValidationHelper.applyValidationToField(editTextDescription, descriptionValidation)
+            if (descriptionValidation.securityThreatDetected) {
+                Toast.makeText(this, languageManager.getString("description_security_error"), Toast.LENGTH_LONG).show()
+            }
             return
         }
-        
-        val price = priceText.toDoubleOrNull()
-        if (price == null || price <= 0) {
-            editTextPrice.error = languageManager.getString("invalid_price_format")
+          // Enhanced price validation using InputValidationHelper
+        val priceValidation = InputValidationHelper.validatePriceInput(priceText, languageManager)
+        if (!priceValidation.isValid) {
+            editTextPrice.error = priceValidation.errorMessage
             editTextPrice.requestFocus()
             return
         }
 
         // Use CurrencyManager for native currency storage
-        val storageAmount = currencyManager.getStorageAmount(price)
+        val storageAmount = currencyManager.getStorageAmount(priceValidation.sanitizedValue)
         val storageCurrency = currencyManager.getStorageCurrency()
         
-        // Create result intent
-        val resultIntent = Intent().apply {
-            putExtra("expense_id", expenseId)
-            putExtra("expense_name", name)
-            putExtra("expense_price", storageAmount)
-            putExtra("expense_description", description)
-            putExtra("expense_date", date)
-            putExtra("expense_time", time)
-            putExtra("expense_currency", storageCurrency)
-            putExtra("is_new_expense", isNewExpense)
-        }
-          setResult(RESULT_OK, resultIntent)
+        // Create result intent with sanitized inputs
+        val resultIntent = Intent()
+        resultIntent.putExtra("expense_id", expenseId)
+        resultIntent.putExtra("expense_name", nameValidation.sanitizedInput)
+        resultIntent.putExtra("expense_price", storageAmount)
+        resultIntent.putExtra("expense_description", descriptionValidation.sanitizedInput)
+        resultIntent.putExtra("expense_date", date)
+        resultIntent.putExtra("expense_time", time)
+        resultIntent.putExtra("expense_currency", storageCurrency)
+        resultIntent.putExtra("is_new_expense", isNewExpense)
+          
+        setResult(RESULT_OK, resultIntent)
         Toast.makeText(this, if (isNewExpense) languageManager.getString("expense_added") else languageManager.getString("expense_updated"), Toast.LENGTH_SHORT).show()
         finish()
     }
-      private fun showDeleteConfirmation() {
+      
+    private fun showDeleteConfirmation() {
         AlertDialog.Builder(this)
             .setTitle(languageManager.getString("delete_expense_title"))
             .setMessage(languageManager.getString("delete_expense_message"))
@@ -216,15 +241,16 @@ class ExpenseDetailActivity : BaseActivity() {
     }
     
     private fun deleteExpense() {
-        val resultIntent = Intent().apply {
-            putExtra("expense_id", expenseId)
-            putExtra("delete_expense", true)
-        }
-          setResult(RESULT_OK, resultIntent)
+        val resultIntent = Intent()
+        resultIntent.putExtra("expense_id", expenseId)
+        resultIntent.putExtra("delete_expense", true)
+          
+        setResult(RESULT_OK, resultIntent)
         Toast.makeText(this, languageManager.getString("expense_deleted"), Toast.LENGTH_SHORT).show()
         finish()
     }
-      private fun updateUITexts() {
+      
+    private fun updateUITexts() {
         // Update title based on mode
         titleTextView.text = if (isNewExpense) {
             languageManager.getString("add_expense_title")

@@ -87,9 +87,9 @@
   "email_app_version": "应用版本",
   "email_device": "设备",
   "email_android_version": "安卓版本",
-  "email_developer": "开发者",
-  "email": "邮箱",
+  "email_developer": "开发者",  "email": "邮箱",
   "feedback_label": "告诉我们您的想法",
+  "we_value_your_feedback": "💬 我们重视您的反馈",
   "nav_home": "🏠 首页",
   "nav_all_list": "📋 全部列表",
   "nav_history": "🗃️ 历史记录",
@@ -388,6 +388,15 @@
   "feedback_rating_question": "您如何评价我们的应用程序？",
   "select_preferred_language": "选择您的首选语言：",
   "language_changes_immediate": "语言更改将立即生效",
-  "theme_changes_immediate": "主题更改立即应用",
-  "history_button": "🗃️历史"
+  "theme_changes_immediate": "主题更改立即应用",  "history_button": "🗃️历史",
+  
+  "name_too_short": "名称至少需要2个字符",
+  "name_too_long": "名称不能超过20个字符",
+  "name_security_error": "⚠️ 在名称字段中检测到安全威胁。请移除任何可疑内容",
+  "name_invalid_characters": "名称包含无效字符。请只使用字母、数字和常见符号",
+  "description_too_long": "描述不能超过300个字符",
+  "description_security_error": "⚠️ 在描述字段中检测到安全威胁。请移除任何可疑内容",
+  "csrf_token_invalid": "⚠️ 安全令牌已过期。请刷新后重试",
+  "input_sanitized": "⚠️ 输入内容已自动清理以确保安全",
+  "validation_failed": "❌ 验证失败。请检查您的输入"
 }
