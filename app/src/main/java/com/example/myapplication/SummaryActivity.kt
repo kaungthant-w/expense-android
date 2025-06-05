@@ -1,16 +1,25 @@
 package com.example.myapplication
 
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.net.Uri
 import android.os.Bundle
 import android.view.MenuItem
+import android.widget.ArrayAdapter
+import android.widget.Button
+import android.widget.ImageButton
+import android.widget.Spinner
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import com.example.myapplication.models.Expense
+import com.example.myapplication.pdf.*
 import com.google.android.material.navigation.NavigationView
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -50,14 +59,16 @@ class SummaryActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
     }    private fun setupActionBar() {
         supportActionBar?.title = languageManager.getString("summary_title")
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-    }
-      private fun initViews() {
+    }    private fun initViews() {
         drawerLayout = findViewById(R.id.drawerLayout)
         navigationView = findViewById(R.id.navigationView)
-        
-        // Setup back button click listener
-        findViewById<android.widget.ImageButton>(R.id.buttonBack).setOnClickListener {
+          // Setup back button click listener
+        findViewById<ImageButton>(R.id.buttonBack).setOnClickListener {
             finish()
+        }
+          // Setup PDF export button click listener
+        findViewById<ImageButton>(R.id.buttonPdfExport).setOnClickListener {
+            showPdfExportDialog()
         }
     }
       private fun setupNavigationDrawer() {
@@ -217,8 +228,7 @@ class SummaryActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
         
         displayDetailedStats(activeExpensesList)
     }
-    
-    private fun displayDetailedStats(expenses: List<ExpenseItem>) {
+      private fun displayDetailedStats(expenses: List<ExpenseItem>) {
         // Calculate weekly statistics
         val calendar = Calendar.getInstance()
         val startOfWeek = calendar.clone() as Calendar
@@ -233,11 +243,9 @@ class SummaryActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
                 expenseDate != null && expenseDate.after(startOfWeek.time)
             } catch (e: Exception) {
                 false
-            }
-        }
+            }        }
         
-        val weeklyAmount = weeklyExpenses.sumOf { it.price }
-        val weeklyAverage = if (weeklyExpenses.isNotEmpty()) weeklyAmount / 7 else 0.0
+        // Removed unused weeklyAmount calculation that was causing compilation warning
         
         // Find most expensive day of the week
         val dayExpenseMap = mutableMapOf<String, Double>()
@@ -263,33 +271,27 @@ class SummaryActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
             amountFrequency[roundedAmount] = (amountFrequency[roundedAmount] ?: 0) + 1
         }
         
-        val mostFrequentAmount = amountFrequency.maxByOrNull { it.value }?.key?.toDoubleOrNull() ?: 0.0
+        // val mostFrequentAmount = amountFrequency.maxByOrNull { it.value }?.key?.toDoubleOrNull() ?: 0.0        // Calculate spending trend (comparing recent vs older expenses)
+        // Removed unused calculations that were causing compilation warnings
         
-        // Calculate spending trend (comparing recent vs older expenses)
-        val recentExpenses = expenses.take(expenses.size / 2)
-        val olderExpenses = expenses.drop(expenses.size / 2)
-        
-        val recentAverage = if (recentExpenses.isNotEmpty()) recentExpenses.sumOf { it.price } / recentExpenses.size else 0.0
-        val olderAverage = if (olderExpenses.isNotEmpty()) olderExpenses.sumOf { it.price } / olderExpenses.size else 0.0
-        
-        val spendingTrend = when {
-            recentAverage > olderAverage * 1.1 -> "📈 Increasing"
-            recentAverage < olderAverage * 0.9 -> "📉 Decreasing"
-            else -> "📊 Stable"
-        }
+        // val spendingTrend = when {
+        //     recentAverage > olderAverage * 1.1 -> "📈 Increasing"
+        //     recentAverage < olderAverage * 0.9 -> "📉 Decreasing"
+        //     else -> "📊 Stable"
+        // }
         
         // Calculate days since last expense
-        val daysSinceLastExpense = if (expenses.isNotEmpty()) {
-            try {
-                val lastExpenseDate = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).parse(expenses.first().date)
-                val today = Date()
-                if (lastExpenseDate != null) {
-                    TimeUnit.DAYS.convert(today.time - lastExpenseDate.time, TimeUnit.MILLISECONDS).toInt()
-                } else 0
-            } catch (e: Exception) {
-                0
-            }
-        } else 0
+        // val daysSinceLastExpense = if (expenses.isNotEmpty()) {
+        //     try {
+        //         val lastExpenseDate = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).parse(expenses.first().date)
+        //         val today = Date()
+        //         if (lastExpenseDate != null) {
+        //             TimeUnit.DAYS.convert(today.time - lastExpenseDate.time, TimeUnit.MILLISECONDS).toInt()
+        //         } else 0
+        //     } catch (e: Exception) {
+        //         0
+        //     }
+        // } else 0
           // Update UI        // findViewById<TextView>(R.id.textWeeklyAmount).text = String.format("$%.2f", weeklyAmount)
         // findViewById<TextView>(R.id.textWeeklyAverage).text = String.format("$%.2f", weeklyAverage)
         findViewById<TextView>(R.id.textHighestExpense).text = mostExpensiveDay
@@ -330,13 +332,145 @@ class SummaryActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
         }
         drawerLayout.closeDrawer(GravityCompat.START)
         return true
-    }
-    
+    }    @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START)
         } else {
+            @Suppress("DEPRECATION")
             super.onBackPressed()
+        }
+    }
+      private fun showPdfExportDialog() {
+        val dialogView = layoutInflater.inflate(R.layout.dialog_pdf_export, null)
+        
+        // Find spinners in the dialog
+        val spinnerPeriod: Spinner = dialogView.findViewById(R.id.spinnerPeriod)
+        val spinnerCurrency: Spinner = dialogView.findViewById(R.id.spinnerCurrency)
+        val spinnerLanguage: Spinner = dialogView.findViewById(R.id.spinnerLanguage)
+        
+        // Setup period options
+        val periodOptions = arrayOf(
+            languageManager.getString("pdf_export_today"),
+            languageManager.getString("pdf_export_weekly"), 
+            languageManager.getString("pdf_export_monthly"),
+            languageManager.getString("pdf_export_yearly")
+        )
+        spinnerPeriod.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, periodOptions).apply {
+            setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        }
+        
+        // Setup currency options
+        val currencyOptions = arrayOf("USD", "MMK", "JPY", "CNY", "THB")
+        spinnerCurrency.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, currencyOptions).apply {
+            setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        }
+        
+        // Setup language options
+        val languageOptions = arrayOf(
+            languageManager.getString("pdf_export_english"),
+            languageManager.getString("pdf_export_myanmar"),
+            languageManager.getString("pdf_export_japanese"),
+            languageManager.getString("pdf_export_chinese"),
+            languageManager.getString("pdf_export_thai")
+        )
+        spinnerLanguage.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, languageOptions).apply {
+            setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        }
+        
+        // Set default selections
+        spinnerCurrency.setSelection(currencyOptions.indexOf(currencyManager.getCurrentDisplayCurrency()))
+        
+        val dialog = AlertDialog.Builder(this)
+            .setTitle(languageManager.getString("pdf_export_title"))
+            .setView(dialogView)            .setPositiveButton(languageManager.getString("pdf_export_generate")) { _, _ ->
+                val periodIndex = spinnerPeriod.selectedItemPosition
+                val selectedCurrency = currencyOptions[spinnerCurrency.selectedItemPosition]
+                val languageIndex = spinnerLanguage.selectedItemPosition
+                
+                generatePdfExport(periodIndex, selectedCurrency, languageIndex)
+            }.setNegativeButton(languageManager.getString("cancel_button")) { dialog, _ ->
+                dialog.dismiss()
+            }
+            .create()
+            
+        dialog.show()
+    }
+      private fun generatePdfExport(periodIndex: Int, targetCurrency: String, languageIndex: Int) {
+        try {
+            // Load all expenses
+            val expensesJson = sharedPreferences.getString("expenses", "[]")
+            val type = object : TypeToken<List<ExpenseItem>>() {}.type
+            val allExpensesList: List<ExpenseItem> = gson.fromJson(expensesJson, type) ?: emptyList()
+            
+            // Filter out soft deleted expenses
+            val activeExpensesList = allExpensesList.filter { !it.isDeleted }
+            
+            // Convert ExpenseItem to Expense for PDF system
+            val expensesForPdf = convertToExpenseList(activeExpensesList)
+            
+            // Create PDF export facade with context
+            val pdfExportFacade = PdfExportFacade(this)
+            
+            // Determine period string
+            val periodString = when (periodIndex) {
+                0 -> "today"
+                1 -> "weekly"
+                2 -> "monthly"
+                3 -> "yearly"
+                else -> "today"
+            }
+            
+            // Determine language string
+            val languageString = when (languageIndex) {
+                0 -> "en"
+                1 -> "mm"
+                2 -> "ja"
+                3 -> "zh"
+                4 -> "th"
+                else -> "en"
+            }
+            
+            // Generate PDF using the correct method name
+            val success = pdfExportFacade.exportPdf(
+                period = periodString,
+                expenses = expensesForPdf,
+                targetCurrency = targetCurrency,
+                targetLanguage = languageString
+            )
+            
+            if (success) {
+                // Show success message
+                Toast.makeText(this, languageManager.getString("pdf_export_success"), Toast.LENGTH_LONG).show()
+            } else {
+                Toast.makeText(this, languageManager.getString("pdf_export_failed"), Toast.LENGTH_LONG).show()
+            }
+            
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Toast.makeText(this, "${languageManager.getString("pdf_export_error")}: ${e.message}", Toast.LENGTH_LONG).show()
+        }
+    }
+      private fun convertToExpenseList(expenseItems: List<ExpenseItem>): List<Expense> {
+        return expenseItems.map { item ->
+            // Convert date string (dd/MM/yyyy) to timestamp
+            val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+            val timestamp = try {
+                dateFormat.parse(item.date)?.time ?: System.currentTimeMillis()
+            } catch (e: Exception) {
+                System.currentTimeMillis()
+            }
+            
+            // Convert currency amount to target currency for PDF
+            val convertedAmount = currencyManager.getDisplayAmountFromStored(item.price, item.currency)
+            
+            Expense(
+                id = item.id,
+                name = item.name,
+                amount = convertedAmount,
+                description = item.description,
+                date = timestamp
+            )
         }
     }
 }

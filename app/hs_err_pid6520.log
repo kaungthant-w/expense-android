@@ -1,0 +1,239 @@
+#
+# There is insufficient memory for the Java Runtime Environment to continue.
+# Native memory allocation (mmap) failed to map 257949696 bytes. Error detail: G1 virtual space
+# Possible reasons:
+#   The system is out of physical RAM or swap space
+#   This process is running with CompressedOops enabled, and the Java Heap may be blocking the growth of the native heap
+# Possible solutions:
+#   Reduce memory load on the system
+#   Increase physical memory or swap space
+#   Check if swap backing store is full
+#   Decrease Java heap size (-Xmx/-Xms)
+#   Decrease number of Java threads
+#   Decrease Java thread stack sizes (-Xss)
+#   Set larger code cache with -XX:ReservedCodeCacheSize=
+#   JVM is running with Unscaled Compressed Oops mode in which the Java heap is
+#     placed in the first 4GB address space. The Java Heap base address is the
+#     maximum limit for the native heap growth. Please use -XX:HeapBaseMinAddress
+#     to set the Java Heap base and to place the Java Heap above 4GB virtual address.
+# This output file may be truncated or incomplete.
+#
+#  Out of Memory Error (os_windows.cpp:3679), pid=6520, tid=24464
+#
+# JRE version:  (17.0.13+11) (build )
+# Java VM: OpenJDK 64-Bit Server VM (17.0.13+11-LTS, mixed mode, sharing, tiered, compressed oops, compressed class ptrs, g1 gc, windows-amd64)
+# No core dump will be written. Minidumps are not enabled by default on client versions of Windows
+#
+
+---------------  S U M M A R Y ------------
+
+Command Line: -Djava.awt.headless=true -Djava.library.path=C:\Program Files\Microsoft\jdk-17.0.13.11-hotspot\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;c:\Users\EBPMyanmar\.vscode\extensions\ms-python.python-2025.6.1-win32-x64\python_files\deactivate\powershell;C:\Users\EBPMyanmar\AndroidStudioProjects\MyApplication\.venv\Scripts;c:\Users\EBPMyanmar\.vscode\extensions\ms-python.python-2025.6.1-win32-x64\python_files\deactivate\powershell;C:\Users\EBPMyanmar\AndroidStudioProjects\MyApplication\.venv\Scripts;C:\Program Files\Common Files\Oracle\Java\javapath;C:\Program Files\Microsoft\jdk-17.0.13.11-hotspot\bin;C:\Python312\Scripts\;C:\Python312\;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\ProgramData\chocolatey\bin;C:\Program Files\Git\cmd;C:\php;C:\Users\EBPMyanmar\AppData\Roaming\nvm;C:\nvm4w\nodejs;C:\Users\EBPMyanmar\AppData\Roaming\nvm;C:\Program Files\Meld\;C:\ProgramData\ComposerSetup\bin;C:\Users\EBPMyanmar\AppData\Local\Android\Sdk\platform-tools;C:\Users\EBPMyanmar\AppData\Local\Android\Sdk\platform-tools;C:\Users\EBPMyanmar\AppData\Local\Android\Sdk\tools;C:\Users\EBPMyanmar\AppData\Local\Android\Sdk\tools\bin;C:\Program Files\Microsoft\jdk-17.0.13.11-hotspot\\bin;%ANDROID_SDK_ROOT%\platform-tools;C:\Gradle\gradle-8.14.1\bin;C:\Users\EBPMyanmar\AppData\Local\Android\Sdk\cmdline-tools\latest\bin;c:\Users\EBPMyanmar\AppData\Local\Programs\Trae\bin;C:\Users\EBPMyanmar\.local\bin;C:\Program Files\MySQL\MySQL Shell 8.0\bin\;C:\Users\EBPMyanmar\AppData\Local\Microsoft\WindowsApps;C:\Users\EBPMyanmar\AppData\Local\Microsoft\WinGet\Links;C:\Users\EBPMyanmar\AppData\Local\Programs\Microsoft VS Code\bin;C:\Program Files\php-8.3.10-nts-Win32-vs16-x64;C:\Users\EBPMyanmar\AppData\Roaming\Composer\vendor\bin;C:\Users\EBPMyanmar\AppData\Roaming\nvm;C:\nvm4w\nodejs;C:\Users\EBPMyanmar\AppData\Roaming\nvm;C:\Users\EBPMyanmar\AppData\Roaming\npm;C:\Users\EBPMyanmar\.lmstudio\bin;C:\Users\EBPMyanmar\AppData\Lo-Dorg.gradle.internal.worker.tmpdir=C:\Users\EBPMyanmar\AndroidStudioProjects\MyApplication\app\build\tmp\testDebugUnitTest\work --add-opens=java.base/java.io=ALL-UNNAMED -Xmx512m -Dfile.encoding=UTF-8 -Duser.country=US -Duser.language=en -Duser.variant -ea worker.org.gradle.process.internal.worker.GradleWorkerMain 'Gradle Test Executor 1'
+
+Host: AMD Ryzen 5 7520U with Radeon Graphics         , 8 cores, 15G,  Windows 11 , 64 bit Build 26100 (10.0.26100.4202)
+Time: Thu Jun  5 14:59:40 2025 Myanmar Standard Time elapsed time: 0.025290 seconds (0d 0h 0m 0s)
+
+---------------  T H R E A D  ---------------
+
+Current thread (0x0000014f31d2b000):  JavaThread "Unknown thread" [_thread_in_vm, id=24464, stack(0x00000032c8f00000,0x00000032c9000000)]
+
+Stack: [0x00000032c8f00000,0x00000032c9000000]
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
+V  [jvm.dll+0x687fc9]
+V  [jvm.dll+0x83eeb8]
+V  [jvm.dll+0x840963]
+V  [jvm.dll+0x840fd3]
+V  [jvm.dll+0x24951f]
+V  [jvm.dll+0x684f89]
+V  [jvm.dll+0x6794aa]
+V  [jvm.dll+0x30ad27]
+V  [jvm.dll+0x312296]
+V  [jvm.dll+0x362bde]
+V  [jvm.dll+0x362e1d]
+V  [jvm.dll+0x2e1fbc]
+V  [jvm.dll+0x2e2ed4]
+V  [jvm.dll+0x810dbb]
+V  [jvm.dll+0x3708f1]
+V  [jvm.dll+0x7ef8af]
+V  [jvm.dll+0x3f70ef]
+V  [jvm.dll+0x3f8c21]
+C  [jli.dll+0x52a0]
+C  [ucrtbase.dll+0x37b0]
+C  [KERNEL32.DLL+0x2e8d7]
+C  [ntdll.dll+0x3c34c]
+
+
+---------------  P R O C E S S  ---------------
+
+Threads class SMR info:
+_java_thread_list=0x00007ff92fa3df98, length=0, elements={
+}
+
+Java Threads: ( => current thread )
+
+Other Threads:
+  0x0000014f31d5a7d0 GCTaskThread "GC Thread#0" [stack: 0x00000032c9000000,0x00000032c9100000] [id=6868]
+  0x0000014f31d5f720 ConcurrentGCThread "G1 Main Marker" [stack: 0x00000032c9100000,0x00000032c9200000] [id=8908]
+  0x0000014f31d61150 ConcurrentGCThread "G1 Conc#0" [stack: 0x00000032c9200000,0x00000032c9300000] [id=5312]
+
+[error occurred during error reporting (printing all threads), id 0xc0000005, EXCEPTION_ACCESS_VIOLATION (0xc0000005) at pc=0x00007ff92f1f2b17]
+
+VM state: not at safepoint (not fully initialized)
+
+VM Mutex/Monitor currently owned by a thread:  ([mutex/lock_event])
+[0x0000014f31d2af30] Heap_lock - owner thread: 0x0000014f31d2b000
+
+Heap address: 0x00000000e0000000, size: 512 MB, Compressed Oops mode: 32-bit
+
+CDS archive(s) mapped at: [0x0000000000000000-0x0000000000000000-0x0000000000000000), size 0, SharedBaseAddress: 0x0000000800000000, ArchiveRelocationMode: 1.
+Narrow klass base: 0x0000000000000000, Narrow klass shift: 0, Narrow klass range: 0x0
+
+GC Precious Log:
+<Empty>
+
+Heap:
+ garbage-first heap   total 0K, used 0K [0x00000000e0000000, 0x0000000100000000)
+  region size 1024K, 0 young (0K), 0 survivors (0K)
+
+[error occurred during error reporting (printing heap information), id 0xc0000005, EXCEPTION_ACCESS_VIOLATION (0xc0000005) at pc=0x00007ff92f5e1ba9]
+
+GC Heap History (0 events):
+No events
+
+Dll operation events (1 events):
+Event: 0.018 Loaded shared library C:\Program Files\Microsoft\jdk-17.0.13.11-hotspot\bin\java.dll
+
+Deoptimization events (0 events):
+No events
+
+Classes loaded (0 events):
+No events
+
+Classes unloaded (0 events):
+No events
+
+Classes redefined (0 events):
+No events
+
+Internal exceptions (0 events):
+No events
+
+VM Operations (0 events):
+No events
+
+Memory protections (0 events):
+No events
+
+Nmethod flushes (0 events):
+No events
+
+Events (0 events):
+No events
+
+
+Dynamic libraries:
+0x00007ff7d3640000 - 0x00007ff7d364e000 	C:\Program Files\Microsoft\jdk-17.0.13.11-hotspot\bin\java.exe
+0x00007ff9831e0000 - 0x00007ff983445000 	C:\WINDOWS\SYSTEM32\ntdll.dll
+0x00007ff981ba0000 - 0x00007ff981c69000 	C:\WINDOWS\System32\KERNEL32.DLL
+0x00007ff9806e0000 - 0x00007ff980ac8000 	C:\WINDOWS\System32\KERNELBASE.dll
+0x00007ff980590000 - 0x00007ff9806db000 	C:\WINDOWS\System32\ucrtbase.dll
+0x00007ff97b5d0000 - 0x00007ff97b5e7000 	C:\Program Files\Microsoft\jdk-17.0.13.11-hotspot\bin\jli.dll
+0x00007ff982900000 - 0x00007ff982aca000 	C:\WINDOWS\System32\USER32.dll
+0x00007ff980560000 - 0x00007ff980587000 	C:\WINDOWS\System32\win32u.dll
+0x00007ff9810a0000 - 0x00007ff9810cb000 	C:\WINDOWS\System32\GDI32.dll
+0x00007ff980d80000 - 0x00007ff980eb7000 	C:\WINDOWS\System32\gdi32full.dll
+0x00007ff980330000 - 0x00007ff9803d3000 	C:\WINDOWS\System32\msvcp_win.dll
+0x00007ff97b530000 - 0x00007ff97b54d000 	C:\Program Files\Microsoft\jdk-17.0.13.11-hotspot\bin\VCRUNTIME140.dll
+0x00007ff96f4d0000 - 0x00007ff96f76a000 	C:\WINDOWS\WinSxS\amd64_microsoft.windows.common-controls_6595b64144ccf1df_6.0.26100.4202_none_3e0698d4e335f517\COMCTL32.dll
+0x00007ff9827e0000 - 0x00007ff982889000 	C:\WINDOWS\System32\msvcrt.dll
+0x00007ff981460000 - 0x00007ff981490000 	C:\WINDOWS\System32\IMM32.DLL
+0x00007ff971be0000 - 0x00007ff971bec000 	C:\Program Files\Microsoft\jdk-17.0.13.11-hotspot\bin\vcruntime140_1.dll
+0x00007ff967e10000 - 0x00007ff967e9d000 	C:\Program Files\Microsoft\jdk-17.0.13.11-hotspot\bin\msvcp140.dll
+0x00007ff92ef00000 - 0x00007ff92fb71000 	C:\Program Files\Microsoft\jdk-17.0.13.11-hotspot\bin\server\jvm.dll
+0x00007ff9830e0000 - 0x00007ff983193000 	C:\WINDOWS\System32\ADVAPI32.dll
+0x00007ff982ec0000 - 0x00007ff982f66000 	C:\WINDOWS\System32\sechost.dll
+0x00007ff982b60000 - 0x00007ff982c75000 	C:\WINDOWS\System32\RPCRT4.dll
+0x00007ff982d10000 - 0x00007ff982d84000 	C:\WINDOWS\System32\WS2_32.dll
+0x00007ff97ffe0000 - 0x00007ff98003e000 	C:\WINDOWS\SYSTEM32\POWRPROF.dll
+0x00007ff978970000 - 0x00007ff9789a5000 	C:\WINDOWS\SYSTEM32\WINMM.dll
+0x00007ff9794e0000 - 0x00007ff9794eb000 	C:\WINDOWS\SYSTEM32\VERSION.dll
+0x00007ff97ffc0000 - 0x00007ff97ffd4000 	C:\WINDOWS\SYSTEM32\UMPDC.dll
+0x00007ff97f0b0000 - 0x00007ff97f0cb000 	C:\WINDOWS\SYSTEM32\kernel.appcore.dll
+0x00007ff96caa0000 - 0x00007ff96caaa000 	C:\Program Files\Microsoft\jdk-17.0.13.11-hotspot\bin\jimage.dll
+0x00007ff9758b0000 - 0x00007ff975af1000 	C:\WINDOWS\SYSTEM32\DBGHELP.DLL
+0x00007ff9810d0000 - 0x00007ff981455000 	C:\WINDOWS\System32\combase.dll
+0x00007ff981d70000 - 0x00007ff981e51000 	C:\WINDOWS\System32\OLEAUT32.dll
+0x00007ff96d800000 - 0x00007ff96d839000 	C:\WINDOWS\SYSTEM32\dbgcore.DLL
+0x00007ff980ce0000 - 0x00007ff980d79000 	C:\WINDOWS\System32\bcryptPrimitives.dll
+0x00007ff967de0000 - 0x00007ff967e05000 	C:\Program Files\Microsoft\jdk-17.0.13.11-hotspot\bin\java.dll
+
+dbghelp: loaded successfully - version: 4.0.5 - missing functions: none
+symbol engine: initialized successfully - sym options: 0x614 - pdb path: .;C:\Program Files\Microsoft\jdk-17.0.13.11-hotspot\bin;C:\WINDOWS\SYSTEM32;C:\WINDOWS\WinSxS\amd64_microsoft.windows.common-controls_6595b64144ccf1df_6.0.26100.4202_none_3e0698d4e335f517;C:\Program Files\Microsoft\jdk-17.0.13.11-hotspot\bin\server
+
+VM Arguments:
+jvm_args: -Djava.awt.headless=true -Djava.library.path=C:\Program Files\Microsoft\jdk-17.0.13.11-hotspot\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;c:\Users\EBPMyanmar\.vscode\extensions\ms-python.python-2025.6.1-win32-x64\python_files\deactivate\powershell;C:\Users\EBPMyanmar\AndroidStudioProjects\MyApplication\.venv\Scripts;c:\Users\EBPMyanmar\.vscode\extensions\ms-python.python-2025.6.1-win32-x64\python_files\deactivate\powershell;C:\Users\EBPMyanmar\AndroidStudioProjects\MyApplication\.venv\Scripts;C:\Program Files\Common Files\Oracle\Java\javapath;C:\Program Files\Microsoft\jdk-17.0.13.11-hotspot\bin;C:\Python312\Scripts\;C:\Python312\;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\ProgramData\chocolatey\bin;C:\Program Files\Git\cmd;C:\php;C:\Users\EBPMyanmar\AppData\Roaming\nvm;C:\nvm4w\nodejs;C:\Users\EBPMyanmar\AppData\Roaming\nvm;C:\Program Files\Meld\;C:\ProgramData\ComposerSetup\bin;C:\Users\EBPMyanmar\AppData\Local\Android\Sdk\platform-tools;C:\Users\EBPMyanmar\AppData\Local\Android\Sdk\platform-tools;C:\Users\EBPMyanmar\AppData\Local\Android\Sdk\tools;C:\Users\EBPMyanmar\AppData\Local\Android\Sdk\tools\bin;C:\Program Files\Microsoft\jdk-17.0.13.11-hotspot\\bin;%ANDROID_SDK_ROOT%\platform-tools;C:\Gradle\gradle-8.14.1\bin;C:\Users\EBPMyanmar\AppData\Local\Android\Sdk\cmdline-tools\latest\bin;c:\Users\EBPMyanmar\AppData\Local\Programs\Trae\bin;C:\Users\EBPMyanmar\.local\bin;C:\Program Files\MySQL\MySQL Shell 8.0\bin\;C:\Users\EBPMyanmar\AppData\Local\Microsoft\WindowsApps;C:\Users\EBPMyanmar\AppData\Local\Microsoft\WinGet\Links;C:\Users\EBPMyanmar\AppData\Local\Programs\Microsoft VS Code\bin;C:\Program Files\php-8.3.10-nts-Win32-vs16-x64;C:\Users\EBPMyanmar\AppData\Roaming\Composer\vendor\bin;C:\Users\EBPMyanmar\AppData\Roaming\nvm;C:\nvm4w\nodejs;C:\Users\EBPMyanmar\AppData\Roaming\nvm;C:\Users\EBPMyanmar\AppData\Roaming\npm;C:\Users\EBPMyanmar\.lmstudio\bin;C:\Users\EBPMyanmar\AppData\Lo-Dorg.gradle.internal.worker.tmpdir=C:\Users\EBPMyanmar\AndroidStudioProjects\MyApplication\app\build\tmp\testDebugUnitTest\work --add-opens=java.base/java.io=ALL-UNNAMED -Xmx512m -Dfile.encoding=UTF-8 -Duser.country=US -Duser.language=en -Duser.variant -ea 
+java_command: worker.org.gradle.process.internal.worker.GradleWorkerMain 'Gradle Test Executor 1'
+java_class_path (initial): C:\\Users\\EBPMyanmar\\.gradle\\caches\\8.11.1\\workerMain\\gradle-worker.jar;C:\\Users\\EBPMyanmar\\AndroidStudioProjects\\MyApplication\\app\\build\\tmp\\kotlin-classes\\debugUnitTest;C:\\Users\\EBPMyanmar\\AndroidStudioProjects\\MyApplication\\app\\build\\intermediates\\java_res\\debugUnitTest\\processDebugUnitTestJavaRes\\out;C:\\Users\\EBPMyanmar\\AndroidStudioProjects\\MyApplication\\app\\build\\intermediates\\runtime_app_classes_jar\\debug\\bundleDebugClassesToRuntimeJar\\classes.jar;C:\\Users\\EBPMyanmar\\.gradle\\caches\\modules-2\\files-2.1\\junit\\junit\\4.13.2\\8ac9e16d933b6fb43bc7f576336b8f4d7eb5ba12\\junit-4.13.2.jar;C:\\Users\\EBPMyanmar\\.gradle\\caches\\8.11.1\\transforms\\ddfce74d413039438174be0cef4e239e\\transformed\\material-1.10.0-runtime.jar;C:\\Users\\EBPMyanmar\\.gradle\\caches\\8.11.1\\transforms\\efba1bc5dcc77db7caf0a8268dd5011c\\transformed\\appcompat-resources-1.6.1-runtime.jar;C:\\Users\\EBPMyanmar\\.gradle\\caches\\8.11.1\\transforms\\ca9a294e637e6f1cfc6cf894c47441da\\transformed\\constraintlayout-2.0.1-runtime.jar;C:\\Users\\EBPMyanmar\\.gradle\\caches\\8.11.1\\transforms\\aeac5208ff032d67a4d2d87d12a680a6\\transformed\\appcompat-1.6.1-runtime.jar;C:\\Users\\EBPMyanmar\\.gradle\\caches\\8.11.1\\transforms\\be3abf70b4a18c9e9fd76d420517e184\\transformed\\viewpager2-1.1.0-beta02-runtime.jar;C:\\Users\\EBPMyanmar\\.gradle\\caches\\8.11.1\\transforms\\7ce1875d8cdfc39c82fee3bd6792b082\\transformed\\recyclerview-1.3.2-runtime.jar;C:\\Users\\EBPMyanmar\\.gradle\\caches\\8.11.1\\transforms\\fbe9ec9199b4e49714615eb03bc29cc9\\transformed\\emoji2-views-helper-1.2.0-runtime.jar;C:\\Users\\EBPMyanmar\\.gradle\\caches\\8.11.1\\transforms\\2aea1c0165098c9213d3fe4077c0fc45\\transformed\\emoji2-1.2.0-runtime.jar;C:\\Users\\EBPMyanmar\\.gradle\\caches\\8.11.1\\transforms\\3b427df5b1cd702f5aacbb7f39db129d\\transformed\\fragment-1.3.6-runtime.jar;C:\\Users\\EBPMyanmar\\.gradle\\caches\\8.11.1\\transforms\\82f4d8b781460ff19400dd7
+Launcher Type: SUN_STANDARD
+
+[Global flags]
+     intx CICompilerCount                          = 4                                         {product} {ergonomic}
+     uint ConcGCThreads                            = 2                                         {product} {ergonomic}
+     uint G1ConcRefinementThreads                  = 8                                         {product} {ergonomic}
+   size_t G1HeapRegionSize                         = 1048576                                   {product} {ergonomic}
+    uintx GCDrainStackTargetSize                   = 64                                        {product} {ergonomic}
+   size_t InitialHeapSize                          = 257949696                                 {product} {ergonomic}
+   size_t MarkStackSize                            = 4194304                                   {product} {ergonomic}
+   size_t MaxHeapSize                              = 536870912                                 {product} {command line}
+   size_t MinHeapDeltaBytes                        = 1048576                                   {product} {ergonomic}
+   size_t MinHeapSize                              = 8388608                                   {product} {ergonomic}
+    uintx NonNMethodCodeHeapSize                   = 5839372                                {pd product} {ergonomic}
+    uintx NonProfiledCodeHeapSize                  = 122909434                              {pd product} {ergonomic}
+    uintx ProfiledCodeHeapSize                     = 122909434                              {pd product} {ergonomic}
+    uintx ReservedCodeCacheSize                    = 251658240                              {pd product} {ergonomic}
+     bool SegmentedCodeCache                       = true                                      {product} {ergonomic}
+   size_t SoftMaxHeapSize                          = 536870912                              {manageable} {ergonomic}
+     bool UseCompressedClassPointers               = true                           {product lp64_product} {ergonomic}
+     bool UseCompressedOops                        = true                           {product lp64_product} {ergonomic}
+     bool UseG1GC                                  = true                                      {product} {ergonomic}
+     bool UseLargePagesIndividualAllocation        = false                                  {pd product} {ergonomic}
+
+Logging:
+Log output configuration:
+ #0: stdout all=warning uptime,level,tags
+ #1: stderr all=off uptime,level,tags
+
+Environment Variables:
+JAVA_HOME=C:\Program Files\Microsoft\jdk-17.0.13.11-hotspot\
+CLASSPATH=C:\Users\EBPMyanmar\AndroidStudioProjects\MyApplication\\gradle\wrapper\gradle-wrapper.jar
+PATH=c:\Users\EBPMyanmar\.vscode\extensions\ms-python.python-2025.6.1-win32-x64\python_files\deactivate\powershell;C:\Users\EBPMyanmar\AndroidStudioProjects\MyApplication\.venv\Scripts;c:\Users\EBPMyanmar\.vscode\extensions\ms-python.python-2025.6.1-win32-x64\python_files\deactivate\powershell;C:\Users\EBPMyanmar\AndroidStudioProjects\MyApplication\.venv\Scripts;C:\Program Files\Common Files\Oracle\Java\javapath;C:\Program Files\Microsoft\jdk-17.0.13.11-hotspot\bin;C:\Python312\Scripts\;C:\Python312\;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\ProgramData\chocolatey\bin;C:\Program Files\Git\cmd;C:\php;C:\Users\EBPMyanmar\AppData\Roaming\nvm;C:\nvm4w\nodejs;C:\Users\EBPMyanmar\AppData\Roaming\nvm;C:\Program Files\Meld\;C:\ProgramData\ComposerSetup\bin;C:\Users\EBPMyanmar\AppData\Local\Android\Sdk\platform-tools;C:\Users\EBPMyanmar\AppData\Local\Android\Sdk\platform-tools;C:\Users\EBPMyanmar\AppData\Local\Android\Sdk\tools;C:\Users\EBPMyanmar\AppData\Local\Android\Sdk\tools\bin;C:\Program Files\Microsoft\jdk-17.0.13.11-hotspot\\bin;%ANDROID_SDK_ROOT%\platform-tools;C:\Gradle\gradle-8.14.1\bin;C:\Users\EBPMyanmar\AppData\Local\Android\Sdk\cmdline-tools\latest\bin;c:\Users\EBPMyanmar\AppData\Local\Programs\Trae\bin;C:\Users\EBPMyanmar\.local\bin;C:\Program Files\MySQL\MySQL Shell 8.0\bin\;C:\Users\EBPMyanmar\AppData\Local\Microsoft\WindowsApps;C:\Users\EBPMyanmar\AppData\Local\Microsoft\WinGet\Links;C:\Users\EBPMyanmar\AppData\Local\Programs\Microsoft VS Code\bin;C:\Program Files\php-8.3.10-nts-Win32-vs16-x64;C:\Users\EBPMyanmar\AppData\Roaming\Composer\vendor\bin;C:\Users\EBPMyanmar\AppData\Roaming\nvm;C:\nvm4w\nodejs;C:\Users\EBPMyanmar\AppData\Roaming\nvm;C:\Users\EBPMyanmar\AppData\Roaming\npm;C:\Users\EBPMyanmar\.lmstudio\bin;C:\Users\EBPMyanmar\AppData\Local\Programs\Ollama;C:\Users\EBPMyanmar\AppData\Local\Programs\cursor\resources\app\bin
+USERNAME=EBPMyanmar
+LANG=en_US.UTF-8
+OS=Windows_NT
+PROCESSOR_IDENTIFIER=AMD64 Family 23 Model 160 Stepping 0, AuthenticAMD
+TMP=C:\Users\EBPMYA~1\AppData\Local\Temp
+TEMP=C:\Users\EBPMYA~1\AppData\Local\Temp
+
+
+
+Periodic native trim disabled
+
+
+---------------  S Y S T E M  ---------------
+
+OS:
+ Windows 11 , 64 bit Build 26100 (10.0.26100.4202)
+OS uptime: 0 days 6:48 hours
+Hyper-V role detected
+
+CPU: total 8 (initial active 8) (8 cores per cpu, 2 threads per core) family 23 model 160 stepping 0 microcode 0x8a00006, cx8, cmov, fxsr, ht, mmx, 3dnowpref, sse, sse2, sse3, ssse3, sse4a, sse4.1, sse4.2, popcnt, lzcnt, tsc, tscinvbit, avx, avx2, aes, clmul, bmi1, bmi2, adx, sha, fma, vzeroupper, clflush, clflushopt, hv
+Processor Information for the first 8 processors :
+  Max Mhz: 2801, Current Mhz: 2801, Mhz Limit: 2801
+
+Memory: 4k page, system-wide physical 15647M (1599M free)
+TotalPageFile size 26313M (AvailPageFile size 88M)
+current process WorkingSet (physical memory assigned to process): 12M, peak: 12M
+current process commit charge ("private bytes"): 60M, peak: 305M
+
+vm_info: OpenJDK 64-Bit Server VM (17.0.13+11-LTS) for windows-amd64 JRE (17.0.13+11-LTS), built on Oct 11 2024 23:25:05 by "MicrosoftCorporation" with unknown MS VC++:1939
+
+END.

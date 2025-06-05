@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:background="?attr/cardBackgroundColor">
+
+    <!-- Period Selection -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="📅 Export Period"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textColor="?attr/textPrimaryColor"
+        android:layout_marginBottom="8dp" />
+
+    <Spinner
+        android:id="@+id/spinnerPeriod"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@drawable/input_background"
+        android:layout_marginBottom="20dp" />
+
+    <!-- Currency Selection -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="💰 Target Currency"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textColor="?attr/textPrimaryColor"
+        android:layout_marginBottom="8dp" />
+
+    <Spinner
+        android:id="@+id/spinnerCurrency"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@drawable/input_background"
+        android:layout_marginBottom="20dp" />
+
+    <!-- Language Selection -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="🌍 Report Language"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textColor="?attr/textPrimaryColor"
+        android:layout_marginBottom="8dp" />
+
+    <Spinner
+        android:id="@+id/spinnerLanguage"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@drawable/input_background"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Information Text -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="📄 Generate a PDF report with your expense data in roll-paper format"
+        android:textSize="14sp"
+        android:textColor="?attr/textSecondaryColor"
+        android:textStyle="italic"
+        android:gravity="center"
+        android:padding="12dp"
+        android:background="@drawable/info_background" />
+
+</LinearLayout>

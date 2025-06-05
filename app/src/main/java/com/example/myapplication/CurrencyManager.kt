@@ -242,4 +242,8 @@ class CurrencyManager private constructor(private val context: Context) {    com
     fun isNativeMmkAmount(storedCurrency: String): Boolean {
         return storedCurrency == CURRENCY_MMK
     }
+    
+    fun getCurrentDisplayCurrency(): String {
+        return getCurrentCurrency()
+    }
 }

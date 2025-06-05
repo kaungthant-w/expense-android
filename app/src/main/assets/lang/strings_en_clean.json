@@ -307,8 +307,7 @@
   "please_enter_valid_price": "Please enter a valid price",
   "expense_added_successfully": "✅ Expense added successfully!",
   "expense_updated_successfully": "✅ Expense updated successfully!",
-  "expense_moved_to_history": "💾 Expense moved to history. Check History to restore.",
-  "add_expense_button": "💾Save",
+  "expense_moved_to_history": "💾 Expense moved to history. Check History to restore.",  "add_expense_button": "💾Save",
   "no_data_available": "📭 no record available",
   
   "show_filters": "🔍 Filters",
@@ -318,5 +317,21 @@
   "from_date": "From Date",
   "to_date": "To Date",
   "filter_results": "Found {count} of {total} expenses",
-  "filters_cleared": "Filters cleared"
+  "filters_cleared": "Filters cleared",
+  
+  "pdf_export_title": "📄 PDF Export",
+  "pdf_export_today": "Today",
+  "pdf_export_weekly": "This Week",
+  "pdf_export_monthly": "This Month", 
+  "pdf_export_yearly": "This Year",
+  "pdf_export_english": "English",
+  "pdf_export_myanmar": "Myanmar",
+  "pdf_export_japanese": "Japanese",
+  "pdf_export_chinese": "Chinese",
+  "pdf_export_thai": "Thai",
+  "pdf_export_generate": "📄 Generate PDF",
+  "pdf_export_success": "✅ PDF exported successfully!",
+  "pdf_export_failed": "❌ Failed to export PDF",
+  "pdf_export_error": "PDF Export Error",
+  "pdf_export_share": "Share PDF"
 }

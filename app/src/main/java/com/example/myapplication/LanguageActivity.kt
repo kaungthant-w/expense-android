@@ -39,9 +39,7 @@ class LanguageActivity : BaseActivity() {
             ThemeActivity.THEME_DARK -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
             ThemeActivity.THEME_SYSTEM -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
         }
-    }
-
-    private fun initViews() {
+    }    private fun initViews() {
         spinnerLanguage = findViewById(R.id.spinnerLanguage)
         buttonApply = findViewById(R.id.buttonApply)
         
@@ -49,11 +47,13 @@ class LanguageActivity : BaseActivity() {
         findViewById<ImageButton>(R.id.buttonBack).setOnClickListener {
             finish()
         }
-    }    private fun setupSpinner() {
-        val languages = languageManager.getAvailableLanguages()
+    }
+    
+    private fun setupSpinner() {        val languages = languageManager.getAvailableLanguages()
         languageAdapter = LanguageSpinnerAdapter(this, languages)
         spinnerLanguage.adapter = languageAdapter
-          // Set current language as selected
+        
+        // Set current language as selected
         val currentLanguage = languageManager.getCurrentLanguage()
         val currentIndex = languages.indexOfFirst { it.first == currentLanguage }
         if (currentIndex >= 0) {
@@ -86,13 +86,14 @@ class LanguageActivity : BaseActivity() {
         }
     }
 
-    private fun setupClickListeners() {
-        buttonApply.setOnClickListener {
+    private fun setupClickListeners() {        buttonApply.setOnClickListener {
             // Language changes are now applied immediately when selected
             // Just close the activity
             finish()
         }
-    }    private fun updateUITexts() {
+    }
+    
+    private fun updateUITexts() {
         // Update title
         findViewById<TextView>(R.id.textViewTitle).text = languageManager.getString("language_settings")
         
@@ -138,9 +139,7 @@ class LanguageSpinnerAdapter(
         textView.textSize = 16f
         textView.setPadding(16, 12, 16, 12)
         return view
-    }
-
-    override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup?): View {
+    }    override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup?): View {
         val view = convertView ?: View.inflate(context, android.R.layout.simple_spinner_dropdown_item, null)
         val textView = view.findViewById<TextView>(android.R.id.text1)
         textView.text = languages[position].second
@@ -148,7 +147,8 @@ class LanguageSpinnerAdapter(
         textView.setPadding(24, 16, 24, 16)
         return view
     }
-      fun updateLanguages(newLanguages: List<Pair<String, String>>) {
+    
+    fun updateLanguages(newLanguages: List<Pair<String, String>>) {
         languages = newLanguages
         notifyDataSetChanged()
     }

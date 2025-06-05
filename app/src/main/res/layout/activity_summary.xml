@@ -5,13 +5,12 @@
     <androidx.coordinatorlayout.widget.CoordinatorLayout android:layout_width="match_parent" android:layout_height="match_parent" android:background="?attr/backgroundColor">
 
         <ScrollView android:layout_width="match_parent" android:layout_height="match_parent" android:background="?attr/backgroundColor">
-            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp">
-
-                <!-- Header with Back Button -->
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp">                <!-- Header with Back Button -->
                 <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginBottom="30dp">
 
                     <ImageButton android:id="@+id/buttonBack" android:layout_width="48dp" android:layout_height="48dp" android:background="@drawable/card_background" android:src="@drawable/ic_arrow_back" android:layout_marginEnd="16dp" android:contentDescription="Back" />
                     <TextView android:id="@+id/textViewSummaryTitle" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="@string/summary_expense_title" android:textSize="24sp" android:textStyle="bold" android:gravity="center_vertical" android:textColor="?attr/textPrimaryColor" />
+                    <ImageButton android:id="@+id/buttonPdfExport" android:layout_width="48dp" android:layout_height="48dp" android:background="@drawable/card_background" android:src="@drawable/ic_picture_as_pdf" android:contentDescription="Export PDF" />
 
                 </LinearLayout>
 

@@ -171,8 +171,9 @@ class OnboardingActivity : AppCompatActivity() {
             finish()
         }
     }
-    
+      @Suppress("DEPRECATION")
     override fun onBackPressed() {
+        super.onBackPressed()
         // Prevent going back during onboarding
         // User must complete the setup
     }
