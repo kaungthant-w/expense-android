@@ -72,9 +72,13 @@ class LanguageManager private constructor(private val context: Context) {
             }
         }
     }
-    
-    fun getString(key: String): String {
-        return currentStrings[key] ?: key
+      fun getString(key: String): String {
+        val result = currentStrings[key] ?: key
+        if (result == key) {
+            android.util.Log.w("LanguageManager", "Translation not found for key: '$key', returning key itself")
+            android.util.Log.w("LanguageManager", "Current language: ${getCurrentLanguage()}, Total strings loaded: ${currentStrings.size}")
+        }
+        return result
     }
       fun getAvailableLanguages(): List<Pair<String, String>> {
         return listOf(
@@ -84,33 +88,64 @@ class LanguageManager private constructor(private val context: Context) {
             Pair(LANGUAGE_JAPANESE, "日本語"),
             Pair(LANGUAGE_THAI, "ไทย")
         )
-    }
-    
-    private fun loadLanguageStrings() {
+    }    private fun loadLanguageStrings() {
         val language = getCurrentLanguage()
         val fileName = "lang/strings_$language.json"
         
+        android.util.Log.d("LanguageManager", "Loading language strings for: $language, file: $fileName")
+        
         try {
             val inputStream = context.assets.open(fileName)
-            val reader = InputStreamReader(inputStream)
+            
+            // Read the entire file content as string first
+            val jsonContent = inputStream.bufferedReader().use { it.readText() }
+            inputStream.close()
+            
+            android.util.Log.d("LanguageManager", "Read JSON content length: ${jsonContent.length} characters")
+            android.util.Log.d("LanguageManager", "JSON content preview: ${jsonContent.take(200)}...")
+            
+            // Parse JSON string directly
             val type = object : TypeToken<Map<String, String>>() {}.type
-            currentStrings = gson.fromJson(reader, type) ?: mapOf()
-            reader.close()
+            currentStrings = gson.fromJson(jsonContent, type) ?: mapOf()
+            
+            android.util.Log.d("LanguageManager", "Successfully loaded ${currentStrings.size} strings for language: $language")
+            android.util.Log.d("LanguageManager", "Sample keys loaded: ${currentStrings.keys.take(10)}")
+            
+            // Check if our problematic keys exist
+            val testKeys = listOf("todays_summary", "total_expenses", "total_amount")
+            testKeys.forEach { key ->
+                val value = currentStrings[key]
+                android.util.Log.d("LanguageManager", "Key '$key' = '$value'")
+            }
+              // Log some stats about the loaded strings
+            android.util.Log.d("LanguageManager", "Total keys in currentStrings: ${currentStrings.keys.size}")
+            if (currentStrings.isNotEmpty()) {
+                android.util.Log.d("LanguageManager", "First 10 keys: ${currentStrings.keys.take(10)}")
+                val keysList = currentStrings.keys.toList()
+                val lastKeys = if (keysList.size >= 10) keysList.takeLast(10) else keysList
+                android.util.Log.d("LanguageManager", "Last 10 keys: $lastKeys")
+            }
+            
         } catch (e: Exception) {
+            android.util.Log.e("LanguageManager", "Error loading language file: $fileName", e)
             e.printStackTrace()
             // Fallback to English if loading fails
             if (language != LANGUAGE_ENGLISH) {
                 try {
                     val inputStream = context.assets.open("lang/strings_en.json")
-                    val reader = InputStreamReader(inputStream)
+                    val jsonContent = inputStream.bufferedReader().use { it.readText() }
+                    inputStream.close()
+                    
                     val type = object : TypeToken<Map<String, String>>() {}.type
-                    currentStrings = gson.fromJson(reader, type) ?: mapOf()
-                    reader.close()
+                    currentStrings = gson.fromJson(jsonContent, type) ?: mapOf()
+                    android.util.Log.d("LanguageManager", "Fallback to English successful, loaded ${currentStrings.size} strings")
                 } catch (fallbackException: Exception) {
+                    android.util.Log.e("LanguageManager", "Fallback to English also failed", fallbackException)
                     fallbackException.printStackTrace()
                     currentStrings = getDefaultStrings()
                 }
             } else {
+                android.util.Log.e("LanguageManager", "English language file failed to load, using defaults")
                 currentStrings = getDefaultStrings()
             }
         }

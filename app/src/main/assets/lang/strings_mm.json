@@ -379,7 +379,7 @@
   "target_currency": "ပစ်မှတ် ငွေကြေး",
   "report_language": "အစီရင်ခံစာ ဘာသာစကား",
   "export_options": "ထုတ်ယူမှု ရွေးချယ်မှုများ",
-  "save_as_excel": "Excel ဖိုင်အဖြစ် သိမ်းဆည်းရန်",
+  "save_as_excel": "Excel ဖိုင် သိမ်းမယ်",
   "print_wirelessly": "ကြိုးမဲ့ ပရင့်ထုတ်ရန်",
   "device_discovery": "စက်ပစ္စည်း ရှာဖွေခြင်း",
   "searching_devices": "စက်ပစ္စည်းများ ရှာဖွေနေသည်...",
@@ -402,5 +402,5 @@
   "wireless_print_message": "ကြိုးမဲ့ ပရင်တာများကို ရှာဖွေပြီး သင့်ကုန်ကျစရိတ် အစီရင်ခံစာကို ပရင့်ထုတ်မည်ဖြစ်သည်။",
   "discover_devices": "စက်ပစ္စည်းများ ရှာဖွေရန်",
   "export_date": "ထုတ်ယူသည့်ရက်စွဲ",
-  "converted_amount": "ပြောင်းလဲထားသော ပမာණ"
+  "converted_amount": "ပြောင်းလဲထားသော ပမာဏ"
 }
