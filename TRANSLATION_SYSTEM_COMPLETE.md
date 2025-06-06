@@ -17,7 +17,7 @@ Successfully implemented a comprehensive JSON-based translation system for the A
 - `about_section_title`: "ℹ️ About"
 - `app_name_display`: "HSU Expense App"
 - `app_version`: "Version 1.0.0"
-- `supporter_name`: "HSU Yee Mon"
+- `supporter_name`: "Hsu Yee Mon"
 - `supporter_message`: App description and love message
 
 #### Summary Page Translations:

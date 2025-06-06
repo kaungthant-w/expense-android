@@ -14,6 +14,7 @@ class LanguageActivity : BaseActivity() {
     private lateinit var buttonApply: Button
     private lateinit var languageAdapter: LanguageSpinnerAdapter
     private var selectedLanguageCode: String = ""
+    private var isUpdatingSpinner = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         applyTheme()
@@ -60,9 +61,11 @@ class LanguageActivity : BaseActivity() {
             spinnerLanguage.setSelection(currentIndex)
         }
         selectedLanguageCode = currentLanguage
-        
-        spinnerLanguage.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+          spinnerLanguage.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+                // Skip if we're programmatically updating the spinner
+                if (isUpdatingSpinner) return
+                
                 val newLanguageCode = languages[position].first
                 
                 // Only apply change if it's different from current language
@@ -92,8 +95,7 @@ class LanguageActivity : BaseActivity() {
             // Just close the activity
             finish()
         }
-    }
-      private fun updateUITexts() {
+    }    private fun updateUITexts() {
         // Update title
         findViewById<TextView>(R.id.textViewTitle).text = languageManager.getString("language_settings")
         
@@ -109,6 +111,15 @@ class LanguageActivity : BaseActivity() {
         // Refresh spinner adapter to use new language
         val languages = languageManager.getAvailableLanguages()
         languageAdapter.updateLanguages(languages)
+        
+        // Update spinner selection to reflect current language
+        val currentLanguage = languageManager.getCurrentLanguage()
+        val currentIndex = languages.indexOfFirst { it.first == currentLanguage }
+        if (currentIndex >= 0 && currentIndex != spinnerLanguage.selectedItemPosition) {
+            isUpdatingSpinner = true
+            spinnerLanguage.setSelection(currentIndex)
+            isUpdatingSpinner = false
+        }
     }
 
     private fun showLanguageChangedMessage() {

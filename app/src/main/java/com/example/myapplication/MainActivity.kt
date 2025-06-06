@@ -192,9 +192,13 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         super.onPostCreate(savedInstanceState)
         // Sync the toggle state after onRestoreInstanceState has occurred        drawerToggle.syncState()
     }
-    
-    override fun onResume() {
+      override fun onResume() {
         super.onResume()
+        
+        // Check if language needs to be updated (for when returning from LanguageActivity)
+        // This ensures immediate language updates even if broadcast was missed while paused
+        refreshLanguageIfNeeded()
+        
         // Refresh expenses when returning to MainActivity
         // This ensures restored items appear in the list
         loadExpenses()
@@ -203,8 +207,34 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             refreshAllFragments()
         }
     }
-      override fun onLanguageChanged() {
-        super.onLanguageChanged()
+    
+    private fun refreshLanguageIfNeeded() {
+        // Force refresh of all UI elements to catch any language changes
+        // that might have occurred while activity was paused
+        Log.d("MainActivity", "Checking for language updates in onResume")
+        
+        updateToolbarTitle()
+        updateNavigationMenuTitles()
+        updateNavigationHeaderText()
+        updateTodaySummaryCard()
+        updateTabTitles()
+        
+        // Refresh fragment translations if they exist
+        if (::viewPagerAdapter.isInitialized) {
+            refreshAllFragments()
+        }
+        
+        // Force refresh the views
+        runOnUiThread {
+            navigationView.invalidate()
+            todaySummaryCard.invalidate()
+            tabLayout.invalidate()
+        }
+        
+        Log.d("MainActivity", "Language refresh completed in onResume")
+    }override fun onLanguageChanged() {
+        // Don't call super.onLanguageChanged() as it calls recreate()
+        // We want to update UI immediately without recreating the activity
         Log.d("MainActivity", "onLanguageChanged called - updating all UI elements")
         
         // Update all UI elements in the correct order

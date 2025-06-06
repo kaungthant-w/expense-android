@@ -1,5 +1,5 @@
-{  "app_name": "HSU Expense",
-  
+{
+  "app_name": "HSU Expense",
   "welcome_to_expense_tracker": "welcome to HSU Expense",
   "track_expenses_efficiently": "Track your expenses efficiently",
   "setup_preferences": "Let's set up your preferences",
@@ -8,7 +8,6 @@
   "get_started": "Get Started",
   "onboarding_complete": "Setup Complete!",
   "redirecting_message": "Redirecting to main app...",
-  
   "settings": "Settings",
   "language_settings": "Language Settings",
   "language_settings_desc": "Choose your preferred language for the app interface",
@@ -107,7 +106,7 @@
   "about_section_title": "ℹ️ About",
   "app_name_display": "HSU Expense App",
   "app_version": "Version 1.0.0",
-  "supporter_name": "HSU Yee Mon",
+  "supporter_name": "Hsu Yee Mon",
   "supporter_message": "She helped with testing, feedback, and design. Her support made it possible.",
   "summary_title": "📊 Expense Summary",
   "overall_statistics": "💰 Overall Statistics",
@@ -123,14 +122,13 @@
   "highest_expense": "Highest Expense:",
   "lowest_expense": "Lowest Expense:",
   "no_expenses_yet": "No expenses yet",
-  
   "tab_all": "All",
   "tab_today": "Today",
   "tab_this_week": "This Week",
   "tab_this_month": "This Month",
-  
   "add_new_expense": "💰 Add New Expense",
-  "expense_name_hint": "💼 Expense Name",  "price_hint": "💵 Price",
+  "expense_name_hint": "💼 Expense Name",
+  "price_hint": "💵 Price",
   "description_hint": "📝 Description (Optional)",
   "expense_description_hint": "📝 Description (Optional)",
   "date_hint": "📅 Date (DD/MM/YYYY)",
@@ -138,21 +136,21 @@
   "see_more": "See More",
   "see_less": "See Less",
   "add": "Add",
-  
   "all_list_title": "📋 All Expenses",
   "select_all": "All",
   "delete_selected": "🗑️ Delete",
   "toggle_selection": "🔘 Select",
   "cancel_selection": "Cancel",
   "view_history": "📋History",
-  "selection_count": "{count} items selected",  "delete_confirmation_title": "⚠️ Delete Selected Items",
+  "selection_count": "{count} items selected",
+  "delete_confirmation_title": "⚠️ Delete Selected Items",
   "delete_confirmation_message": "Are you sure you want to delete these {count} item(s)?\n\n{items}\n\nDeleted items can be restored from History.",
   "delete_button": "🗑️ Delete",
   "edit_button": "✏️ Edit",
-  "cancel_button": "❌ Cancel",  "deleted_successfully": "✅ Successfully deleted {count} item(s). View in History to restore if needed.",
+  "cancel_button": "❌ Cancel",
+  "deleted_successfully": "✅ Successfully deleted {count} item(s). View in History to restore if needed.",
   "no_description": "No description",
   "deleted_on": "Deleted on",
-  
   "analytics_title": "📈 Expense Analytics",
   "analytics_overview": "📊 Analytics Overview",
   "total_analytics": "Total Analytics",
@@ -166,7 +164,6 @@
   "weekly_analytics": "📅 Weekly Analytics",
   "monthly_analytics": "📊 Monthly Analytics",
   "category_analytics": "📋 Category Analytics",
-  
   "currency_exchange_title": "💱 Currency Exchange & Rate Viewer",
   "live_exchange_rates": "🌍 Live Exchange Rates",
   "refresh_rates": "🔄 Refresh",
@@ -207,7 +204,6 @@
   "display_amount": "Display: {amount} {currency}",
   "error_rate": "Error",
   "na_rate": "N/A",
-  
   "currency_exchange_enter_custom_rate": "💡 Enter a custom exchange rate",
   "currency_exchange_enter_rate_error": "❌ Please enter an exchange rate",
   "currency_exchange_rate_positive_error": "❌ Exchange rate must be greater than 0",
@@ -218,7 +214,6 @@
   "currency_exchange_rate_updated": "✅ Rate updated: 1 USD = {rate} MMK",
   "currency_exchange_fetch_error": "❌ Failed to fetch rate: {error}\n💡 Try using 'Custom Rate' to set manually",
   "currency_exchange_loading": "⏳ Loading...",
-  
   "analytics_most_expensive_day": "Most expensive day: {day} - {amount}",
   "analytics_least_expensive_day": "Least expensive day: {day} - {amount}",
   "analytics_no_data": "no record available",
@@ -227,7 +222,6 @@
   "analytics_evening_expenses": "🌆 Evening ({count} expenses): {amount}",
   "analytics_night_expenses": "🌙 Night ({count} expenses): {amount}",
   "analytics_no_expenses": "No expenses to display",
-  
   "expense_detail_title": "Expense Details",
   "add_expense_title": "Add New Expense",
   "edit_expense_title": "Edit Expense",
@@ -244,7 +238,6 @@
   "expense_added": "Expense added!",
   "expense_updated": "Expense updated!",
   "expense_deleted": "Expense deleted!",
-  
   "analytics_weekly_analysis": "📅 Weekly Summary",
   "analytics_this_week_expenses": "This Week's Expenses:",
   "analytics_this_week_total": "This Week's Total:",
@@ -261,7 +254,6 @@
   "analytics_expense_title": "📈 Expense Analytics",
   "analytics_no_data_available": "no record available",
   "analytics_no_expenses_yet": "No expenses yet",
-  
   "summary_expense_title": "📊 Expense Summary",
   "summary_overall_statistics": "💰 Overall Statistics",
   "summary_today_summary": "📅 Today's Summary",
@@ -272,13 +264,11 @@
   "summary_month_expenses": "Month's Expenses:",
   "summary_month_total": "Month's Total:",
   "summary_no_expenses_yet": "No expenses yet",
-  
   "deleted_items_history_title": "🗃️ Deleted Items History",
   "enable_selection": "✅ Selection",
   "delete_forever": "Delete Forever",
   "selection_mode_on": "📋 Selection ON",
   "all_expenses_active_title": "All Expenses",
-  
   "restore_expense_title": "✅ Restore Expense",
   "restore_expense_message": "Are you sure you want to restore '{name}'?",
   "restore_button": "Restore",
@@ -287,7 +277,6 @@
   "delete_permanently_message": "Are you sure you want to permanently delete '{name}'? This action cannot be undone!",
   "delete_permanently_button": "Erase",
   "delete_permanently_success": "✅ Successfully deleted {count} item(s) forever",
-  
   "settings_title": "⚙️ Settings",
   "theme_settings_title": "🎨 Theme Settings",
   "choose_your_theme": "🎨 Choose Your Theme",
@@ -298,7 +287,6 @@
   "dark_theme_description": "Ideal for low-light environments and battery saving",
   "system_theme_title": "🔄 System Default",
   "system_theme_description": "Automatically matches your device's theme setting",
-  
   "please_enter_expense_name": "Please enter expense name",
   "please_enter_valid_price": "Please enter a valid price",
   "expense_added_successfully": "✅ Expense added successfully!",
@@ -306,15 +294,14 @@
   "expense_moved_to_history": "💾 Expense moved to history. Check History to restore.",
   "add_expense_button": "💾Save",
   "no_data_available": "📭 no record available",
-  
   "show_filters": "🔍 Filters",
   "hide_filters": "🔍 Filters",
   "apply_filters": "✅ Filters",
   "clear_filters": "🗑️ Clear Filters",
   "from_date": "From Date",
-  "to_date": "To Date",  "filter_results": "Found {count} of {total} expenses",
+  "to_date": "To Date",
+  "filter_results": "Found {count} of {total} expenses",
   "filters_cleared": "Filters cleared",
-  
   "filter_modal_title": "🔍 Filter Options",
   "filter_year_label": "Year:",
   "filter_month_label": "Month:",
@@ -324,10 +311,9 @@
   "filter_apply_button": "✅ Apply",
   "filter_clear_button": "🗑️ Clear",
   "filter_close_button": "❌ Close",
-  
   "filter_all": "All",
   "month_january": "January",
-  "month_february": "February", 
+  "month_february": "February",
   "month_march": "March",
   "month_april": "April",
   "month_may": "May",
@@ -338,7 +324,6 @@
   "month_october": "October",
   "month_november": "November",
   "month_december": "December",
-  
   "month_jan": "Jan",
   "month_feb": "Feb",
   "month_mar": "Mar",
@@ -351,15 +336,15 @@
   "month_oct": "Oct",
   "month_nov": "Nov",
   "month_dec": "Dec",
-    "filter_status_prefix": "🔍 Filters:",
+  "filter_status_prefix": "🔍 Filters:",
   "filter_year_prefix": "Year:",
   "filter_month_prefix": "Month:",
   "filter_from_prefix": "From:",
   "filter_to_prefix": "To:",
-    "select_start_date": "Select start date",
+  "select_start_date": "Select start date",
   "select_end_date": "Select end date",
-    "singapore_dollar": "Singapore Dollar",
-  "thai_baht": "Thai Baht", 
+  "singapore_dollar": "Singapore Dollar",
+  "thai_baht": "Thai Baht",
   "japanese_yen": "Japanese Yen",
   "chinese_yuan": "Chinese Yuan",
   "switched_to_sgd": "Switched to SGD - Singapore Dollar",
@@ -370,12 +355,10 @@
   "switch_to_thb": "💱 Switch to THB",
   "switch_to_jpy": "💱 Switch to JPY",
   "switch_to_cny": "💱 Switch to CNY",
-  
   "filters_button": "🔍 Filters",
   "feedback_rating_question": "How would you rate our app?",
   "select_preferred_language": "Select your preferred language:",
   "language_changes_immediate": "Language changes will take effect immediately",
   "theme_changes_immediate": "Theme changes apply immediately",
-  
   "history_button": "🗃️History"
 }
