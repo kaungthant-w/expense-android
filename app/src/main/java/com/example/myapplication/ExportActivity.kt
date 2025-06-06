@@ -383,23 +383,15 @@ class ExportActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedLi
             val infoCell2 = infoRow2.createCell(0)
             infoCell2.setCellValue("${languageManager.getString("export_period")}: ${languageManager.getString(periodOptions[selectedPeriod])}")
             infoCell2.cellStyle = infoStyle
-            
-            val infoRow3 = sheet.createRow(3)
+              val infoRow3 = sheet.createRow(3)
             val infoCell3 = infoRow3.createCell(0)
-            infoCell3.setCellValue("${languageManager.getString("target_currency")}: $selectedCurrency")
+            infoCell3.setCellValue("${languageManager.getString("total_expenses")}: ${expenses.size}")
             infoCell3.cellStyle = infoStyle
-            
-            val infoRow4 = sheet.createRow(4)
+              val infoRow4 = sheet.createRow(4)
             val infoCell4 = infoRow4.createCell(0)
-            infoCell4.setCellValue("${languageManager.getString("total_expenses")}: ${expenses.size}")
-            infoCell4.cellStyle = infoStyle
-            
-            val infoRow5 = sheet.createRow(5)
-            val infoCell5 = infoRow5.createCell(0)
-            infoCell5.setCellValue("Paper Size: $selectedPaperSize")
-            infoCell5.cellStyle = infoStyle
-              // Create header row for data
-            val headerRow = sheet.createRow(7)
+            infoCell4.setCellValue("Paper Size: $selectedPaperSize")
+            infoCell4.cellStyle = infoStyle              // Create header row for data
+            val headerRow = sheet.createRow(6)
             val headers = arrayOf(
                 "No",
                 languageManager.getString("date"),
@@ -416,7 +408,7 @@ class ExportActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedLi
             }            // Add expense data
             android.util.Log.d("ExportActivity", "Starting to add ${expenses.size} expenses to Excel")
             expenses.forEachIndexed { index, expense ->
-                val row = sheet.createRow(8 + index)
+                val row = sheet.createRow(7 + index)
                 
                 // Convert amount to target currency
                 val convertedAmount = if (expense.currency == selectedCurrency) {

@@ -71,14 +71,8 @@ class LanguageManager private constructor(private val context: Context) {
                 android.util.Log.d("LanguageManager", "Language unchanged, no broadcast needed")
             }
         }
-    }
-      fun getString(key: String): String {
-        val result = currentStrings[key] ?: key
-        if (result == key) {
-            android.util.Log.w("LanguageManager", "Translation not found for key: '$key', returning key itself")
-            android.util.Log.w("LanguageManager", "Current language: ${getCurrentLanguage()}, Total strings loaded: ${currentStrings.size}")
-        }
-        return result
+    }    fun getString(key: String): String {
+        return currentStrings[key] ?: key
     }
       fun getAvailableLanguages(): List<Pair<String, String>> {
         return listOf(
