@@ -7,6 +7,7 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
 import android.view.MenuItem
 import android.view.MotionEvent
 import android.view.View
@@ -73,8 +74,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             if (shouldDelete) {
                 // Handle delete from detail activity - no confirmation needed as it was already confirmed
                 val expenseId = deleteData?.getLongExtra("expense_id", -1L) ?: -1L
-                if (expenseId != -1L) {
-                    // Find the expense in the list and soft delete it directly
+                if (expenseId != -1L) {                    // Find the expense in the list and soft delete it directly
                     val position = expenseList.indexOfFirst { it.id == expenseId }
                     if (position != -1) {
                         val expenseToDelete = expenseList[position]
@@ -84,8 +84,11 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                         expenseToDelete.deletedAt = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault()).format(Date())
                           // Remove from main list
                         expenseList.removeAt(position)
-                        expenseAdapter.notifyItemRemoved(position)
-                        expenseAdapter.notifyItemRangeChanged(position, expenseList.size)
+                        // Check if adapter is initialized before calling notify methods
+                        if (::expenseAdapter.isInitialized) {
+                            expenseAdapter.notifyItemRemoved(position)
+                            expenseAdapter.notifyItemRangeChanged(position, expenseList.size)
+                        }
                         
                         // Save the deleted expense specifically
                         saveDeletedExpense(expenseToDelete)
@@ -114,24 +117,26 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                                 description = description,
                                 date = date,
                                 time = time,
-                                currency = currency
-                            )
+                                currency = currency                            )
                             expenseList.add(newExpense)
-                            expenseAdapter.notifyItemInserted(expenseList.size - 1)
+                            if (::expenseAdapter.isInitialized) {
+                                expenseAdapter.notifyItemInserted(expenseList.size - 1)
+                            }
                             saveAllExpenses()
                             Toast.makeText(this, languageManager.getString("expense_added_successfully"), Toast.LENGTH_SHORT).show()
                         } else {
                             // Update existing expense
                             val position = expenseList.indexOfFirst { it.id == expenseId }
-                            if (position != -1) {
-                                val expense = expenseList[position]
+                            if (position != -1) {                                val expense = expenseList[position]
                                 expense.name = name
                                 expense.price = price
                                 expense.description = description
                                 expense.date = date
                                 expense.time = time
                                 expense.currency = currency
-                                  expenseAdapter.notifyItemChanged(position)
+                                  if (::expenseAdapter.isInitialized) {
+                                    expenseAdapter.notifyItemChanged(position)
+                                }
                                 saveAllExpenses()
                                 Toast.makeText(this, languageManager.getString("expense_updated_successfully"), Toast.LENGTH_SHORT).show()
                             }
@@ -232,28 +237,38 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         }
         
         Log.d("MainActivity", "Language refresh completed in onResume")
-    }override fun onLanguageChanged() {
+    }    override fun onLanguageChanged() {
         // Don't call super.onLanguageChanged() as it calls recreate()
         // We want to update UI immediately without recreating the activity
         Log.d("MainActivity", "onLanguageChanged called - updating all UI elements")
         
-        // Update all UI elements in the correct order
-        updateToolbarTitle()
-        updateNavigationMenuTitles()
-        updateNavigationHeaderText()
-        updateTodaySummaryCard()
-        updateTabTitles()
-        
-        // Refresh fragment translations
-        if (::viewPagerAdapter.isInitialized) {
-            refreshAllFragments()
+        // Only proceed if activity is active and not finishing
+        if (isFinishing || isDestroyed) {
+            Log.d("MainActivity", "Activity is finishing/destroyed, skipping language update")
+            return
         }
         
-        // Force refresh the views
-        runOnUiThread {
-            navigationView.invalidate()
-            todaySummaryCard.invalidate()
-            tabLayout.invalidate()
+        try {
+            // Update all UI elements in the correct order
+            updateToolbarTitle()
+            updateNavigationMenuTitles()
+            updateNavigationHeaderText()
+            updateTodaySummaryCard()
+            updateTabTitles()
+            
+            // Refresh fragment translations only if adapter is initialized and we're not transitioning
+            if (::viewPagerAdapter.isInitialized && !isChangingConfigurations) {
+                refreshAllFragments()
+            }
+            
+            // Force refresh the views
+            runOnUiThread {
+                navigationView.invalidate()
+                todaySummaryCard.invalidate()
+                tabLayout.invalidate()
+            }
+        } catch (e: Exception) {
+            Log.e("MainActivity", "Error during language change: ${e.message}")
         }
         
         Log.d("MainActivity", "onLanguageChanged completed - all UI elements updated")
@@ -318,6 +333,22 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         
         // Set navigation item selected listener
         navigationView.setNavigationItemSelectedListener(this)
+    }
+    
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.toolbar_menu, menu)
+        return true
+    }
+    
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_export -> {
+                // Launch ExportActivity
+                startActivity(Intent(this, ExportActivity::class.java))
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
     
     private fun setupViewPager() {
@@ -469,10 +500,11 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             time = time,
             currency = currencyManager.getStorageCurrency()
         )
-        
-        // Add new expense at the beginning of the list (latest first)
+          // Add new expense at the beginning of the list (latest first)
         expenseList.add(0, expenseItem)
-        expenseAdapter.notifyItemInserted(0)
+        if (::expenseAdapter.isInitialized) {
+            expenseAdapter.notifyItemInserted(0)
+        }
         saveAllExpenses()
         
         // Refresh fragments and summary
@@ -533,15 +565,20 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                 openExpenseDetail(mainPosition)
             }
         }
-    }
-      private fun refreshAllFragments() {
-        // Refresh all fragments in the ViewPager
-        for (i in 0 until viewPagerAdapter.itemCount) {
-            val fragment = supportFragmentManager.findFragmentByTag("f$i") as? ExpenseListFragment
-            fragment?.refreshExpenses()
-            fragment?.refreshTranslations()
+    }    private fun refreshAllFragments() {
+        // Refresh all fragments in the ViewPager with safety checks
+        try {
+            for (i in 0 until viewPagerAdapter.itemCount) {
+                val fragment = supportFragmentManager.findFragmentByTag("f$i") as? ExpenseListFragment
+                if (fragment != null && fragment.isAdded && !fragment.isDetached) {
+                    fragment.refreshExpenses()
+                    fragment.refreshTranslations()
+                }
+            }
+            updateTodaySummary()
+        } catch (e: Exception) {
+            android.util.Log.e("MainActivity", "Error refreshing fragments: ${e.message}")
         }
-        updateTodaySummary()
     }
     
     private fun updateNavigationMenuTitles() {
@@ -601,10 +638,11 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             expenseList.clear()
             // Only load non-deleted expenses and sort by timestamp (latest first)
             val activeExpenses = savedExpenses.filter { !it.isDeleted }
-                .sortedByDescending { it.id } // Sort by ID (timestamp) in descending order
-            Log.d("MainActivity", "Loading expenses: total=${savedExpenses.size}, active=${activeExpenses.size}")
+                .sortedByDescending { it.id } // Sort by ID (timestamp) in descending order            Log.d("MainActivity", "Loading expenses: total=${savedExpenses.size}, active=${activeExpenses.size}")
             expenseList.addAll(activeExpenses)
-            expenseAdapter.notifyDataSetChanged()
+            if (::expenseAdapter.isInitialized) {
+                expenseAdapter.notifyDataSetChanged()
+            }
             
             // Refresh fragments if they exist
             if (::viewPagerAdapter.isInitialized) {
@@ -693,19 +731,20 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                 if (newPrice == null || newPrice <= 0) {
                     Toast.makeText(this, "Please enter a valid price", Toast.LENGTH_SHORT).show()
                     return@setPositiveButton
-                }
-
-                // Use CurrencyManager for native currency storage
+                }                // Use CurrencyManager for native currency storage
                 val storageAmount = currencyManager.getStorageAmount(newPrice)
                 val storageCurrency = currencyManager.getStorageCurrency()
-                  expense.name = newName
+                
+                expense.name = newName
                 expense.price = storageAmount
                 expense.description = newDescription
                 expense.date = newDate
                 expense.time = newTime
                 expense.currency = storageCurrency
                 
-                expenseAdapter.notifyItemChanged(position)
+                if (::expenseAdapter.isInitialized) {
+                    expenseAdapter.notifyItemChanged(position)
+                }
                 saveAllExpenses() // Use saveAllExpenses to preserve deleted items
                 
                 // Refresh fragments and summary
@@ -757,11 +796,12 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                     // Mark as deleted with timestamp
                     expenseToDelete.isDeleted = true
                     expenseToDelete.deletedAt = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault()).format(Date())
-                    
-                    // Remove from main list
+                      // Remove from main list
                     expenseList.removeAt(position)
-                    expenseAdapter.notifyItemRemoved(position)
-                    expenseAdapter.notifyItemRangeChanged(position, expenseList.size)
+                    if (::expenseAdapter.isInitialized) {
+                        expenseAdapter.notifyItemRemoved(position)
+                        expenseAdapter.notifyItemRangeChanged(position, expenseList.size)
+                    }
                     
                     // Save the deleted expense specifically
                     saveDeletedExpense(expenseToDelete)
@@ -776,7 +816,8 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         }
     }
     
-    private fun openExpenseDetail(position: Int) {        if (position >= 0 && position < expenseList.size) {
+    private fun openExpenseDetail(position: Int) {
+        if (position >= 0 && position < expenseList.size) {
             val expense = expenseList[position]
             val intent = Intent(this, ExpenseDetailActivity::class.java)
             intent.putExtra("expense_id", expense.id)

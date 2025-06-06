@@ -156,19 +156,23 @@ class ExpenseListFragment : Fragment() {
                 false
             }
         }
+    }    fun refreshExpenses() {
+        if (isAdded && context != null) {
+            val filterType = arguments?.getString(ARG_FILTER_TYPE) ?: FILTER_ALL
+            loadExpensesForFilter(filterType)
+        }
     }
-      fun refreshExpenses() {
-        val filterType = arguments?.getString(ARG_FILTER_TYPE) ?: FILTER_ALL
-        loadExpensesForFilter(filterType)
-    }
-    
-    fun refreshTranslations() {
+      fun refreshTranslations() {
         // Update UI texts
         updateUITexts()
         
-        // Refresh adapter translations
-        if (::expenseAdapter.isInitialized) {
-            expenseAdapter.refreshTranslations()
+        // Refresh adapter translations with proper safety check
+        if (::expenseAdapter.isInitialized && isAdded && context != null) {
+            try {
+                expenseAdapter.refreshTranslations()
+            } catch (e: Exception) {
+                android.util.Log.e("ExpenseListFragment", "Error refreshing adapter translations: ${e.message}")
+            }
         }
     }
     

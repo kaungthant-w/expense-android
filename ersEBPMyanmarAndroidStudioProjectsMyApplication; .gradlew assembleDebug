@@ -1,0 +1,263 @@
+[33mcommit 725af3d4397914429bbd947ec20bf7dc0b918bc2[m[33m ([m[1;36mHEAD[m[33m)[m
+Author: KyawMyoThant <kyawmyothant.connetis@gmail.com>
+Date:   Fri Jun 6 21:43:11 2025 +0630
+
+    change some text
+
+[33mcommit af90a8826518e85a2c64b8fe91d2d8704776b0f0[m
+Author: KyawMyoThant <kyawmyothant.connetis@gmail.com>
+Date:   Fri Jun 6 21:26:06 2025 +0630
+
+    short sentences for drawable title
+
+[33mcommit b7f5523e22b32cc6d536d596d011509dd58ff704[m
+Author: KyawMyoThant <kyawmyothant.connetis@gmail.com>
+Date:   Fri Jun 6 21:11:18 2025 +0630
+
+    fix change language at drawable and main page
+
+[33mcommit b06d011406ef7fc07d36982e49194ef38938dbc6[m
+Author: KyawMyoThant <kyawmyothant.connetis@gmail.com>
+Date:   Fri Jun 6 20:49:12 2025 +0630
+
+    add theme language settings page
+
+[33mcommit 0d03e713e6d3c5a129f95a2d39d4429ddf3a8d8b[m
+Author: KyawMyoThant <kyawmyothant.connetis@gmail.com>
+Date:   Fri Jun 6 20:45:02 2025 +0630
+
+    add scroll at add form
+
+[33mcommit 9d58d564954e2d5002400599d813429989f31355[m
+Author: KyawMyoThant <kyawmyothant.connetis@gmail.com>
+Date:   Wed Jun 4 16:07:11 2025 +0630
+
+    add dark theme for feedback page
+
+[33mcommit 1f6371a17191b922f2cfc0ea9788092c75667d1b[m
+Author: KyawMyoThant <kyawmyothant.connetis@gmail.com>
+Date:   Wed Jun 4 15:56:03 2025 +0630
+
+    add thai language
+
+[33mcommit fd5cadf777ff67b587081bfbb2f4276a9b0b5789[m
+Author: KyawMyoThant <kyawmyothant.connetis@gmail.com>
+Date:   Wed Jun 4 15:42:43 2025 +0630
+
+    add light color text in feedback page
+
+[33mcommit 6a18233bc76bab460dc36555bf77762f47132ba2[m
+Author: KyawMyoThant <kyawmyothant.connetis@gmail.com>
+Date:   Wed Jun 4 15:35:07 2025 +0630
+
+    add langauge description translation at details page
+
+[33mcommit b3347ab73fe6ede6c2422182f30200d923019461[m
+Author: KyawMyoThant <kyawmyothant.connetis@gmail.com>
+Date:   Wed Jun 4 15:25:31 2025 +0630
+
+    jpy, baht, sgd
+
+[33mcommit fb9b441cefb9f1ecef2f32967a92c76633ec5cae[m
+Author: KyawMyoThant <kyawmyothant.connetis@gmail.com>
+Date:   Wed Jun 4 15:17:03 2025 +0630
+
+    add china currency
+
+[33mcommit 4b302e7c44ee696225535b6651f02269c5a76607[m
+Author: KyawMyoThant <kyawmyothant.connetis@gmail.com>
+Date:   Wed Jun 4 14:11:57 2025 +0630
+
+    tab dark/light color
+
+[33mcommit 884ad0b52c64c424690709a6ded081df2f22f418[m
+Author: KyawMyoThant <kyawmyothant.connetis@gmail.com>
+Date:   Wed Jun 4 10:15:10 2025 +0630
+
+    edit some button text
+
+[33mcommit 304eaadc4e4942b56cc73436423f8e1509a0cb0e[m
+Author: KyawMyoThant <kyawmyothant.connetis@gmail.com>
+Date:   Wed Jun 4 09:10:17 2025 +0630
+
+    add thb, sgd, baht, jpy
+
+[33mcommit ba397997fa61cc030cff799add001c5b48dfe079[m
+Author: KyawMyoThant <kyawmyothant.connetis@gmail.com>
+Date:   Wed Jun 4 08:15:20 2025 +0630
+
+    add ja, zh for history page
+
+[33mcommit 7f4e477e1e70dbd661543153e8e8f2ae1154a835[m
+Author: KyawMyoThant <kyawmyothant.connetis@gmail.com>
+Date:   Wed Jun 4 07:45:54 2025 +0630
+
+    add translate all page filter modal
+
+[33mcommit 0b6f77ab811ad660d1ff88c6d05726337736bbb9[m
+Author: KyawMyoThant <kyawmyothant.connetis@gmail.com>
+Date:   Wed Jun 4 06:37:33 2025 +0630
+
+    fix langauge translate ja, zh
+
+[33mcommit df53a310534d8bb3d0c82ccf37d90e9fd0681a37[m
+Author: KyawMyoThant <kyawmyothant.connetis@gmail.com>
+Date:   Tue Jun 3 13:30:31 2025 +0630
+
+    bug main page and drawer
+
+[33mcommit 53b78c082ee21d39f5ab01eaeceea24bc44b67f6[m
+Author: KyawMyoThant <kyawmyothant.connetis@gmail.com>
+Date:   Tue Jun 3 06:41:43 2025 +0630
+
+    remove statistics page and edit summary page
+
+[33mcommit 17390fbd38b76da0beb7ac7e06a74c4422acd305[m
+Author: KyawMyoThant <kyawmyothant.connetis@gmail.com>
+Date:   Tue Jun 3 05:15:46 2025 +0630
+
+    edit page fix  currency converter
+
+[33mcommit 8c0b7a4fb9892a0116970f07e1f1584356291b18[m
+Author: KyawMyoThant <kyawmyothant.connetis@gmail.com>
+Date:   Tue Jun 3 05:00:01 2025 +0630
+
+    add filter in all list page
+
+[33mcommit f02b28b2f57f7dd830896581ba6b4a646451a9ee[m
+Author: KyawMyoThant <kyawmyothant.connetis@gmail.com>
+Date:   Tue Jun 3 04:36:57 2025 +0630
+
+    fix all list page
+
+[33mcommit 3a620c4aa68a52efb986ee22e8a135d8fdc59a45[m
+Author: KyawMyoThant <kyawmyothant.connetis@gmail.com>
+Date:   Mon Jun 2 21:33:14 2025 +0630
+
+    fab draggable button
+
+[33mcommit 5bad682b0ee5744e268e0faee66337b083269431[m
+Author: KyawMyoThant <kyawmyothant.connetis@gmail.com>
+Date:   Mon Jun 2 20:46:28 2025 +0630
+
+    add no record text
+
+[33mcommit e7d5a564eacd7303052d8434fa8aef7bf40ed118[m
+Author: KyawMyoThant <kyawmyothant.connetis@gmail.com>
+Date:   Mon Jun 2 20:01:52 2025 +0630
+
+    edit text
+
+[33mcommit c8b71d1e5fe6ff44311570883b65cac524f6e425[m
+Author: KyawMyoThant <kyawmyothant.connetis@gmail.com>
+Date:   Mon Jun 2 18:24:52 2025 +0630
+
+    edit mm text
+
+[33mcommit 6942058e0740bd0eafeb546a9ea89bc789762568[m
+Author: KyawMyoThant <kyawmyothant.connetis@gmail.com>
+Date:   Mon Jun 2 17:21:49 2025 +0630
+
+    change modal box input form
+
+[33mcommit beea3191af85cf6f2dcfcd29909775487a8da8ba[m
+Author: KyawMyoThant <kyawmyothant.connetis@gmail.com>
+Date:   Mon Jun 2 08:50:43 2025 +0630
+
+    add some need to change  language history  screen 1
+
+[33mcommit 1cd384df71d77bf098d9d5a99273784fd662d5e2[m
+Author: KyawMyoThant <kyawmyothant.connetis@gmail.com>
+Date:   Mon Jun 2 08:35:57 2025 +0630
+
+    add language history screen and all list screen
+
+[33mcommit a555611fe9219da3aad2ff3153fa8590c9dbd783[m
+Author: KyawMyoThant <kyawmyothant.connetis@gmail.com>
+Date:   Mon Jun 2 08:23:34 2025 +0630
+
+    add language for currency exchange page
+
+[33mcommit 6d1a4a0651a9071f8c00c21f1c69a68982467c81[m
+Author: KyawMyoThant <kyawmyothant.connetis@gmail.com>
+Date:   Sun Jun 1 19:12:37 2025 +0630
+
+    feedback page translate
+
+[33mcommit 447ee80465edfbf8ba192cb05c76795057d7f86c[m
+Author: KyawMyoThant <kyawmyothant.connetis@gmail.com>
+Date:   Sun Jun 1 17:10:35 2025 +0630
+
+    add translate other lang
+
+[33mcommit 0f6d58db7a27b042786949320265faf8559cc61f[m
+Author: KyawMyoThant <kyawmyothant.connetis@gmail.com>
+Date:   Sun Jun 1 13:43:18 2025 +0630
+
+    change bg color drawable
+
+[33mcommit 8718924a6a3e8e8dd40407ccad51b70595db68ba[m
+Author: KyawMyoThant <kyawmyothant.connetis@gmail.com>
+Date:   Sun Jun 1 13:25:52 2025 +0630
+
+    justify font, witdth
+
+[33mcommit 38ec93b44bdc77eef4ae06e3ca4969ae3dbb2d9c[m
+Author: KyawMyoThant <kyawmyothant.connetis@gmail.com>
+Date:   Sun Jun 1 12:57:53 2025 +0630
+
+    currency exchange api
+
+[33mcommit 239dd73aad750c291f48433a0a58ffc79d96d048[m
+Author: KyawMyoThant <kyawmyothant.connetis@gmail.com>
+Date:   Sun Jun 1 09:23:11 2025 +0630
+
+    naming of app image
+
+[33mcommit 90e9a07b6c5210b1695a1eff504a78713d298dc9[m
+Author: KyawMyoThant <kyawmyothant.connetis@gmail.com>
+Date:   Sun Jun 1 08:13:55 2025 +0630
+
+    add export/import features
+
+[33mcommit a7d78224dc6f4da73b9831b58a3219bc4253ca5c[m
+Author: KyawMyoThant <kyawmyothant.connetis@gmail.com>
+Date:   Sun Jun 1 07:07:53 2025 +0630
+
+    add scroll vertical and mmk bug fixed
+
+[33mcommit 750c40c8218357d56170f095bf0e9c378ff3d75e[m
+Author: KyawMyoThant <kyawmyothant.connetis@gmail.com>
+Date:   Sun Jun 1 06:10:18 2025 +0630
+
+    add soft delete all list screen
+
+[33mcommit 1926f44f245101b17bad3019ab502a3ee9d16a71[m
+Author: KyawMyoThant <kyawmyothant.connetis@gmail.com>
+Date:   Sun Jun 1 05:56:14 2025 +0630
+
+    single and multiple checkbox at all list and history screen
+
+[33mcommit 383ce2d63fa73a1a408a915f218537948a8c616a[m
+Author: KyawMyoThant <kyawmyothant.connetis@gmail.com>
+Date:   Sun Jun 1 05:39:30 2025 +0630
+
+    add arrow title
+
+[33mcommit fd71776f12d7650437af25dc4ed3502b1f89ea8d[m
+Author: KyawMyoThant <kyawmyothant.connetis@gmail.com>
+Date:   Sat May 31 23:30:43 2025 +0630
+
+    remove fab menu
+
+[33mcommit 52f11ba6ebb5b6e8c5400c9b4fb287390b09e592[m
+Author: KyawMyoThant <kyawmyothant.connetis@gmail.com>
+Date:   Sat May 31 14:10:44 2025 +0630
+
+    add currency features
+
+[33mcommit 09ecea58756e2c1af8cb4a1491a4be62d13ff29e[m
+Author: KyawMyoThant <kyawmyothant.connetis@gmail.com>
+Date:   Sat May 31 09:59:21 2025 +0630
+
+    first init
