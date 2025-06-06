@@ -424,11 +424,43 @@ class ExportActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedLi
                 row.createCell(0).setCellValue((index + 1).toString())  // No - Sequential number
                 row.createCell(1).setCellValue(expense.date)  // Date
                 row.createCell(2).setCellValue(expense.name)  // Name
-                row.createCell(3).setCellValue(currencyManager.formatCurrency(currencyManager.getDisplayAmountFromStored(expense.price, expense.currency)))  // Amount
-                row.createCell(4).setCellValue(expense.description.ifEmpty { languageManager.getString("no_description") })  // Description
+                row.createCell(3).setCellValue(currencyManager.formatCurrency(currencyManager.getDisplayAmountFromStored(expense.price, expense.currency)))  // Amount                row.createCell(4).setCellValue(expense.description.ifEmpty { languageManager.getString("no_description") })  // Description
                 row.createCell(5).setCellValue("")  // Remark - empty for now since ExpenseItem doesn't have this field
             }
-            android.util.Log.d("ExportActivity", "Finished adding expenses to Excel")            // Set manual column widths for new order: No, Date, Name, Amount, Description, Remark
+            android.util.Log.d("ExportActivity", "Finished adding expenses to Excel")
+            
+            // Add total amount row if there are expenses
+            if (expenses.isNotEmpty()) {
+                val totalRowIndex = 7 + expenses.size
+                val totalRow = sheet.createRow(totalRowIndex)
+                
+                // Create total style (bold)
+                val totalStyle = workbook.createCellStyle()
+                val totalFont = workbook.createFont()
+                totalFont.bold = true
+                totalStyle.setFont(totalFont)
+                totalStyle.alignment = HorizontalAlignment.CENTER
+                
+                // Add "Total" label in the Name column (column 2)
+                val totalLabelCell = totalRow.createCell(2)
+                totalLabelCell.setCellValue(languageManager.getString("total_amount"))
+                totalLabelCell.cellStyle = totalStyle
+                
+                // Calculate total amount
+                var totalAmount = 0.0
+                expenses.forEach { expense ->
+                    totalAmount += currencyManager.getDisplayAmountFromStored(expense.price, expense.currency)
+                }
+                
+                // Add total amount in the Amount column (column 3)
+                val totalAmountCell = totalRow.createCell(3)
+                totalAmountCell.setCellValue(currencyManager.formatCurrency(totalAmount))
+                totalAmountCell.cellStyle = totalStyle
+                
+                android.util.Log.d("ExportActivity", "Added total amount row: ${currencyManager.formatCurrency(totalAmount)}")
+            }
+            
+            // Set manual column widths for new order: No, Date, Name, Amount, Description, Remark
             sheet.setColumnWidth(0, 8 * 256)   // No column - 8 characters
             sheet.setColumnWidth(1, 12 * 256)  // Date column - 12 characters
             sheet.setColumnWidth(2, 20 * 256)  // Name column - 20 characters
