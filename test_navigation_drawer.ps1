@@ -35,7 +35,7 @@ Write-Host "   📊 Summary - SummaryActivity" -ForegroundColor White
 Write-Host "   📈 Analytics - AnalyticsActivity" -ForegroundColor White
 Write-Host "   📋 All Expense - AllListActivity" -ForegroundColor White
 Write-Host "   🗃️ History - HistoryActivity" -ForegroundColor White
-Write-Host "   💱 Currency Exchange - CurrencyExchangeActivity" -ForegroundColor White
+Write-Host "   💱 Currency - CurrencyExchangeActivity" -ForegroundColor White
 Write-Host "   ⚙️ Settings - SettingsActivity" -ForegroundColor White
 Write-Host "   💬 Feedback - FeedbackActivity" -ForegroundColor White
 

@@ -89,7 +89,7 @@ import com.google.android.material.navigation.NavigationView
 📈 Analytics
 📋 All Expense
 📜 History
-💱 Currency Exchange
+💱 Currency
 ⚙️ Settings
 💬 Feedback
 ```

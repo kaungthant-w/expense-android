@@ -41,7 +41,7 @@ Successfully implemented a comprehensive JSON-based translation system for the A
 - `nav_history`: "🗃️ History"
 - `nav_summary`: "📊 Summary"
 - `nav_analytics`: "📈 Analytics"
-- `nav_currency_exchange`: "💱 Currency Exchange"
+- `nav_currency_exchange`: "💱 Currency"
 - `nav_settings`: "⚙️ Settings"
 - `nav_feedback`: "💬 Feedback"
 - `nav_about`: "ℹ️ About Us"
