@@ -50,10 +50,18 @@ class ExportActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedLi
     private val gson = Gson()
     
     // Export launchers
-    private lateinit var excelExportLauncher: ActivityResultLauncher<Intent>      // Data arrays for spinners
+    private lateinit var excelExportLauncher: ActivityResultLauncher<Intent>    // Data arrays for spinners
     private val periodOptions = arrayOf("export_period_today", "export_period_this_week", "export_period_this_month", "export_period_this_year")
-    private val paperSizeOptions = arrayOf("A4", "Legal", "Letter")
-    private val paperSizeLabels = arrayOf("📄 A4 (210 × 297 mm)", "📄 Legal (216 × 356 mm)", "📄 Letter (216 × 279 mm)")
+    private val paperSizeOptions = arrayOf("A4", "Legal", "Letter", "Roller48", "Roller58", "Roller80", "Roller112")
+    private val paperSizeLabels = arrayOf(
+        "📄 A4 (210 × 297 mm)", 
+        "📄 Legal (216 × 356 mm)", 
+        "📄 Letter (216 × 279 mm)",
+        "🧾 Roller 48mm (1.9 inch)",
+        "🧾 Roller 58mm (2.3 inch)", 
+        "🧾 Roller 80mm (3.1 inch)",
+        "🧾 Roller 112mm (4.4 inch)"
+    )
     
     override fun onCreate(savedInstanceState: Bundle?) {
         applyTheme()
@@ -286,8 +294,7 @@ class ExportActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedLi
             textViewDeviceStatus.text = languageManager.getString("no_devices_found")
             progressBarDeviceSearch.visibility = View.GONE
         }, 3000)
-    }
-      private fun exportToExcel(uri: Uri) {
+    }    private fun exportToExcel(uri: Uri) {
         try {
             val customTitle = editTextCustomTitle.text.toString().ifEmpty { 
                 languageManager.getString("app_name") + " " + languageManager.getString("report_export")
@@ -297,11 +304,14 @@ class ExportActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedLi
             val selectedLanguageCode = languageManager.getCurrentLanguage()
             val selectedPaperSize = paperSizeOptions[spinnerPaperSize.selectedItemPosition]
             
+            // Check if it's a roller paper size
+            val isRollerPaper = selectedPaperSize.startsWith("Roller")
+            
             // Load expense data
             val expenses = loadFilteredExpenses(selectedPeriod)
               // Debug logging
             android.util.Log.d("ExportActivity", "Loaded ${expenses.size} expenses for export")
-            android.util.Log.d("ExportActivity", "Selected paper size: $selectedPaperSize")
+            android.util.Log.d("ExportActivity", "Selected paper size: $selectedPaperSize (Roller: $isRollerPaper)")
             if (expenses.isEmpty()) {
                 val periodName = when (selectedPeriod) {
                     0 -> languageManager.getString("export_period_today")
@@ -331,18 +341,33 @@ class ExportActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedLi
                 "A4" -> sheet.printSetup.paperSize = org.apache.poi.ss.usermodel.PrintSetup.A4_PAPERSIZE
                 "Legal" -> sheet.printSetup.paperSize = org.apache.poi.ss.usermodel.PrintSetup.LEGAL_PAPERSIZE
                 "Letter" -> sheet.printSetup.paperSize = org.apache.poi.ss.usermodel.PrintSetup.LETTER_PAPERSIZE
+                // Roller papers use A4 as base but with different formatting
+                else -> sheet.printSetup.paperSize = org.apache.poi.ss.usermodel.PrintSetup.A4_PAPERSIZE
             }
             
-            // Set print margins for better layout
-            sheet.setMargin(org.apache.poi.ss.usermodel.Sheet.TopMargin, 0.75)
-            sheet.setMargin(org.apache.poi.ss.usermodel.Sheet.BottomMargin, 0.75)
-            sheet.setMargin(org.apache.poi.ss.usermodel.Sheet.LeftMargin, 0.7)
-            sheet.setMargin(org.apache.poi.ss.usermodel.Sheet.RightMargin, 0.7)
+            // Set print margins - tighter for roller papers
+            if (isRollerPaper) {
+                sheet.setMargin(org.apache.poi.ss.usermodel.Sheet.TopMargin, 0.25)
+                sheet.setMargin(org.apache.poi.ss.usermodel.Sheet.BottomMargin, 0.25)
+                sheet.setMargin(org.apache.poi.ss.usermodel.Sheet.LeftMargin, 0.1)
+                sheet.setMargin(org.apache.poi.ss.usermodel.Sheet.RightMargin, 0.1)
+            } else {
+                sheet.setMargin(org.apache.poi.ss.usermodel.Sheet.TopMargin, 0.75)
+                sheet.setMargin(org.apache.poi.ss.usermodel.Sheet.BottomMargin, 0.75)
+                sheet.setMargin(org.apache.poi.ss.usermodel.Sheet.LeftMargin, 0.7)
+                sheet.setMargin(org.apache.poi.ss.usermodel.Sheet.RightMargin, 0.7)
+            }
+            
+            // Create styles with different font sizes for roller vs regular paper
+            val baseFontSize: Short = if (isRollerPaper) 8 else 11
+            val headerFontSize: Short = if (isRollerPaper) 9 else 11
+            val titleFontSize: Short = if (isRollerPaper) 10 else 16
             
             // Create header style
             val headerStyle = workbook.createCellStyle()
             val headerFont = workbook.createFont()
             headerFont.bold = true
+            headerFont.fontHeightInPoints = headerFontSize
             headerFont.color = IndexedColors.WHITE.index
             headerStyle.setFont(headerFont)
             headerStyle.fillForegroundColor = IndexedColors.DARK_BLUE.index
@@ -353,7 +378,7 @@ class ExportActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedLi
             val titleStyle = workbook.createCellStyle()
             val titleFont = workbook.createFont()
             titleFont.bold = true
-            titleFont.fontHeightInPoints = 16
+            titleFont.fontHeightInPoints = titleFontSize
             titleStyle.setFont(titleFont)
             titleStyle.alignment = HorizontalAlignment.CENTER
             
@@ -361,7 +386,14 @@ class ExportActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedLi
             val infoStyle = workbook.createCellStyle()
             val infoFont = workbook.createFont()
             infoFont.italic = true
+            infoFont.fontHeightInPoints = baseFontSize
             infoStyle.setFont(infoFont)
+            
+            // Create data style for roller papers
+            val dataStyle = workbook.createCellStyle()
+            val dataFont = workbook.createFont()
+            dataFont.fontHeightInPoints = baseFontSize
+            dataStyle.setFont(dataFont)
             
             // Create title row
             val titleRow = sheet.createRow(0)
@@ -369,8 +401,9 @@ class ExportActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedLi
             titleCell.setCellValue(customTitle)
             titleCell.cellStyle = titleStyle
             
-            // Merge title cells
-            sheet.addMergedRegion(org.apache.poi.ss.util.CellRangeAddress(0, 0, 0, 6))
+            // Merge title cells based on paper type
+            val mergeColumns = if (isRollerPaper) 3 else 5
+            sheet.addMergedRegion(org.apache.poi.ss.util.CellRangeAddress(0, 0, 0, mergeColumns))
             
             // Create info rows
             val dateFormat = SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault())
@@ -390,16 +423,27 @@ class ExportActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedLi
               val infoRow4 = sheet.createRow(4)
             val infoCell4 = infoRow4.createCell(0)
             infoCell4.setCellValue("Paper Size: $selectedPaperSize")
-            infoCell4.cellStyle = infoStyle              // Create header row for data
+            infoCell4.cellStyle = infoStyle              // Create header row for data with different columns based on paper type
             val headerRow = sheet.createRow(6)
-            val headers = arrayOf(
-                "No",
-                languageManager.getString("date"),
-                languageManager.getString("expense_name"),
-                languageManager.getString("amount"),
-                languageManager.getString("description"),
-                "Remark"
-            )
+            val headers = if (isRollerPaper) {
+                // Roller paper: No, Date, Name, Amount (no Description, no Remark)
+                arrayOf(
+                    "No",
+                    languageManager.getString("date"),
+                    languageManager.getString("expense_name"),
+                    languageManager.getString("amount")
+                )
+            } else {
+                // Regular paper: No, Date, Name, Amount, Description, Remark
+                arrayOf(
+                    "No",
+                    languageManager.getString("date"),
+                    languageManager.getString("expense_name"),
+                    languageManager.getString("amount"),
+                    languageManager.getString("description"),
+                    "Remark"
+                )
+            }
             
             headers.forEachIndexed { index, header ->
                 val cell = headerRow.createCell(index)
@@ -410,22 +454,34 @@ class ExportActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedLi
             expenses.forEachIndexed { index, expense ->
                 val row = sheet.createRow(7 + index)
                 
-                // Convert amount to target currency
-                val convertedAmount = if (expense.currency == selectedCurrency) {
-                    currencyManager.getDisplayAmountFromStored(expense.price, expense.currency)
-                } else {
-                    // For now, just show the original amount with a note
-                    currencyManager.getDisplayAmountFromStored(expense.price, expense.currency)
-                }
-                
                 android.util.Log.d("ExportActivity", "Adding expense ${index + 1}: ${expense.name} - ${expense.price}")
                 
-                // New column order: No, Date, Name, Amount, Description, Remark
-                row.createCell(0).setCellValue((index + 1).toString())  // No - Sequential number
-                row.createCell(1).setCellValue(expense.date)  // Date
-                row.createCell(2).setCellValue(expense.name)  // Name
-                row.createCell(3).setCellValue(currencyManager.formatCurrency(currencyManager.getDisplayAmountFromStored(expense.price, expense.currency)))  // Amount                row.createCell(4).setCellValue(expense.description.ifEmpty { languageManager.getString("no_description") })  // Description
-                row.createCell(5).setCellValue("")  // Remark - empty for now since ExpenseItem doesn't have this field
+                if (isRollerPaper) {
+                    // Roller paper format: No, Date, Name, Amount
+                    val noCell = row.createCell(0)
+                    noCell.setCellValue((index + 1).toString())
+                    noCell.cellStyle = dataStyle
+                    
+                    val dateCell = row.createCell(1)
+                    dateCell.setCellValue(expense.date)
+                    dateCell.cellStyle = dataStyle
+                    
+                    val nameCell = row.createCell(2)
+                    nameCell.setCellValue(expense.name)
+                    nameCell.cellStyle = dataStyle
+                    
+                    val amountCell = row.createCell(3)
+                    amountCell.setCellValue(currencyManager.formatCurrency(currencyManager.getDisplayAmountFromStored(expense.price, expense.currency)))
+                    amountCell.cellStyle = dataStyle
+                } else {
+                    // Regular paper format: No, Date, Name, Amount, Description, Remark
+                    row.createCell(0).setCellValue((index + 1).toString())  // No - Sequential number
+                    row.createCell(1).setCellValue(expense.date)  // Date
+                    row.createCell(2).setCellValue(expense.name)  // Name
+                    row.createCell(3).setCellValue(currencyManager.formatCurrency(currencyManager.getDisplayAmountFromStored(expense.price, expense.currency)))  // Amount
+                    row.createCell(4).setCellValue(expense.description.ifEmpty { languageManager.getString("no_description") })  // Description
+                    row.createCell(5).setCellValue("")  // Remark - empty for now since ExpenseItem doesn't have this field
+                }
             }
             android.util.Log.d("ExportActivity", "Finished adding expenses to Excel")
             
@@ -438,13 +494,9 @@ class ExportActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedLi
                 val totalStyle = workbook.createCellStyle()
                 val totalFont = workbook.createFont()
                 totalFont.bold = true
+                totalFont.fontHeightInPoints = baseFontSize
                 totalStyle.setFont(totalFont)
                 totalStyle.alignment = HorizontalAlignment.CENTER
-                
-                // Add "Total" label in the Name column (column 2)
-                val totalLabelCell = totalRow.createCell(2)
-                totalLabelCell.setCellValue(languageManager.getString("total_amount"))
-                totalLabelCell.cellStyle = totalStyle
                 
                 // Calculate total amount
                 var totalAmount = 0.0
@@ -452,21 +504,47 @@ class ExportActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedLi
                     totalAmount += currencyManager.getDisplayAmountFromStored(expense.price, expense.currency)
                 }
                 
-                // Add total amount in the Amount column (column 3)
-                val totalAmountCell = totalRow.createCell(3)
-                totalAmountCell.setCellValue(currencyManager.formatCurrency(totalAmount))
-                totalAmountCell.cellStyle = totalStyle
+                if (isRollerPaper) {
+                    // For roller paper: put total in Name column (column 2)
+                    val totalLabelCell = totalRow.createCell(2)
+                    totalLabelCell.setCellValue(languageManager.getString("total_amount"))
+                    totalLabelCell.cellStyle = totalStyle
+                    
+                    // Add total amount in Amount column (column 3)
+                    val totalAmountCell = totalRow.createCell(3)
+                    totalAmountCell.setCellValue(currencyManager.formatCurrency(totalAmount))
+                    totalAmountCell.cellStyle = totalStyle
+                } else {
+                    // For regular paper: put total in Name column (column 2)
+                    val totalLabelCell = totalRow.createCell(2)
+                    totalLabelCell.setCellValue(languageManager.getString("total_amount"))
+                    totalLabelCell.cellStyle = totalStyle
+                    
+                    // Add total amount in Amount column (column 3)
+                    val totalAmountCell = totalRow.createCell(3)
+                    totalAmountCell.setCellValue(currencyManager.formatCurrency(totalAmount))
+                    totalAmountCell.cellStyle = totalStyle
+                }
                 
                 android.util.Log.d("ExportActivity", "Added total amount row: ${currencyManager.formatCurrency(totalAmount)}")
             }
             
-            // Set manual column widths for new order: No, Date, Name, Amount, Description, Remark
-            sheet.setColumnWidth(0, 8 * 256)   // No column - 8 characters
-            sheet.setColumnWidth(1, 12 * 256)  // Date column - 12 characters
-            sheet.setColumnWidth(2, 20 * 256)  // Name column - 20 characters
-            sheet.setColumnWidth(3, 15 * 256)  // Amount column - 15 characters
-            sheet.setColumnWidth(4, 25 * 256)  // Description column - 25 characters  
-            sheet.setColumnWidth(5, 15 * 256)  // Remark column - 15 characters
+            // Set manual column widths based on paper type
+            if (isRollerPaper) {
+                // Roller paper: narrower columns for receipt format
+                sheet.setColumnWidth(0, 6 * 256)   // No column - 6 characters
+                sheet.setColumnWidth(1, 10 * 256)  // Date column - 10 characters
+                sheet.setColumnWidth(2, 18 * 256)  // Name column - 18 characters
+                sheet.setColumnWidth(3, 12 * 256)  // Amount column - 12 characters
+            } else {
+                // Regular paper: standard column widths
+                sheet.setColumnWidth(0, 8 * 256)   // No column - 8 characters
+                sheet.setColumnWidth(1, 12 * 256)  // Date column - 12 characters
+                sheet.setColumnWidth(2, 20 * 256)  // Name column - 20 characters
+                sheet.setColumnWidth(3, 15 * 256)  // Amount column - 15 characters
+                sheet.setColumnWidth(4, 25 * 256)  // Description column - 25 characters  
+                sheet.setColumnWidth(5, 15 * 256)  // Remark column - 15 characters
+            }
               // Save to file
             android.util.Log.d("ExportActivity", "Starting to write Excel file to URI: $uri")
             contentResolver.openOutputStream(uri)?.use { outputStream ->
