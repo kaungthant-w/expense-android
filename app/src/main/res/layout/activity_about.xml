@@ -14,7 +14,7 @@
                         <TextView android:id="@+id/textViewAboutSectionTitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="ℹ️ About" android:textSize="20sp" android:textStyle="bold" android:textColor="?attr/textPrimaryColor" android:layout_marginBottom="12dp" />
                         <TextView android:id="@+id/textViewAppName" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="HSU Expense App" android:textSize="16sp" android:textStyle="bold" android:textColor="?attr/textPrimaryColor" android:layout_marginBottom="4dp" />
                         <TextView android:id="@+id/textViewAppVersion" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Version 1.0.0" android:textSize="14sp" android:textColor="?attr/textSecondaryColor" android:layout_marginBottom="8dp" />
-                        <TextView android:id="@+id/textViewAppDescription" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Track your expenses efficiently with a beautiful and intuitive interface" android:textSize="14sp" android:textColor="?attr/textSecondaryColor" />
+                        <TextView android:id="@+id/textViewAppDescription" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Track your expenses efficiently" android:textSize="14sp" android:textColor="?attr/textSecondaryColor" />
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
                 <!-- Developer and Support Footer -->
