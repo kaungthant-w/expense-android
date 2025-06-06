@@ -22,7 +22,7 @@
                     <!-- Developer Footer -->
                     <androidx.cardview.widget.CardView android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" app:cardCornerRadius="20dp" app:cardElevation="0dp" android:layout_marginEnd="8dp" android:background="@drawable/glassmorphism_card">
                         <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" android:padding="13dp" android:background="@drawable/glassmorphism_card" android:gravity="center">
-                            <TextView android:id="@+id/textViewDevelopedBy" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="👨‍💻 Developed by" android:textSize="12sp" android:textColor="#1A1A1A" android:layout_marginBottom="4dp" />
+                            <TextView android:id="@+id/textViewDevelopedBy" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Developed by" android:textSize="12sp" android:textColor="#1A1A1A" android:layout_marginBottom="4dp" />
                             <TextView android:id="@+id/textViewDeveloperName" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Kyaw Myo Thant" android:textSize="14sp" android:textStyle="bold" android:textColor="#1A1A1A" android:layout_marginBottom="2dp" />
                             <TextView android:id="@+id/textViewDeveloperEmail" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text=" kyawmyothant.dev@gmail.com" android:textSize="10sp" android:textColor="#666666" />
                         </LinearLayout>
@@ -31,7 +31,7 @@
                     <androidx.cardview.widget.CardView android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" app:cardCornerRadius="20dp" app:cardElevation="0dp" android:layout_marginStart="8dp" android:background="@drawable/glassmorphism_card">
                         <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" android:padding="13dp" android:background="@drawable/glassmorphism_card" android:gravity="center">
                             <TextView android:id="@+id/textViewSupportedBy" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Supported by" android:textSize="12sp" android:textColor="#1A1A1A" android:layout_marginBottom="4dp" />
-                            <TextView android:id="@+id/textViewSupporterName" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="HSU Yee Mon" android:textSize="14sp" android:textStyle="bold" android:textColor="#1A1A1A" android:layout_marginBottom="2dp" />
+                            <TextView android:id="@+id/textViewSupporterName" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Hsu Yee Mon" android:textSize="14sp" android:textStyle="bold" android:textColor="#1A1A1A" android:layout_marginBottom="2dp" />
                             <TextView android:id="@+id/textViewSupporterMessage" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="She helped with testing, feedback, and design. Her support made it possible." android:textSize="10sp" android:textColor="#666666" />
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
