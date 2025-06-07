@@ -254,10 +254,9 @@ class ExportActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedLi
             showBluetoothPrintDialog()
         }
     }
-    
-    private fun setupSpinners() {
+      private fun setupSpinners() {
         // Export Period Spinner
-        val periodAdapter = object : ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, periodOptions) {
+        val periodAdapter = object : ArrayAdapter<String>(this, R.layout.spinner_item, periodOptions) {
             override fun getView(position: Int, convertView: View?, parent: android.view.ViewGroup): View {
                 val view = super.getView(position, convertView, parent)
                 (view as TextView).text = languageManager.getString(periodOptions[position])
@@ -269,12 +268,12 @@ class ExportActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedLi
                 return view
             }
         }
-        periodAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        periodAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
         spinnerExportPeriod.adapter = periodAdapter
         
         // Paper Size Spinner
-        val paperSizeAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, paperSizeLabels)
-        paperSizeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        val paperSizeAdapter = ArrayAdapter(this, R.layout.spinner_item, paperSizeLabels)
+        paperSizeAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
         spinnerPaperSize.adapter = paperSizeAdapter
         
         // Set A4 as default (index 0)
@@ -563,7 +562,8 @@ class ExportActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedLi
               val infoRow4 = sheet.createRow(4)
             val infoCell4 = infoRow4.createCell(0)
             infoCell4.setCellValue("Paper Size: $selectedPaperSize")
-            infoCell4.cellStyle = infoStyle              // Create header row for data with different columns based on paper type
+            infoCell4.cellStyle = infoStyle              
+            // Create header row for data with different columns based on paper type
             val headerRow = sheet.createRow(6)
             val headers = if (isRollerPaper) {
                 // Roller paper: No, Date, Name, Amount (no Description, no Remark)

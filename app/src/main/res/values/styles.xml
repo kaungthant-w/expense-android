@@ -122,6 +122,17 @@
     <style name="Widget.Poppins.EditText" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="android:fontFamily">@font/poppins</item>
         <item name="fontFamily">@font/poppins</item>
+    </style>    <!-- Theme-aware Spinner Style -->
+    <style name="ThemeAwareSpinner" parent="Widget.AppCompat.Spinner">
+        <item name="android:fontFamily">@font/poppins</item>
+        <item name="fontFamily">@font/poppins</item>
+        <item name="android:textColor">?attr/textPrimaryColor</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:popupBackground">?attr/cardBackgroundColor</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingBottom">12dp</item>
+        <item name="android:includeFontPadding">false</item>
     </style>
 
     <style name="Widget.Poppins.Button" parent="Widget.MaterialComponents.Button">

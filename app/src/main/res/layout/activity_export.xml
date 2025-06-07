@@ -129,14 +129,12 @@
                             android:textSize="18sp"
                             android:textStyle="bold"
                             android:textColor="?attr/textPrimaryColor"
-                            android:layout_marginBottom="12dp" />
-
-                        <Spinner
+                            android:layout_marginBottom="12dp" />                        <Spinner
                             android:id="@+id/spinnerExportPeriod"
                             android:layout_width="match_parent"
                             android:layout_height="56dp"
                             android:background="@drawable/spinner_background"
-                            android:padding="12dp" />
+                            style="@style/ThemeAwareSpinner" />
 
                     </LinearLayout>
 
@@ -163,14 +161,12 @@
                             android:textSize="18sp"
                             android:textStyle="bold"
                             android:textColor="?attr/textPrimaryColor"
-                            android:layout_marginBottom="12dp" />
-
-                        <Spinner
+                            android:layout_marginBottom="12dp" />                        <Spinner
                             android:id="@+id/spinnerPaperSize"
                             android:layout_width="match_parent"
                             android:layout_height="56dp"
                             android:background="@drawable/spinner_background"
-                            android:padding="12dp" />
+                            style="@style/ThemeAwareSpinner" />
 
                     </LinearLayout>
 
