@@ -398,10 +398,19 @@
   "report_export": "အစီရင်ခံစာ",
   "device_search_ready": "စက်ပစ္စည်းများ ရှာဖွေရန် အသင့်ရှိနေသည်",
   "excel_export": "Excel ထုတ်ယူမှု",
-  "excel_export_message": "ရွေးချယ်ထားသော စစ်ထုတ်မှုများအရ သင့်ကုန်ကျစရိတ် ဒေတာဖြင့် Excel ဖိုင်တစ်ခု ဖန်တီးမည်ဖြစ်သည်။",
-  "wireless_print": "ကြိုးမဲ့ ပရင့်ထုတ်မှု",
+  "excel_export_message": "ရွေးချယ်ထားသော စစ်ထုတ်မှုများအရ သင့်ကုန်ကျစရိတ် ဒေတာဖြင့် Excel ဖိုင်တစ်ခု ဖန်တီးမည်ဖြစ်သည်။",  "wireless_print": "ကြိုးမဲ့ ပရင့်ထုတ်မှု",
   "wireless_print_message": "ကြိုးမဲ့ ပရင်တာများကို ရှာဖွေပြီး သင့်ကုန်ကျစရိတ် အစီရင်ခံစာကို ပရင့်ထုတ်မည်ဖြစ်သည်။",
   "discover_devices": "စက်ပစ္စည်းများ ရှာဖွေရန်",
   "export_date": "ထုတ်ယူသည့်ရက်စွဲ",
-  "converted_amount": "ပြောင်းလဲထားသော ပမာဏ"
+  "converted_amount": "ပြောင်းလဲထားသော ပမာဏ",
+  "wifi_print": "WiFi ပရင့်ထုတ်မှု",
+  "wifi_print_message": "သင့်ကုန်ကျစရိတ် အစီရင်ခံစာကို ကွန်ယက် ပရင်တာသို့ ကြိုးမဲ့ ပရင့်ထုတ်ပါ",
+  "configure_printer": "ပရင်တာ ပြင်ဆင်မှု",
+  "discover_network": "ကွန်ယက် ရှာဖွေမှု",
+  "wifi_recommendations_title": "📡 အကြံပြုချက်များ:",
+  "wifi_recommendation_connection": "• Best WiFi Connection အတွက် router နှင့်နီးကပ်စွာ ထားပါ",
+  "wifi_recommendation_compatibility": "• Printer Compatibility အတွက် modern WiFi printer များကို အသုံးပြုပါ",
+  "wifi_recommendation_quality": "• Print Quality အတွက် A4 paper size ကို ရွေးချယ်ပါ",
+  "wifi_recommendation_data": "• Data Saving အတွက် Export လုပ်ပြီးမှ print လုပ်ပါ",
+  "wifi_ip_requirement": "💡 Network printer IP address လိုအပ်ပါသည်"
 }

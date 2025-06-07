@@ -396,7 +396,15 @@
   "excel_export_message": "This will generate an Excel file with your expense data based on the selected filters.",
   "wireless_print": "Wireless Print",
   "wireless_print_message": "This will search for wireless printers and print your expense report.",
-  "discover_devices": "Discover Devices",
-  "export_date": "Export Date",
-  "converted_amount": "Converted Amount"
+  "discover_devices": "Discover Devices",  "export_date": "Export Date",
+  "converted_amount": "Converted Amount",  "wifi_print": "WiFi Print",
+  "wifi_print_message": "Print your expense report wirelessly to a network printer",
+  "configure_printer": "Configure Printer",
+  "discover_network": "Discover Network",
+  "wifi_recommendations_title": "📡 Recommendations:",
+  "wifi_recommendation_connection": "• Stay close to router for best WiFi connection",
+  "wifi_recommendation_compatibility": "• Use modern WiFi printers for printer compatibility",
+  "wifi_recommendation_quality": "• Select A4 paper size for print quality",
+  "wifi_recommendation_data": "• Export first, then print to save data",
+  "wifi_ip_requirement": "💡 Network printer IP address required"
 }

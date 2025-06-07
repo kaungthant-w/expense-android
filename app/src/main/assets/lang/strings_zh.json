@@ -402,10 +402,19 @@
   "report_export": "报告",
   "device_search_ready": "准备搜索设备",
   "excel_export": "Excel导出",
-  "excel_export_message": "将根据所选过滤器生成包含您费用数据的Excel文件。",
-  "wireless_print": "无线打印",
+  "excel_export_message": "将根据所选过滤器生成包含您费用数据的Excel文件。",  "wireless_print": "无线打印",
   "wireless_print_message": "将搜索无线打印机并打印您的费用报告。",
   "discover_devices": "发现设备",
   "export_date": "导出日期",
-  "converted_amount": "转换金额"
+  "converted_amount": "转换金额",
+  "wifi_print": "WiFi打印",
+  "wifi_print_message": "将费用报告无线打印到网络打印机",
+  "configure_printer": "配置打印机",
+  "discover_network": "发现网络",
+  "wifi_recommendations_title": "📡 建议：",
+  "wifi_recommendation_connection": "• 为获得最佳WiFi连接，请靠近路由器放置",
+  "wifi_recommendation_compatibility": "• 为确保打印机兼容性，请使用现代WiFi打印机",
+  "wifi_recommendation_quality": "• 为确保打印质量，请选择A4纸张尺寸",
+  "wifi_recommendation_data": "• 为节省数据，请先导出再打印",
+  "wifi_ip_requirement": "💡 需要网络打印机IP地址"
 }

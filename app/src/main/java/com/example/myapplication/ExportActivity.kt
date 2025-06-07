@@ -318,18 +318,17 @@ class ExportActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedLi
                 startExcelExport()
             }            .setNegativeButton(languageManager.getString("cancel"), null)
             .show()
-    }
-      private fun showWifiPrintDialog() {
+    }      private fun showWifiPrintDialog() {
         val message = """
             ${languageManager.getString("wifi_print_message")}
             
-            📡 အကြံပြုချက်များ:
-            • Best WiFi Connection အတွက် router နှင့်နီးကပ်စွာ ထားပါ
-            • Printer Compatibility အတွက် modern WiFi printer များကို အသုံးပြုပါ
-            • Print Quality အတွက် A4 paper size ကို ရွေးချယ်ပါ
-            • Data Saving အတွက် Export လုပ်ပြီးမှ print လုပ်ပါ
+            ${languageManager.getString("wifi_recommendations_title")}
+            ${languageManager.getString("wifi_recommendation_connection")}
+            ${languageManager.getString("wifi_recommendation_compatibility")}
+            ${languageManager.getString("wifi_recommendation_quality")}
+            ${languageManager.getString("wifi_recommendation_data")}
             
-            💡 Network printer IP address လိုအပ်ပါသည်
+            ${languageManager.getString("wifi_ip_requirement")}
         """.trimIndent()
         
         AlertDialog.Builder(this)
@@ -1262,8 +1261,7 @@ class ExportActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedLi
             socket.close()
         }
     }
-    
-    private fun generateWifiPrintData(expenses: List<ExpenseItem>): ByteArray {
+      private fun generateWifiPrintData(expenses: List<ExpenseItem>): ByteArray {
         val customTitle = editTextCustomTitle.text.toString().ifEmpty { 
             languageManager.getString("app_name") + " " + languageManager.getString("report_export")
         }
@@ -1276,6 +1274,20 @@ class ExportActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedLi
             3 -> languageManager.getString("export_period_this_year")
             else -> "All"
         }
+        
+        // Get selected paper size and determine format
+        val selectedPaperSize = paperSizeOptions[spinnerPaperSize.selectedItemPosition]
+        val paperWidth = when (selectedPaperSize) {
+            "Roller48" -> 48
+            "Roller58" -> 58
+            "Roller80" -> 80
+            "Roller112" -> 112
+            "A4" -> 210  // A4 width in mm
+            "Legal" -> 216  // Legal width in mm
+            "Letter" -> 216  // Letter width in mm
+            else -> 80 // Default to 80mm
+        }
+        val isRollerPaper = selectedPaperSize.startsWith("Roller")
         
         val printContent = StringBuilder()
         
@@ -1309,39 +1321,91 @@ class ExportActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedLi
         printContent.append(ESC.toInt().toChar())
         printContent.append("E")
         printContent.append(0.toChar()) // Bold off
-        
-        val dateFormat = java.text.SimpleDateFormat("dd/MM/yyyy HH:mm", java.util.Locale.getDefault())
+          val dateFormat = java.text.SimpleDateFormat("dd/MM/yyyy HH:mm", java.util.Locale.getDefault())
         printContent.append("${languageManager.getString("export_date")}: ${dateFormat.format(java.util.Date())}\n")
         printContent.append("${languageManager.getString("export_period")}: $periodName\n")
         printContent.append("${languageManager.getString("total_expenses")}: ${expenses.size}\n")
-        printContent.append("WiFi Printer: $wifiPrinterIP\n")
-        printContent.append("================\n\n")
+        printContent.append("Paper: $selectedPaperSize\n")
+        printContent.append("WiFi: $wifiPrinterIP\n")
         
-        // Left align for expense list
+        // Different separator lengths based on paper width
+        val separatorLength = when (paperWidth) {
+            48 -> 32
+            58 -> 38
+            80 -> 48
+            112 -> 64
+            else -> if (isRollerPaper) 38 else 48  // Default for roller vs standard
+        }
+        val separator = "=".repeat(separatorLength)
+        printContent.append("$separator\n\n")
+          // Left align for expense list
         printContent.append(ESC.toInt().toChar())
         printContent.append("a")
         printContent.append(0.toChar()) // Left align
         
-        // Print expenses
-        expenses.forEachIndexed { index, expense ->
-            val amount = currencyManager.formatCurrency(
-                currencyManager.getDisplayAmountFromStored(expense.price, expense.currency)
-            )
+        if (isRollerPaper) {
+            // Roller paper format - compact receipt style
+            printContent.append("No  Item${" ".repeat(15)}Amount\n")
+            val itemSeparator = "-".repeat(separatorLength)
+            printContent.append("$itemSeparator\n")
             
-            printContent.append("${index + 1}. ${expense.name}\n")
-            printContent.append("   ${expense.date} - $amount\n")
-            if (expense.description.isNotEmpty()) {
-                printContent.append("   ${expense.description}\n")
+            expenses.forEachIndexed { index, expense ->
+                val amount = currencyManager.formatCurrency(
+                    currencyManager.getDisplayAmountFromStored(expense.price, expense.currency)
+                )
+                
+                // Format for different roller widths
+                val itemFormat = when (paperWidth) {
+                    48 -> "%-2d %-18s %7s"  // Very compact
+                    58 -> "%-2d %-22s %9s"  // Compact
+                    80 -> "%-2d %-28s %12s" // Standard receipt
+                    112 -> "%-2d %-38s %18s" // Wide receipt
+                    else -> "%-2d %-22s %9s" // Default compact
+                }
+                
+                val truncatedName = if (expense.name.length > (paperWidth / 3)) {
+                    expense.name.take(paperWidth / 3 - 3) + "..."
+                } else {
+                    expense.name
+                }
+                
+                val line = String.format(itemFormat, index + 1, truncatedName, amount)
+                printContent.append("$line\n")
+                
+                // Add date on next line for roller papers
+                printContent.append("    ${expense.date}\n")
+                if (expense.description.isNotEmpty() && paperWidth >= 80) {
+                    val desc = if (expense.description.length > (paperWidth / 2)) {
+                        expense.description.take(paperWidth / 2 - 3) + "..."
+                    } else {
+                        expense.description
+                    }
+                    printContent.append("    $desc\n")
+                }
+                printContent.append("\n")
             }
-            printContent.append("\n")
+        } else {
+            // Standard paper format - full information
+            expenses.forEachIndexed { index, expense ->
+                val amount = currencyManager.formatCurrency(
+                    currencyManager.getDisplayAmountFromStored(expense.price, expense.currency)
+                )
+                
+                printContent.append("${index + 1}. ${expense.name}\n")
+                printContent.append("   Date: ${expense.date}\n")
+                printContent.append("   Amount: $amount\n")
+                if (expense.description.isNotEmpty()) {
+                    printContent.append("   Description: ${expense.description}\n")
+                }
+                printContent.append("\n")
+            }
         }
         
         // Total
         val totalAmount = expenses.sumOf { 
             currencyManager.getDisplayAmountFromStored(it.price, it.currency)
         }
-        
-        printContent.append("----------------\n")
+          printContent.append("-".repeat(separatorLength) + "\n")
         printContent.append(ESC.toInt().toChar())
         printContent.append("E")
         printContent.append(1.toChar()) // Bold on
@@ -1352,13 +1416,31 @@ class ExportActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedLi
         printContent.append("E")
         printContent.append(0.toChar()) // Bold off
         
-        // Footer with recommendations
-        printContent.append("\n================\n")
-        printContent.append("📡 WiFi Print Tips:\n")
-        printContent.append("• Router နှင့်နီးကပ်စွာ ထားပါ\n")
-        printContent.append("• A4 paper အသုံးပြုပါ\n")
-        printContent.append("• Export ပြီးမှ print လုပ်ပါ\n")
-        printContent.append("================\n")
+        // Footer with recommendations - adjust for paper size
+        printContent.append("\n" + "=".repeat(separatorLength) + "\n")
+        
+        if (isRollerPaper) {
+            // Compact footer for roller papers
+            printContent.append("📡 WiFi Tips:\n")
+            if (paperWidth >= 80) {
+                printContent.append("• Router နှင့်နီးကပ်စွာ ထားပါ\n")
+                printContent.append("• $selectedPaperSize paper သုံးပါ\n")
+                printContent.append("• Export ပြီးမှ print လုပ်ပါ\n")
+            } else {
+                // Very compact for small rollers
+                printContent.append("• Router နီးကပ်စွာ\n")
+                printContent.append("• ${selectedPaperSize}\n")
+                printContent.append("• Export→Print\n")
+            }
+        } else {
+            // Full footer for standard papers
+            printContent.append("📡 WiFi Print Tips:\n")
+            printContent.append("• Router နှင့်နီးကပ်စွာ ထားပါ\n")
+            printContent.append("• $selectedPaperSize paper အသုံးပြုပါ\n")
+            printContent.append("• Export ပြီးမှ print လုပ်ပါ\n")
+            printContent.append("• Data saving အတွက် ကြိုတင်သိမ်းပါ\n")
+        }
+        printContent.append("=".repeat(separatorLength) + "\n")
         
         // Feed and cut
         printContent.append("\n\n\n")

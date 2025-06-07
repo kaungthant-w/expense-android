@@ -402,10 +402,19 @@
   "report_export": "レポート",
   "device_search_ready": "デバイス検索の準備完了",
   "excel_export": "Excelエクスポート",
-  "excel_export_message": "選択したフィルターに基づいて、支出データを含むExcelファイルが生成されます。",
-  "wireless_print": "ワイヤレス印刷",
+  "excel_export_message": "選択したフィルターに基づいて、支出データを含むExcelファイルが生成されます。",  "wireless_print": "ワイヤレス印刷",
   "wireless_print_message": "ワイヤレスプリンターを検索し、支出レポートを印刷します。",
   "discover_devices": "デバイスを検出",
   "export_date": "エクスポート日時",
-  "converted_amount": "変換金額"
+  "converted_amount": "変換金額",
+  "wifi_print": "WiFi印刷",
+  "wifi_print_message": "ネットワークプリンターにワイヤレスで支出レポートを印刷します",
+  "configure_printer": "プリンター設定",
+  "discover_network": "ネットワーク検出",
+  "wifi_recommendations_title": "📡 推奨事項：",
+  "wifi_recommendation_connection": "• 最良のWiFi接続のためルーターの近くに配置してください",
+  "wifi_recommendation_compatibility": "• プリンター互換性のため最新のWiFiプリンターをご使用ください",
+  "wifi_recommendation_quality": "• 印刷品質のためA4用紙サイズを選択してください",
+  "wifi_recommendation_data": "• データ節約のため先にエクスポートしてから印刷してください",
+  "wifi_ip_requirement": "💡 ネットワークプリンターのIPアドレスが必要です"
 }
