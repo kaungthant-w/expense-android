@@ -53,14 +53,12 @@
                         android:layout_width="40dp"
                         android:layout_height="40dp" />
 
-                </LinearLayout>
-
-                <!-- Export Description -->
+                </LinearLayout>                <!-- Export Description -->
                 <TextView
                     android:id="@+id/textViewDescription"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Export your expense data to Excel or print wirelessly"
+                    android:text="Export your expense data to Excel, print wirelessly via WiFi, or print via Bluetooth"
                     android:textSize="16sp"
                     android:textColor="?attr/textSecondaryColor"
                     android:gravity="center"
@@ -214,18 +212,29 @@
                             android:textColor="@android:color/white"
                             android:background="@drawable/button_primary_background"
                             android:layout_marginBottom="12dp"
-                            android:elevation="2dp" />
-
-                        <!-- Print Wirelessly Button -->
+                            android:elevation="2dp" />                        <!-- Print Wirelessly Button -->
                         <Button
                             android:id="@+id/buttonPrintWirelessly"
                             android:layout_width="match_parent"
                             android:layout_height="56dp"
-                            android:text="🖨️ Print Wirelessly"
+                            android:text="📡 Print Wirelessly"
                             android:textSize="16sp"
                             android:textStyle="bold"
                             android:textColor="@android:color/white"
                             android:background="@drawable/button_secondary_background"
+                            android:layout_marginBottom="12dp"
+                            android:elevation="2dp" />
+
+                        <!-- Print Bluetooth Button -->
+                        <Button
+                            android:id="@+id/buttonPrintBluetooth"
+                            android:layout_width="match_parent"
+                            android:layout_height="56dp"
+                            android:text="📱 Print Bluetooth"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:textColor="@android:color/white"
+                            android:background="@drawable/button_accent_background"
                             android:elevation="2dp" />
 
                     </LinearLayout>

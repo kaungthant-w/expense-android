@@ -1,9 +1,12 @@
 package com.example.myapplication
 
+import android.Manifest
 import android.app.Activity
+import android.bluetooth.BluetoothDevice
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.view.MenuItem
@@ -16,6 +19,8 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.cardview.widget.CardView
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -39,18 +44,24 @@ class ExportActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedLi
     private lateinit var spinnerPaperSize: Spinner
     private lateinit var buttonSaveAsExcel: Button
     private lateinit var buttonPrintWirelessly: Button
+    private lateinit var buttonPrintBluetooth: Button
     private lateinit var cardViewDeviceDiscovery: CardView
     private lateinit var textViewDeviceStatus: TextView
     private lateinit var progressBarDeviceSearch: ProgressBar
     private lateinit var recyclerViewDevices: RecyclerView
-    
-    // Data and Managers
+      // Data and Managers
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var currencyManager: CurrencyManager
+    private lateinit var bluetoothPrinterManager: BluetoothPrinterManager
+    private lateinit var bluetoothDeviceAdapter: BluetoothDeviceAdapter
     private val gson = Gson()
     
-    // Export launchers
-    private lateinit var excelExportLauncher: ActivityResultLauncher<Intent>    // Data arrays for spinners
+    // Permission request codes
+    private val BLUETOOTH_PERMISSION_REQUEST_CODE = 1001
+      // Export launchers
+    private lateinit var excelExportLauncher: ActivityResultLauncher<Intent>
+    
+    // Data arrays for spinners
     private val periodOptions = arrayOf("export_period_today", "export_period_this_week", "export_period_this_month", "export_period_this_year")
     private val paperSizeOptions = arrayOf("A4", "Legal", "Letter", "Roller48", "Roller58", "Roller80", "Roller112")
     private val paperSizeLabels = arrayOf(
@@ -84,32 +95,37 @@ class ExportActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedLi
             ThemeActivity.THEME_LIGHT -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
             ThemeActivity.THEME_DARK -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
             ThemeActivity.THEME_SYSTEM -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
-        }
-    }
+        }    }
     
-    private fun initializeComponents() {        // Initialize navigation drawer
+    private fun initializeComponents() {
+        // Initialize navigation drawer
         drawerLayout = findViewById(R.id.drawerLayout)
         navigationView = findViewById(R.id.navigationView)
-          // Initialize UI components
+        
+        // Initialize UI components
         editTextCustomTitle = findViewById(R.id.editTextCustomTitle)
         spinnerExportPeriod = findViewById(R.id.spinnerExportPeriod)
         spinnerPaperSize = findViewById(R.id.spinnerPaperSize)
         buttonSaveAsExcel = findViewById(R.id.buttonSaveAsExcel)
         buttonPrintWirelessly = findViewById(R.id.buttonPrintWirelessly)
+        buttonPrintBluetooth = findViewById(R.id.buttonPrintBluetooth)
         cardViewDeviceDiscovery = findViewById(R.id.cardViewDeviceDiscovery)
         textViewDeviceStatus = findViewById(R.id.textViewDeviceStatus)
         progressBarDeviceSearch = findViewById(R.id.progressBarDeviceSearch)
         recyclerViewDevices = findViewById(R.id.recyclerViewDevices)
-        
-        // Initialize data components
+          // Initialize data components
         sharedPreferences = getSharedPreferences("expense_prefs", Context.MODE_PRIVATE)
         currencyManager = CurrencyManager.getInstance(this)
+        
+        // Initialize Bluetooth components
+        bluetoothPrinterManager = BluetoothPrinterManager(this)
+        bluetoothPrinterManager.setCallback(bluetoothCallback)
+        setupBluetoothDeviceList()
         
         // Set default title
         editTextCustomTitle.setText(languageManager.getString("app_name") + " " + languageManager.getString("report_export"))
     }
-    
-    private fun setupNavigationDrawer() {
+      private fun setupNavigationDrawer() {
         val toggle = ActionBarDrawerToggle(
             this, drawerLayout, null,
             R.string.navigation_drawer_open, R.string.navigation_drawer_close
@@ -120,20 +136,92 @@ class ExportActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedLi
         navigationView.setNavigationItemSelectedListener(this)
     }
     
+    private fun setupBluetoothDeviceList() {
+        bluetoothDeviceAdapter = BluetoothDeviceAdapter { device ->
+            onBluetoothDeviceSelected(device)
+        }
+        recyclerViewDevices.layoutManager = LinearLayoutManager(this)
+        recyclerViewDevices.adapter = bluetoothDeviceAdapter
+    }
+      private val bluetoothCallback = object : BluetoothPrinterManager.BluetoothPrinterCallback {
+        override fun onDeviceFound(device: BluetoothDevice, deviceName: String) {
+            runOnUiThread {
+                bluetoothDeviceAdapter.addDevice(device)
+                textViewDeviceStatus.text = "Found: ${bluetoothDeviceAdapter.itemCount} devices"
+            }
+        }
+        
+        override fun onDiscoveryFinished() {
+            runOnUiThread {
+                progressBarDeviceSearch.visibility = View.GONE
+                val deviceCount = bluetoothDeviceAdapter.itemCount
+                textViewDeviceStatus.text = if (deviceCount > 0) {
+                    "Found $deviceCount device(s). Tap to connect."
+                } else {
+                    languageManager.getString("no_devices_found")
+                }
+            }        }
+        
+        override fun onConnectionSuccess() {
+            runOnUiThread {
+                textViewDeviceStatus.text = "Connected successfully"
+                Toast.makeText(this@ExportActivity, "Connected to printer", Toast.LENGTH_SHORT).show()
+            }
+        }
+        
+        override fun onConnectionFailed(error: String) {
+            runOnUiThread {
+                textViewDeviceStatus.text = "Connection failed: $error"
+                Toast.makeText(this@ExportActivity, "Connection failed: $error", Toast.LENGTH_LONG).show()
+            }
+        }
+        
+        override fun onPrintSuccess() {
+            runOnUiThread {
+                Toast.makeText(this@ExportActivity, "Print completed successfully!", Toast.LENGTH_SHORT).show()
+            }
+        }
+        
+        override fun onPrintFailed(error: String) {
+            runOnUiThread {
+                Toast.makeText(this@ExportActivity, "Print failed: $error", Toast.LENGTH_LONG).show()
+            }
+        }
+        
+        override fun onDisconnected() {
+            runOnUiThread {
+                textViewDeviceStatus.text = "Disconnected"
+                Toast.makeText(this@ExportActivity, "Disconnected from printer", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+    
+    private fun onBluetoothDeviceSelected(device: BluetoothDevice) {
+        if (checkBluetoothPermissions()) {
+            bluetoothPrinterManager.connectToDevice(device)
+        } else {
+            requestBluetoothPermissions()
+        }
+    }
+    
     private fun setupClickListeners() {
         // Back button
         findViewById<ImageButton>(R.id.buttonBack).setOnClickListener {
-            finish()
-        }
+            finish()        }
         
         // Excel export button
         buttonSaveAsExcel.setOnClickListener {
             showExcelExportDialog()
         }
         
-        // Print wirelessly button
+        // Print wirelessly button (WiFi printing)
         buttonPrintWirelessly.setOnClickListener {
-            showPrintDialog()
+            showWifiPrintDialog()
+        }
+        
+        // Print Bluetooth button
+        buttonPrintBluetooth.setOnClickListener {
+            showBluetoothPrintDialog()
         }
     }
     
@@ -143,9 +231,9 @@ class ExportActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedLi
             override fun getView(position: Int, convertView: View?, parent: android.view.ViewGroup): View {
                 val view = super.getView(position, convertView, parent)
                 (view as TextView).text = languageManager.getString(periodOptions[position])
-                return view
-            }
-              override fun getDropDownView(position: Int, convertView: View?, parent: android.view.ViewGroup): View {
+                return view            }
+            
+            override fun getDropDownView(position: Int, convertView: View?, parent: android.view.ViewGroup): View {
                 val view = super.getDropDownView(position, convertView, parent)
                 (view as TextView).text = languageManager.getString(periodOptions[position])
                 return view
@@ -170,10 +258,11 @@ class ExportActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedLi
                     exportToExcel(uri)
                 }
             }
-        }
-    }
-      private fun updateUITexts() {
-        // Update static text elements        findViewById<TextView>(R.id.textViewTitle).text = languageManager.getString("export_comprehensive_title")
+        }    }
+    
+    private fun updateUITexts() {
+        // Update static text elements
+        findViewById<TextView>(R.id.textViewTitle).text = languageManager.getString("export_comprehensive_title")
         findViewById<TextView>(R.id.textViewDescription).text = languageManager.getString("export_comprehensive_description")
         findViewById<TextView>(R.id.textViewCustomTitleLabel).text = "📋 " + languageManager.getString("custom_title")
         findViewById<TextView>(R.id.textViewPeriodLabel).text = "📅 " + languageManager.getString("export_period")
@@ -188,10 +277,10 @@ class ExportActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedLi
         // Update hint
         editTextCustomTitle.hint = languageManager.getString("enter_title_hint")
         
-        // Update device status
-        textViewDeviceStatus.text = languageManager.getString("device_search_ready")
+        // Update device status        textViewDeviceStatus.text = languageManager.getString("device_search_ready")
     }
-      private fun showExcelExportDialog() {
+    
+    private fun showExcelExportDialog() {
         val selectedPeriod = spinnerExportPeriod.selectedItemPosition
         val periodName = when (selectedPeriod) {
             0 -> languageManager.getString("export_period_today")
@@ -210,22 +299,29 @@ class ExportActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedLi
             .setMessage(message)
             .setPositiveButton(languageManager.getString("export_comprehensive")) { _, _ ->
                 startExcelExport()
-            }
-            .setNegativeButton(languageManager.getString("cancel"), null)
+            }            .setNegativeButton(languageManager.getString("cancel"), null)
             .show()
     }
     
-    private fun showPrintDialog() {
+    private fun showWifiPrintDialog() {
         AlertDialog.Builder(this)
-            .setTitle("🖨️ " + languageManager.getString("wireless_print"))
+            .setTitle("📡 WiFi Print")
+            .setMessage("WiFi printing feature is coming soon! This will allow you to print to network printers.")
+            .setPositiveButton("OK", null)
+            .show()
+    }
+    
+    private fun showBluetoothPrintDialog() {
+        AlertDialog.Builder(this)
+            .setTitle("📱 " + languageManager.getString("wireless_print"))
             .setMessage(languageManager.getString("wireless_print_message"))
             .setPositiveButton(languageManager.getString("discover_devices")) { _, _ ->
                 startDeviceDiscovery()
             }
-            .setNegativeButton(languageManager.getString("cancel"), null)
-            .show()
+            .setNegativeButton(languageManager.getString("cancel"), null)            .show()
     }
-      private fun startExcelExport() {
+    
+    private fun startExcelExport() {
         // Pre-validate expenses before starting export
         val selectedPeriod = spinnerExportPeriod.selectedItemPosition
         val previewExpenses = loadFilteredExpenses(selectedPeriod)
@@ -280,21 +376,19 @@ class ExportActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedLi
             type = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
             putExtra(Intent.EXTRA_TITLE, fileName)
         }
-        
-        excelExportLauncher.launch(intent)
+          excelExportLauncher.launch(intent)
     }
     
     private fun startDeviceDiscovery() {
-        cardViewDeviceDiscovery.visibility = View.VISIBLE
-        textViewDeviceStatus.text = languageManager.getString("searching_devices")
-        progressBarDeviceSearch.visibility = View.VISIBLE
-        
-        // Simulate device discovery (in real implementation, this would use WiFi Direct or Bluetooth)
-        android.os.Handler(mainLooper).postDelayed({
-            textViewDeviceStatus.text = languageManager.getString("no_devices_found")
-            progressBarDeviceSearch.visibility = View.GONE
-        }, 3000)
-    }    private fun exportToExcel(uri: Uri) {
+        if (checkBluetoothPermissions()) {
+            bluetoothDeviceAdapter.clearDevices()
+            bluetoothPrinterManager.startDeviceDiscovery()
+        } else {
+            requestBluetoothPermissions()
+        }
+    }
+    
+    private fun exportToExcel(uri: Uri) {
         try {
             val customTitle = editTextCustomTitle.text.toString().ifEmpty { 
                 languageManager.getString("app_name") + " " + languageManager.getString("report_export")
@@ -659,6 +753,116 @@ class ExportActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedLi
         android.util.Log.d("ExportActivity", "Filtered expenses count: ${filteredExpenses.size}")
         return filteredExpenses
     }
+      private fun checkBluetoothPermissions(): Boolean {
+        val permissions = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
+            arrayOf(
+                Manifest.permission.BLUETOOTH_SCAN,
+                Manifest.permission.BLUETOOTH_CONNECT,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            )
+        } else {
+            arrayOf(
+                Manifest.permission.BLUETOOTH,
+                Manifest.permission.BLUETOOTH_ADMIN,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            )
+        }
+          return permissions.all { permission ->
+            ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED
+        }
+    }
+      private fun requestBluetoothPermissions() {
+        val permissions = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
+            arrayOf(
+                Manifest.permission.BLUETOOTH_SCAN,
+                Manifest.permission.BLUETOOTH_CONNECT,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            )        } else {
+            arrayOf(
+                Manifest.permission.BLUETOOTH,
+                Manifest.permission.BLUETOOTH_ADMIN,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            )
+        }
+        
+        ActivityCompat.requestPermissions(this, permissions, BLUETOOTH_PERMISSION_REQUEST_CODE)
+    }
+    
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        
+        when (requestCode) {
+            BLUETOOTH_PERMISSION_REQUEST_CODE -> {
+                if (grantResults.all { it == PackageManager.PERMISSION_GRANTED }) {
+                    startDeviceDiscovery()
+                } else {
+                    AlertDialog.Builder(this)
+                        .setTitle("Permissions Required")
+                        .setMessage("Bluetooth and location permissions are required to discover and connect to printers. Please grant these permissions to use wireless printing.")
+                        .setPositiveButton("Grant Permissions") { _, _ ->
+                            requestBluetoothPermissions()
+                        }
+                        .setNegativeButton("Cancel", null)
+                        .show()
+                }
+            }
+        }
+    }
+    
+    private fun showPrintOptionsDialog(device: BluetoothDevice) {
+        val selectedPeriod = spinnerExportPeriod.selectedItemPosition
+        val expenses = loadFilteredExpenses(selectedPeriod)
+        
+        if (expenses.isEmpty()) {
+            AlertDialog.Builder(this)
+                .setTitle("No Data to Print")
+                .setMessage("No expenses found for the selected period. Please add expenses or select a different time period.")
+                .setPositiveButton("OK", null)
+                .show()
+            return
+        }
+        
+        val selectedPaperSize = paperSizeOptions[spinnerPaperSize.selectedItemPosition]
+        val paperWidth = when (selectedPaperSize) {
+            "Roller48" -> 48
+            "Roller58" -> 58
+            "Roller80" -> 80
+            "Roller112" -> 112
+            else -> 80 // Default to 80mm for other paper sizes
+        }
+        
+        val totalAmount = expenses.sumOf { it.price }
+        val deviceName = device.name ?: "Unknown Printer"
+        
+        AlertDialog.Builder(this)
+            .setTitle("🖨️ Print Receipt")
+            .setMessage("Ready to print ${expenses.size} expenses to $deviceName\n\n" +
+                    "Paper size: ${selectedPaperSize}\n" +
+                    "Total amount: $%.2f\n\n" +
+                    "Proceed with printing?".format(totalAmount))
+            .setPositiveButton("Print") { _, _ ->
+                printExpensesToDevice(device, expenses, paperWidth)
+            }
+            .setNegativeButton("Cancel") { _, _ ->
+                bluetoothPrinterManager.disconnect()
+            }
+            .show()
+    }
+      private fun printExpensesToDevice(device: BluetoothDevice, expenses: List<ExpenseItem>, paperWidth: Int) {
+        val customTitle = editTextCustomTitle.text.toString().ifEmpty { 
+            languageManager.getString("app_name") + " " + languageManager.getString("report_export")
+        }
+        
+        val currency = currencyManager.getCurrentCurrency()
+        val totalAmount = expenses.sumOf { it.price }
+        bluetoothPrinterManager.printReceipt(customTitle, expenses, totalAmount, currency, paperWidth)
+    }
+
+    // ...existing code...
     
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
@@ -698,9 +902,14 @@ class ExportActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedLi
             super.onBackPressed()
         }
     }
-    
-    override fun onResume() {
+      override fun onResume() {
         super.onResume()
         updateUITexts()
+    }
+      override fun onDestroy() {
+        super.onDestroy()
+        if (::bluetoothPrinterManager.isInitialized) {
+            bluetoothPrinterManager.disconnect()
+        }
     }
 }
