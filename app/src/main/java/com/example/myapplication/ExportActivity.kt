@@ -4,10 +4,12 @@ import android.Manifest
 import android.app.Activity
 import android.bluetooth.BluetoothDevice
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.net.Uri
+import android.net.wifi.WifiManager
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
@@ -29,6 +31,12 @@ import com.google.android.material.navigation.NavigationView
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import org.apache.poi.ss.usermodel.*
+import java.io.IOException
+import java.io.OutputStream
+import java.net.InetSocketAddress
+import java.net.Socket
+import java.nio.charset.Charset
+import kotlinx.coroutines.*
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
 import java.io.OutputStreamWriter
 import java.text.SimpleDateFormat
@@ -48,16 +56,22 @@ class ExportActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedLi
     private lateinit var cardViewDeviceDiscovery: CardView
     private lateinit var textViewDeviceStatus: TextView
     private lateinit var progressBarDeviceSearch: ProgressBar
-    private lateinit var recyclerViewDevices: RecyclerView
-      // Data and Managers
+    private lateinit var recyclerViewDevices: RecyclerView    // Data and Managers
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var currencyManager: CurrencyManager
     private lateinit var bluetoothPrinterManager: BluetoothPrinterManager
     private lateinit var bluetoothDeviceAdapter: BluetoothDeviceAdapter
     private val gson = Gson()
     
+    // WiFi Printing variables
+    private lateinit var wifiManager: WifiManager
+    private var wifiPrinterIP: String = ""
+    private var wifiPrinterPort: Int = 9100 // Standard ESC/POS port
+    private val wifiPrintScope = CoroutineScope(Dispatchers.IO + SupervisorJob())
+    
     // Permission request codes
     private val BLUETOOTH_PERMISSION_REQUEST_CODE = 1001
+    private val WIFI_PERMISSION_REQUEST_CODE = 1002
       // Export launchers
     private lateinit var excelExportLauncher: ActivityResultLauncher<Intent>
     
@@ -112,10 +126,13 @@ class ExportActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedLi
         cardViewDeviceDiscovery = findViewById(R.id.cardViewDeviceDiscovery)
         textViewDeviceStatus = findViewById(R.id.textViewDeviceStatus)
         progressBarDeviceSearch = findViewById(R.id.progressBarDeviceSearch)
-        recyclerViewDevices = findViewById(R.id.recyclerViewDevices)
-          // Initialize data components
+        recyclerViewDevices = findViewById(R.id.recyclerViewDevices)        // Initialize data components
         sharedPreferences = getSharedPreferences("expense_prefs", Context.MODE_PRIVATE)
         currencyManager = CurrencyManager.getInstance(this)
+        
+        // Initialize WiFi components
+        wifiManager = applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
+        loadWifiPrinterSettings()
         
         // Initialize Bluetooth components
         bluetoothPrinterManager = BluetoothPrinterManager(this)
@@ -302,12 +319,29 @@ class ExportActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedLi
             }            .setNegativeButton(languageManager.getString("cancel"), null)
             .show()
     }
-    
-    private fun showWifiPrintDialog() {
+      private fun showWifiPrintDialog() {
+        val message = """
+            ${languageManager.getString("wifi_print_message")}
+            
+            📡 အကြံပြုချက်များ:
+            • Best WiFi Connection အတွက် router နှင့်နီးကပ်စွာ ထားပါ
+            • Printer Compatibility အတွက် modern WiFi printer များကို အသုံးပြုပါ
+            • Print Quality အတွက် A4 paper size ကို ရွေးချယ်ပါ
+            • Data Saving အတွက် Export လုပ်ပြီးမှ print လုပ်ပါ
+            
+            💡 Network printer IP address လိုအပ်ပါသည်
+        """.trimIndent()
+        
         AlertDialog.Builder(this)
-            .setTitle("📡 WiFi Print")
-            .setMessage("WiFi printing feature is coming soon! This will allow you to print to network printers.")
-            .setPositiveButton("OK", null)
+            .setTitle("📡 " + languageManager.getString("wifi_print"))
+            .setMessage(message)
+            .setPositiveButton(languageManager.getString("configure_printer")) { _, _ ->
+                showWifiPrinterSetupDialog()
+            }
+            .setNeutralButton(languageManager.getString("discover_network")) { _, _ ->
+                startWifiPrinterDiscovery()
+            }
+            .setNegativeButton(languageManager.getString("cancel"), null)
             .show()
     }
     
@@ -911,5 +945,427 @@ class ExportActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedLi
         if (::bluetoothPrinterManager.isInitialized) {
             bluetoothPrinterManager.disconnect()
         }
+    }
+    
+    private fun loadWifiPrinterSettings() {
+        wifiPrinterIP = sharedPreferences.getString("wifi_printer_ip", "") ?: ""
+        wifiPrinterPort = sharedPreferences.getInt("wifi_printer_port", 9100)
+    }
+    
+    private fun saveWifiPrinterSettings() {
+        sharedPreferences.edit().apply {
+            putString("wifi_printer_ip", wifiPrinterIP)
+            putInt("wifi_printer_port", wifiPrinterPort)
+            apply()
+        }
+    }
+      private fun showWifiPrinterSetupDialog() {
+        val dialogView = LinearLayout(this).apply {
+            orientation = LinearLayout.VERTICAL
+            setPadding(50, 30, 50, 30)
+        }
+        
+        val ipLabel = TextView(this).apply {
+            text = "📡 Printer IP Address:"
+            textSize = 16f
+            setPadding(0, 0, 0, 10)
+        }
+        
+        val ipEditText = EditText(this).apply {
+            hint = "192.168.1.100"
+            setText(wifiPrinterIP)
+            inputType = android.text.InputType.TYPE_CLASS_PHONE
+        }
+        
+        val portLabel = TextView(this).apply {
+            text = "🔌 Port (default 9100):"
+            textSize = 16f
+            setPadding(0, 20, 0, 10)
+        }
+        
+        val portEditText = EditText(this).apply {
+            hint = "9100"
+            setText(wifiPrinterPort.toString())
+            inputType = android.text.InputType.TYPE_CLASS_NUMBER
+        }
+        
+        val instructionText = TextView(this).apply {
+            text = """
+                📋 Instructions:
+                • Check printer's network settings
+                • Use WiFi router admin panel to find IP
+                • Default port is usually 9100
+                • Test connection before printing
+            """.trimIndent()
+            textSize = 12f
+            setPadding(0, 20, 0, 0)
+            setTextColor(ContextCompat.getColor(context, android.R.color.darker_gray))
+        }
+        
+        dialogView.addView(ipLabel)
+        dialogView.addView(ipEditText)
+        dialogView.addView(portLabel)
+        dialogView.addView(portEditText)
+        dialogView.addView(instructionText)
+        
+        AlertDialog.Builder(this)
+            .setTitle("📡 Configure WiFi Printer")
+            .setView(dialogView)
+            .setPositiveButton("Save & Test") { _, _ ->
+                val ip = ipEditText.text.toString().trim()
+                val port = portEditText.text.toString().toIntOrNull() ?: 9100
+                
+                if (ip.isNotEmpty()) {
+                    wifiPrinterIP = ip
+                    wifiPrinterPort = port
+                    saveWifiPrinterSettings()
+                    testWifiConnection()
+                } else {
+                    Toast.makeText(this, "Please enter a valid IP address", Toast.LENGTH_SHORT).show()
+                }
+            }
+            .setNeutralButton("Print Test") { _, _ ->
+                val ip = ipEditText.text.toString().trim()
+                val port = portEditText.text.toString().toIntOrNull() ?: 9100
+                
+                if (ip.isNotEmpty()) {
+                    wifiPrinterIP = ip
+                    wifiPrinterPort = port
+                    saveWifiPrinterSettings()
+                    startWifiPrint()
+                } else {
+                    Toast.makeText(this, "Please enter a valid IP address", Toast.LENGTH_SHORT).show()
+                }
+            }
+            .setNegativeButton("Cancel", null)
+            .show()
+    }
+    
+    private fun startWifiPrinterDiscovery() {
+        if (!wifiManager.isWifiEnabled) {
+            AlertDialog.Builder(this)
+                .setTitle("📡 WiFi Required")
+                .setMessage("WiFi is not enabled. Please enable WiFi to discover network printers.\n\nAfter enabling WiFi, restart this discovery.")
+                .setPositiveButton("OK", null)
+                .show()
+            return
+        }
+        
+        val progressDialog = AlertDialog.Builder(this)
+            .setTitle("🔍 Discovering Network Printers...")
+            .setMessage("Scanning network for printers...\nThis may take a few seconds.")
+            .setCancelable(false)
+            .create()
+        
+        progressDialog.show()
+        
+        wifiPrintScope.launch {
+            val discoveredPrinters = discoverNetworkPrinters()
+            
+            withContext(Dispatchers.Main) {
+                progressDialog.dismiss()
+                showDiscoveredPrinters(discoveredPrinters)
+            }
+        }
+    }
+    
+    private suspend fun discoverNetworkPrinters(): List<String> {
+        val printers = mutableListOf<String>()
+        val wifiInfo = wifiManager.connectionInfo
+        val dhcp = wifiManager.dhcpInfo
+        
+        if (dhcp != null) {
+            val gateway = dhcp.gateway
+            val subnet = gateway and 0xFFFFFF00.toInt()
+            
+            // Common printer ports
+            val printerPorts = listOf(9100, 515, 631, 9101, 9102)
+            
+            // Scan common IP range (x.x.x.1 to x.x.x.254)
+            for (i in 1..254) {
+                val ip = subnet or i
+                val ipStr = String.format(
+                    "%d.%d.%d.%d",
+                    ip and 0xFF,
+                    (ip shr 8) and 0xFF,
+                    (ip shr 16) and 0xFF,
+                    (ip shr 24) and 0xFF
+                )
+                
+                for (port in printerPorts) {
+                    try {
+                        val socket = Socket()
+                        socket.connect(InetSocketAddress(ipStr, port), 500) // 500ms timeout
+                        socket.close()
+                        printers.add("$ipStr:$port")
+                        break // Found one port, move to next IP
+                    } catch (e: IOException) {
+                        // Port not accessible, try next
+                    }
+                }
+                
+                // Limit discovery to prevent long waits
+                if (printers.size >= 10) break
+            }
+        }
+        
+        return printers
+    }
+    
+    private fun showDiscoveredPrinters(printers: List<String>) {
+        if (printers.isEmpty()) {
+            AlertDialog.Builder(this)
+                .setTitle("🔍 Network Discovery")
+                .setMessage("""
+                    No network printers found automatically.
+                    
+                    Try these steps:
+                    • Ensure printer is connected to same WiFi network
+                    • Check printer's network settings for IP address
+                    • Manually configure printer IP address
+                    • Move closer to WiFi router for better connection
+                """.trimIndent())
+                .setPositiveButton("Manual Setup") { _, _ ->
+                    showWifiPrinterSetupDialog()
+                }
+                .setNegativeButton("Cancel", null)
+                .show()
+        } else {
+            val printerArray = printers.toTypedArray()
+            AlertDialog.Builder(this)
+                .setTitle("🖨️ Found Network Printers")
+                .setItems(printerArray) { _, which ->
+                    val selected = printerArray[which]
+                    val parts = selected.split(":")
+                    wifiPrinterIP = parts[0]
+                    wifiPrinterPort = parts[1].toInt()
+                    saveWifiPrinterSettings()
+                    testWifiConnection()
+                }
+                .setNegativeButton("Cancel", null)
+                .show()
+        }
+    }
+    
+    private fun testWifiConnection() {
+        val progressDialog = AlertDialog.Builder(this)
+            .setTitle("🔗 Testing Connection...")
+            .setMessage("Connecting to $wifiPrinterIP:$wifiPrinterPort")
+            .setCancelable(false)
+            .create()
+        
+        progressDialog.show()
+        
+        wifiPrintScope.launch {
+            var success = false
+            var errorMessage = ""
+            
+            try {
+                val socket = Socket()
+                socket.connect(InetSocketAddress(wifiPrinterIP, wifiPrinterPort), 3000)
+                socket.close()
+                success = true
+            } catch (e: IOException) {
+                errorMessage = e.message ?: "Connection failed"
+            }
+            
+            withContext(Dispatchers.Main) {
+                progressDialog.dismiss()
+                
+                if (success) {
+                    AlertDialog.Builder(this@ExportActivity)
+                        .setTitle("✅ Connection Successful")
+                        .setMessage("Successfully connected to WiFi printer at $wifiPrinterIP:$wifiPrinterPort\n\nReady to print!")
+                        .setPositiveButton("Print Now") { _, _ ->
+                            startWifiPrint()
+                        }
+                        .setNegativeButton("OK", null)
+                        .show()
+                } else {
+                    AlertDialog.Builder(this@ExportActivity)
+                        .setTitle("❌ Connection Failed")
+                        .setMessage("Could not connect to $wifiPrinterIP:$wifiPrinterPort\n\nError: $errorMessage\n\nPlease check:\n• Printer IP address\n• Network connection\n• Printer power status")
+                        .setPositiveButton("Retry Setup") { _, _ ->
+                            showWifiPrinterSetupDialog()
+                        }
+                        .setNegativeButton("Cancel", null)
+                        .show()
+                }
+            }
+        }
+    }
+    
+    private fun startWifiPrint() {
+        if (wifiPrinterIP.isEmpty()) {
+            showWifiPrinterSetupDialog()
+            return
+        }
+        
+        val selectedPeriod = spinnerExportPeriod.selectedItemPosition
+        val expenses = loadFilteredExpenses(selectedPeriod)
+        
+        if (expenses.isEmpty()) {
+            Toast.makeText(this, "No expenses found for selected period", Toast.LENGTH_SHORT).show()
+            return
+        }
+        
+        val progressDialog = AlertDialog.Builder(this)
+            .setTitle("🖨️ Printing via WiFi...")
+            .setMessage("Sending data to printer at $wifiPrinterIP")
+            .setCancelable(false)
+            .create()
+        
+        progressDialog.show()
+        
+        wifiPrintScope.launch {
+            var success = false
+            var errorMessage = ""
+            
+            try {
+                val printData = generateWifiPrintData(expenses)
+                sendDataToPrinter(printData)
+                success = true
+            } catch (e: Exception) {
+                errorMessage = e.message ?: "Print failed"
+            }
+            
+            withContext(Dispatchers.Main) {
+                progressDialog.dismiss()
+                
+                if (success) {
+                    Toast.makeText(this@ExportActivity, "✅ Print completed successfully!", Toast.LENGTH_LONG).show()
+                } else {
+                    AlertDialog.Builder(this@ExportActivity)
+                        .setTitle("❌ Print Failed")
+                        .setMessage("Failed to print via WiFi\n\nError: $errorMessage")
+                        .setPositiveButton("Retry", { _, _ -> startWifiPrint() })
+                        .setNegativeButton("Cancel", null)
+                        .show()
+                }
+            }
+        }
+    }
+    
+    private suspend fun sendDataToPrinter(data: ByteArray) {
+        withContext(Dispatchers.IO) {
+            val socket = Socket()
+            socket.connect(InetSocketAddress(wifiPrinterIP, wifiPrinterPort), 5000)
+            
+            val outputStream = socket.getOutputStream()
+            outputStream.write(data)
+            outputStream.flush()
+            
+            // Wait a bit for printing to complete
+            delay(1000)
+            
+            outputStream.close()
+            socket.close()
+        }
+    }
+    
+    private fun generateWifiPrintData(expenses: List<ExpenseItem>): ByteArray {
+        val customTitle = editTextCustomTitle.text.toString().ifEmpty { 
+            languageManager.getString("app_name") + " " + languageManager.getString("report_export")
+        }
+        
+        val selectedPeriod = spinnerExportPeriod.selectedItemPosition
+        val periodName = when (selectedPeriod) {
+            0 -> languageManager.getString("export_period_today")
+            1 -> languageManager.getString("export_period_this_week")
+            2 -> languageManager.getString("export_period_this_month")
+            3 -> languageManager.getString("export_period_this_year")
+            else -> "All"
+        }
+        
+        val printContent = StringBuilder()
+        
+        // ESC/POS commands
+        val ESC = 0x1B.toByte()
+        val GS = 0x1D.toByte()
+        
+        // Initialize printer
+        printContent.append(ESC.toInt().toChar())
+        printContent.append("@") // Initialize
+        
+        // Set character set to UTF-8
+        printContent.append(ESC.toInt().toChar())
+        printContent.append("t")
+        printContent.append(16.toChar()) // UTF-8
+        
+        // Center align and bold
+        printContent.append(ESC.toInt().toChar())
+        printContent.append("a")
+        printContent.append(1.toChar()) // Center
+        
+        printContent.append(ESC.toInt().toChar())
+        printContent.append("E")
+        printContent.append(1.toChar()) // Bold on
+        
+        // Title
+        printContent.append("$customTitle\n")
+        printContent.append("================\n")
+        
+        // Date and period info
+        printContent.append(ESC.toInt().toChar())
+        printContent.append("E")
+        printContent.append(0.toChar()) // Bold off
+        
+        val dateFormat = java.text.SimpleDateFormat("dd/MM/yyyy HH:mm", java.util.Locale.getDefault())
+        printContent.append("${languageManager.getString("export_date")}: ${dateFormat.format(java.util.Date())}\n")
+        printContent.append("${languageManager.getString("export_period")}: $periodName\n")
+        printContent.append("${languageManager.getString("total_expenses")}: ${expenses.size}\n")
+        printContent.append("WiFi Printer: $wifiPrinterIP\n")
+        printContent.append("================\n\n")
+        
+        // Left align for expense list
+        printContent.append(ESC.toInt().toChar())
+        printContent.append("a")
+        printContent.append(0.toChar()) // Left align
+        
+        // Print expenses
+        expenses.forEachIndexed { index, expense ->
+            val amount = currencyManager.formatCurrency(
+                currencyManager.getDisplayAmountFromStored(expense.price, expense.currency)
+            )
+            
+            printContent.append("${index + 1}. ${expense.name}\n")
+            printContent.append("   ${expense.date} - $amount\n")
+            if (expense.description.isNotEmpty()) {
+                printContent.append("   ${expense.description}\n")
+            }
+            printContent.append("\n")
+        }
+        
+        // Total
+        val totalAmount = expenses.sumOf { 
+            currencyManager.getDisplayAmountFromStored(it.price, it.currency)
+        }
+        
+        printContent.append("----------------\n")
+        printContent.append(ESC.toInt().toChar())
+        printContent.append("E")
+        printContent.append(1.toChar()) // Bold on
+        
+        printContent.append("${languageManager.getString("total_amount")}: ${currencyManager.formatCurrency(totalAmount)}\n")
+        
+        printContent.append(ESC.toInt().toChar())
+        printContent.append("E")
+        printContent.append(0.toChar()) // Bold off
+        
+        // Footer with recommendations
+        printContent.append("\n================\n")
+        printContent.append("📡 WiFi Print Tips:\n")
+        printContent.append("• Router နှင့်နီးကပ်စွာ ထားပါ\n")
+        printContent.append("• A4 paper အသုံးပြုပါ\n")
+        printContent.append("• Export ပြီးမှ print လုပ်ပါ\n")
+        printContent.append("================\n")
+        
+        // Feed and cut
+        printContent.append("\n\n\n")
+        printContent.append(GS.toInt().toChar())
+        printContent.append("V")
+        printContent.append(0.toChar()) // Full cut
+        
+        return printContent.toString().toByteArray(Charset.forName("UTF-8"))
     }
 }
