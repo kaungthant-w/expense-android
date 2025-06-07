@@ -9,19 +9,17 @@
     <ScrollView android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:maxHeight="400dp" android:paddingLeft="24dp" android:paddingRight="24dp" android:fillViewport="true">
 
         <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical">            <!-- Name -->
-            <EditText android:id="@+id/editTextName" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="💼 Expense Name" android:layout_marginBottom="16dp" android:background="@drawable/input_background" android:padding="12dp" android:textColor="?attr/textPrimaryColor" android:textColorHint="?attr/textSecondaryColor" android:textSize="16sp" />
+            <EditText android:id="@+id/editTextName" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="💼 Expense Name" android:layout_marginBottom="16dp" android:background="@drawable/input_background" android:padding="12dp" android:textColor="?attr/textPrimaryColor" android:textColorHint="?attr/textSecondaryColor" android:textSize="16sp" android:maxLength="20" android:singleLine="true" />
 
             <!-- Price -->
-            <EditText android:id="@+id/editTextPrice" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="💵 Price" android:inputType="numberDecimal" android:layout_marginBottom="16dp" android:background="@drawable/input_background" android:padding="12dp" android:textColor="?attr/textPrimaryColor" android:textColorHint="?attr/textSecondaryColor" android:textSize="16sp" />
+            <EditText android:id="@+id/editTextPrice" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="💵 Price" android:inputType="numberDecimal" android:layout_marginBottom="16dp" android:background="@drawable/input_background" android:padding="12dp" android:textColor="?attr/textPrimaryColor" android:textColorHint="?attr/textSecondaryColor" android:textSize="16sp" android:maxLength="15" />
 
             <!-- See More Text -->
             <TextView android:id="@+id/buttonSeeMoreInputOptions" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="See More" android:textSize="14sp" android:textColor="?attr/accentColor" android:textStyle="bold" android:padding="12dp" android:layout_marginBottom="16dp" android:layout_gravity="start" android:clickable="true" android:focusable="true" />
 
             <!-- Hidden Fields Container -->
-            <LinearLayout android:id="@+id/layoutAdditionalOptions" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:visibility="gone">
-
-                <!-- Description -->
-                <EditText android:id="@+id/editTextDescription" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="📝 Description (Optional)" android:layout_marginBottom="16dp" android:background="@drawable/input_background" android:padding="12dp" android:textColor="?attr/textPrimaryColor" android:textColorHint="?attr/textSecondaryColor" android:textSize="16sp" />
+            <LinearLayout android:id="@+id/layoutAdditionalOptions" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:visibility="gone">                <!-- Description -->
+                <EditText android:id="@+id/editTextDescription" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="📝 Description (Optional)" android:layout_marginBottom="16dp" android:background="@drawable/input_background" android:padding="12dp" android:textColor="?attr/textPrimaryColor" android:textColorHint="?attr/textSecondaryColor" android:textSize="16sp" android:maxLength="300" android:maxLines="4" android:inputType="textMultiLine|textCapSentences" android:gravity="top" android:scrollbars="vertical" />
 
                 <!-- Date -->
                 <EditText android:id="@+id/editTextDate" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="📅 Date (DD/MM/YYYY)" android:layout_marginBottom="16dp" android:background="@drawable/input_background" android:padding="12dp" android:textColor="?attr/textPrimaryColor" android:textColorHint="?attr/textSecondaryColor" android:textSize="16sp" android:clickable="true" android:focusable="false" />

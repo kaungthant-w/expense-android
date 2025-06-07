@@ -33,6 +33,7 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import java.math.BigDecimal
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.Calendar
@@ -477,15 +478,23 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             return
         }
         
+        // Regex: 1-12 digits before decimal, optional . and 1-2 digits after
+        val priceRegex = Regex("^\\d{1,12}(\\.\\d{1,2})?")
+        if (!priceRegex.matches(priceText)) {
+            modalEditTextPrice.error = "Invalid price format (max 12 digits before decimal, 2 after)"
+            modalEditTextPrice.requestFocus()
+            return
+        }
+        
         val price = try {
-            priceText.toDouble()
+            BigDecimal(priceText)
         } catch (e: NumberFormatException) {
             modalEditTextPrice.error = languageManager.getString("invalid_price_format")
             modalEditTextPrice.requestFocus()
             return
         }
-        
-        if (price <= 0) {
+
+        if (price <= BigDecimal.ZERO) {
             modalEditTextPrice.error = languageManager.getString("price_must_be_positive")
             modalEditTextPrice.requestFocus()
             return
@@ -494,7 +503,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         val expenseItem = ExpenseItem(
             id = System.currentTimeMillis(),
             name = name,
-            price = price,
+            price = price.toDouble(),
             description = description,
             date = date,
             time = time,

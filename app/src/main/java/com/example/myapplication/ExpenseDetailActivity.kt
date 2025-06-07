@@ -13,6 +13,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import java.math.BigDecimal
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -178,15 +179,30 @@ class ExpenseDetailActivity : BaseActivity() {
             return
         }
         
-        val price = priceText.toDoubleOrNull()
-        if (price == null || price <= 0) {
+        val price = try {
+            BigDecimal(priceText)
+        } catch (e: NumberFormatException) {
             editTextPrice.error = languageManager.getString("invalid_price_format")
             editTextPrice.requestFocus()
             return
         }
 
+        if (price <= BigDecimal.ZERO) {
+            editTextPrice.error = languageManager.getString("invalid_price_format")
+            editTextPrice.requestFocus()
+            return
+        }
+
+        // Regex: 1-12 digits before decimal, optional . and 1-2 digits after
+        val priceRegex = Regex("^\\d{1,12}(\\.\\d{1,2})?")
+        if (!priceRegex.matches(priceText)) {
+            editTextPrice.error = "Invalid price format (max 12 digits before decimal, 2 after)"
+            editTextPrice.requestFocus()
+            return
+        }
+
         // Use CurrencyManager for native currency storage
-        val storageAmount = currencyManager.getStorageAmount(price)
+        val storageAmount = currencyManager.getStorageAmount(price.toDouble())
         val storageCurrency = currencyManager.getStorageCurrency()
         
         // Create result intent
