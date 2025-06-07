@@ -141,8 +141,7 @@ class ExportActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedLi
         
         // Set default title
         editTextCustomTitle.setText(languageManager.getString("app_name") + " " + languageManager.getString("report_export"))
-    }
-      private fun setupNavigationDrawer() {
+    }    private fun setupNavigationDrawer() {
         val toggle = ActionBarDrawerToggle(
             this, drawerLayout, null,
             R.string.navigation_drawer_open, R.string.navigation_drawer_close
@@ -151,6 +150,20 @@ class ExportActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedLi
         toggle.syncState()
         
         navigationView.setNavigationItemSelectedListener(this)
+        updateNavigationMenuTitles()
+    }
+    
+    private fun updateNavigationMenuTitles() {
+        val menu = navigationView.menu
+        menu.findItem(R.id.nav_home)?.title = languageManager.getString("nav_home")
+        menu.findItem(R.id.nav_all_list)?.title = languageManager.getString("nav_all_list")
+        menu.findItem(R.id.nav_history)?.title = languageManager.getString("nav_history")
+        menu.findItem(R.id.nav_summary)?.title = languageManager.getString("nav_summary")
+        menu.findItem(R.id.nav_currency_exchange)?.title = languageManager.getString("nav_currency_exchange")
+        menu.findItem(R.id.nav_export_excel)?.title = languageManager.getString("nav_export_excel")
+        menu.findItem(R.id.nav_settings)?.title = languageManager.getString("nav_settings")
+        menu.findItem(R.id.nav_feedback)?.title = languageManager.getString("nav_feedback")
+        menu.findItem(R.id.nav_about)?.title = languageManager.getString("nav_about")
     }
     
     private fun setupBluetoothDeviceList() {
@@ -896,8 +909,7 @@ class ExportActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedLi
     }
 
     // ...existing code...
-    
-    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+      override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.nav_home -> {
                 startActivity(Intent(this, MainActivity::class.java))
@@ -912,6 +924,9 @@ class ExportActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedLi
                 startActivity(Intent(this, HistoryActivity::class.java))
             }            R.id.nav_currency_exchange -> {
                 startActivity(Intent(this, CurrencyExchangeActivity::class.java))
+            }
+            R.id.nav_export_excel -> {
+                // Already in this activity, just close drawer
             }
             R.id.nav_settings -> {
                 startActivity(Intent(this, SettingsActivity::class.java))

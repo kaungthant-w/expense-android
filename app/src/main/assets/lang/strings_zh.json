@@ -371,7 +371,7 @@
   "theme_changes_immediate": "主题更改立即应用",
   "history_button": "🗃️历史",
   "export_comprehensive": "导出",
-  "export_comprehensive_title": "数据导出",
+  "export_comprehensive_title": "打印您的数据",
   "export_comprehensive_description": "将您的费用数据导出到Excel或无线打印",
   "custom_app_title": "自定义应用标题",
   "custom_app_title_hint": "输入Excel导出的标题",
@@ -411,10 +411,9 @@
   "wifi_print_message": "将费用报告无线打印到网络打印机",
   "configure_printer": "配置打印机",
   "discover_network": "发现网络",
-  "wifi_recommendations_title": "📡 建议：",
-  "wifi_recommendation_connection": "• 为获得最佳WiFi连接，请靠近路由器放置",
-  "wifi_recommendation_compatibility": "• 为确保打印机兼容性，请使用现代WiFi打印机",
-  "wifi_recommendation_quality": "• 为确保打印质量，请选择A4纸张尺寸",
+  "wifi_recommendations_title": "📡 建议：",  "wifi_recommendation_connection": "• 为获得最佳WiFi连接，请靠近路由器放置",
+  "wifi_recommendation_compatibility": "• 为确保打印机兼容性，请使用现代WiFi打印机",  "wifi_recommendation_quality": "• 为确保打印质量，请选择A4纸张尺寸",
   "wifi_recommendation_data": "• 为节省数据，请先导出再打印",
-  "wifi_ip_requirement": "💡 需要网络打印机IP地址"
+  "wifi_ip_requirement": "💡 需要网络打印机IP地址",
+  "nav_export_excel": "🖨️ Printer"
 }

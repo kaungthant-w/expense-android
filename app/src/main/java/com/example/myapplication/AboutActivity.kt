@@ -70,15 +70,14 @@ class AboutActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedLis
 
         // Setup back button click listener
         findViewById<android.widget.ImageButton>(R.id.buttonBack).setOnClickListener { finish() }
-    }
-
-    private fun updateNavigationMenuTitles() {        val menu = navigationView.menu
+    }    private fun updateNavigationMenuTitles() {        val menu = navigationView.menu
         menu.findItem(R.id.nav_home)?.title = languageManager.getString("nav_home")
         menu.findItem(R.id.nav_all_list)?.title = languageManager.getString("nav_all_list")
         menu.findItem(R.id.nav_history)?.title = languageManager.getString("nav_history")
         menu.findItem(R.id.nav_summary)?.title = languageManager.getString("nav_summary")
         menu.findItem(R.id.nav_currency_exchange)?.title =
                 languageManager.getString("nav_currency_exchange")
+        menu.findItem(R.id.nav_export_excel)?.title = languageManager.getString("nav_export_excel")
         menu.findItem(R.id.nav_settings)?.title = languageManager.getString("nav_settings")
         menu.findItem(R.id.nav_feedback)?.title = languageManager.getString("nav_feedback")
         menu.findItem(R.id.nav_about)?.title = languageManager.getString("nav_about")
@@ -134,9 +133,7 @@ class AboutActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedLis
     override fun onSupportNavigateUp(): Boolean {
         finish()
         return true
-    }
-
-    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+    }    override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.nav_home -> {
                 startActivity(Intent(this, MainActivity::class.java))
@@ -151,6 +148,9 @@ class AboutActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedLis
             }
             R.id.nav_currency_exchange -> {
                 startActivity(Intent(this, CurrencyExchangeActivity::class.java))
+            }
+            R.id.nav_export_excel -> {
+                startActivity(Intent(this, ExportActivity::class.java))
             }
             R.id.nav_settings -> {
                 startActivity(Intent(this, SettingsActivity::class.java))

@@ -367,7 +367,7 @@
   "theme_changes_immediate": "အပြင်အဆင် ပြောင်းလဲမှုများသည် ချက်ချင်းပင် အကျိုးသက်ရောက်မည်",
   "history_button": "🗃️မှတ်တမ်း",
   "export_comprehensive": "ထုတ်ယူ",
-  "export_comprehensive_title": "ဒေတာ ထုတ်ယူခြင်း",
+  "export_comprehensive_title": "သင်၏ဒေတာကို ပုံနှိပ်ခြင်း",
   "export_comprehensive_description": "သင့်ကုန်ကျစရိတ် ဒေတာကို Excel သို့ ထုတ်ယူရန် သို့မဟုတ် ကြိုးမဲ့ ပရင့်ထုတ်ရန်",
   "custom_app_title": "စိတ်ကြိုက် အက်ပ် ခေါင်းစဉ်",
   "custom_app_title_hint": "Excel ထုတ်ယူရန်အတွက် ခေါင်းစဉ် ထည့်သွင်းပါ",
@@ -408,9 +408,9 @@
   "configure_printer": "ပရင်တာ ပြင်ဆင်မှု",
   "discover_network": "ကွန်ယက် ရှာဖွေမှု",
   "wifi_recommendations_title": "📡 အကြံပြုချက်များ:",
-  "wifi_recommendation_connection": "• Best WiFi Connection အတွက် router နှင့်နီးကပ်စွာ ထားပါ",
-  "wifi_recommendation_compatibility": "• Printer Compatibility အတွက် modern WiFi printer များကို အသုံးပြုပါ",
+  "wifi_recommendation_connection": "• Best WiFi Connection အတွက် router နှင့်နီးကပ်စွာ ထားပါ",  "wifi_recommendation_compatibility": "• Printer Compatibility အတွက် modern WiFi printer များကို အသုံးပြုပါ",
   "wifi_recommendation_quality": "• Print Quality အတွက် A4 paper size ကို ရွေးချယ်ပါ",
   "wifi_recommendation_data": "• Data Saving အတွက် Export လုပ်ပြီးမှ print လုပ်ပါ",
-  "wifi_ip_requirement": "💡 Network printer IP address လိုအပ်ပါသည်"
+  "wifi_ip_requirement": "💡 Network printer IP address လိုအပ်ပါသည်",
+  "nav_export_excel": "🖨️ Printer"
 }
