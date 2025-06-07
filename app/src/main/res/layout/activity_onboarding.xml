@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="24dp"
-        android:gravity="center_horizontal">    
+        android:gravity="center">    
         <!-- Welcome Section -->
         <ImageView android:layout_width="120dp" android:layout_height="120dp" android:layout_marginBottom="32dp" android:src="@drawable/app_logo" android:contentDescription="App Logo" />
 
@@ -23,7 +23,7 @@
 
             <TextView android:id="@+id/textViewLanguageLabel" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Choose your language" android:textSize="16sp" android:textStyle="bold" android:textColor="@android:color/black" android:layout_marginBottom="8dp" />
             
-            <Spinner android:id="@+id/spinnerLanguage" android:layout_width="match_parent" android:layout_height="56dp" android:layout_marginBottom="16dp" android:background="@android:drawable/btn_dropdown" android:padding="12dp" />
+            <Spinner android:id="@+id/spinnerLanguage" android:layout_width="match_parent" android:layout_height="56dp" android:layout_marginBottom="16dp" android:background="@android:drawable/btn_dropdown" android:padding="12dp" android:popupBackground="@android:color/white" android:theme="@style/SpinnerDarkText" />
 
         </LinearLayout>    
         <!-- Currency Selection -->
@@ -31,7 +31,7 @@
 
             <TextView android:id="@+id/textViewCurrencyLabel" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Choose your currency" android:textSize="16sp" android:textStyle="bold" android:textColor="@android:color/black" android:layout_marginBottom="8dp" />
             
-            <Spinner android:id="@+id/spinnerCurrency" android:layout_width="match_parent" android:layout_height="56dp" android:layout_marginBottom="16dp" android:background="@android:drawable/btn_dropdown" android:padding="12dp" />
+            <Spinner android:id="@+id/spinnerCurrency" android:layout_width="match_parent" android:layout_height="56dp" android:layout_marginBottom="16dp" android:background="@android:drawable/btn_dropdown" android:padding="12dp" android:popupBackground="@android:color/white" android:theme="@style/SpinnerDarkText" />
 
         </LinearLayout>
         <!-- Get Started Button -->
