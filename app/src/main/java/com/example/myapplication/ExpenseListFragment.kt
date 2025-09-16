@@ -96,7 +96,7 @@ class ExpenseListFragment : Fragment() {
             FILTER_TODAY -> filterTodayExpenses(allExpenses)
             FILTER_WEEK -> filterWeekExpenses(allExpenses)
             FILTER_MONTH -> filterMonthExpenses(allExpenses)
-            else -> allExpenses
+            else -> sortExpensesByDate(allExpenses)
         }
           expenseList.clear()
         expenseList.addAll(filteredExpenses)
@@ -115,7 +115,7 @@ class ExpenseListFragment : Fragment() {
     private fun filterTodayExpenses(expenses: List<ExpenseItem>): List<ExpenseItem> {
         val today = java.text.SimpleDateFormat("dd/MM/yyyy", java.util.Locale.getDefault())
             .format(java.util.Date())
-        return expenses.filter { it.date == today }
+        return sortExpensesByDate(expenses.filter { it.date == today })
     }
     
     private fun filterWeekExpenses(expenses: List<ExpenseItem>): List<ExpenseItem> {
@@ -147,14 +147,14 @@ class ExpenseListFragment : Fragment() {
 
         val dateFormat = java.text.SimpleDateFormat("dd/MM/yyyy", java.util.Locale.getDefault())
 
-        return expenses.filter { expense ->
+        return sortExpensesByDate(expenses.filter { expense ->
             try {
                 val expenseDate = dateFormat.parse(expense.date)
                 expenseDate?.let { it >= startDate && it <= endDate } ?: false
             } catch (e: Exception) {
                 false
             }
-        }
+        })
     }
     
     private fun filterMonthExpenses(expenses: List<ExpenseItem>): List<ExpenseItem> {
@@ -162,7 +162,7 @@ class ExpenseListFragment : Fragment() {
         val currentMonth = calendar.get(java.util.Calendar.MONTH)
         val currentYear = calendar.get(java.util.Calendar.YEAR)
         
-        return expenses.filter { expense ->
+        return sortExpensesByDate(expenses.filter { expense ->
             try {
                 val dateFormat = java.text.SimpleDateFormat("dd/MM/yyyy", java.util.Locale.getDefault())
                 val expenseDate = dateFormat.parse(expense.date)
@@ -176,8 +176,21 @@ class ExpenseListFragment : Fragment() {
             } catch (e: Exception) {
                 false
             }
+        })
+    }
+    
+    private fun sortExpensesByDate(expenses: List<ExpenseItem>): List<ExpenseItem> {
+        val dateFormat = java.text.SimpleDateFormat("dd/MM/yyyy", java.util.Locale.getDefault())
+        return expenses.sortedByDescending { expense ->
+            try {
+                dateFormat.parse(expense.date)
+            } catch (e: Exception) {
+                java.util.Date(0) // Default to epoch if parsing fails
+            }
         }
-    }    fun refreshExpenses() {
+    }
+    
+    fun refreshExpenses() {
         if (isAdded && context != null) {
             val filterType = arguments?.getString(ARG_FILTER_TYPE) ?: FILTER_ALL
             loadExpensesForFilter(filterType)
