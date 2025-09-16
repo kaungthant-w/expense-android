@@ -169,6 +169,18 @@ class CurrencyManager private constructor(private val context: Context) {    com
                 val formatter = NumberFormat.getNumberInstance(Locale.US)
                 "¥${formatter.format(amount)}"
             }
+            CURRENCY_MYR -> {
+                val formatter = NumberFormat.getNumberInstance(Locale.US)
+                "RM${formatter.format(amount)}"
+            }
+            CURRENCY_EUR -> {
+                val formatter = NumberFormat.getNumberInstance(Locale.US)
+                "€${formatter.format(amount)}"
+            }
+            CURRENCY_KRW -> {
+                val formatter = NumberFormat.getNumberInstance(Locale.US)
+                "₩${formatter.format(amount.toInt())}" // KRW doesn't use decimals
+            }
             else -> amount.toString()
         }
     }
@@ -180,6 +192,9 @@ class CurrencyManager private constructor(private val context: Context) {    com
             CURRENCY_THB -> "THB"
             CURRENCY_JPY -> "¥"
             CURRENCY_CNY -> "¥"
+            CURRENCY_MYR -> "RM"
+            CURRENCY_EUR -> "€"
+            CURRENCY_KRW -> "₩"
             else -> ""
         }
     }
@@ -191,6 +206,9 @@ class CurrencyManager private constructor(private val context: Context) {    com
             CURRENCY_THB -> "Thai Baht"
             CURRENCY_JPY -> "Japanese Yen"
             CURRENCY_CNY -> "Chinese Yuan"
+            CURRENCY_MYR -> "Malaysian Ringgit"
+            CURRENCY_EUR -> "Euro"
+            CURRENCY_KRW -> "Korean Won"
             else -> getCurrentCurrency()
         }
     }
