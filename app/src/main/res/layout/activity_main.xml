@@ -24,7 +24,50 @@
                     </LinearLayout>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>           
-             <!-- TabLayout for Data Lists -->
+            <!-- Week's Summary Card -->
+            <androidx.cardview.widget.CardView android:id="@+id/weekSummaryCard" android:layout_width="match_parent" android:layout_height="wrap_content" app:cardCornerRadius="10dp" app:cardElevation="2dp" app:cardBackgroundColor="?attr/cardBackgroundColor" android:layout_marginBottom="20dp" android:visibility="gone">
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="14dp">
+                    <TextView android:id="@+id/weekSummaryTitle" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="📅 This Week's Summary" android:textSize="18sp" android:textStyle="bold" android:textColor="?attr/textPrimaryColor" android:layout_marginBottom="16dp" />
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginBottom="8dp">
+                        <TextView android:id="@+id/weekExpensesLabel" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Total Number:" android:textSize="14sp" android:textColor="?attr/textSecondaryColor" />
+                        <TextView android:id="@+id/weekExpensesCount" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0" android:textSize="14sp" android:textStyle="bold" android:textColor="?attr/textPrimaryColor" />
+                    </LinearLayout>
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+                        <TextView android:id="@+id/weekAmountLabel" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Total Amount:" android:textSize="14sp" android:textColor="?attr/textSecondaryColor" />
+                        <TextView android:id="@+id/weekTotalAmount" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="$0.00" android:textSize="14sp" android:textStyle="bold" android:textColor="?attr/textPrimaryColor" />
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+            <!-- Month's Summary Card -->
+            <androidx.cardview.widget.CardView android:id="@+id/monthSummaryCard" android:layout_width="match_parent" android:layout_height="wrap_content" app:cardCornerRadius="10dp" app:cardElevation="2dp" app:cardBackgroundColor="?attr/cardBackgroundColor" android:layout_marginBottom="20dp" android:visibility="gone">
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="14dp">
+                    <TextView android:id="@+id/monthSummaryTitle" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="📊 This Month's Summary" android:textSize="18sp" android:textStyle="bold" android:textColor="?attr/textPrimaryColor" android:layout_marginBottom="16dp" />
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginBottom="8dp">
+                        <TextView android:id="@+id/monthExpensesLabel" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Total Number:" android:textSize="14sp" android:textColor="?attr/textSecondaryColor" />
+                        <TextView android:id="@+id/monthExpensesCount" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0" android:textSize="14sp" android:textStyle="bold" android:textColor="?attr/textPrimaryColor" />
+                    </LinearLayout>
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+                        <TextView android:id="@+id/monthAmountLabel" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Total Amount:" android:textSize="14sp" android:textColor="?attr/textSecondaryColor" />
+                        <TextView android:id="@+id/monthTotalAmount" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="$0.00" android:textSize="14sp" android:textStyle="bold" android:textColor="?attr/textPrimaryColor" />
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+            <!-- All Summary Card -->
+            <androidx.cardview.widget.CardView android:id="@+id/allSummaryCard" android:layout_width="match_parent" android:layout_height="wrap_content" app:cardCornerRadius="10dp" app:cardElevation="2dp" app:cardBackgroundColor="?attr/cardBackgroundColor" android:layout_marginBottom="20dp" android:visibility="gone">
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="14dp">
+                    <TextView android:id="@+id/allSummaryTitle" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="📈 All Expenses Summary" android:textSize="18sp" android:textStyle="bold" android:textColor="?attr/textPrimaryColor" android:layout_marginBottom="16dp" />
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginBottom="8dp">
+                        <TextView android:id="@+id/allExpensesLabel" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Total Number:" android:textSize="14sp" android:textColor="?attr/textSecondaryColor" />
+                        <TextView android:id="@+id/allExpensesCount" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0" android:textSize="14sp" android:textStyle="bold" android:textColor="?attr/textPrimaryColor" />
+                    </LinearLayout>
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+                        <TextView android:id="@+id/allAmountLabel" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Total Amount:" android:textSize="14sp" android:textColor="?attr/textSecondaryColor" />
+                        <TextView android:id="@+id/allTotalAmount" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="$0.00" android:textSize="14sp" android:textStyle="bold" android:textColor="?attr/textPrimaryColor" />
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+             
+            <!-- TabLayout for Data Lists -->
             <com.google.android.material.tabs.TabLayout android:id="@+id/tabLayout" android:layout_width="match_parent" android:layout_height="wrap_content" android:background="@android:color/transparent" app:tabIndicatorColor="?attr/textPrimaryColor" app:tabSelectedTextColor="?attr/tabSelectedTextColor" app:tabTextColor="?attr/tabUnselectedTextColor" />
             <androidx.viewpager2.widget.ViewPager2 android:id="@+id/viewPager" android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" />
         </LinearLayout>

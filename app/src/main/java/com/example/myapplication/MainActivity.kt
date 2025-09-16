@@ -60,6 +60,31 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     private lateinit var todaySummaryTitle: TextView
     private lateinit var todayExpensesLabel: TextView
     private lateinit var todayAmountLabel: TextView
+    
+    // Week summary components
+    private lateinit var weekSummaryCard: CardView
+    private lateinit var weekExpensesCount: TextView
+    private lateinit var weekTotalAmount: TextView
+    private lateinit var weekSummaryTitle: TextView
+    private lateinit var weekExpensesLabel: TextView
+    private lateinit var weekAmountLabel: TextView
+    
+    // Month summary components
+    private lateinit var monthSummaryCard: CardView
+    private lateinit var monthExpensesCount: TextView
+    private lateinit var monthTotalAmount: TextView
+    private lateinit var monthSummaryTitle: TextView
+    private lateinit var monthExpensesLabel: TextView
+    private lateinit var monthAmountLabel: TextView
+    
+    // All summary components
+    private lateinit var allSummaryCard: CardView
+    private lateinit var allExpensesCount: TextView
+    private lateinit var allTotalAmount: TextView
+    private lateinit var allSummaryTitle: TextView
+    private lateinit var allExpensesLabel: TextView
+    private lateinit var allAmountLabel: TextView
+    
     private lateinit var tabLayout: TabLayout
     private lateinit var viewPager: ViewPager2
     private lateinit var viewPagerAdapter: ExpenseViewPagerAdapter
@@ -185,6 +210,9 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             loadExpenses()
             updateNavigationMenuTitles()
             updateTodaySummaryCard()
+            updateWeekSummaryCard()
+            updateMonthSummaryCard()
+            updateAllSummaryCard()
             updateTodaySummary()
         } catch (e: Exception) {
             Log.e("MainActivity", "Initialization error", e)
@@ -223,6 +251,9 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         updateNavigationMenuTitles()
         updateNavigationHeaderText()
         updateTodaySummaryCard()
+        updateWeekSummaryCard()
+        updateMonthSummaryCard()
+        updateAllSummaryCard()
         updateTabTitles()
         
         // Refresh fragment translations if they exist
@@ -255,6 +286,9 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             updateNavigationMenuTitles()
             updateNavigationHeaderText()
             updateTodaySummaryCard()
+            updateWeekSummaryCard()
+            updateMonthSummaryCard()
+            updateAllSummaryCard()
             updateTabTitles()
             
             // Refresh fragment translations only if adapter is initialized and we're not transitioning
@@ -287,13 +321,39 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         todaySummaryTitle = findViewById<TextView>(R.id.todaySummaryTitle)
         todayExpensesLabel = findViewById<TextView>(R.id.todayExpensesLabel)
         todayAmountLabel = findViewById<TextView>(R.id.todayAmountLabel)
+        
+        // Week summary components
+        weekSummaryCard = findViewById<CardView>(R.id.weekSummaryCard)
+        weekExpensesCount = findViewById<TextView>(R.id.weekExpensesCount)
+        weekTotalAmount = findViewById<TextView>(R.id.weekTotalAmount)
+        weekSummaryTitle = findViewById<TextView>(R.id.weekSummaryTitle)
+        weekExpensesLabel = findViewById<TextView>(R.id.weekExpensesLabel)
+        weekAmountLabel = findViewById<TextView>(R.id.weekAmountLabel)
+        
+        // Month summary components
+        monthSummaryCard = findViewById<CardView>(R.id.monthSummaryCard)
+        monthExpensesCount = findViewById<TextView>(R.id.monthExpensesCount)
+        monthTotalAmount = findViewById<TextView>(R.id.monthTotalAmount)
+        monthSummaryTitle = findViewById<TextView>(R.id.monthSummaryTitle)
+        monthExpensesLabel = findViewById<TextView>(R.id.monthExpensesLabel)
+        monthAmountLabel = findViewById<TextView>(R.id.monthAmountLabel)
+        
+        // All summary components
+        allSummaryCard = findViewById<CardView>(R.id.allSummaryCard)
+        allExpensesCount = findViewById<TextView>(R.id.allExpensesCount)
+        allTotalAmount = findViewById<TextView>(R.id.allTotalAmount)
+        allSummaryTitle = findViewById<TextView>(R.id.allSummaryTitle)
+        allExpensesLabel = findViewById<TextView>(R.id.allExpensesLabel)
+        allAmountLabel = findViewById<TextView>(R.id.allAmountLabel)
+        
         tabLayout = findViewById<TabLayout>(R.id.tabLayout)
         viewPager = findViewById<ViewPager2>(R.id.viewPager)
         fab = findViewById<DraggableFloatingActionButton>(R.id.fab)
     }
     
     private fun setupRecyclerView() {
-        // RecyclerView setup is now handled by ExpenseListFragment        // Initialize the adapter for fragment communication
+        // RecyclerView setup is now handled by ExpenseListFragment        
+        // Initialize the adapter for fragment communication
         expenseAdapter = ExpenseAdapter(expenseList,
             onDeleteClick = { position -> deleteExpenseItem(position) },
             onEditClick = { position -> editExpenseItem(position) },
@@ -359,6 +419,52 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             tab.text = viewPagerAdapter.getTabTitle(position)
         }.attach()
+        
+        // Add tab selection listener to show/hide appropriate summary cards
+        tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                val position = tab?.position ?: 0
+                showSummaryCardForTab(position)
+            }
+            
+            override fun onTabUnselected(tab: TabLayout.Tab?) {}
+            override fun onTabReselected(tab: TabLayout.Tab?) {}
+        })
+        
+        // Show the initial summary card (today by default)
+        showSummaryCardForTab(0)
+    }
+    
+    private fun showSummaryCardForTab(position: Int) {
+        // Hide all summary cards first
+        todaySummaryCard.visibility = View.GONE
+        weekSummaryCard.visibility = View.GONE
+        monthSummaryCard.visibility = View.GONE
+        allSummaryCard.visibility = View.GONE
+        
+        // Show the appropriate card and update its data
+        when (position) {
+            0 -> { // Today
+                todaySummaryCard.visibility = View.VISIBLE
+                updateTodaySummary()
+                updateTodaySummaryCard()
+            }
+            1 -> { // This Week
+                weekSummaryCard.visibility = View.VISIBLE
+                updateWeekSummary()
+                updateWeekSummaryCard()
+            }
+            2 -> { // This Month
+                monthSummaryCard.visibility = View.VISIBLE
+                updateMonthSummary()
+                updateMonthSummaryCard()
+            }
+            3 -> { // All
+                allSummaryCard.visibility = View.VISIBLE
+                updateAllSummary()
+                updateAllSummaryCard()
+            }
+        }
     }
 
     private fun showAddExpenseModal() {
@@ -538,6 +644,64 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         todayTotalAmount.text = currencyManager.formatCurrency(total)
     }
     
+    private fun updateWeekSummary() {
+        val calendar = Calendar.getInstance()
+        calendar.set(Calendar.DAY_OF_WEEK, calendar.firstDayOfWeek)
+        val weekStart = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(calendar.time)
+        calendar.add(Calendar.DAY_OF_WEEK, 6)
+        val weekEnd = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(calendar.time)
+        
+        val weekExpenses = expenseList.filter { expense ->
+            val expenseDate = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).parse(expense.date)
+            val startDate = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).parse(weekStart)
+            val endDate = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).parse(weekEnd)
+            expenseDate != null && startDate != null && endDate != null &&
+            expenseDate >= startDate && expenseDate <= endDate
+        }
+
+        weekExpensesCount.text = weekExpenses.size.toString()
+
+        val total = weekExpenses.sumOf { expense ->
+            currencyManager.getDisplayAmountFromStored(expense.price, expense.currency)
+        }
+
+        weekTotalAmount.text = currencyManager.formatCurrency(total)
+    }
+    
+    private fun updateMonthSummary() {
+        val calendar = Calendar.getInstance()
+        calendar.set(Calendar.DAY_OF_MONTH, 1)
+        val monthStart = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(calendar.time)
+        calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH))
+        val monthEnd = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(calendar.time)
+        
+        val monthExpenses = expenseList.filter { expense ->
+            val expenseDate = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).parse(expense.date)
+            val startDate = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).parse(monthStart)
+            val endDate = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).parse(monthEnd)
+            expenseDate != null && startDate != null && endDate != null &&
+            expenseDate >= startDate && expenseDate <= endDate
+        }
+
+        monthExpensesCount.text = monthExpenses.size.toString()
+
+        val total = monthExpenses.sumOf { expense ->
+            currencyManager.getDisplayAmountFromStored(expense.price, expense.currency)
+        }
+
+        monthTotalAmount.text = currencyManager.formatCurrency(total)
+    }
+    
+    private fun updateAllSummary() {
+        allExpensesCount.text = expenseList.size.toString()
+
+        val total = expenseList.sumOf { expense ->
+            currencyManager.getDisplayAmountFromStored(expense.price, expense.currency)
+        }
+
+        allTotalAmount.text = currencyManager.formatCurrency(total)
+    }
+    
     // Methods for fragment communication
     fun getAllExpenses(): List<ExpenseItem> {
         return expenseList.toList()
@@ -585,6 +749,9 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                 }
             }
             updateTodaySummary()
+            updateWeekSummary()
+            updateMonthSummary()
+            updateAllSummary()
         } catch (e: Exception) {
             android.util.Log.e("MainActivity", "Error refreshing fragments: ${e.message}")
         }
@@ -868,8 +1035,63 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         // Refresh the today's summary data to ensure proper display
         updateTodaySummary()
         
-        Log.d("MainActivity", "Today's Summary Card updated: title=${todaySummaryTitle.text}, expenses=${todayExpensesLabel.text}, amount=${todayAmountLabel.text}")
+                Log.d("MainActivity", "Today's Summary Card updated: title=${todaySummaryTitle.text}, expenses=${todayExpensesLabel.text}, amount=${todayAmountLabel.text}")
     }
+    
+    private fun updateWeekSummaryCard() {
+        Log.d("MainActivity", "Updating Week's Summary Card")
+        
+        // Update Week's Summary card texts
+        weekSummaryTitle.text = languageManager.getString("this_week_summary")
+        weekExpensesLabel.text = languageManager.getString("total_expenses")
+        weekAmountLabel.text = languageManager.getString("total_amount")
+        
+        // Force refresh the card view
+        weekSummaryCard.invalidate()
+        weekSummaryCard.requestLayout()
+        
+        // Refresh the week's summary data to ensure proper display
+        updateWeekSummary()
+        
+        Log.d("MainActivity", "Week's Summary Card updated: title=${weekSummaryTitle.text}, expenses=${weekExpensesLabel.text}, amount=${weekAmountLabel.text}")
+    }
+    
+    private fun updateMonthSummaryCard() {
+        Log.d("MainActivity", "Updating Month's Summary Card")
+        
+        // Update Month's Summary card texts
+        monthSummaryTitle.text = languageManager.getString("this_month_summary")
+        monthExpensesLabel.text = languageManager.getString("total_expenses")
+        monthAmountLabel.text = languageManager.getString("total_amount")
+        
+        // Force refresh the card view
+        monthSummaryCard.invalidate()
+        monthSummaryCard.requestLayout()
+        
+        // Refresh the month's summary data to ensure proper display
+        updateMonthSummary()
+        
+        Log.d("MainActivity", "Month's Summary Card updated: title=${monthSummaryTitle.text}, expenses=${monthExpensesLabel.text}, amount=${monthAmountLabel.text}")
+    }
+    
+    private fun updateAllSummaryCard() {
+        Log.d("MainActivity", "Updating All Summary Card")
+        
+        // Update All Summary card texts
+        allSummaryTitle.text = languageManager.getString("all_expenses_summary")
+        allExpensesLabel.text = languageManager.getString("total_expenses")
+        allAmountLabel.text = languageManager.getString("total_amount")
+        
+        // Force refresh the card view
+        allSummaryCard.invalidate()
+        allSummaryCard.requestLayout()
+        
+        // Refresh the all summary data to ensure proper display
+        updateAllSummary()
+        
+        Log.d("MainActivity", "All Summary Card updated: title=${allSummaryTitle.text}, expenses=${allExpensesLabel.text}, amount=${allAmountLabel.text}")
+    }
+    
       private fun updateTabTitles() {
         Log.d("MainActivity", "Updating tab titles")
         
