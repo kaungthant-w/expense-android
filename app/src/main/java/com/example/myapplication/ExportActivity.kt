@@ -564,6 +564,14 @@ class ExportActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedLi
             infoCell4.setCellValue("Paper Size: $selectedPaperSize")
             infoCell4.cellStyle = infoStyle              
             // Create header row for data with different columns based on paper type
+            // Debug logging for language localization
+            android.util.Log.d("ExportActivity", "Current language: ${languageManager.getCurrentLanguage()}")
+            android.util.Log.d("ExportActivity", "Amount translation: '${languageManager.getString("amount")}'")
+            android.util.Log.d("ExportActivity", "Date translation: '${languageManager.getString("date")}'")
+            android.util.Log.d("ExportActivity", "Expense name translation: '${languageManager.getString("expense_name")}'")
+            android.util.Log.d("ExportActivity", "Description translation: '${languageManager.getString("description")}'")
+            android.util.Log.d("ExportActivity", "Remark translation: '${languageManager.getString("remark")}'")
+            
             val headerRow = sheet.createRow(6)
             val headers = if (isRollerPaper) {
                 // Roller paper: No, Date, Name, Amount (no Description, no Remark)
@@ -581,9 +589,13 @@ class ExportActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedLi
                     languageManager.getString("expense_name"),
                     languageManager.getString("amount"),
                     languageManager.getString("description"),
-                    "Remark"
+                    languageManager.getString("remark")
                 )
             }
+            
+            // Debug logging for headers
+            android.util.Log.d("ExportActivity", "Headers array: ${headers.joinToString(", ") { "'$it'" }}")
+            android.util.Log.d("ExportActivity", "Is roller paper: $isRollerPaper")
             
             headers.forEachIndexed { index, header ->
                 val cell = headerRow.createCell(index)

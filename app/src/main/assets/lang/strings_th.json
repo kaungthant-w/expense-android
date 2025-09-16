@@ -423,5 +423,6 @@
   "switched_to_cny": "สลับไป CNY - หยวนจีน",
   "switched_to_myr": "สลับไป MYR - ริงกิตมาเลเซีย",
   "switched_to_krw": "สลับไป KRW - วอนเกาหลีใต้",
-  "switched_to_eur": "สลับไป EUR - ยูโร"
+  "switched_to_eur": "สลับไป EUR - ยูโร",
+  "remark": "หมายเหตุ"
 }

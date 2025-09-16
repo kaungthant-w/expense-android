@@ -452,5 +452,6 @@
   "today_expenses": "今日の支出",
   "switched_to_myr": "MYRに切り替え - マレーシアリンギット",
   "switched_to_krw": "KRWに切り替え - 韓国ウォン",
-  "switched_to_eur": "EURに切り替え - ユーロ"
+  "switched_to_eur": "EURに切り替え - ユーロ",
+  "remark": "備考"
 }

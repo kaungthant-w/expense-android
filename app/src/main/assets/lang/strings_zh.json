@@ -450,5 +450,6 @@
   "today_expenses": "今日支出",
   "switched_to_myr": "已切换到MYR - 马来西亚林吉特",
   "switched_to_krw": "已切换到KRW - 韩元",
-  "switched_to_eur": "已切换到EUR - 欧元"
+  "switched_to_eur": "已切换到EUR - 欧元",
+  "remark": "备注"
 }
