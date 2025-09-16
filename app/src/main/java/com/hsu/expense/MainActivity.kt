@@ -1368,16 +1368,17 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             "https://festivalapp-3e19c-default-rtdb.asia-southeast1.firebasedatabase.app"
         ).reference
 
-        database.addListenerForSingleValueEvent(object : ValueEventListener {
+        val today = java.time.LocalDate.now().toString()
+        database.child("festivals").child(today).addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val festival = snapshot.child("festival").getValue(String::class.java) ?: "-"
                 val message = snapshot.child("message").getValue(String::class.java) ?: "-"
-                val date = snapshot.child("date").getValue(String::class.java) ?: "-"
                 val animation = snapshot.child("animation").getValue(String::class.java) ?: "-"
 
-                // အခုနေ့နဲ့ firebase ရဲ့ date ကို နှိုင်းယှဉ်
-                val today = java.time.LocalDate.now().toString()
-                if (today == date) {
+                // Debug: Show fetched data
+                Toast.makeText(this@MainActivity, "Festival: $festival, Message: $message, Animation: $animation", Toast.LENGTH_LONG).show()
+
+                if (!festival.isNullOrEmpty() && !message.isNullOrEmpty()) {
                     festivalView.text = "🎊 $festival"
                     messageView.text = message
                     festivalCard.visibility = View.VISIBLE
@@ -1389,6 +1390,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
             override fun onCancelled(error: DatabaseError) {
                 Log.w("MainActivity", "Error getting festival data", error.toException())
+                Toast.makeText(this@MainActivity, "Database error: ${error.message}", Toast.LENGTH_LONG).show()
             }
         })
     }
