@@ -90,8 +90,8 @@
                     </androidx.cardview.widget.CardView>
                 </LinearLayout>
 
-                <!-- Third Row: MYR, EUR -->
-                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginBottom="14dp">
+                <!-- Third Row: MYR, EUR, KRW -->
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginBottom="16dp">
 
                     <androidx.cardview.widget.CardView android:id="@+id/cardMyr" android:layout_width="0dp" android:layout_height="50dp" android:layout_weight="1" app:cardCornerRadius="10dp" app:cardElevation="4dp" android:layout_marginEnd="4dp" android:clickable="true" android:focusable="true" android:foreground="?attr/selectableItemBackground">
 
@@ -104,12 +104,23 @@
 
                     </androidx.cardview.widget.CardView>
 
-                    <androidx.cardview.widget.CardView android:id="@+id/cardEur" android:layout_width="0dp" android:layout_height="50dp" android:layout_weight="1" app:cardCornerRadius="10dp" app:cardElevation="4dp" android:layout_marginStart="4dp" android:clickable="true" android:focusable="true" android:foreground="?attr/selectableItemBackground">
+                    <androidx.cardview.widget.CardView android:id="@+id/cardEur" android:layout_width="0dp" android:layout_height="50dp" android:layout_weight="1" app:cardCornerRadius="10dp" app:cardElevation="4dp" android:layout_marginStart="4dp" android:layout_marginEnd="4dp" android:clickable="true" android:focusable="true" android:foreground="?attr/selectableItemBackground">
 
                         <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" android:gravity="center" android:padding="8dp">
 
                             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="🇪🇺 EUR" android:textSize="14sp" android:textStyle="bold" android:textColor="?attr/textPrimaryColor" />
                             <TextView android:id="@+id/textEuroLabel" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Euro" android:textSize="10sp" android:textColor="?attr/textSecondaryColor" />
+
+                        </LinearLayout>
+
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView android:id="@+id/cardKrw" android:layout_width="0dp" android:layout_height="50dp" android:layout_weight="1" app:cardCornerRadius="10dp" app:cardElevation="4dp" android:layout_marginStart="4dp" android:clickable="true" android:focusable="true" android:foreground="?attr/selectableItemBackground">
+
+                        <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" android:gravity="center" android:padding="8dp">
+
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="🇰🇷 KRW" android:textSize="14sp" android:textStyle="bold" android:textColor="?attr/textPrimaryColor" />
+                            <TextView android:id="@+id/textKoreanWonLabel" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Korean Won" android:textSize="10sp" android:textColor="?attr/textSecondaryColor" />
 
                         </LinearLayout>
 

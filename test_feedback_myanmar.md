@@ -14,7 +14,7 @@
    - `submit_feedback`: "အကြံပြုချက် ပေးပို့ရန်"
    - `please_select_rating`: "ကျေးဇူးပြု၍ အဆင့်သတ်မှတ်ချက် ရွေးပါ"
    - `please_enter_feedback`: "ကျေးဇူးပြု၍ သင့်အကြံပြုချက် ရေးပါ"
-   - `feedback_subject`: "ရှုပါ ကုန်ကျမှု အက်ပ် အကြံပြုချက်"
+   - `feedback_subject`: "HSU Expense အက်ပ် အကြံပြုချက်"
    - `thank_you_feedback`: "သင့်အကြံပြုချက်အတွက် ကျေးဇူးတင်ပါသည်! 😊"
 
 2. **Updated FeedbackActivity.kt**:

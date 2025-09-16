@@ -70,7 +70,7 @@
   "developer_name": "ကျော်မျိုးသန့်",
   "developer_email": "kyawmyothant.dev@gmail.com",
   "supported_by": "ပံ့ပိုးသူ",
-  "company_name": "HSU Myanmar",
+  "company_name": "HSU Expense",
   "feedback_title": "💬 အကြံပြုချက်",
   "rating_excellent": "⭐⭐⭐⭐⭐ အလွန်ကောင်း",
   "rating_good": "⭐⭐⭐⭐ ကောင်း",
@@ -80,7 +80,7 @@
   "submit_feedback": "အကြံပြုချက် ပေးပို့ရန်",
   "please_select_rating": "ကျေးဇူးပြု၍ အဆင့်သတ်မှတ်ချက် ရွေးပါ",
   "please_enter_feedback": "ကျေးဇူးပြု၍ သင့်အကြံပြုချက် ရေးပါ",
-  "feedback_subject": "ရှုပါ ကုန်ကျမှု အက်ပ် အကြံပြုချက်",
+  "feedback_subject": "HSU Expense အက်ပ် အကြံပြုချက်",
   "thank_you_feedback": "သင့်အကြံပြုချက်အတွက် ကျေးဇူးတင်ပါသည်! 😊",
   "no_email_app": "အီးမေးလ် အက်ပ် မတွေ့ပါ။ အကြံပြုချက် ပေးပို့ရန် အီးမေးလ် အက်ပ် တပ်ဆင်ပါ။",
   "send_feedback_via": "အကြံပြုချက် ပေးပို့ရန်...",
@@ -412,5 +412,9 @@
   "wifi_recommendation_quality": "• Print Quality အတွက် A4 paper size ကို ရွေးချယ်ပါ",
   "wifi_recommendation_data": "• Data Saving အတွက် Export လုပ်ပြီးမှ print လုပ်ပါ",
   "wifi_ip_requirement": "💡 Network printer IP address လိုအပ်ပါသည်",
-  "nav_export_excel": "🖨️ Printer"
+  "nav_export_excel": "🖨️ Printer",
+  "export_description": "သင့်ကုန်ကျစရိတ် ဒေတာများကို Excel သို့ ထုတ်ယူခြင်း သို့မဟုတ် ဝိုင်းယားလိုင်းဖြင့် ပုံနှိပ်ခြင်း",
+  "switch_to_eur": "💱 EUR သို့ ပြောင်းရန်",
+  "switch_to_krw": "💱 KRW သို့ ပြောင်းရန်",
+  "switch_to_myr": "💱 MYR သို့ ပြောင်းရန်"
 }

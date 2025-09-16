@@ -37,6 +37,7 @@ class CurrencyExchangeActivity : BaseActivity(), NavigationView.OnNavigationItem
     private lateinit var cardCny: CardView
     private lateinit var cardMyr: CardView
     private lateinit var cardEur: CardView
+    private lateinit var cardKrw: CardView
     private lateinit var textCurrentRate: TextView
     private lateinit var buttonFetchRate: MaterialButton
     private lateinit var buttonCustomRate: MaterialButton
@@ -108,6 +109,7 @@ class CurrencyExchangeActivity : BaseActivity(), NavigationView.OnNavigationItem
         cardCny = findViewById(R.id.cardCny)
         cardMyr = findViewById(R.id.cardMyr)
         cardEur = findViewById(R.id.cardEur)
+        cardKrw = findViewById(R.id.cardKrw)
         textCurrentRate = findViewById(R.id.textCurrentRate)
         buttonFetchRate = findViewById(R.id.buttonFetchRate)
         buttonCustomRate = findViewById(R.id.buttonCustomRate)
@@ -177,6 +179,8 @@ class CurrencyExchangeActivity : BaseActivity(), NavigationView.OnNavigationItem
                 languageManager.getString("malaysian_ringgit")
             findViewById<TextView>(R.id.textEuroLabel)?.text = 
                 languageManager.getString("euro")
+            findViewById<TextView>(R.id.textKoreanWonLabel)?.text = 
+                languageManager.getString("korean_won")
         } catch (e: Exception) {
             // Log error but continue - fallback to hardcoded text in XML
             android.util.Log.e("CurrencyExchange", "Error setting up static texts: ${e.message}")
@@ -225,6 +229,10 @@ class CurrencyExchangeActivity : BaseActivity(), NavigationView.OnNavigationItem
             switchToCurrency(CurrencyManager.CURRENCY_EUR)
         }
         
+        cardKrw.setOnClickListener {
+            switchToCurrency(CurrencyManager.CURRENCY_KRW)
+        }
+        
         buttonFetchRate.setOnClickListener {
             fetchLatestExchangeRate()
         }
@@ -267,6 +275,7 @@ class CurrencyExchangeActivity : BaseActivity(), NavigationView.OnNavigationItem
             CurrencyManager.CURRENCY_CNY -> languageManager.getString("switched_to_cny")
             CurrencyManager.CURRENCY_MYR -> languageManager.getString("switched_to_myr")
             CurrencyManager.CURRENCY_EUR -> languageManager.getString("switched_to_eur")
+            CurrencyManager.CURRENCY_KRW -> languageManager.getString("switched_to_krw")
             else -> languageManager.getString("currency_switched")
         }
         
@@ -290,6 +299,7 @@ class CurrencyExchangeActivity : BaseActivity(), NavigationView.OnNavigationItem
             CurrencyManager.CURRENCY_CNY -> "Exchange Rate: 1 CNY = ${String.format("%.2f", currentRate)} MMK"
             CurrencyManager.CURRENCY_MYR -> "Exchange Rate: 1 MYR = ${String.format("%.2f", currentRate)} MMK"
             CurrencyManager.CURRENCY_EUR -> "Exchange Rate: 1 EUR = ${String.format("%.2f", currentRate)} MMK"
+            CurrencyManager.CURRENCY_KRW -> "Exchange Rate: 1 KRW = ${String.format("%.2f", currentRate)} MMK"
             else -> "Exchange Rate: 1 USD = ${String.format("%.2f", currencyManager.getExchangeRateForCurrency(CurrencyManager.CURRENCY_USD))} MMK"
         }
         
@@ -307,6 +317,7 @@ class CurrencyExchangeActivity : BaseActivity(), NavigationView.OnNavigationItem
             CurrencyManager.CURRENCY_CNY -> languageManager.getString("switch_to_cny")
             CurrencyManager.CURRENCY_MYR -> languageManager.getString("switch_to_myr")
             CurrencyManager.CURRENCY_EUR -> languageManager.getString("switch_to_eur")
+            CurrencyManager.CURRENCY_KRW -> languageManager.getString("switch_to_krw")
             else -> "💱 Switch Currency"
         }
     }
@@ -322,6 +333,7 @@ class CurrencyExchangeActivity : BaseActivity(), NavigationView.OnNavigationItem
         cardCny.setCardBackgroundColor(defaultColor)
         cardMyr.setCardBackgroundColor(defaultColor)
         cardEur.setCardBackgroundColor(defaultColor)
+        cardKrw.setCardBackgroundColor(defaultColor)
         
         // Highlight selected currency
         when (currency) {
@@ -348,6 +360,9 @@ class CurrencyExchangeActivity : BaseActivity(), NavigationView.OnNavigationItem
             }
             CurrencyManager.CURRENCY_EUR -> {
                 cardEur.setCardBackgroundColor(getColor(android.R.color.holo_green_dark))
+            }
+            CurrencyManager.CURRENCY_KRW -> {
+                cardKrw.setCardBackgroundColor(getColor(android.R.color.holo_red_dark))
             }
         }
     }

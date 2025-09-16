@@ -149,6 +149,7 @@
     <string name="switched_to_cny">Switched to CNY</string>
     <string name="switched_to_myr">Switched to MYR</string>
     <string name="switched_to_eur">Switched to EUR</string>
+    <string name="switched_to_krw">Switched to KRW</string>
     <string name="switch_to_usd">Switch to USD</string>
     <string name="switch_to_mmk">Switch to MMK</string>
     <string name="switch_to_sgd">Switch to SGD</string>
@@ -157,6 +158,7 @@
     <string name="switch_to_cny">Switch to CNY</string>
     <string name="switch_to_myr">Switch to MYR</string>
     <string name="switch_to_eur">Switch to EUR</string>
+    <string name="switch_to_krw">Switch to KRW</string>
     <string name="currency_switched">Currency switched</string>
     <string name="us_dollar">US Dollar</string>
     <string name="myanmar_kyat">Myanmar Kyat</string>
@@ -166,4 +168,5 @@
     <string name="chinese_yuan">Chinese Yuan</string>
     <string name="malaysian_ringgit">Malaysian Ringgit</string>
     <string name="euro">Euro</string>
+    <string name="korean_won">Korean Won</string>
 </resources>

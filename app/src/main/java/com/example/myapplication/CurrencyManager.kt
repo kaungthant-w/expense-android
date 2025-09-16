@@ -14,6 +14,7 @@ class CurrencyManager private constructor(private val context: Context) {    com
         const val CURRENCY_CNY = "CNY"
         const val CURRENCY_MYR = "MYR"
         const val CURRENCY_EUR = "EUR"
+        const val CURRENCY_KRW = "KRW"
         
         const val DEFAULT_EXCHANGE_RATE = 3600.0 // Default MMK per USD
         
@@ -23,7 +24,7 @@ class CurrencyManager private constructor(private val context: Context) {    com
         private const val KEY_EXCHANGE_RATES = "exchange_rates"
         
         // Supported currencies list
-        val SUPPORTED_CURRENCIES = listOf(CURRENCY_USD, CURRENCY_MMK, CURRENCY_SGD, CURRENCY_THB, CURRENCY_JPY, CURRENCY_CNY, CURRENCY_MYR, CURRENCY_EUR)
+        val SUPPORTED_CURRENCIES = listOf(CURRENCY_USD, CURRENCY_MMK, CURRENCY_SGD, CURRENCY_THB, CURRENCY_JPY, CURRENCY_CNY, CURRENCY_MYR, CURRENCY_EUR, CURRENCY_KRW)
         
         @Volatile
         private var INSTANCE: CurrencyManager? = null
