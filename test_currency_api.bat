@@ -13,7 +13,7 @@ adb wait-for-device
 
 echo.
 echo Opening Currency Exchange Activity...
-adb shell am start -n com.example.myapplication/.CurrencyExchangeActivity
+adb shell am start -n com.hsu.expense/.CurrencyExchangeActivity
 
 echo.
 echo Instructions for manual testing:

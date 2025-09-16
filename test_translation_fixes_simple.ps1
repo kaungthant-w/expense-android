@@ -12,7 +12,7 @@ Write-Host ""
 # Test 1: Launch app and check initial state
 Write-Host "TEST 1: APP LAUNCH & INITIAL STATE" -ForegroundColor Magenta
 Write-Host "   -> Launching HSU Expense app..." -ForegroundColor Gray
-adb shell am start -n com.example.myapplication/.MainActivity
+adb shell am start -n com.hsu.expense/.MainActivity
 Start-Sleep -Seconds 3
 
 Write-Host "   -> App launched successfully" -ForegroundColor Green
@@ -21,7 +21,7 @@ Write-Host ""
 # Test 2: Currency Exchange Translation Test
 Write-Host "TEST 2: CURRENCY EXCHANGE TRANSLATION FIXES" -ForegroundColor Magenta
 Write-Host "   -> Opening Currency Exchange activity..." -ForegroundColor Gray
-adb shell am start -n com.example.myapplication/.CurrencyExchangeActivity
+adb shell am start -n com.hsu.expense/.CurrencyExchangeActivity
 Start-Sleep -Seconds 2
 
 Write-Host "   -> Testing 'last updated' translation display..." -ForegroundColor Gray
@@ -32,7 +32,7 @@ Write-Host ""
 # Test 3: Language Switching Test Preparation
 Write-Host "TEST 3: LANGUAGE SWITCHING PREPARATION" -ForegroundColor Magenta
 Write-Host "   -> Opening Settings..." -ForegroundColor Gray
-adb shell am start -n com.example.myapplication/.SettingsActivity
+adb shell am start -n com.hsu.expense/.SettingsActivity
 Start-Sleep -Seconds 2
 
 Write-Host "   -> Ready for manual language switching tests" -ForegroundColor Yellow

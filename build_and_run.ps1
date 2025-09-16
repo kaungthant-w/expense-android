@@ -59,7 +59,7 @@ try {
                 
                 # Launch the app
                 Write-Host "Launching app..." -ForegroundColor Cyan
-                adb shell am start -n com.example.myapplication/.MainActivity
+                adb shell am start -n com.hsu.expense/.MainActivity
                 Write-Host "App launched successfully!" -ForegroundColor Green
             } else {
                 Write-Host "Installation failed!" -ForegroundColor Red

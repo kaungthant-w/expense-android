@@ -57,6 +57,20 @@
 
         <activity android:name=".ExportActivity" android:exported="false" android:parentActivityName=".MainActivity" />
 
+        <!-- Firebase Cloud Messaging Service -->
+        <service
+            android:name=".MyFirebaseMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <!-- Notification Channel for Festival Notifications -->
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_channel_id"
+            android:value="festival_channel" />
+
     </application>
 
 </manifest>

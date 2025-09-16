@@ -8,7 +8,7 @@ adb install -r app\build\outputs\apk\debug\app-debug.apk
 Start-Sleep -Seconds 2
 
 # Start the app
-adb shell monkey -p com.example.myapplication -c android.intent.category.LAUNCHER 1
+adb shell monkey -p com.hsu.expense -c android.intent.category.LAUNCHER 1
 Start-Sleep -Seconds 3
 
 Write-Host "App started. Please follow these manual test steps:" -ForegroundColor Cyan

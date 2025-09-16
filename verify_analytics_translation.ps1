@@ -14,7 +14,7 @@ if ($devices -match "emulator-\d+.*device") {
 
 Write-Host ""
 Write-Host "🚀 Starting app on device..." -ForegroundColor Blue
-adb shell am start -n com.example.myapplication/.MainActivity 2>$null
+adb shell am start -n com.hsu.expense/.MainActivity 2>$null
 Start-Sleep -Seconds 2
 
 Write-Host ""

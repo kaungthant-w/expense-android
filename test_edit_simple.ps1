@@ -2,7 +2,7 @@
 Write-Host "Testing AllListActivity Edit Functionality" -ForegroundColor Cyan
 Write-Host "Starting HSU Expense App..." -ForegroundColor Green
 
-adb shell am start -n com.example.myapplication/.MainActivity
+adb shell am start -n com.hsu.expense/.MainActivity
 
 Write-Host ""
 Write-Host "Test Steps:" -ForegroundColor Yellow

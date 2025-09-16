@@ -5,7 +5,7 @@ Write-Host "=============================================" -ForegroundColor Blue
 Write-Host ""
 
 Write-Host "📱 Launching HSU Expense App..." -ForegroundColor Yellow
-adb shell am start -n com.example.myapplication/.MainActivity
+adb shell am start -n com.hsu.expense/.MainActivity
 
 Start-Sleep -Seconds 3
 

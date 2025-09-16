@@ -3,7 +3,7 @@ Write-Host "Testing Feedback Functionality..." -ForegroundColor Green
 
 # Launch the app
 Write-Host "1. Launching MainActivity..." -ForegroundColor Yellow
-adb shell am start -n com.example.myapplication/.MainActivity
+adb shell am start -n com.hsu.expense/.MainActivity
 
 Start-Sleep -Seconds 3
 

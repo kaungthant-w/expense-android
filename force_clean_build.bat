@@ -27,7 +27,7 @@ if %ERRORLEVEL% EQU 0 (
     adb install -r "app\build\outputs\apk\debug\app-debug.apk"
     if %ERRORLEVEL% EQU 0 (
         echo Installation successful! Launching app...
-        adb shell am start -n com.example.myapplication/.MainActivity
+        adb shell am start -n com.hsu.expense/.MainActivity
     ) else (
         echo Installation failed. Please check if device is connected.
     )

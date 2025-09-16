@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:background="@drawable/dialog_background">
+
+    <!-- Festival Icon -->
+    <ImageView
+        android:id="@+id/festivalIcon"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="16dp"
+        android:src="@drawable/ic_festival"
+        android:contentDescription="Festival Icon" />
+
+    <!-- Festival Title -->
+    <TextView
+        android:id="@+id/festivalTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="🎉 ပွဲတော်နေ့"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:textColor="?attr/textPrimaryColor"
+        android:gravity="center"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Festival Message -->
+    <TextView
+        android:id="@+id/festivalMessage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="မြန်မာနှစ်သစ်ကူးမှာ ကျန်းမာပျော်ရွင်ပါစေ 🎉"
+        android:textSize="16sp"
+        android:textColor="?attr/textSecondaryColor"
+        android:gravity="center"
+        android:layout_marginBottom="24dp"
+        android:lineSpacingExtra="4dp" />
+
+    <!-- Animation Container -->
+    <FrameLayout
+        android:id="@+id/animationContainer"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/animation_background"
+        android:visibility="gone" />
+
+    <!-- Action Buttons -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/btnClose"
+            style="?android:attr/buttonStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginEnd="8dp"
+            android:text="ပိတ်မည်"
+            android:textColor="?attr/colorPrimary"
+            android:background="?android:attr/selectableItemBackground"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/btnCelebrate"
+            style="?android:attr/buttonStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="8dp"
+            android:text="ဂုဏ်ပြုပါသည် 🎉"
+            android:textColor="@android:color/white"
+            android:background="@drawable/button_primary"
+            android:textAllCaps="false" />
+
+    </LinearLayout>
+
+</LinearLayout>

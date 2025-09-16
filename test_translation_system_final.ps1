@@ -27,7 +27,7 @@ function Test-LanguageSwitch {
     Start-Sleep -Seconds 3
     
     # Launch the app
-    adb shell am start -n com.example.myapplication/.MainActivity
+    adb shell am start -n com.hsu.expense/.MainActivity
     Start-Sleep -Seconds 2
     
     # Take a screenshot

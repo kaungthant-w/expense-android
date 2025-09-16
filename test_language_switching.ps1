@@ -13,7 +13,7 @@ Start-Job -ScriptBlock {
 
 # Open the app
 Write-Host "Opening MyApplication..." -ForegroundColor Yellow
-adb shell monkey -p com.example.myapplication -c android.intent.category.LAUNCHER 1
+adb shell monkey -p com.hsu.expense -c android.intent.category.LAUNCHER 1
 
 Start-Sleep -Seconds 3
 

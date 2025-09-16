@@ -3,7 +3,7 @@ Write-Host "=== Testing Back Button Implementation ===" -ForegroundColor Green
 
 # Start the app
 Write-Host "`n1. Starting the application..." -ForegroundColor Yellow
-adb shell am start -n com.example.myapplication/.MainActivity
+adb shell am start -n com.hsu.expense/.MainActivity
 
 Start-Sleep 3
 

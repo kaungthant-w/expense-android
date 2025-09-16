@@ -46,7 +46,7 @@
 adb install -r app\build\outputs\apk\debug\app-debug.apk
 
 # Launch app
-adb shell am start -n com.example.myapplication/.MainActivity
+adb shell am start -n com.hsu.expense/.MainActivity
 ```
 
 ## 📱 DEVICE SETUP

@@ -6,7 +6,7 @@
 Write-Host "=== FAB and Language Switching Functionality Test ===" -ForegroundColor Green
 
 Write-Host "`n1. Checking if MyApplication is installed..." -ForegroundColor Yellow
-$installed = adb shell pm list packages | Select-String "com.example.myapplication"
+$installed = adb shell pm list packages | Select-String "com.hsu.expense"
 if ($installed) {
     Write-Host "✓ MyApplication is installed" -ForegroundColor Green
 } else {

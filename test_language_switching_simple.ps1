@@ -13,7 +13,7 @@ Write-Host "Android device connected" -ForegroundColor Green
 
 # Start the app
 Write-Host "Starting the app..." -ForegroundColor Cyan
-adb shell am start -n "com.example.myapplication/.SplashActivity"
+adb shell am start -n "com.hsu.expense/.SplashActivity"
 Start-Sleep -Seconds 3
 
 Write-Host "LANGUAGE SWITCHING TEST PLAN:" -ForegroundColor Cyan

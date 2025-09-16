@@ -62,7 +62,7 @@ Write-Host "`nPress any key to start the app for testing..." -ForegroundColor Ye
 $null = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
 
 # Start the app
-adb shell monkey -p com.example.myapplication -c android.intent.category.LAUNCHER 1
+adb shell monkey -p com.hsu.expense -c android.intent.category.LAUNCHER 1
 
 Write-Host "`n🚀 App started! Please perform the manual tests above." -ForegroundColor Green
 Write-Host "Press any key when testing is complete..." -ForegroundColor Yellow

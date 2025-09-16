@@ -39,7 +39,7 @@ try {
 Write-Host "`n🚀 Test 2: Launching App..." -ForegroundColor Yellow
 try {
     Write-Host "   Starting MyApplication..." -ForegroundColor Gray
-    $launchResult = & adb shell am start -n com.example.myapplication/.MainActivity 2>&1
+    $launchResult = & adb shell am start -n com.hsu.expense/.MainActivity 2>&1
     if ($LASTEXITCODE -eq 0) {
         Write-Host "   ✅ App launched successfully!" -ForegroundColor Green
     } else {

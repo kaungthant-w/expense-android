@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "941318610270",
+    "project_id": "festivalapp-3e19c",
+    "storage_bucket": "festivalapp-3e19c.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:941318610270:android:c1e5b8de2bc985d508c3cf",
+        "android_client_info": {
+          "package_name": "com.hsu.expense"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCR0E__rlFmIvdKEDxpE62S7CrB3J7D8Gc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

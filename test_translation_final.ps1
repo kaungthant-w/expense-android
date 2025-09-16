@@ -67,7 +67,7 @@ function Test-TranslationSystem {
             Write-Host ""
             Write-Host "🎉 Translation system is ready for testing!" -ForegroundColor Green
             Write-Host ""
-            Write-Host "📱 Launch app command: adb shell am start -n com.example.myapplication/.MainActivity" -ForegroundColor Cyan
+            Write-Host "📱 Launch app command: adb shell am start -n com.hsu.expense/.MainActivity" -ForegroundColor Cyan
         } else {
             Write-Host "❌ Installation failed!" -ForegroundColor Red
         }

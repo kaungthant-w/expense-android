@@ -101,7 +101,7 @@ echo.
 
 REM Launch the app
 echo Step 4: Launching MyApplication...
-call adb shell am start -n com.example.myapplication/.MainActivity
+call adb shell am start -n com.hsu.expense/.MainActivity
 if %errorlevel% neq 0 (
     echo.
     echo ❌ Failed to launch app automatically.

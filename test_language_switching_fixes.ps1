@@ -28,7 +28,7 @@ if ($LASTEXITCODE -eq 0) {
 
 # Start the app
 Write-Host "`n3. Starting the application..." -ForegroundColor Yellow
-adb shell am start -n com.example.myapplication/.MainActivity
+adb shell am start -n com.hsu.expense/.MainActivity
 
 Write-Host "`n=== TEST INSTRUCTIONS ===" -ForegroundColor Cyan
 Write-Host ""

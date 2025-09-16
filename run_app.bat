@@ -18,7 +18,7 @@ if errorlevel 1 goto error
 
 echo.
 echo Step 4: Launching app...
-adb shell am start -n com.example.myapplication/.MainActivity
+adb shell am start -n com.hsu.expense/.MainActivity
 
 echo.
 echo ✅ App successfully built and launched!

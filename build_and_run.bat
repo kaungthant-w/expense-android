@@ -28,7 +28,7 @@ if %errorlevel% neq 0 (
 
 echo.
 echo Step 3: Launching app...
-call adb shell am start -n com.example.myapplication/.MainActivity
+call adb shell am start -n com.hsu.expense/.MainActivity
 if %errorlevel% neq 0 (
     echo Failed to launch app!
     pause

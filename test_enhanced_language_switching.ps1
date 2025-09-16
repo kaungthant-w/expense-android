@@ -19,7 +19,7 @@ if ($devices -notmatch "device") {
 Write-Host "✅ Android device connected" -ForegroundColor Green
 
 # Check if app is installed
-$packages = adb shell pm list packages | Select-String "com.example.myapplication"
+$packages = adb shell pm list packages | Select-String "com.hsu.expense"
 if (-not $packages) {
     Write-Host "❌ App not installed. Installing now..." -ForegroundColor Yellow
     adb install -r "app/build/outputs/apk/debug/app-debug.apk"
@@ -29,7 +29,7 @@ Write-Host "✅ App is installed" -ForegroundColor Green
 
 # Start the app
 Write-Host "`n🚀 Starting the app..." -ForegroundColor Cyan
-adb shell am start -n "com.example.myapplication/.SplashActivity"
+adb shell am start -n "com.hsu.expense/.SplashActivity"
 Start-Sleep -Seconds 3
 
 Write-Host "`n📋 LANGUAGE SWITCHING TEST PLAN:" -ForegroundColor Cyan

@@ -1,4 +1,4 @@
-package com.example.myapplication
+package com.hsu.expense
 
 import org.junit.Test
 

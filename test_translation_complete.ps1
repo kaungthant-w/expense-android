@@ -44,7 +44,7 @@ function Test-NoDataFunctionality {
     Write-Host "`n--- Testing 'no record available' Functionality ---" -ForegroundColor Cyan
     
     # Launch app and navigate to expense list
-    adb shell am start -n com.example.myapplication/com.example.myapplication.MainActivity
+    adb shell am start -n com.hsu.expense/com.hsu.expense.MainActivity
     Start-Sleep 3
     
     Write-Host "✓ App launched - check if 'no record available' message appears when list is empty" -ForegroundColor Green
@@ -56,7 +56,7 @@ function Test-FormTranslations {
     Write-Host "`n--- Testing Form Translations ---" -ForegroundColor Cyan
     
     # Launch ExpenseDetailActivity
-    adb shell am start -n com.example.myapplication/com.example.myapplication.ExpenseDetailActivity
+    adb shell am start -n com.hsu.expense/com.hsu.expense.ExpenseDetailActivity
     Start-Sleep 2
     
     Write-Host "✓ ExpenseDetailActivity opened" -ForegroundColor Green

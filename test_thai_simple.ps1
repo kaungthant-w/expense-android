@@ -13,7 +13,7 @@ adb shell pm list packages | findstr myapplication
 
 # Launch the app
 Write-Host "`nLaunching HSU Expense application..." -ForegroundColor Yellow
-adb shell am start -n com.example.myapplication/.MainActivity
+adb shell am start -n com.hsu.expense/.MainActivity
 
 Write-Host "`nMANUAL TEST CHECKLIST:" -ForegroundColor Blue
 Write-Host "1. Open the app and navigate to Settings > Language" -ForegroundColor White

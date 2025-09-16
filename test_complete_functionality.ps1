@@ -3,12 +3,12 @@ Write-Host "=== HSU Expense APP - COMPLETE FUNCTIONALITY TEST ===" -ForegroundCo
 
 # 1. Launch the app
 Write-Host "`n1. Launching HSU Expense App..." -ForegroundColor Yellow
-adb shell am start -n com.example.myapplication/.MainActivity
+adb shell am start -n com.hsu.expense/.MainActivity
 Start-Sleep 3
 
 # 2. Test that app is running (check if process exists)
 Write-Host "`n2. Checking if app is running..." -ForegroundColor Yellow
-$appProcess = adb shell "ps | grep com.example.myapplication"
+$appProcess = adb shell "ps | grep com.hsu.expense"
 if ($appProcess) {
     Write-Host "✅ App is running successfully!" -ForegroundColor Green
 } else {
@@ -17,7 +17,7 @@ if ($appProcess) {
 
 # 3. Check for any crashes
 Write-Host "`n3. Checking for crashes..." -ForegroundColor Yellow
-$crashLogs = adb logcat -d | Select-String "FATAL.*com.example.myapplication" | Select-Object -Last 5
+$crashLogs = adb logcat -d | Select-String "FATAL.*com.hsu.expense" | Select-Object -Last 5
 if ($crashLogs) {
     Write-Host "❌ Found crash logs:" -ForegroundColor Red
     $crashLogs
@@ -42,7 +42,7 @@ adb shell am start -a android.settings.DISPLAY_SETTINGS
 Start-Sleep 2
 
 Write-Host "   - Returning to expense app..." -ForegroundColor Cyan
-adb shell am start -n com.example.myapplication/.MainActivity
+adb shell am start -n com.hsu.expense/.MainActivity
 Start-Sleep 2
 
 # Final summary
