@@ -114,7 +114,7 @@ Added analytics and summary translations:
 - `summary_expense_title`: "📊 ကုန်ကျစရိတ် အနှစ်ချုပ်"
 - `summary_overall_statistics`: "💰 ခြုံငုံ ကိန်းဂဏန်းများ"
 - `summary_today_summary`: "📅 ယနေ့၏ အနှစ်ချုပ်"
-- `summary_month_summary`: "📊 ဤလ၏ အနှစ်ချုပ်"
+- `summary_month_summary`: "📊 ဒီလ၏ အနှစ်ချုပ်"
 - `summary_expense_extremes`: "📈 ကုန်ကျစရိတ် အစွန်းများ"
 - `summary_today_expenses`: "ယနေ့၏ ကုန်ကျစရိတ်များ:"
 - `summary_today_total`: "ယနေ့၏ စုစုပေါင်း:"

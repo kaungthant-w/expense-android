@@ -645,18 +645,41 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     }
     
     private fun updateWeekSummary() {
-        val calendar = Calendar.getInstance()
-        calendar.set(Calendar.DAY_OF_WEEK, calendar.firstDayOfWeek)
-        val weekStart = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(calendar.time)
-        calendar.add(Calendar.DAY_OF_WEEK, 6)
-        val weekEnd = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(calendar.time)
-        
+        val calendar = java.util.Calendar.getInstance()
+
+        // Get current date
+        val currentDate = calendar.time
+
+        // Calculate days to subtract to get to Monday
+        val currentDayOfWeek = calendar.get(java.util.Calendar.DAY_OF_WEEK)
+        val daysToSubtract = if (currentDayOfWeek == java.util.Calendar.SUNDAY) 6 else currentDayOfWeek - java.util.Calendar.MONDAY
+
+        // Set to Monday of current week (start of week)
+        calendar.time = currentDate
+        calendar.add(java.util.Calendar.DAY_OF_YEAR, -daysToSubtract)
+        calendar.set(java.util.Calendar.HOUR_OF_DAY, 0)
+        calendar.set(java.util.Calendar.MINUTE, 0)
+        calendar.set(java.util.Calendar.SECOND, 0)
+        calendar.set(java.util.Calendar.MILLISECOND, 0)
+        val startDate = calendar.time
+
+        // Set to Sunday of current week (end of week)
+        calendar.add(java.util.Calendar.DAY_OF_YEAR, 6) // Add 6 days to get to Sunday
+        calendar.set(java.util.Calendar.HOUR_OF_DAY, 23)
+        calendar.set(java.util.Calendar.MINUTE, 59)
+        calendar.set(java.util.Calendar.SECOND, 59)
+        calendar.set(java.util.Calendar.MILLISECOND, 999)
+        val endDate = calendar.time
+
+        val dateFormat = java.text.SimpleDateFormat("dd/MM/yyyy", java.util.Locale.getDefault())
+
         val weekExpenses = expenseList.filter { expense ->
-            val expenseDate = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).parse(expense.date)
-            val startDate = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).parse(weekStart)
-            val endDate = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).parse(weekEnd)
-            expenseDate != null && startDate != null && endDate != null &&
-            expenseDate >= startDate && expenseDate <= endDate
+            try {
+                val expenseDate = dateFormat.parse(expense.date)
+                expenseDate?.let { it >= startDate && it <= endDate } ?: false
+            } catch (e: Exception) {
+                false
+            }
         }
 
         weekExpensesCount.text = weekExpenses.size.toString()

@@ -418,7 +418,7 @@
   "wifi_recommendation_compatibility": "• 为确保打印机兼容性，请使用现代WiFi打印机",  "wifi_recommendation_quality": "• 为确保打印质量，请选择A4纸张尺寸",
   "wifi_recommendation_data": "• 为节省数据，请先导出再打印",
   "wifi_ip_requirement": "💡 需要网络打印机IP地址",
-  "nav_export_excel": "🖨️ Printer",
+  "nav_export_excel": "🖨️ 导出/打印",
   "add_expense": "添加支出",
   "all_expenses": "所有支出",
   "analytics": "分析",
@@ -454,5 +454,14 @@
   "switched_to_myr": "已切换到MYR - 马来西亚林吉特",
   "switched_to_krw": "已切换到KRW - 韩元",
   "switched_to_eur": "已切换到EUR - 欧元",
+  "export_period_label": "📅 导出期间:",
+  "export_tip_message": "💡 提示：如果未找到数据，请尝试选择'本周'或'本月'期间。",
+  "export_ready_message": "准备导出 {count} 笔支出",
+  "export_total_label": "总金额:",
+  "export_proceed_question": "继续进行Excel导出？",
+  "export_confirmation_title": "导出确认",
+  "export_no_data_title": "未找到数据",
+  "export_no_data_message": "未找到 {period} 的支出。\n\n💡 请尝试选择:\n• '本周' 以导出最近的支出\n• '本月' 以获取月度数据\n• 如需要，请添加今天的支出",
+  "export_change_period": "更改期间",
   "remark": "备注"
 }

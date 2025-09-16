@@ -65,8 +65,8 @@ Write-Host "     ✅ Labels should be in Myanmar" -ForegroundColor Green
 Write-Host "`n   • Check TabLayout at the bottom:" -ForegroundColor White
 Write-Host "     ✅ Should see: 'အားလုံး' instead of 'All'" -ForegroundColor Green
 Write-Host "     ✅ Should see: 'ယနေ့' instead of 'Today'" -ForegroundColor Green
-Write-Host "     ✅ Should see: 'ဤအပတ်' instead of 'This Week'" -ForegroundColor Green
-Write-Host "     ✅ Should see: 'ဤလ' instead of 'This Month'" -ForegroundColor Green
+Write-Host "     ✅ Should see: 'ဒီအပတ်' instead of 'This Week'" -ForegroundColor Green
+Write-Host "     ✅ Should see: 'ဒီလ' instead of 'This Month'" -ForegroundColor Green
 
 Write-Host "`n📍 STEP 4: Test Input Form" -ForegroundColor Cyan
 Write-Host "   • Tap the '+' button to add expense" -ForegroundColor White

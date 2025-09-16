@@ -313,16 +313,22 @@ class ExportActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedLi
         val selectedPeriod = spinnerExportPeriod.selectedItemPosition
         val periodName = when (selectedPeriod) {
             0 -> languageManager.getString("export_period_today")
-            1 -> languageManager.getString("export_period_this_week") 
+            1 -> languageManager.getString("export_period_this_week")
             2 -> languageManager.getString("export_period_this_month")
             3 -> languageManager.getString("export_period_this_year")
             else -> "all periods"
         }
-        
-        val message = languageManager.getString("excel_export_message") + 
-                "\n\n📅 Export period: $periodName" +
-                "\n💡 Tip: If no data is found, try selecting 'This Week' or 'This Month' period."
-        
+
+        // Calculate total amount for selected period
+        val expenses = loadFilteredExpenses(selectedPeriod)
+        val totalAmount = expenses.sumOf { it.price }
+        val formattedTotal = currencyManager.formatCurrency(totalAmount)
+
+        val message = languageManager.getString("excel_export_message") +
+                "\n\n" + languageManager.getString("export_period_label") + " $periodName" +
+                "\n" + languageManager.getString("export_total_label") + " $formattedTotal" +
+                "\n\n" + languageManager.getString("export_tip_message")
+
         AlertDialog.Builder(this)
             .setTitle("📊 " + languageManager.getString("excel_export"))
             .setMessage(message)
@@ -381,29 +387,27 @@ class ExportActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedLi
             }
             
             AlertDialog.Builder(this)
-                .setTitle("⚠️ No Data Found")
-                .setMessage("No expenses found for $periodName.\n\n" +
-                        "💡 Try selecting:\n" +
-                        "• 'This Week' to export recent expenses\n" +
-                        "• 'This Month' for monthly data\n" +
-                        "• Add new expenses for today if needed")
-                .setPositiveButton("Change Period", null)
+                .setTitle("⚠️ " + languageManager.getString("export_no_data_title"))
+                .setMessage(languageManager.getString("export_no_data_message").replace("{period}", periodName))
+                .setPositiveButton(languageManager.getString("export_change_period"), null)
                 .show()
             return
         }
         
         // Show confirmation with preview
         val totalAmount = previewExpenses.sumOf { it.price }
-        val confirmMessage = "Ready to export ${previewExpenses.size} expenses\n" +
-                "Total amount: $%.2f\n\nProceed with Excel export?".format(totalAmount)
+        val formattedTotal = currencyManager.formatCurrency(totalAmount)
+        val confirmMessage = languageManager.getString("export_ready_message").replace("{count}", previewExpenses.size.toString()) + "\n" +
+                languageManager.getString("export_total_label") + " $formattedTotal\n\n" +
+                languageManager.getString("export_proceed_question")
         
         AlertDialog.Builder(this)
-            .setTitle("📊 Export Confirmation")
+            .setTitle("📊 " + languageManager.getString("export_confirmation_title"))
             .setMessage(confirmMessage)
-            .setPositiveButton("Export") { _, _ ->
+            .setPositiveButton(languageManager.getString("export_comprehensive")) { _, _ ->
                 proceedWithExcelExport()
             }
-            .setNegativeButton("Cancel", null)
+            .setNegativeButton(languageManager.getString("cancel"), null)
             .show()
     }
     

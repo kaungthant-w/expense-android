@@ -20,34 +20,34 @@
                 <!-- First Row: USD, MMK, SGD -->
                 <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginBottom="6dp">
 
-                    <androidx.cardview.widget.CardView android:id="@+id/cardUsd" android:layout_width="0dp" android:layout_height="50dp" android:layout_weight="1" app:cardCornerRadius="10dp" app:cardElevation="4dp" android:layout_marginEnd="4dp" android:clickable="true" android:focusable="true" android:foreground="?attr/selectableItemBackground">
+                    <androidx.cardview.widget.CardView android:id="@+id/cardUsd" android:layout_width="0dp" android:layout_height="60dp" android:layout_weight="1" app:cardCornerRadius="10dp" app:cardElevation="4dp" android:layout_marginEnd="4dp" android:clickable="true" android:focusable="true" android:foreground="?attr/selectableItemBackground">
 
-                        <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" android:gravity="center" android:padding="8dp">
+                        <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" android:gravity="center" android:padding="6dp">
 
-                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="💵 USD" android:textSize="14sp" android:textStyle="bold" android:textColor="?attr/textPrimaryColor" />
-                            <TextView android:id="@+id/textUsDollarLabel" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="US Dollar" android:textSize="10sp" android:textColor="?attr/textSecondaryColor" />
-
-                        </LinearLayout>
-
-                    </androidx.cardview.widget.CardView>
-
-                    <androidx.cardview.widget.CardView android:id="@+id/cardMmk" android:layout_width="0dp" android:layout_height="50dp" android:layout_weight="1" app:cardCornerRadius="10dp" app:cardElevation="4dp" android:layout_marginStart="4dp" android:layout_marginEnd="4dp" android:clickable="true" android:focusable="true" android:foreground="?attr/selectableItemBackground">
-
-                        <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" android:gravity="center" android:padding="8dp">
-
-                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="🇲🇲 MMK" android:textSize="14sp" android:textStyle="bold" android:textColor="?attr/textPrimaryColor" />
-                            <TextView android:id="@+id/textMyanmarKyatLabel" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Myanmar Kyat" android:textSize="10sp" android:textColor="?attr/textSecondaryColor" />
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="💵 USD" android:textSize="12sp" android:textStyle="bold" android:textColor="?attr/textPrimaryColor" />
+                            <TextView android:id="@+id/textUsDollarLabel" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="US Dollar" android:textSize="9sp" android:textColor="?attr/textSecondaryColor" />
 
                         </LinearLayout>
 
                     </androidx.cardview.widget.CardView>
 
-                    <androidx.cardview.widget.CardView android:id="@+id/cardSgd" android:layout_width="0dp" android:layout_height="50dp" android:layout_weight="1" app:cardCornerRadius="10dp" app:cardElevation="4dp" android:layout_marginStart="4dp" android:clickable="true" android:focusable="true" android:foreground="?attr/selectableItemBackground">
+                    <androidx.cardview.widget.CardView android:id="@+id/cardMmk" android:layout_width="0dp" android:layout_height="60dp" android:layout_weight="1" app:cardCornerRadius="10dp" app:cardElevation="4dp" android:layout_marginStart="4dp" android:layout_marginEnd="4dp" android:clickable="true" android:focusable="true" android:foreground="?attr/selectableItemBackground">
 
-                        <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" android:gravity="center" android:padding="8dp">
+                        <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" android:gravity="center" android:padding="6dp">
 
-                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="🇸🇬 SGD" android:textSize="14sp" android:textStyle="bold" android:textColor="?attr/textPrimaryColor" />
-                            <TextView android:id="@+id/textSingaporeDollarLabel" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Singapore Dollar" android:textSize="10sp" android:textColor="?attr/textSecondaryColor" />
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="🇲🇲 MMK" android:textSize="12sp" android:textStyle="bold" android:textColor="?attr/textPrimaryColor" />
+                            <TextView android:id="@+id/textMyanmarKyatLabel" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Myanmar Kyat" android:textSize="9sp" android:textColor="?attr/textSecondaryColor" />
+
+                        </LinearLayout>
+
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView android:id="@+id/cardSgd" android:layout_width="0dp" android:layout_height="60dp" android:layout_weight="1" app:cardCornerRadius="10dp" app:cardElevation="4dp" android:layout_marginStart="4dp" android:clickable="true" android:focusable="true" android:foreground="?attr/selectableItemBackground">
+
+                        <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" android:gravity="center" android:padding="6dp">
+
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="🇸🇬 SGD" android:textSize="12sp" android:textStyle="bold" android:textColor="?attr/textPrimaryColor" />
+                            <TextView android:id="@+id/textSingaporeDollarLabel" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Singapore Dollar" android:textSize="9sp" android:textColor="?attr/textSecondaryColor" />
 
                         </LinearLayout>
 
@@ -56,34 +56,34 @@
                 <!-- Second Row: THB, JPY, CNY -->
                 <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginBottom="6dp">
 
-                    <androidx.cardview.widget.CardView android:id="@+id/cardThb" android:layout_width="0dp" android:layout_height="50dp" android:layout_weight="1" app:cardCornerRadius="10dp" app:cardElevation="4dp" android:layout_marginEnd="4dp" android:clickable="true" android:focusable="true" android:foreground="?attr/selectableItemBackground">
+                    <androidx.cardview.widget.CardView android:id="@+id/cardThb" android:layout_width="0dp" android:layout_height="60dp" android:layout_weight="1" app:cardCornerRadius="10dp" app:cardElevation="4dp" android:layout_marginEnd="4dp" android:clickable="true" android:focusable="true" android:foreground="?attr/selectableItemBackground">
 
-                        <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" android:gravity="center" android:padding="8dp">
+                        <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" android:gravity="center" android:padding="6dp">
 
-                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="🇹🇭 THB" android:textSize="14sp" android:textStyle="bold" android:textColor="?attr/textPrimaryColor" />
-                            <TextView android:id="@+id/textThaiBahtLabel" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Thai Baht" android:textSize="10sp" android:textColor="?attr/textSecondaryColor" />
-
-                        </LinearLayout>
-
-                    </androidx.cardview.widget.CardView>
-
-                    <androidx.cardview.widget.CardView android:id="@+id/cardJpy" android:layout_width="0dp" android:layout_height="50dp" android:layout_weight="1" app:cardCornerRadius="10dp" app:cardElevation="4dp" android:layout_marginStart="4dp" android:layout_marginEnd="4dp" android:clickable="true" android:focusable="true" android:foreground="?attr/selectableItemBackground">
-
-                        <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" android:gravity="center" android:padding="8dp">
-
-                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="🇯🇵 JPY" android:textSize="14sp" android:textStyle="bold" android:textColor="?attr/textPrimaryColor" />
-                            <TextView android:id="@+id/textJapaneseYenLabel" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Japanese Yen" android:textSize="10sp" android:textColor="?attr/textSecondaryColor" />
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="🇹🇭 THB" android:textSize="12sp" android:textStyle="bold" android:textColor="?attr/textPrimaryColor" />
+                            <TextView android:id="@+id/textThaiBahtLabel" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Thai Baht" android:textSize="9sp" android:textColor="?attr/textSecondaryColor" />
 
                         </LinearLayout>
 
                     </androidx.cardview.widget.CardView>
 
-                    <androidx.cardview.widget.CardView android:id="@+id/cardCny" android:layout_width="0dp" android:layout_height="50dp" android:layout_weight="1" app:cardCornerRadius="10dp" app:cardElevation="4dp" android:layout_marginStart="4dp" android:clickable="true" android:focusable="true" android:foreground="?attr/selectableItemBackground">
+                    <androidx.cardview.widget.CardView android:id="@+id/cardJpy" android:layout_width="0dp" android:layout_height="60dp" android:layout_weight="1" app:cardCornerRadius="10dp" app:cardElevation="4dp" android:layout_marginStart="4dp" android:layout_marginEnd="4dp" android:clickable="true" android:focusable="true" android:foreground="?attr/selectableItemBackground">
 
-                        <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" android:gravity="center" android:padding="8dp">
+                        <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" android:gravity="center" android:padding="6dp">
 
-                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="🇨🇳 CNY" android:textSize="14sp" android:textStyle="bold" android:textColor="?attr/textPrimaryColor" />
-                            <TextView android:id="@+id/textChineseYuanLabel" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Chinese Yuan" android:textSize="10sp" android:textColor="?attr/textSecondaryColor" />
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="🇯🇵 JPY" android:textSize="12sp" android:textStyle="bold" android:textColor="?attr/textPrimaryColor" />
+                            <TextView android:id="@+id/textJapaneseYenLabel" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Japanese Yen" android:textSize="9sp" android:textColor="?attr/textSecondaryColor" />
+
+                        </LinearLayout>
+
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView android:id="@+id/cardCny" android:layout_width="0dp" android:layout_height="60dp" android:layout_weight="1" app:cardCornerRadius="10dp" app:cardElevation="4dp" android:layout_marginStart="4dp" android:clickable="true" android:focusable="true" android:foreground="?attr/selectableItemBackground">
+
+                        <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" android:gravity="center" android:padding="6dp">
+
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="🇨🇳 CNY" android:textSize="12sp" android:textStyle="bold" android:textColor="?attr/textPrimaryColor" />
+                            <TextView android:id="@+id/textChineseYuanLabel" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Chinese Yuan" android:textSize="9sp" android:textColor="?attr/textSecondaryColor" />
 
                         </LinearLayout>
 
@@ -93,34 +93,34 @@
                 <!-- Third Row: MYR, EUR, KRW -->
                 <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginBottom="16dp">
 
-                    <androidx.cardview.widget.CardView android:id="@+id/cardMyr" android:layout_width="0dp" android:layout_height="50dp" android:layout_weight="1" app:cardCornerRadius="10dp" app:cardElevation="4dp" android:layout_marginEnd="4dp" android:clickable="true" android:focusable="true" android:foreground="?attr/selectableItemBackground">
+                    <androidx.cardview.widget.CardView android:id="@+id/cardMyr" android:layout_width="0dp" android:layout_height="60dp" android:layout_weight="1" app:cardCornerRadius="10dp" app:cardElevation="4dp" android:layout_marginEnd="4dp" android:clickable="true" android:focusable="true" android:foreground="?attr/selectableItemBackground">
 
-                        <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" android:gravity="center" android:padding="8dp">
+                        <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" android:gravity="center" android:padding="6dp">
 
-                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="🇲🇾 MYR" android:textSize="14sp" android:textStyle="bold" android:textColor="?attr/textPrimaryColor" />
-                            <TextView android:id="@+id/textMalaysianRinggitLabel" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Malaysian Ringgit" android:textSize="10sp" android:textColor="?attr/textSecondaryColor" />
-
-                        </LinearLayout>
-
-                    </androidx.cardview.widget.CardView>
-
-                    <androidx.cardview.widget.CardView android:id="@+id/cardEur" android:layout_width="0dp" android:layout_height="50dp" android:layout_weight="1" app:cardCornerRadius="10dp" app:cardElevation="4dp" android:layout_marginStart="4dp" android:layout_marginEnd="4dp" android:clickable="true" android:focusable="true" android:foreground="?attr/selectableItemBackground">
-
-                        <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" android:gravity="center" android:padding="8dp">
-
-                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="🇪🇺 EUR" android:textSize="14sp" android:textStyle="bold" android:textColor="?attr/textPrimaryColor" />
-                            <TextView android:id="@+id/textEuroLabel" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Euro" android:textSize="10sp" android:textColor="?attr/textSecondaryColor" />
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="🇲🇾 MYR" android:textSize="12sp" android:textStyle="bold" android:textColor="?attr/textPrimaryColor" />
+                            <TextView android:id="@+id/textMalaysianRinggitLabel" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Malaysian Ringgit" android:textSize="9sp" android:textColor="?attr/textSecondaryColor" />
 
                         </LinearLayout>
 
                     </androidx.cardview.widget.CardView>
 
-                    <androidx.cardview.widget.CardView android:id="@+id/cardKrw" android:layout_width="0dp" android:layout_height="50dp" android:layout_weight="1" app:cardCornerRadius="10dp" app:cardElevation="4dp" android:layout_marginStart="4dp" android:clickable="true" android:focusable="true" android:foreground="?attr/selectableItemBackground">
+                    <androidx.cardview.widget.CardView android:id="@+id/cardEur" android:layout_width="0dp" android:layout_height="60dp" android:layout_weight="1" app:cardCornerRadius="10dp" app:cardElevation="4dp" android:layout_marginStart="4dp" android:layout_marginEnd="4dp" android:clickable="true" android:focusable="true" android:foreground="?attr/selectableItemBackground">
 
-                        <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" android:gravity="center" android:padding="8dp">
+                        <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" android:gravity="center" android:padding="6dp">
 
-                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="🇰🇷 KRW" android:textSize="14sp" android:textStyle="bold" android:textColor="?attr/textPrimaryColor" />
-                            <TextView android:id="@+id/textKoreanWonLabel" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Korean Won" android:textSize="10sp" android:textColor="?attr/textSecondaryColor" />
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="🇪🇺 EUR" android:textSize="12sp" android:textStyle="bold" android:textColor="?attr/textPrimaryColor" />
+                            <TextView android:id="@+id/textEuroLabel" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Euro" android:textSize="9sp" android:textColor="?attr/textSecondaryColor" />
+
+                        </LinearLayout>
+
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView android:id="@+id/cardKrw" android:layout_width="0dp" android:layout_height="60dp" android:layout_weight="1" app:cardCornerRadius="10dp" app:cardElevation="4dp" android:layout_marginStart="4dp" android:clickable="true" android:focusable="true" android:foreground="?attr/selectableItemBackground">
+
+                        <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" android:gravity="center" android:padding="6dp">
+
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="🇰🇷 KRW" android:textSize="12sp" android:textStyle="bold" android:textColor="?attr/textPrimaryColor" />
+                            <TextView android:id="@+id/textKoreanWonLabel" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Korean Won" android:textSize="9sp" android:textColor="?attr/textSecondaryColor" />
 
                         </LinearLayout>
 

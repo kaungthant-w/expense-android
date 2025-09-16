@@ -419,7 +419,7 @@
   "wifi_recommendation_quality": "• 印刷品質のためA4用紙サイズを選択してください",
   "wifi_recommendation_data": "• データ節約のため先にエクスポートしてから印刷してください",
   "wifi_ip_requirement": "💡 ネットワークプリンターのIPアドレスが必要です",
-  "nav_export_excel": "🖨️ Printer",
+  "nav_export_excel": "🖨️ エクスポート/印刷",
   "add_expense": "支出を追加",
   "all_expenses": "すべての支出",
   "analytics": "分析",
@@ -456,5 +456,14 @@
   "switched_to_myr": "MYRに切り替え - マレーシアリンギット",
   "switched_to_krw": "KRWに切り替え - 韓国ウォン",
   "switched_to_eur": "EURに切り替え - ユーロ",
+  "export_period_label": "📅 エクスポート期間:",
+  "export_tip_message": "💡 ヒント: データが見つからない場合は、「今週」または「今月」を選択してみてください。",
+  "export_ready_message": "{count} 件の支出をエクスポートする準備ができました",
+  "export_total_label": "合計金額:",
+  "export_proceed_question": "Excelエクスポートを続行しますか？",
+  "export_confirmation_title": "エクスポート確認",
+  "export_no_data_title": "データが見つかりません",
+  "export_no_data_message": "{period} の支出が見つかりません。\n\n💡 試してみてください:\n• '今週' を選択して最近の支出をエクスポート\n• '今月' を選択して月間データ\n• 必要に応じて今日の新しい支出を追加",
+  "export_change_period": "期間を変更",
   "remark": "備考"
 }

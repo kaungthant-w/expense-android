@@ -103,6 +103,7 @@
   "nav_settings": "⚙️ Settings",
   "nav_feedback": "💬 Feedback",
   "nav_about": "ℹ️ About Us",
+  "nav_export_excel": "🖨️ Export/Print",
   "about_title": "ℹ️ About Us",
   "about_section_title": "ℹ️ About",
   "app_name_display": "HSU Expense App",
@@ -420,5 +421,14 @@
   "wifi_recommendation_quality": "• Select A4 paper size for print quality",
   "wifi_recommendation_data": "• Export first, then print to save data",
   "wifi_ip_requirement": "💡 Network printer IP address required",
+  "export_period_label": "📅 Export period:",
+  "export_tip_message": "💡 Tip: If no data is found, try selecting 'This Week' or 'This Month' period.",
+  "export_ready_message": "Ready to export {count} expenses",
+  "export_total_label": "Total amount:",
+  "export_proceed_question": "Proceed with Excel export?",
+  "export_confirmation_title": "Export Confirmation",
+  "export_no_data_title": "No Data Found",
+  "export_no_data_message": "No expenses found for {period}.\n\n💡 Try selecting:\n• 'This Week' to export recent expenses\n• 'This Month' for monthly data\n• Add new expenses for today if needed",
+  "export_change_period": "Change Period",
   "remark": "Remark"
 }
