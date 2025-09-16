@@ -27,4 +27,31 @@
     <string name="thank_you_feedback">သင့်အကြံပြုချက်အတွက် ကျေးဇူးတင်ပါသည်! 😊</string>
     <string name="no_email_app">အီးမေးလ် အက်ပ် မတွေ့ပါ။ အကြံပြုချက် ပေးပို့ရန် အီးမေးလ် အက်ပ် တပ်ဆင်ပါ။</string>
     <string name="send_feedback_via">အကြံပြုချက် ပေးပို့ရန်...</string>
+    
+    <!-- Currency Exchange -->
+    <string name="switched_to_usd">USD သို့ ပြောင်းလဲပြီး</string>
+    <string name="switched_to_mmk">MMK သို့ ပြောင်းလဲပြီး</string>
+    <string name="switched_to_sgd">SGD သို့ ပြောင်းလဲပြီး</string>
+    <string name="switched_to_thb">THB သို့ ပြောင်းလဲပြီး</string>
+    <string name="switched_to_jpy">JPY သို့ ပြောင်းလဲပြီး</string>
+    <string name="switched_to_cny">CNY သို့ ပြောင်းလဲပြီး</string>
+    <string name="switched_to_myr">MYR သို့ ပြောင်းလဲပြီး</string>
+    <string name="switched_to_eur">EUR သို့ ပြောင်းလဲပြီး</string>
+    <string name="switch_to_usd">USD သို့ ပြောင်းရန်</string>
+    <string name="switch_to_mmk">MMK သို့ ပြောင်းရန်</string>
+    <string name="switch_to_sgd">SGD သို့ ပြောင်းရန်</string>
+    <string name="switch_to_thb">THB သို့ ပြောင်းရန်</string>
+    <string name="switch_to_jpy">JPY သို့ ပြောင်းရန်</string>
+    <string name="switch_to_cny">CNY သို့ ပြောင်းရန်</string>
+    <string name="switch_to_myr">MYR သို့ ပြောင်းရန်</string>
+    <string name="switch_to_eur">EUR သို့ ပြောင်းရန်</string>
+    <string name="currency_switched">ငွေကြေးကို ပြောင်းလဲပြီး</string>
+    <string name="us_dollar">အမေရိကန် ဒေါ်လာ</string>
+    <string name="myanmar_kyat">မြန်မာကျပ်</string>
+    <string name="singapore_dollar">စင်္ကာပူ ဒေါ်လာ</string>
+    <string name="thai_baht">ထိုင်းဘတ်</string>
+    <string name="japanese_yen">ဂျပန်ယန်း</string>
+    <string name="chinese_yuan">တရုတ်ယွမ်</string>
+    <string name="malaysian_ringgit">မလေးရှား ရင်းဂစ်</string>
+    <string name="euro">ယူရို</string>
 </resources>

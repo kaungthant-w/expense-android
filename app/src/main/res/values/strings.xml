@@ -139,4 +139,31 @@
     <string name="expense_added_successfully">Expense added successfully</string>
     <string name="expense_updated_successfully">Expense updated successfully</string>
     <string name="expense_moved_to_history">Expense moved to history</string>
+    
+    <!-- Currency Exchange -->
+    <string name="switched_to_usd">Switched to USD</string>
+    <string name="switched_to_mmk">Switched to MMK</string>
+    <string name="switched_to_sgd">Switched to SGD</string>
+    <string name="switched_to_thb">Switched to THB</string>
+    <string name="switched_to_jpy">Switched to JPY</string>
+    <string name="switched_to_cny">Switched to CNY</string>
+    <string name="switched_to_myr">Switched to MYR</string>
+    <string name="switched_to_eur">Switched to EUR</string>
+    <string name="switch_to_usd">Switch to USD</string>
+    <string name="switch_to_mmk">Switch to MMK</string>
+    <string name="switch_to_sgd">Switch to SGD</string>
+    <string name="switch_to_thb">Switch to THB</string>
+    <string name="switch_to_jpy">Switch to JPY</string>
+    <string name="switch_to_cny">Switch to CNY</string>
+    <string name="switch_to_myr">Switch to MYR</string>
+    <string name="switch_to_eur">Switch to EUR</string>
+    <string name="currency_switched">Currency switched</string>
+    <string name="us_dollar">US Dollar</string>
+    <string name="myanmar_kyat">Myanmar Kyat</string>
+    <string name="singapore_dollar">Singapore Dollar</string>
+    <string name="thai_baht">Thai Baht</string>
+    <string name="japanese_yen">Japanese Yen</string>
+    <string name="chinese_yuan">Chinese Yuan</string>
+    <string name="malaysian_ringgit">Malaysian Ringgit</string>
+    <string name="euro">Euro</string>
 </resources>
