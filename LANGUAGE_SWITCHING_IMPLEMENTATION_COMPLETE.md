@@ -17,7 +17,7 @@
 - **Result**: Robust broadcast system with comprehensive activity notification
 
 ### 3. **Tab Titles Dynamic Update** ✅
-- **Problem**: Tab titles ("All", "Today", "This Week", "This Month") were hardcoded in English
+- **Problem**: Tab titles ("All", "Today", "Week", "Month") were hardcoded in English
 - **Solution**: Modified `ExpenseViewPagerAdapter.kt` to use `languageManager.getString()` for dynamic tab titles
 - **Result**: Tab titles now update immediately when language changes
 
@@ -89,8 +89,8 @@
 {
   "tab_all": "All / အားလုံး / 全部 / すべて",
   "tab_today": "Today / ယနေ့ / 今天 / 今日", 
-  "tab_this_week": "This Week / ဤအပတ် / 本周 / 今週",
-  "tab_this_month": "This Month / ဤလ / 本月 / 今月",
+  "tab_this_week": "Week / ဒီပတ် / 本周 / 今週",
+  "tab_this_month": "Month / ဒီလ / 本月 / 今月",
   
   "add_new_expense": "Add New Expense / ကုန်ကျစရိတ်အသစ် ထည့်သွင်းရန် / 添加新的支出 / 新しい支出を追加",
   "expense_name_hint": "Expense Name / ကုန်ကျစရိတ် အမည် / 支出名称 / 支出名",

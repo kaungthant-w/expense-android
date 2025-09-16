@@ -22,10 +22,10 @@ class ExpenseViewPagerAdapter(private val fragmentActivity: FragmentActivity) : 
     }
       fun getTabTitle(position: Int): String {
         return when (position) {
-            0 -> languageManager.getString("tab_all")
-            1 -> languageManager.getString("tab_today")
-            2 -> languageManager.getString("tab_this_week")
-            3 -> languageManager.getString("tab_this_month")
+            0 -> languageManager.getString("tab_today")
+            1 -> languageManager.getString("tab_this_week")
+            2 -> languageManager.getString("tab_this_month")
+            3 -> languageManager.getString("tab_all")
             else -> "Tab $position"
         }
     }
