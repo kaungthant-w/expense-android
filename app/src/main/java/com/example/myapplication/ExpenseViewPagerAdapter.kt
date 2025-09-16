@@ -9,10 +9,10 @@ class ExpenseViewPagerAdapter(private val fragmentActivity: FragmentActivity) : 
     private val languageManager: LanguageManager = LanguageManager.getInstance(fragmentActivity)
     
     private val fragmentFilters = arrayOf(
-        ExpenseListFragment.FILTER_ALL,
         ExpenseListFragment.FILTER_TODAY,
         ExpenseListFragment.FILTER_WEEK,
-        ExpenseListFragment.FILTER_MONTH
+        ExpenseListFragment.FILTER_MONTH,
+        ExpenseListFragment.FILTER_ALL
     )
 
     override fun getItemCount(): Int = fragmentFilters.size

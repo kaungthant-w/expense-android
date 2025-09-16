@@ -120,12 +120,33 @@ class ExpenseListFragment : Fragment() {
     
     private fun filterWeekExpenses(expenses: List<ExpenseItem>): List<ExpenseItem> {
         val calendar = java.util.Calendar.getInstance()
-        val endDate = calendar.time
-        calendar.add(java.util.Calendar.DAY_OF_YEAR, -7)
+
+        // Get current date
+        val currentDate = calendar.time
+
+        // Calculate days to subtract to get to Monday
+        val currentDayOfWeek = calendar.get(java.util.Calendar.DAY_OF_WEEK)
+        val daysToSubtract = if (currentDayOfWeek == java.util.Calendar.SUNDAY) 6 else currentDayOfWeek - java.util.Calendar.MONDAY
+
+        // Set to Monday of current week (start of week)
+        calendar.time = currentDate
+        calendar.add(java.util.Calendar.DAY_OF_YEAR, -daysToSubtract)
+        calendar.set(java.util.Calendar.HOUR_OF_DAY, 0)
+        calendar.set(java.util.Calendar.MINUTE, 0)
+        calendar.set(java.util.Calendar.SECOND, 0)
+        calendar.set(java.util.Calendar.MILLISECOND, 0)
         val startDate = calendar.time
-        
+
+        // Set to Sunday of current week (end of week)
+        calendar.add(java.util.Calendar.DAY_OF_YEAR, 6) // Add 6 days to get to Sunday
+        calendar.set(java.util.Calendar.HOUR_OF_DAY, 23)
+        calendar.set(java.util.Calendar.MINUTE, 59)
+        calendar.set(java.util.Calendar.SECOND, 59)
+        calendar.set(java.util.Calendar.MILLISECOND, 999)
+        val endDate = calendar.time
+
         val dateFormat = java.text.SimpleDateFormat("dd/MM/yyyy", java.util.Locale.getDefault())
-        
+
         return expenses.filter { expense ->
             try {
                 val expenseDate = dateFormat.parse(expense.date)
