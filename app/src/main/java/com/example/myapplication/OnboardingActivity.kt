@@ -91,7 +91,10 @@ class OnboardingActivity : AppCompatActivity() {
             Pair("SGD", "🇸🇬 SGD (Singapore Dollar)"),
             Pair("THB", "🇹🇭 THB (Thai Baht)"),
             Pair("JPY", "🇯🇵 JPY (Japanese Yen)"),
-            Pair("CNY", "🇨🇳 CNY (Chinese Yuan)")
+            Pair("CNY", "🇨🇳 CNY (Chinese Yuan)"),
+            Pair("MYR", "🇲🇾 MYR (Malaysian Ringgit)"),
+            Pair("EUR", "🇪🇺 EUR (Euro)"),
+            Pair("KRW", "🇰🇷 KRW (South Korean Won)")
         )
         
         val currencyNames = currencies.map { it.second }

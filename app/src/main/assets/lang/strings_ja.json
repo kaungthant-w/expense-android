@@ -441,6 +441,7 @@
   "main_title": "💰 HSU Expense",
   "name": "名前",
   "price": "価格",
+  "amount": "金額",
   "summary": "サマリー",
   "switch_to_eur": "💱 EURに切り替え",
   "switch_to_krw": "💱 KRWに切り替え",
@@ -448,5 +449,8 @@
   "system_theme": "システムデフォルト",
   "this_month": "今月",
   "time": "時間",
-  "today_expenses": "今日の支出"
+  "today_expenses": "今日の支出",
+  "switched_to_myr": "MYRに切り替え - マレーシアリンギット",
+  "switched_to_krw": "KRWに切り替え - 韓国ウォン",
+  "switched_to_eur": "EURに切り替え - ユーロ"
 }

@@ -439,6 +439,7 @@
   "main_title": "💰 HSU Expense",
   "name": "名称",
   "price": "价格",
+  "amount": "金额",
   "summary": "总结",
   "switch_to_eur": "💱 切换到EUR",
   "switch_to_krw": "💱 切换到KRW",
@@ -446,5 +447,8 @@
   "system_theme": "系统默认",
   "this_month": "本月",
   "time": "时间",
-  "today_expenses": "今日支出"
+  "today_expenses": "今日支出",
+  "switched_to_myr": "已切换到MYR - 马来西亚林吉特",
+  "switched_to_krw": "已切换到KRW - 韩元",
+  "switched_to_eur": "已切换到EUR - 欧元"
 }
