@@ -50,12 +50,26 @@ class CurrencyExchangeActivity : BaseActivity(), NavigationView.OnNavigationItem
     // Currency exchange table views
     private lateinit var buttonRefreshRates: MaterialButton
         private lateinit var textRateUsd: TextView
-    private lateinit var textRateEur: TextView
+    private lateinit var textRateKhr: TextView
     private lateinit var textRateSgd: TextView
+    private lateinit var textRateNzd: TextView
+    private lateinit var textRateJpy: TextView
+    private lateinit var textRateVnd: TextView
+    private lateinit var textRatePhp: TextView
+    private lateinit var textRateKrw: TextView
+    private lateinit var textRateHkd: TextView
     private lateinit var textRateMyr: TextView
+    private lateinit var textRateCad: TextView
+    private lateinit var textRateGbp: TextView
+    private lateinit var textRateAud: TextView
+    private lateinit var textRateInr: TextView
+    private lateinit var textRateEur: TextView
     private lateinit var textRateCny: TextView
     private lateinit var textRateThb: TextView
-    private lateinit var textRateJpy: TextView
+    private lateinit var textRateLak: TextView
+    private lateinit var textRateMop: TextView
+    private lateinit var textRateAed: TextView
+    private lateinit var textRateTwd: TextView
     private lateinit var textLastUpdated: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -122,12 +136,26 @@ class CurrencyExchangeActivity : BaseActivity(), NavigationView.OnNavigationItem
         // Currency exchange table views
         buttonRefreshRates = findViewById(R.id.buttonRefreshRates)
         textRateUsd = findViewById(R.id.textRateUsd)
-        textRateEur = findViewById(R.id.textRateEur)
+        textRateKhr = findViewById(R.id.textRateKhr)
         textRateSgd = findViewById(R.id.textRateSgd)
+        textRateNzd = findViewById(R.id.textRateNzd)
+        textRateJpy = findViewById(R.id.textRateJpy)
+        textRateVnd = findViewById(R.id.textRateVnd)
+        textRatePhp = findViewById(R.id.textRatePhp)
+        textRateKrw = findViewById(R.id.textRateKrw)
+        textRateHkd = findViewById(R.id.textRateHkd)
         textRateMyr = findViewById(R.id.textRateMyr)
+        textRateCad = findViewById(R.id.textRateCad)
+        textRateGbp = findViewById(R.id.textRateGbp)
+        textRateAud = findViewById(R.id.textRateAud)
+        textRateInr = findViewById(R.id.textRateInr)
+        textRateEur = findViewById(R.id.textRateEur)
         textRateCny = findViewById(R.id.textRateCny)
         textRateThb = findViewById(R.id.textRateThb)
-        textRateJpy = findViewById(R.id.textRateJpy)
+        textRateLak = findViewById(R.id.textRateLak)
+        textRateMop = findViewById(R.id.textRateMop)
+        textRateAed = findViewById(R.id.textRateAed)
+        textRateTwd = findViewById(R.id.textRateTwd)
         textLastUpdated = findViewById(R.id.textLastUpdated)
         
         // Set up static texts with translation
@@ -454,12 +482,26 @@ class CurrencyExchangeActivity : BaseActivity(), NavigationView.OnNavigationItem
         // Reset all rates to loading state
         val loadingText = languageManager.getString("loading_rates")
         textRateUsd.text = loadingText
-        textRateEur.text = loadingText
+        textRateKhr.text = loadingText
         textRateSgd.text = loadingText
+        textRateNzd.text = loadingText
+        textRateJpy.text = loadingText
+        textRateVnd.text = loadingText
+        textRatePhp.text = loadingText
+        textRateKrw.text = loadingText
+        textRateHkd.text = loadingText
         textRateMyr.text = loadingText
+        textRateCad.text = loadingText
+        textRateGbp.text = loadingText
+        textRateAud.text = loadingText
+        textRateInr.text = loadingText
+        textRateEur.text = loadingText
         textRateCny.text = loadingText
         textRateThb.text = loadingText
-        textRateJpy.text = loadingText
+        textRateLak.text = loadingText
+        textRateMop.text = loadingText
+        textRateAed.text = loadingText
+        textRateTwd.text = loadingText
         
         currencyApiService.fetchAllExchangeRates(object : CurrencyApiService.AllRatesCallback {
             override fun onSuccess(rates: Map<String, Double>) {                runOnUiThread {
@@ -505,26 +547,32 @@ class CurrencyExchangeActivity : BaseActivity(), NavigationView.OnNavigationItem
         // Store all rates in CurrencyManager
         currencyManager.setAllExchangeRates(rates)
         
-        // Update USD rate (this is also used for the main currency conversion)
-        rates["USD"]?.let { usdRate ->
-            textRateUsd.text = String.format("%.2f", usdRate)
-            
-            // Also update the main currency manager rate for backward compatibility
-            currencyManager.setExchangeRate(usdRate)
-        } ?: run {
-            textRateUsd.text = naText
-        }
-        
-        // Update other currency rates
-        rates["EUR"]?.let { textRateEur.text = String.format("%.2f", it) } ?: run { textRateEur.text = naText }
+        // Update all currency rates from JSON file
+        rates["USD"]?.let { textRateUsd.text = String.format("%.2f", it) } ?: run { textRateUsd.text = naText }
+        rates["KHR"]?.let { textRateKhr.text = String.format("%.2f", it) } ?: run { textRateKhr.text = naText }
         rates["SGD"]?.let { textRateSgd.text = String.format("%.2f", it) } ?: run { textRateSgd.text = naText }
+        rates["NZD"]?.let { textRateNzd.text = String.format("%.2f", it) } ?: run { textRateNzd.text = naText }
+        rates["JPY"]?.let { textRateJpy.text = String.format("%.2f", it) } ?: run { textRateJpy.text = naText }
+        rates["VND"]?.let { textRateVnd.text = String.format("%.2f", it) } ?: run { textRateVnd.text = naText }
+        rates["PHP"]?.let { textRatePhp.text = String.format("%.2f", it) } ?: run { textRatePhp.text = naText }
+        rates["KRW"]?.let { textRateKrw.text = String.format("%.2f", it) } ?: run { textRateKrw.text = naText }
+        rates["HKD"]?.let { textRateHkd.text = String.format("%.2f", it) } ?: run { textRateHkd.text = naText }
         rates["MYR"]?.let { textRateMyr.text = String.format("%.2f", it) } ?: run { textRateMyr.text = naText }
+        rates["CAD"]?.let { textRateCad.text = String.format("%.2f", it) } ?: run { textRateCad.text = naText }
+        rates["GBP"]?.let { textRateGbp.text = String.format("%.2f", it) } ?: run { textRateGbp.text = naText }
+        rates["AUD"]?.let { textRateAud.text = String.format("%.2f", it) } ?: run { textRateAud.text = naText }
+        rates["INR"]?.let { textRateInr.text = String.format("%.2f", it) } ?: run { textRateInr.text = naText }
+        rates["EUR"]?.let { textRateEur.text = String.format("%.2f", it) } ?: run { textRateEur.text = naText }
         rates["CNY"]?.let { textRateCny.text = String.format("%.2f", it) } ?: run { textRateCny.text = naText }
         rates["THB"]?.let { textRateThb.text = String.format("%.2f", it) } ?: run { textRateThb.text = naText }
-        rates["JPY"]?.let { textRateJpy.text = String.format("%.2f", it) } ?: run { textRateJpy.text = naText }
+        rates["LAK"]?.let { textRateLak.text = String.format("%.2f", it) } ?: run { textRateLak.text = naText }
+        rates["MOP"]?.let { textRateMop.text = String.format("%.2f", it) } ?: run { textRateMop.text = naText }
+        rates["AED"]?.let { textRateAed.text = String.format("%.2f", it) } ?: run { textRateAed.text = naText }
+        rates["TWD"]?.let { textRateTwd.text = String.format("%.2f", it) } ?: run { textRateTwd.text = naText }
         
         // Update the main UI after storing new rates
-        updateUI()    }
+        updateUI()
+    }
     
     // --- Utility and callback functions ---
     private fun updateNavigationMenuTitles() {

@@ -1,0 +1,638 @@
+{
+    "message": "Exchange rate retrieved successfully.",
+    "uploader": "admin123",
+    "source": "Myanmar Market Price",
+    "totalCount": 21,
+    "data": [
+        {
+            "currencyName": "Malaysian Ringgit",
+            "currencyCode": "MYR",
+            "currencyIcon": "🇲🇾",
+            "unit": 1,
+            "buyRate": 993,
+            "sellRate": 1013,
+            "source": "Myanmar Market Price",
+            "uploadedDate": "2025-09-16 09:24:00",
+            "uploadedBy": "admin123",
+            "_id": "68c8d1c2a2682499e30dd662",
+            "createdAt": "2025-09-16 09:26:02",
+            "updatedAt": "2025-09-16 09:26:02",
+            "currencyInfo": {
+                "symbol": "RM",
+                "name": "Malaysian Ringgit",
+                "symbol_native": "RM",
+                "decimal_digits": 2,
+                "rounding": 0,
+                "icon": "🇲🇾",
+                "code": "MYR",
+                "name_plural": "Malaysian ringgits"
+            },
+            "percentageChange": {
+                "buyRateChangeInPercentage": "-0.70%",
+                "buyRateChange": -7,
+                "sellRateChangeInPercentage": "-0.69%",
+                "sellRateChange": -7
+            }
+        },
+        {
+            "currencyName": "Cambodian Riel",
+            "currencyCode": "KHR",
+            "currencyIcon": "🇰🇭",
+            "unit": 1,
+            "buyRate": 0.14,
+            "sellRate": 0.16,
+            "source": "Myanmar Market Price",
+            "uploadedDate": "2025-09-16 09:24:00",
+            "uploadedBy": "admin123",
+            "_id": "68c8d242a2682499e30dd684",
+            "createdAt": "2025-09-16 09:28:10",
+            "updatedAt": "2025-09-16 09:28:10",
+            "currencyInfo": {
+                "symbol": "KHR",
+                "name": "Cambodian Riel",
+                "symbol_native": "៛",
+                "decimal_digits": 2,
+                "rounding": 0,
+                "code": "KHR",
+                "icon": "🇰🇭",
+                "name_plural": "Cambodian riels"
+            },
+            "percentageChange": {
+                "buyRateChangeInPercentage": "-86.54%",
+                "buyRateChange": -0.9,
+                "sellRateChangeInPercentage": "-84.91%",
+                "sellRateChange": -0.9
+            }
+        },
+        {
+            "currencyName": "Japanese Yen",
+            "currencyCode": "JPY",
+            "currencyIcon": "💴",
+            "unit": 1,
+            "buyRate": 28.39,
+            "sellRate": 28.97,
+            "source": "Myanmar Market Price",
+            "uploadedDate": "2025-09-16 09:24:00",
+            "uploadedBy": "admin123",
+            "_id": "68c8d208a2682499e30dd667",
+            "createdAt": "2025-09-16 09:27:12",
+            "updatedAt": "2025-09-16 09:27:12",
+            "currencyInfo": {
+                "symbol": "¥",
+                "name": "Japanese Yen",
+                "symbol_native": "￥",
+                "decimal_digits": 0,
+                "rounding": 0,
+                "icon": "💴",
+                "code": "JPY",
+                "name_plural": "Japanese yen"
+            },
+            "percentageChange": {
+                "buyRateChangeInPercentage": "-0.21%",
+                "buyRateChange": -0.06,
+                "sellRateChangeInPercentage": "-0.17%",
+                "sellRateChange": -0.05
+            }
+        },
+        {
+            "currencyName": "Macanese Pataca",
+            "currencyCode": "MOP",
+            "currencyIcon": "🇲🇴",
+            "unit": 1,
+            "buyRate": 521,
+            "sellRate": 532,
+            "source": "Myanmar Market Price",
+            "uploadedDate": "2025-09-16 09:24:00",
+            "uploadedBy": "admin123",
+            "_id": "68c8d242a2682499e30dd67e",
+            "createdAt": "2025-09-16 09:28:10",
+            "updatedAt": "2025-09-16 09:28:10",
+            "currencyInfo": {
+                "symbol": "MOP$",
+                "name": "Macanese Pataca",
+                "symbol_native": "MOP$",
+                "decimal_digits": 2,
+                "rounding": 0,
+                "code": "MOP",
+                "icon": "🇲🇴",
+                "name_plural": "Macanese patacas"
+            },
+            "percentageChange": {
+                "buyRateChangeInPercentage": "-0.19%",
+                "buyRateChange": -1,
+                "sellRateChangeInPercentage": "-0.19%",
+                "sellRateChange": -1
+            }
+        },
+        {
+            "currencyName": "British Pound Sterling",
+            "currencyCode": "GBP",
+            "currencyIcon": "💷",
+            "unit": 1,
+            "buyRate": 5690,
+            "sellRate": 5805,
+            "source": "Myanmar Market Price",
+            "uploadedDate": "2025-09-16 09:24:00",
+            "uploadedBy": "admin123",
+            "_id": "68c8d1c2a2682499e30dd65a",
+            "createdAt": "2025-09-16 09:26:02",
+            "updatedAt": "2025-09-16 09:26:02",
+            "currencyInfo": {
+                "symbol": "£",
+                "name": "British Pound Sterling",
+                "symbol_native": "£",
+                "decimal_digits": 2,
+                "rounding": 0,
+                "icon": "💷",
+                "code": "GBP",
+                "name_plural": "British pounds sterling"
+            },
+            "percentageChange": {
+                "buyRateChangeInPercentage": "-0.18%",
+                "buyRateChange": -10,
+                "sellRateChangeInPercentage": "-0.17%",
+                "sellRateChange": -10
+            }
+        },
+        {
+            "currencyName": "Vietnamese Dong",
+            "currencyCode": "VND",
+            "currencyIcon": "🇻🇳",
+            "unit": 1,
+            "buyRate": 0.16,
+            "sellRate": 0.17,
+            "source": "Myanmar Market Price",
+            "uploadedDate": "2025-09-16 09:24:00",
+            "uploadedBy": "admin123",
+            "_id": "68c8d242a2682499e30dd680",
+            "createdAt": "2025-09-16 09:28:10",
+            "updatedAt": "2025-09-16 09:28:10",
+            "currencyInfo": {
+                "symbol": "₫",
+                "name": "Vietnamese Dong",
+                "symbol_native": "₫",
+                "decimal_digits": 0,
+                "rounding": 0,
+                "icon": "🇻🇳",
+                "code": "VND",
+                "name_plural": "Vietnamese dong"
+            },
+            "percentageChange": {
+                "buyRateChangeInPercentage": "0.00%",
+                "buyRateChange": 0,
+                "sellRateChangeInPercentage": "0.00%",
+                "sellRateChange": 0
+            }
+        },
+        {
+            "currencyName": "Philippine Peso",
+            "currencyCode": "PHP",
+            "currencyIcon": "🇵🇭",
+            "unit": 1,
+            "buyRate": 73.17,
+            "sellRate": 74.65,
+            "source": "Myanmar Market Price",
+            "uploadedDate": "2025-09-16 09:24:00",
+            "uploadedBy": "admin123",
+            "_id": "68c8d242a2682499e30dd686",
+            "createdAt": "2025-09-16 09:28:10",
+            "updatedAt": "2025-09-16 09:28:10",
+            "currencyInfo": {
+                "symbol": "₱",
+                "name": "Philippine Peso",
+                "symbol_native": "₱",
+                "decimal_digits": 2,
+                "rounding": 0,
+                "code": "PHP",
+                "icon": "🇵🇭",
+                "name_plural": "Philippine pesos"
+            },
+            "percentageChange": {
+                "buyRateChangeInPercentage": "-0.01%",
+                "buyRateChange": -0.01,
+                "sellRateChangeInPercentage": "-0.01%",
+                "sellRateChange": -0.01
+            }
+        },
+        {
+            "currencyName": "US Dollar",
+            "currencyCode": "USD",
+            "currencyIcon": "💵",
+            "unit": 1,
+            "buyRate": 4180,
+            "sellRate": 4265,
+            "source": "Myanmar Market Price",
+            "uploadedDate": "2025-09-16 09:24:00",
+            "uploadedBy": "admin123",
+            "_id": "68c8d1c2a2682499e30dd656",
+            "createdAt": "2025-09-16 09:26:02",
+            "updatedAt": "2025-09-16 09:26:02",
+            "currencyInfo": {
+                "symbol": "$",
+                "name": "US Dollar",
+                "symbol_native": "$",
+                "decimal_digits": 2,
+                "rounding": 0,
+                "icon": "💵",
+                "code": "USD",
+                "name_plural": "US dollars"
+            },
+            "percentageChange": {
+                "buyRateChangeInPercentage": "-0.24%",
+                "buyRateChange": -10,
+                "sellRateChangeInPercentage": "-0.23%",
+                "sellRateChange": -10
+            }
+        },
+        {
+            "currencyName": "UAE Dirham",
+            "currencyCode": "AED",
+            "currencyIcon": "🇦🇪",
+            "unit": 1,
+            "buyRate": 1138,
+            "sellRate": 1161,
+            "source": "Myanmar Market Price",
+            "uploadedDate": "2025-09-16 09:24:00",
+            "uploadedBy": "admin123",
+            "_id": "68c8d208a2682499e30dd66b",
+            "createdAt": "2025-09-16 09:27:12",
+            "updatedAt": "2025-09-16 09:27:12",
+            "currencyInfo": {
+                "symbol": "AED",
+                "name": "UAE Dirham",
+                "symbol_native": "د.إ.‏",
+                "decimal_digits": 2,
+                "rounding": 0,
+                "icon": "🇦🇪",
+                "code": "AED",
+                "name_plural": "UAE dirhams"
+            },
+            "percentageChange": {
+                "buyRateChangeInPercentage": "-0.18%",
+                "buyRateChange": -2,
+                "sellRateChangeInPercentage": "-0.26%",
+                "sellRateChange": -3
+            }
+        },
+        {
+            "currencyName": "Thai Baht",
+            "currencyCode": "THB",
+            "currencyIcon": "🇹🇭",
+            "unit": 1,
+            "buyRate": 131.58,
+            "sellRate": 134.23,
+            "source": "Myanmar Market Price",
+            "uploadedDate": "2025-09-16 09:24:00",
+            "uploadedBy": "admin123",
+            "_id": "68c8d1c2a2682499e30dd65e",
+            "createdAt": "2025-09-16 09:26:02",
+            "updatedAt": "2025-09-16 09:26:02",
+            "currencyInfo": {
+                "symbol": "฿",
+                "name": "Thai Baht",
+                "symbol_native": "฿",
+                "decimal_digits": 2,
+                "rounding": 0,
+                "icon": "🇹🇭",
+                "code": "THB",
+                "name_plural": "Thai baht"
+            },
+            "percentageChange": {
+                "buyRateChangeInPercentage": "0.00%",
+                "buyRateChange": 0,
+                "sellRateChangeInPercentage": "0.00%",
+                "sellRateChange": 0
+            }
+        },
+        {
+            "currencyName": "Euro",
+            "currencyCode": "EUR",
+            "currencyIcon": "💶",
+            "unit": 1,
+            "buyRate": 4920,
+            "sellRate": 5020,
+            "source": "Myanmar Market Price",
+            "uploadedDate": "2025-09-16 09:24:00",
+            "uploadedBy": "admin123",
+            "_id": "68c8d1c2a2682499e30dd658",
+            "createdAt": "2025-09-16 09:26:02",
+            "updatedAt": "2025-09-16 09:26:02",
+            "currencyInfo": {
+                "symbol": "€",
+                "name": "Euro",
+                "symbol_native": "€",
+                "decimal_digits": 2,
+                "rounding": 0,
+                "code": "EUR",
+                "icon": "💶",
+                "name_plural": "euros"
+            },
+            "percentageChange": {
+                "buyRateChangeInPercentage": "-0.10%",
+                "buyRateChange": -5,
+                "sellRateChangeInPercentage": "-0.10%",
+                "sellRateChange": -5
+            }
+        },
+        {
+            "currencyName": "New Taiwan Dollar",
+            "currencyCode": "TWD",
+            "currencyIcon": "🇹🇼",
+            "unit": 1,
+            "buyRate": 139,
+            "sellRate": 142,
+            "source": "Myanmar Market Price",
+            "uploadedDate": "2025-09-16 09:24:00",
+            "uploadedBy": "admin123",
+            "_id": "68c8d208a2682499e30dd66d",
+            "createdAt": "2025-09-16 09:27:12",
+            "updatedAt": "2025-09-16 09:27:12",
+            "currencyInfo": {
+                "symbol": "NT$",
+                "name": "New Taiwan Dollar",
+                "symbol_native": "NT$",
+                "decimal_digits": 2,
+                "rounding": 0,
+                "code": "TWD",
+                "icon": "🇹🇼",
+                "name_plural": "New Taiwan dollars"
+            },
+            "percentageChange": {
+                "buyRateChangeInPercentage": "0.72%",
+                "buyRateChange": 1,
+                "sellRateChangeInPercentage": "0.71%",
+                "sellRateChange": 1
+            }
+        },
+        {
+            "currencyName": "Canadian Dollar",
+            "currencyCode": "CAD",
+            "currencyIcon": "🇨🇦",
+            "unit": 1,
+            "buyRate": 3035,
+            "sellRate": 3095,
+            "source": "Myanmar Market Price",
+            "uploadedDate": "2025-09-16 09:24:00",
+            "uploadedBy": "admin123",
+            "_id": "68c8d208a2682499e30dd673",
+            "createdAt": "2025-09-16 09:27:12",
+            "updatedAt": "2025-09-16 09:27:12",
+            "currencyInfo": {
+                "symbol": "CA$",
+                "name": "Canadian Dollar",
+                "symbol_native": "$",
+                "decimal_digits": 2,
+                "rounding": 0,
+                "code": "CAD",
+                "icon": "🇨🇦",
+                "name_plural": "Canadian dollars"
+            },
+            "percentageChange": {
+                "buyRateChangeInPercentage": "0.17%",
+                "buyRateChange": 5,
+                "sellRateChangeInPercentage": "0.16%",
+                "sellRateChange": 5
+            }
+        },
+        {
+            "currencyName": "Indian Rupee",
+            "currencyCode": "INR",
+            "currencyIcon": "🇮🇳",
+            "unit": 1,
+            "buyRate": 47.42,
+            "sellRate": 48.38,
+            "source": "Myanmar Market Price",
+            "uploadedDate": "2025-09-16 09:24:00",
+            "uploadedBy": "admin123",
+            "_id": "68c8d242a2682499e30dd67c",
+            "createdAt": "2025-09-16 09:28:10",
+            "updatedAt": "2025-09-16 09:28:10",
+            "currencyInfo": {
+                "symbol": "Rs",
+                "name": "Indian Rupee",
+                "symbol_native": "টকা",
+                "decimal_digits": 2,
+                "rounding": 0,
+                "icon": "🇮🇳",
+                "code": "INR",
+                "name_plural": "Indian rupees"
+            },
+            "percentageChange": {
+                "buyRateChangeInPercentage": "-0.17%",
+                "buyRateChange": -0.08,
+                "sellRateChangeInPercentage": "-0.17%",
+                "sellRateChange": -0.08
+            }
+        },
+        {
+            "currencyName": "Lao Kip",
+            "currencyCode": "LAK",
+            "currencyIcon": "🇱🇦",
+            "unit": 1,
+            "buyRate": 0.19,
+            "sellRate": 0.2,
+            "source": "Myanmar Market Price",
+            "uploadedDate": "2025-09-16 09:24:00",
+            "uploadedBy": "admin123",
+            "_id": "68c8d242a2682499e30dd682",
+            "createdAt": "2025-09-16 09:28:10",
+            "updatedAt": "2025-09-16 09:28:10",
+            "currencyInfo": {
+                "symbol": "LAK",
+                "name": "Lao Kip",
+                "symbol_native": "₭",
+                "decimal_digits": 0,
+                "rounding": 0,
+                "icon": "🇱🇦",
+                "code": "LAK",
+                "name_plural": "Lao Kip"
+            },
+            "percentageChange": {
+                "buyRateChangeInPercentage": "0.00%",
+                "buyRateChange": 0,
+                "sellRateChangeInPercentage": "0.00%",
+                "sellRateChange": 0
+            }
+        },
+        {
+            "currencyName": "New Zealand Dollar",
+            "currencyCode": "NZD",
+            "currencyIcon": "🇳🇿",
+            "unit": 1,
+            "buyRate": 2490,
+            "sellRate": 2540,
+            "source": "Myanmar Market Price",
+            "uploadedDate": "2025-09-16 09:24:00",
+            "uploadedBy": "admin123",
+            "_id": "68c8d208a2682499e30dd671",
+            "createdAt": "2025-09-16 09:27:12",
+            "updatedAt": "2025-09-16 09:27:12",
+            "currencyInfo": {
+                "symbol": "NZ$",
+                "name": "New Zealand Dollar",
+                "symbol_native": "$",
+                "decimal_digits": 2,
+                "rounding": 0,
+                "code": "NZD",
+                "icon": "🇳🇿",
+                "name_plural": "New Zealand dollars"
+            },
+            "percentageChange": {
+                "buyRateChangeInPercentage": "-0.20%",
+                "buyRateChange": -5,
+                "sellRateChangeInPercentage": "-0.20%",
+                "sellRateChange": -5
+            }
+        },
+        {
+            "currencyName": "Australian Dollar",
+            "currencyCode": "AUD",
+            "currencyIcon": "🇦🇺",
+            "unit": 1,
+            "buyRate": 2785,
+            "sellRate": 2840,
+            "source": "Myanmar Market Price",
+            "uploadedDate": "2025-09-16 09:24:00",
+            "uploadedBy": "admin123",
+            "_id": "68c8d208a2682499e30dd66f",
+            "createdAt": "2025-09-16 09:27:12",
+            "updatedAt": "2025-09-16 09:27:12",
+            "currencyInfo": {
+                "symbol": "AU$",
+                "name": "Australian Dollar",
+                "symbol_native": "$",
+                "decimal_digits": 2,
+                "rounding": 0,
+                "code": "AUD",
+                "icon": "🇦🇺",
+                "name_plural": "Australian dollars"
+            },
+            "percentageChange": {
+                "buyRateChangeInPercentage": "-0.18%",
+                "buyRateChange": -5,
+                "sellRateChangeInPercentage": "-0.18%",
+                "sellRateChange": -5
+            }
+        },
+        {
+            "currencyName": "South Korean Won",
+            "currencyCode": "KRW",
+            "currencyIcon": "🇰🇷",
+            "unit": 1,
+            "buyRate": 3.02,
+            "sellRate": 3.08,
+            "source": "Myanmar Market Price",
+            "uploadedDate": "2025-09-16 09:24:00",
+            "uploadedBy": "admin123",
+            "_id": "68c8d208a2682499e30dd669",
+            "createdAt": "2025-09-16 09:27:12",
+            "updatedAt": "2025-09-16 09:27:12",
+            "currencyInfo": {
+                "symbol": "₩",
+                "name": "South Korean Won",
+                "symbol_native": "₩",
+                "decimal_digits": 0,
+                "rounding": 0,
+                "code": "KRW",
+                "icon": "🇰🇷",
+                "name_plural": "South Korean won"
+            },
+            "percentageChange": {
+                "buyRateChangeInPercentage": "0.00%",
+                "buyRateChange": 0,
+                "sellRateChangeInPercentage": "0.00%",
+                "sellRateChange": 0
+            }
+        },
+        {
+            "currencyName": "Chinese Yuan",
+            "currencyCode": "CNY",
+            "currencyIcon": "🇨🇳",
+            "unit": 1,
+            "buyRate": 587,
+            "sellRate": 599,
+            "source": "Myanmar Market Price",
+            "uploadedDate": "2025-09-16 09:24:00",
+            "uploadedBy": "admin123",
+            "_id": "68c8d1c2a2682499e30dd660",
+            "createdAt": "2025-09-16 09:26:02",
+            "updatedAt": "2025-09-16 09:26:02",
+            "currencyInfo": {
+                "symbol": "CN¥",
+                "name": "Chinese Yuan",
+                "symbol_native": "CN¥",
+                "decimal_digits": 2,
+                "rounding": 0,
+                "code": "CNY",
+                "icon": "🇨🇳",
+                "name_plural": "Chinese yuan"
+            },
+            "percentageChange": {
+                "buyRateChangeInPercentage": "-0.17%",
+                "buyRateChange": -1,
+                "sellRateChangeInPercentage": "-0.17%",
+                "sellRateChange": -1
+            }
+        },
+        {
+            "currencyName": "Hong Kong Dollar",
+            "currencyCode": "HKD",
+            "currencyIcon": "🇭🇰",
+            "unit": 1,
+            "buyRate": 537,
+            "sellRate": 548,
+            "source": "Myanmar Market Price",
+            "uploadedDate": "2025-09-16 09:24:00",
+            "uploadedBy": "admin123",
+            "_id": "68c8d242a2682499e30dd67a",
+            "createdAt": "2025-09-16 09:28:10",
+            "updatedAt": "2025-09-16 09:28:10",
+            "currencyInfo": {
+                "symbol": "HK$",
+                "name": "Hong Kong Dollar",
+                "symbol_native": "$",
+                "decimal_digits": 2,
+                "rounding": 0,
+                "code": "HKD",
+                "icon": "🇭🇰",
+                "name_plural": "Hong Kong dollars"
+            },
+            "percentageChange": {
+                "buyRateChangeInPercentage": "-0.19%",
+                "buyRateChange": -1,
+                "sellRateChangeInPercentage": "-0.18%",
+                "sellRateChange": -1
+            }
+        },
+        {
+            "currencyName": "Singapore Dollar",
+            "currencyCode": "SGD",
+            "currencyIcon": "🇸🇬",
+            "unit": 1,
+            "buyRate": 3280,
+            "sellRate": 3345,
+            "source": "Myanmar Market Price",
+            "uploadedDate": "2025-09-16 09:24:00",
+            "uploadedBy": "admin123",
+            "_id": "68c8d1c2a2682499e30dd65c",
+            "createdAt": "2025-09-16 09:26:02",
+            "updatedAt": "2025-09-16 09:26:02",
+            "currencyInfo": {
+                "symbol": "S$",
+                "name": "Singapore Dollar",
+                "symbol_native": "$",
+                "decimal_digits": 2,
+                "rounding": 0,
+                "icon": "🇸🇬",
+                "code": "SGD",
+                "name_plural": "Singapore dollars"
+            },
+            "percentageChange": {
+                "buyRateChangeInPercentage": "0.00%",
+                "buyRateChange": 0,
+                "sellRateChangeInPercentage": "0.00%",
+                "sellRateChange": 0
+            }
+        }
+    ]
+}

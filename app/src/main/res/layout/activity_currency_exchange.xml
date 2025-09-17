@@ -196,18 +196,18 @@
                             <!-- USD Row -->
                             <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:paddingVertical="10dp" android:background="?attr/cardBackgroundColor">
 
-                                <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="💵 USD" android:textSize="10sp" android:textColor="?attr/textPrimaryColor" android:paddingStart="8dp" />
+                                <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="💵 USD" android:textSize="12sp" android:textColor="?attr/textPrimaryColor" android:paddingStart="10dp" />
 
                                 <TextView android:id="@+id/textRateUsd" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Loading..." android:textSize="12sp" android:textColor="?attr/textPrimaryColor" android:paddingEnd="10dp" android:gravity="end" android:textStyle="bold" />
 
                             </LinearLayout>
 
-                            <!-- EUR Row -->
+                            <!-- KHR Row -->
                             <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:paddingVertical="10dp" android:background="?attr/colorSurface">
 
-                                <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="💶 EUR" android:textSize="12sp" android:textColor="?attr/textPrimaryColor" android:paddingStart="10dp" />
+                                <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="🇰🇭 KHR" android:textSize="12sp" android:textColor="?attr/textPrimaryColor" android:paddingStart="10dp" />
 
-                                <TextView android:id="@+id/textRateEur" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Loading..." android:textSize="12sp" android:textColor="?attr/textPrimaryColor" android:paddingEnd="10dp" android:gravity="end" android:textStyle="bold" />
+                                <TextView android:id="@+id/textRateKhr" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Loading..." android:textSize="12sp" android:textColor="?attr/textPrimaryColor" android:paddingEnd="10dp" android:gravity="end" android:textStyle="bold" />
 
                             </LinearLayout>
 
@@ -220,6 +220,60 @@
 
                             </LinearLayout>
 
+                            <!-- NZD Row -->
+                            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:paddingVertical="10dp" android:background="?attr/colorSurface">
+
+                                <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="🇳🇿 NZD" android:textSize="12sp" android:textColor="?attr/textPrimaryColor" android:paddingStart="10dp" />
+
+                                <TextView android:id="@+id/textRateNzd" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Loading..." android:textSize="12sp" android:textColor="?attr/textPrimaryColor" android:paddingEnd="10dp" android:gravity="end" android:textStyle="bold" />
+
+                            </LinearLayout>
+
+                            <!-- JPY Row -->
+                            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:paddingVertical="10dp" android:background="?attr/cardBackgroundColor">
+
+                                <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="🇯🇵 JPY" android:textSize="12sp" android:textColor="?attr/textPrimaryColor" android:paddingStart="10dp" />
+
+                                <TextView android:id="@+id/textRateJpy" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Loading..." android:textSize="12sp" android:textColor="?attr/textPrimaryColor" android:paddingEnd="10dp" android:gravity="end" android:textStyle="bold" />
+
+                            </LinearLayout>
+
+                            <!-- VND Row -->
+                            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:paddingVertical="10dp" android:background="?attr/colorSurface">
+
+                                <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="🇻🇳 VND" android:textSize="12sp" android:textColor="?attr/textPrimaryColor" android:paddingStart="10dp" />
+
+                                <TextView android:id="@+id/textRateVnd" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Loading..." android:textSize="12sp" android:textColor="?attr/textPrimaryColor" android:paddingEnd="10dp" android:gravity="end" android:textStyle="bold" />
+
+                            </LinearLayout>
+
+                            <!-- PHP Row -->
+                            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:paddingVertical="10dp" android:background="?attr/cardBackgroundColor">
+
+                                <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="🇵🇭 PHP" android:textSize="12sp" android:textColor="?attr/textPrimaryColor" android:paddingStart="10dp" />
+
+                                <TextView android:id="@+id/textRatePhp" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Loading..." android:textSize="12sp" android:textColor="?attr/textPrimaryColor" android:paddingEnd="10dp" android:gravity="end" android:textStyle="bold" />
+
+                            </LinearLayout>
+
+                            <!-- KRW Row -->
+                            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:paddingVertical="10dp" android:background="?attr/colorSurface">
+
+                                <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="🇰🇷 KRW" android:textSize="12sp" android:textColor="?attr/textPrimaryColor" android:paddingStart="10dp" />
+
+                                <TextView android:id="@+id/textRateKrw" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Loading..." android:textSize="12sp" android:textColor="?attr/textPrimaryColor" android:paddingEnd="10dp" android:gravity="end" android:textStyle="bold" />
+
+                            </LinearLayout>
+
+                            <!-- HKD Row -->
+                            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:paddingVertical="10dp" android:background="?attr/cardBackgroundColor">
+
+                                <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="🇭🇰 HKD" android:textSize="12sp" android:textColor="?attr/textPrimaryColor" android:paddingStart="10dp" />
+
+                                <TextView android:id="@+id/textRateHkd" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Loading..." android:textSize="12sp" android:textColor="?attr/textPrimaryColor" android:paddingEnd="10dp" android:gravity="end" android:textStyle="bold" />
+
+                            </LinearLayout>
+
                             <!-- MYR Row -->
                             <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:paddingVertical="10dp" android:background="?attr/colorSurface">
 
@@ -229,30 +283,102 @@
 
                             </LinearLayout>
 
-                            <!-- CNY Row -->
+                            <!-- CAD Row -->
                             <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:paddingVertical="10dp" android:background="?attr/cardBackgroundColor">
+
+                                <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="🇨🇦 CAD" android:textSize="12sp" android:textColor="?attr/textPrimaryColor" android:paddingStart="10dp" />
+
+                                <TextView android:id="@+id/textRateCad" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Loading..." android:textSize="12sp" android:textColor="?attr/textPrimaryColor" android:paddingEnd="10dp" android:gravity="end" android:textStyle="bold" />
+
+                            </LinearLayout>
+
+                            <!-- GBP Row -->
+                            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:paddingVertical="10dp" android:background="?attr/colorSurface">
+
+                                <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="🇬🇧 GBP" android:textSize="12sp" android:textColor="?attr/textPrimaryColor" android:paddingStart="10dp" />
+
+                                <TextView android:id="@+id/textRateGbp" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Loading..." android:textSize="12sp" android:textColor="?attr/textPrimaryColor" android:paddingEnd="10dp" android:gravity="end" android:textStyle="bold" />
+
+                            </LinearLayout>
+
+                            <!-- AUD Row -->
+                            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:paddingVertical="10dp" android:background="?attr/cardBackgroundColor">
+
+                                <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="🇦🇺 AUD" android:textSize="12sp" android:textColor="?attr/textPrimaryColor" android:paddingStart="10dp" />
+
+                                <TextView android:id="@+id/textRateAud" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Loading..." android:textSize="12sp" android:textColor="?attr/textPrimaryColor" android:paddingEnd="10dp" android:gravity="end" android:textStyle="bold" />
+
+                            </LinearLayout>
+
+                            <!-- INR Row -->
+                            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:paddingVertical="10dp" android:background="?attr/colorSurface">
+
+                                <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="🇮🇳 INR" android:textSize="12sp" android:textColor="?attr/textPrimaryColor" android:paddingStart="10dp" />
+
+                                <TextView android:id="@+id/textRateInr" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Loading..." android:textSize="12sp" android:textColor="?attr/textPrimaryColor" android:paddingEnd="10dp" android:gravity="end" android:textStyle="bold" />
+
+                            </LinearLayout>
+
+                            <!-- EUR Row -->
+                            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:paddingVertical="10dp" android:background="?attr/cardBackgroundColor">
+
+                                <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="💶 EUR" android:textSize="12sp" android:textColor="?attr/textPrimaryColor" android:paddingStart="10dp" />
+
+                                <TextView android:id="@+id/textRateEur" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Loading..." android:textSize="12sp" android:textColor="?attr/textPrimaryColor" android:paddingEnd="10dp" android:gravity="end" android:textStyle="bold" />
+
+                            </LinearLayout>
+
+                            <!-- CNY Row -->
+                            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:paddingVertical="10dp" android:background="?attr/colorSurface">
 
                                 <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="🇨🇳 CNY" android:textSize="12sp" android:textColor="?attr/textPrimaryColor" android:paddingStart="10dp" />
 
-                                <TextView android:id="@+id/textRateCny" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Loading..." android:textSize="12sp" android:textColor="?attr/textPrimaryColor" android:paddingEnd="12dp" android:gravity="end" android:textStyle="bold" />
+                                <TextView android:id="@+id/textRateCny" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Loading..." android:textSize="12sp" android:textColor="?attr/textPrimaryColor" android:paddingEnd="10dp" android:gravity="end" android:textStyle="bold" />
 
                             </LinearLayout>
 
                             <!-- THB Row -->
-                            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:paddingVertical="10dp" android:background="?attr/colorSurface">
+                            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:paddingVertical="10dp" android:background="?attr/cardBackgroundColor">
 
                                 <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="🇹🇭 THB" android:textSize="12sp" android:textColor="?attr/textPrimaryColor" android:paddingStart="10dp" />
 
-                                <TextView android:id="@+id/textRateThb" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Loading..." android:textSize="12sp" android:textColor="?attr/textPrimaryColor" android:paddingEnd="12dp" android:gravity="end" android:textStyle="bold" />
+                                <TextView android:id="@+id/textRateThb" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Loading..." android:textSize="12sp" android:textColor="?attr/textPrimaryColor" android:paddingEnd="10dp" android:gravity="end" android:textStyle="bold" />
 
                             </LinearLayout>
 
-                            <!-- JPY Row -->
+                            <!-- LAK Row -->
+                            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:paddingVertical="10dp" android:background="?attr/colorSurface">
+
+                                <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="🇱🇦 LAK" android:textSize="12sp" android:textColor="?attr/textPrimaryColor" android:paddingStart="10dp" />
+
+                                <TextView android:id="@+id/textRateLak" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Loading..." android:textSize="12sp" android:textColor="?attr/textPrimaryColor" android:paddingEnd="10dp" android:gravity="end" android:textStyle="bold" />
+
+                            </LinearLayout>
+
+                            <!-- MOP Row -->
                             <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:paddingVertical="10dp" android:background="?attr/cardBackgroundColor">
 
-                                <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="🇯🇵 JPY" android:textSize="12sp" android:textColor="?attr/textPrimaryColor" android:paddingStart="10dp" />
+                                <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="🇲🇴 MOP" android:textSize="12sp" android:textColor="?attr/textPrimaryColor" android:paddingStart="10dp" />
 
-                                <TextView android:id="@+id/textRateJpy" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Loading..." android:textSize="12sp" android:textColor="?attr/textPrimaryColor" android:paddingEnd="12dp" android:gravity="end" android:textStyle="bold" />
+                                <TextView android:id="@+id/textRateMop" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Loading..." android:textSize="12sp" android:textColor="?attr/textPrimaryColor" android:paddingEnd="10dp" android:gravity="end" android:textStyle="bold" />
+
+                            </LinearLayout>
+
+                            <!-- AED Row -->
+                            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:paddingVertical="10dp" android:background="?attr/colorSurface">
+
+                                <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="🇦🇪 AED" android:textSize="12sp" android:textColor="?attr/textPrimaryColor" android:paddingStart="10dp" />
+
+                                <TextView android:id="@+id/textRateAed" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Loading..." android:textSize="12sp" android:textColor="?attr/textPrimaryColor" android:paddingEnd="10dp" android:gravity="end" android:textStyle="bold" />
+
+                            </LinearLayout>
+
+                            <!-- TWD Row -->
+                            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:paddingVertical="10dp" android:background="?attr/cardBackgroundColor">
+
+                                <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="🇹🇼 TWD" android:textSize="12sp" android:textColor="?attr/textPrimaryColor" android:paddingStart="10dp" />
+
+                                <TextView android:id="@+id/textRateTwd" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Loading..." android:textSize="12sp" android:textColor="?attr/textPrimaryColor" android:paddingEnd="10dp" android:gravity="end" android:textStyle="bold" />
 
                             </LinearLayout>
 
