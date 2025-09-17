@@ -6,6 +6,8 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -16,6 +18,7 @@ import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
+import android.widget.ImageButton
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
@@ -52,8 +55,17 @@ import java.util.Locale
 import android.widget.FrameLayout
 import android.view.ViewGroup
 import android.animation.Animator
+import nl.dionsegijn.konfetti.core.Party
+import nl.dionsegijn.konfetti.core.Position
+import nl.dionsegijn.konfetti.core.emitter.Emitter
+import java.util.concurrent.TimeUnit
+import nl.dionsegijn.konfetti.xml.KonfettiView
 
 class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
+    
+    companion object {
+        private const val FESTIVAL_NOTIFICATION_SHOWN_DATE = "festival_notification_shown_date"
+    }
     
     private lateinit var expenseAdapter: ExpenseAdapter
     private val expenseList = mutableListOf<ExpenseItem>()
@@ -107,8 +119,8 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     private lateinit var database: DatabaseReference
     private lateinit var messageView: TextView
     private lateinit var festivalView: TextView
-    private lateinit var festivalCard: CardView
-    // private lateinit var konfettiView: KonfettiView
+    private lateinit var festivalNotification: CardView
+    private lateinit var konfettiView: KonfettiView
     
     // Activity result launcher for expense detail activity
     private val expenseDetailLauncher = registerForActivityResult(
@@ -374,10 +386,10 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         fab = findViewById<DraggableFloatingActionButton>(R.id.fab)
         
         // Festival components
-        festivalCard = findViewById<CardView>(R.id.festivalCard)
+        festivalNotification = findViewById<CardView>(R.id.festivalNotification)
         messageView = findViewById<TextView>(R.id.messageView)
         festivalView = findViewById<TextView>(R.id.festivalView)
-        // konfettiView = findViewById(R.id.konfettiView)
+        konfettiView = findViewById(R.id.konfettiView)
     }
     
     private fun setupRecyclerView() {
@@ -1253,6 +1265,16 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     }
 
     private fun initializeFirebaseServices() {
+        // Check if festival notification was already shown today
+        val today = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
+        val lastShownDate = sharedPreferences.getString(FESTIVAL_NOTIFICATION_SHOWN_DATE, "")
+        
+        if (lastShownDate == today) {
+            // Festival notification already shown today, skip checking
+            Log.d("MainActivity", "Festival notification already shown today ($today), skipping")
+            return
+        }
+        
         // Check for festival message from notification intent
         checkNotificationIntent()
         
@@ -1284,7 +1306,10 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                 else -> R.raw.fireworks // default
             }
             val title = if (!festivalName.isNullOrEmpty()) "🎉 $festivalName" else null
-            showFestivalDialog(enhancedMessage, animationResId, title)
+            // showFestivalDialog(enhancedMessage, animationResId, title)
+
+            // Use particle animation instead of dialog
+            startTypingAnimation(if (!festivalName.isNullOrEmpty()) "🎉 $festivalName" else "🎉 Festival Alert", enhancedMessage, festivalAnimation ?: "fireworks")
 
             // Clear the intent to prevent showing again on rotation
             intent.removeExtra("festival_message")
@@ -1376,43 +1401,233 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                 val animation = snapshot.child("animation").getValue(String::class.java) ?: "-"
 
                 // Debug: Show fetched data
-                Toast.makeText(this@MainActivity, "Festival: $festival, Message: $message, Animation: $animation", Toast.LENGTH_LONG).show()
+                // Toast.makeText(this@MainActivity, "Festival: $festival, Message: $message, Animation: $animation", Toast.LENGTH_LONG).show()
 
                 if (!festival.isNullOrEmpty() && !message.isNullOrEmpty()) {
-                    festivalView.text = "🎊 $festival"
-                    messageView.text = message
-                    festivalCard.visibility = View.VISIBLE
-
-                    // animation trigger လုပ်ချင်ရင် ဒီမှာ call
-                    // showFestivalAnimation(animation)
+                    // Start typing animation for festival notification
+                    startTypingAnimation("🎊 $festival", message, animation)
                 }
             }
 
             override fun onCancelled(error: DatabaseError) {
                 Log.w("MainActivity", "Error getting festival data", error.toException())
-                Toast.makeText(this@MainActivity, "Database error: ${error.message}", Toast.LENGTH_LONG).show()
+                // Toast.makeText(this@MainActivity, "Database error: ${error.message}", Toast.LENGTH_LONG).show()
             }
         })
     }
 
-    /*
     private fun showFestivalAnimation(animation: String) {
-        // TODO: animation library သုံးပြီး fireworks သို. confetti သို. ပြမယ်
-        // ตัวอย่าง (Kotlin + Confetti):
-        konfettiView.build()
-            .addColors(Color.RED, Color.BLUE, Color.GREEN, Color.YELLOW)
-            .setDirection(0.0, 359.0)
-            .setSpeed(1f, 5f)
-            .setFadeOutEnabled(true)
-            .setTimeToLive(2000L)
-            .addShapes(Shape.Square, Shape.Circle)
-            .addSizes(Size(12))
-            .setPosition(-50f, konfettiView.width + 50f, -50f, -50f)
-            .streamFor(300, 5000L)
+        when (animation) {
+            "fireworks" -> showFireworksAnimation()
+            "snow" -> showSnowAnimation()
+            "lotus" -> showLotusAnimation()
+            "candles" -> showCandlesAnimation()
+            "flags" -> showFlagsAnimation()
+            "water_splash" -> showWaterSplashAnimation()
+            "lanterns" -> showLanternsAnimation()
+            "lights" -> showLightsAnimation()
+            "pumpkin" -> showPumpkinAnimation()
+            else -> showDefaultAnimation()
+        }
     }
-    */
+
+    private fun showFireworksAnimation() {
+        val party = Party(
+            speed = 0f,
+            maxSpeed = 30f,
+            damping = 0.9f,
+            spread = 360,
+            colors = listOf(0xfce18a, 0xff726d, 0xf4306d, 0xb48def),
+            position = Position.Relative(0.5, 0.3),
+            emitter = Emitter(duration = 3, TimeUnit.SECONDS).perSecond(50)
+        )
+        konfettiView.start(party)
+
+        // Second burst from different position
+        Handler(Looper.getMainLooper()).postDelayed({
+            val party2 = Party(
+                speed = 0f,
+                maxSpeed = 25f,
+                damping = 0.9f,
+                spread = 360,
+                colors = listOf(0x00ff00, 0x0000ff, 0xffff00, 0xff00ff),
+                position = Position.Relative(0.2, 0.4),
+                emitter = Emitter(duration = 2, TimeUnit.SECONDS).perSecond(40)
+            )
+            konfettiView.start(party2)
+        }, 1000)
+    }
+
+    private fun showSnowAnimation() {
+        val party = Party(
+            speed = 0f,
+            maxSpeed = 15f,
+            damping = 0.9f,
+            spread = 120,
+            colors = listOf(0xffffff, 0xf0f8ff, 0xe6e6fa),
+            position = Position.Relative(0.5, 0.0),
+            emitter = Emitter(duration = 8, TimeUnit.SECONDS).perSecond(30)
+        )
+        konfettiView.start(party)
+    }
+
+    private fun showLotusAnimation() {
+        val party = Party(
+            speed = 0f,
+            maxSpeed = 20f,
+            damping = 0.9f,
+            spread = 180,
+            colors = listOf(0xff6b35, 0xf7931e, 0xffd23f),
+            position = Position.Relative(0.5, 0.3),
+            emitter = Emitter(duration = 5, TimeUnit.SECONDS).perSecond(25)
+        )
+        konfettiView.start(party)
+    }
+
+    private fun showCandlesAnimation() {
+        val party = Party(
+            speed = 0f,
+            maxSpeed = 10f,
+            damping = 0.9f,
+            spread = 90,
+            colors = listOf(0xffa500, 0xffd700, 0xff6347),
+            position = Position.Relative(0.5, 0.4),
+            emitter = Emitter(duration = 6, TimeUnit.SECONDS).perSecond(20)
+        )
+        konfettiView.start(party)
+    }
+
+    private fun showFlagsAnimation() {
+        val party = Party(
+            speed = 0f,
+            maxSpeed = 25f,
+            damping = 0.9f,
+            spread = 360,
+            colors = listOf(0xff0000, 0x0000ff, 0x00ff00, 0xffffff),
+            position = Position.Relative(0.5, 0.3),
+            emitter = Emitter(duration = 4, TimeUnit.SECONDS).perSecond(35)
+        )
+        konfettiView.start(party)
+    }
+
+    private fun showWaterSplashAnimation() {
+        val party = Party(
+            speed = 0f,
+            maxSpeed = 35f,
+            damping = 0.9f,
+            spread = 180,
+            colors = listOf(0x00bfff, 0x1e90ff, 0x4169e1),
+            position = Position.Relative(0.5, 0.6),
+            emitter = Emitter(duration = 3, TimeUnit.SECONDS).perSecond(60)
+        )
+        konfettiView.start(party)
+    }
+
+    private fun showLanternsAnimation() {
+        val party = Party(
+            speed = 0f,
+            maxSpeed = 12f,
+            damping = 0.9f,
+            spread = 120,
+            colors = listOf(0xffff00, 0xffd700, 0xffa500),
+            position = Position.Relative(0.5, 0.2),
+            emitter = Emitter(duration = 7, TimeUnit.SECONDS).perSecond(15)
+        )
+        konfettiView.start(party)
+    }
+
+    private fun showLightsAnimation() {
+        val party = Party(
+            speed = 0f,
+            maxSpeed = 20f,
+            damping = 0.9f,
+            spread = 360,
+            colors = listOf(0xffffff, 0xffd700, 0x00ff00, 0xff00ff, 0x00ffff),
+            position = Position.Relative(0.5, 0.3),
+            emitter = Emitter(duration = 5, TimeUnit.SECONDS).perSecond(40)
+        )
+        konfettiView.start(party)
+    }
+
+    private fun showPumpkinAnimation() {
+        val party = Party(
+            speed = 0f,
+            maxSpeed = 18f,
+            damping = 0.9f,
+            spread = 180,
+            colors = listOf(0xff8c00, 0xffa500, 0x228b22),
+            position = Position.Relative(0.5, 0.4),
+            emitter = Emitter(duration = 4, TimeUnit.SECONDS).perSecond(25)
+        )
+        konfettiView.start(party)
+    }
+
+    private fun showDefaultAnimation() {
+        // Default fireworks animation
+        showFireworksAnimation()
+    }
+
+    private fun startTypingAnimation(festivalText: String, messageText: String, animation: String) {
+        Log.d("MainActivity", "Starting typing animation: festival='$festivalText', message='$messageText'")
+
+        // Save today's date as the last shown date
+        val today = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
+        sharedPreferences.edit().putString(FESTIVAL_NOTIFICATION_SHOWN_DATE, today).apply()
+        Log.d("MainActivity", "Saved festival notification shown date: $today")
+
+        // Show the notification
+        festivalNotification.visibility = View.VISIBLE
+        Log.d("MainActivity", "Festival notification visibility set to VISIBLE")
+
+        // Start konfetti animation
+        showFestivalAnimation(animation)
+
+        // Clear previous text
+        festivalView.text = ""
+        messageView.text = ""
+
+        // Start typing festival title first
+        showTypingAnimation(festivalView, festivalText) {
+            // After festival title is done, start message
+            Log.d("MainActivity", "Festival typing complete, starting message")
+            showTypingAnimation(messageView, messageText) {
+                // After message is done, hide after 5 seconds
+                Log.d("MainActivity", "Message typing complete, hiding after 5 seconds")
+                Handler(Looper.getMainLooper()).postDelayed({
+                    festivalNotification.visibility = View.GONE
+                    Log.d("MainActivity", "Festival notification hidden")
+                }, 5000)
+            }
+        }
+    }
+
+    private fun showTypingAnimation(textView: TextView, message: String, onComplete: (() -> Unit)? = null) {
+        textView.text = ""
+        val delay = 100L // 100ms per character
+        val handler = Handler(Looper.getMainLooper())
+        var index = 0
+
+        val runnable = object : Runnable {
+            override fun run() {
+                if (index < message.length) {
+                    textView.append(message[index].toString())
+                    index++
+                    handler.postDelayed(this, delay)
+                } else {
+                    // Animation complete
+                    onComplete?.invoke()
+                }
+            }
+        }
+        handler.post(runnable)
+    }
 
     private fun showFestivalDialog(message: String, animationResId: Int? = null, title: String? = null) {
+        // Save today's date as the last shown date
+        val today = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
+        sharedPreferences.edit().putString(FESTIVAL_NOTIFICATION_SHOWN_DATE, today).apply()
+        Log.d("MainActivity", "Saved festival dialog shown date: $today")
+
         val dialogView = layoutInflater.inflate(R.layout.dialog_festival_alert, null)
 
         val festivalTitle = dialogView.findViewById<TextView>(R.id.festivalTitle)

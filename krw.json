@@ -1,0 +1,36 @@
+{
+    "message": "Latest exchange rate retrieved successfully.",
+    "uploader": "admin123",
+    "source": "Myanmar Market Price",
+    "totalCount": 1,
+    "data": {
+        "_id": "68c8d208a2682499e30dd669",
+        "currencyName": "South Korean Won",
+        "currencyCode": "KRW",
+        "currencyIcon": "🇰🇷",
+        "unit": 1,
+        "buyRate": 3.02,
+        "sellRate": 3.08,
+        "source": "Myanmar Market Price",
+        "uploadedDate": "2025-09-16 09:24:00",
+        "uploadedBy": "admin123",
+        "createdAt": "2025-09-16 09:27:12",
+        "updatedAt": "2025-09-16 09:27:12",
+        "currencyInfo": {
+            "symbol": "₩",
+            "name": "South Korean Won",
+            "symbol_native": "₩",
+            "decimal_digits": 0,
+            "rounding": 0,
+            "code": "KRW",
+            "icon": "🇰🇷",
+            "name_plural": "South Korean won"
+        },
+        "percentageChange": {
+            "buyRateChangeInPercentage": "0.00%",
+            "buyRateChange": 0,
+            "sellRateChangeInPercentage": "0.00%",
+            "sellRateChange": 0
+        }
+    }
+}

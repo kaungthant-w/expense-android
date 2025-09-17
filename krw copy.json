@@ -1,0 +1,36 @@
+{
+    "message": "Latest exchange rate retrieved successfully.",
+    "uploader": "admin123",
+    "source": "Myanmar Market Price",
+    "totalCount": 1,
+    "data": {
+        "_id": "68c8d1c2a2682499e30dd656",
+        "currencyName": "US Dollar",
+        "currencyCode": "USD",
+        "currencyIcon": "💵",
+        "unit": 1,
+        "buyRate": 4180,
+        "sellRate": 4265,
+        "source": "Myanmar Market Price",
+        "uploadedDate": "2025-09-16 09:24:00",
+        "uploadedBy": "admin123",
+        "createdAt": "2025-09-16 09:26:02",
+        "updatedAt": "2025-09-16 09:26:02",
+        "currencyInfo": {
+            "symbol": "$",
+            "name": "US Dollar",
+            "symbol_native": "$",
+            "decimal_digits": 2,
+            "rounding": 0,
+            "icon": "💵",
+            "code": "USD",
+            "name_plural": "US dollars"
+        },
+        "percentageChange": {
+            "buyRateChangeInPercentage": "-0.24%",
+            "buyRateChange": -10,
+            "sellRateChangeInPercentage": "-0.23%",
+            "sellRateChange": -10
+        }
+    }
+}

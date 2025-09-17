@@ -219,7 +219,7 @@ class SettingsActivity : BaseActivity(), NavigationView.OnNavigationItemSelected
                     // Validate import data
                     val expensesData = importData["expenses"] as? String
                     if (expensesData.isNullOrEmpty()) {
-                        Toast.makeText(this, "❌ Invalid backup file: No expense data found", Toast.LENGTH_LONG).show()
+                        Toast.makeText(this, languageManager.getString("import_invalid_backup_no_data"), Toast.LENGTH_LONG).show()
                         return
                     }
                     
@@ -235,36 +235,42 @@ class SettingsActivity : BaseActivity(), NavigationView.OnNavigationItemSelected
                             .apply()
                         
                         val importInfo = StringBuilder()
-                        importInfo.append("✅ Data imported successfully!\n\n")
-                        importInfo.append("📊 Import Summary:\n")
-                        importInfo.append("• Total expenses: ${expenses.size}\n")
-                        importInfo.append("• Active expenses: ${expenses.count { !it.isDeleted }}\n")
-                        importInfo.append("• Deleted expenses: ${expenses.count { it.isDeleted }}\n")
+                        importInfo.append(languageManager.getString("import_success_title"))
+                        importInfo.append("\n\n")
+                        importInfo.append(languageManager.getString("import_summary"))
+                        importInfo.append("\n")
+                        importInfo.append(languageManager.getString("import_total_expenses").replace("{count}", expenses.size.toString()))
+                        importInfo.append("\n")
+                        importInfo.append(languageManager.getString("import_active_expenses").replace("{count}", expenses.count { !it.isDeleted }.toString()))
+                        importInfo.append("\n")
+                        importInfo.append(languageManager.getString("import_deleted_expenses").replace("{count}", expenses.count { it.isDeleted }.toString()))
+                        importInfo.append("\n")
                         
                         importData["export_date"]?.let { exportDate ->
-                            importInfo.append("• Export date: $exportDate\n")
+                            importInfo.append(languageManager.getString("import_export_date").replace("{date}", exportDate.toString()))
+                            importInfo.append("\n")
                         }
                         
-                        importInfo.append("\nRestart the app to see all imported data.")
+                        importInfo.append(languageManager.getString("import_restart_message"))
                         
                         // Show success dialog
                         AlertDialog.Builder(this)
-                            .setTitle("📥 Import Complete")
+                            .setTitle(languageManager.getString("import_complete_title"))
                             .setMessage(importInfo.toString())
                             .setPositiveButton("OK") { _, _ ->
                                 // Optional: You could restart the app or refresh data here
-                                Toast.makeText(this, "💡 Tip: Restart the app to see all imported data", Toast.LENGTH_LONG).show()
+                                Toast.makeText(this, languageManager.getString("import_tip_restart"), Toast.LENGTH_LONG).show()
                             }
                             .show()
                             
                     } catch (e: Exception) {
-                        Toast.makeText(this, "❌ Invalid backup file: Unable to parse expense data", Toast.LENGTH_LONG).show()
+                        Toast.makeText(this, languageManager.getString("import_invalid_backup_parse_error"), Toast.LENGTH_LONG).show()
                     }
                 }
             }
             
         } catch (e: Exception) {
-            Toast.makeText(this, "❌ Import failed: ${e.message}", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, languageManager.getString("import_failed").replace("{error}", e.message ?: "Unknown error"), Toast.LENGTH_LONG).show()
         }
     }
     

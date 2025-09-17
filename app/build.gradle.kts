@@ -63,8 +63,7 @@ dependencies {
     implementation("com.airbnb.android:lottie:6.4.0")
     
     // Konfetti animation library
-    // implementation("nl.dionsegijn:konfetti-xml:2.0.4")
-    // implementation("nl.dionsegijn:konfetti-core:2.0.4")
+    implementation("nl.dionsegijn:konfetti-xml:2.0.5")
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 }
