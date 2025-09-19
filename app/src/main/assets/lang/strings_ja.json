@@ -480,5 +480,6 @@
   "export_no_data_title": "データが見つかりません",
   "export_no_data_message": "{period} の支出が見つかりません。\n\n💡 試してみてください:\n• '今週' を選択して最近の支出をエクスポート\n• '今月' を選択して月間データ\n• 必要に応じて今日の新しい支出を追加",
   "export_change_period": "期間を変更",
-  "remark": "備考"
+  "remark": "備考",
+  "items": "件"
 }

@@ -433,5 +433,6 @@
   "export_no_data_title": "No Data Found",
   "export_no_data_message": "No expenses found for {period}.\n\n💡 Try selecting:\n• 'This Week' to export recent expenses\n• 'This Month' for monthly data\n• Add new expenses for today if needed",
   "export_change_period": "Change Period",
-  "remark": "Remark"
+  "remark": "Remark",
+  "items": "items"
 }

@@ -97,4 +97,5 @@
     <string name="currency_mmk">Kyat de Myanmar</string>
     <string name="currency_jpy">Yen Japonés</string>
     <string name="currency_cny">Yuan Chino</string>
+    <string name="items">elementos</string>
 </resources>

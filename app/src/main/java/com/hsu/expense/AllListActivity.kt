@@ -4,6 +4,8 @@ import android.app.DatePickerDialog
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.content.res.ColorStateList
+import androidx.core.content.ContextCompat
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
@@ -63,12 +65,13 @@ class AllListActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
     private lateinit var textViewSelectionCount: TextView
     private lateinit var buttonDeleteSelected: Button
     private lateinit var buttonToggleSelection: Button
-    private lateinit var buttonCancelSelection: Button
     private var isSelectionMode = false
     
     // Filter components
     private lateinit var cardViewFilterStatus: CardView
     private lateinit var textViewFilterStatus: TextView
+    private lateinit var textViewFilterTotal: TextView
+    private lateinit var textViewFilterCount: TextView
     private lateinit var buttonClearActiveFilters: Button
     
     // Modal filter components
@@ -140,13 +143,14 @@ class AllListActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
         // Filter status components
         cardViewFilterStatus = findViewById(R.id.cardViewFilterStatus)
         textViewFilterStatus = findViewById(R.id.textViewFilterStatus)
+        textViewFilterTotal = findViewById(R.id.textViewFilterTotal)
+        textViewFilterCount = findViewById(R.id.textViewFilterCount)
         buttonClearActiveFilters = findViewById(R.id.buttonClearActiveFilters)        // Selection controls
         layoutSelectionControls = findViewById(R.id.layoutSelectionControls)
         checkboxSelectAll = findViewById<CheckBox>(R.id.checkboxSelectAll)
         textViewSelectionCount = findViewById<TextView>(R.id.textViewSelectionCount)
         buttonDeleteSelected = findViewById<Button>(R.id.buttonDeleteSelected)
         buttonToggleSelection = findViewById<Button>(R.id.buttonToggleSelection)
-        buttonCancelSelection = findViewById<Button>(R.id.buttonCancelSelection)
           // Action buttons
         findViewById<Button>(R.id.buttonToggleFilter).apply {
             text = languageManager.getString("filters_button")
@@ -167,9 +171,8 @@ class AllListActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
             toggleSelectionMode()
         }
         
-        buttonCancelSelection.setOnClickListener {
-            exitSelectionMode()
-        }
+        // Set initial background color for selection button
+        buttonToggleSelection.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.accent_color))
         
         checkboxSelectAll.setOnCheckedChangeListener { _, isChecked ->
             if (isSelectionMode) {
@@ -319,18 +322,18 @@ class AllListActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
     }
       private fun showFilterStatus() {
         cardViewFilterStatus.visibility = View.VISIBLE
-        
+
         val filterText = buildString {
             append(languageManager.getString("filter_status_prefix"))
             append(" ")
             val filters = mutableListOf<String>()
-            
+
             if (currentYearFilter != languageManager.getString("filter_all")) {
                 filters.add("${languageManager.getString("filter_year_prefix")} $currentYearFilter")
             }
             if (currentMonthFilter > 0) {
                 val monthNames = listOf(
-                    "", 
+                    "",
                     languageManager.getString("month_jan"),
                     languageManager.getString("month_feb"),
                     languageManager.getString("month_mar"),
@@ -352,14 +355,25 @@ class AllListActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
             if (currentEndDate.isNotEmpty()) {
                 filters.add("${languageManager.getString("filter_to_prefix")} $currentEndDate")
             }
-            
+
             append(filters.joinToString(", "))
         }
-        
+
         textViewFilterStatus.text = filterText
+
+        // Calculate and display total amount
+        val totalAmount = calculateFilteredTotal()
+        val formattedTotal = currencyManager.formatCurrency(totalAmount)
+        textViewFilterTotal.text = "💰 ${languageManager.getString("total_amount")} $formattedTotal"
+        
+        // Display filtered items count
+        val filteredItems = filterExpenses()
+        val itemCount = filteredItems.size
+        textViewFilterCount.text = "📊 $itemCount ${languageManager.getString("items")}"
     }
     
-    private fun clearAllFilters() {        currentYearFilter = languageManager.getString("filter_all")
+    private fun clearAllFilters() {        
+        currentYearFilter = languageManager.getString("filter_all")
         currentMonthFilter = 0
         currentStartDate = ""
         currentEndDate = ""
@@ -440,6 +454,16 @@ class AllListActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
         return filtered
     }
 
+    private fun calculateFilteredTotal(): Double {
+        val filteredExpenses = filterExpenses()
+        val currentCurrency = currencyManager.getCurrentCurrency()
+
+        return filteredExpenses.sumOf { expense ->
+            // Convert each expense to the current currency
+            currencyManager.convertBetweenCurrencies(expense.price, expense.currency, currentCurrency)
+        }
+    }
+
     private fun toggleSelectionMode() {
         if (isSelectionMode) {
             exitSelectionMode()
@@ -453,6 +477,7 @@ class AllListActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
         allListAdapter.setSelectionMode(true)
         layoutSelectionControls.visibility = View.VISIBLE
         buttonToggleSelection.text = languageManager.getString("cancel_selection")
+        buttonToggleSelection.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(this, android.R.color.darker_gray))
         updateSelectionUI()
     }
 
@@ -461,6 +486,7 @@ class AllListActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
         allListAdapter.setSelectionMode(false)
         layoutSelectionControls.visibility = View.GONE
         buttonToggleSelection.text = languageManager.getString("toggle_selection")
+        buttonToggleSelection.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.accent_color))
     }
     
     private fun updateSelectionUI() {
@@ -709,7 +735,6 @@ class AllListActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
         // Update selection buttons if they exist
         try {
             buttonToggleSelection.text = languageManager.getString("toggle_selection")
-            buttonCancelSelection.text = languageManager.getString("cancel_selection")
             buttonDeleteSelected.text = languageManager.getString("delete_selected")
             checkboxSelectAll.text = languageManager.getString("select_all")
         } catch (e: Exception) {
@@ -814,7 +839,6 @@ class AllListActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
 
         inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {            private val textViewName: TextView = itemView.findViewById(R.id.textViewName)
             private val textViewPrice: TextView = itemView.findViewById(R.id.textViewPrice)
-            private val textViewDescription: TextView = itemView.findViewById(R.id.textViewDescription)
             private val textViewDateTime: TextView = itemView.findViewById(R.id.textViewDateTime)
             private val checkboxSelect: CheckBox = itemView.findViewById(R.id.checkboxSelect)
 
@@ -825,7 +849,6 @@ class AllListActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
                 val displayAmount = currencyManager.getDisplayAmountFromStored(expense.price, expense.currency)
                 textViewPrice.text = currencyManager.formatCurrency(displayAmount)
                 
-                textViewDescription.text = expense.description
                 textViewDateTime.text = "📅 ${expense.date} • 🕐 ${expense.time}"
 
                 // Selection mode handling

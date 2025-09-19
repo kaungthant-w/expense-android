@@ -69,28 +69,60 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:padding="12dp"
-                    android:gravity="center_vertical">
+                    android:orientation="vertical"
+                    android:padding="12dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="top">
+
+                        <TextView
+                            android:id="@+id/textViewFilterStatus"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="🔍 Filters applied"
+                            android:textSize="14sp"
+                            android:textColor="@android:color/white" />
+
+                        <Button
+                            android:id="@+id/buttonClearActiveFilters"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Clear"
+                            android:textSize="12sp"
+                            android:background="@android:color/transparent"
+                            android:textColor="@android:color/holo_red_dark"
+                            android:textStyle="bold"
+                            android:padding="4dp"
+                            android:layout_marginStart="10dp"
+                            android:minWidth="0dp"
+                            android:minHeight="0dp" />
+
+                    </LinearLayout>
 
                     <TextView
-                        android:id="@+id/textViewFilterStatus"
-                        android:layout_width="0dp"
+                        android:id="@+id/textViewFilterTotal"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="🔍 Filters applied"
-                        android:textSize="14sp"
-                        android:textColor="@android:color/white" />
+                        android:text="@string/total_amount"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        android:textColor="@android:color/white"
+                        android:layout_marginTop="8dp"
+                        android:gravity="left" />
 
-                    <Button
-                        android:id="@+id/buttonClearActiveFilters"
-                        android:layout_width="wrap_content"
-                        android:layout_height="32dp"
-                        android:text="Clear"
+                    <TextView
+                        android:id="@+id/textViewFilterCount"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/items"
                         android:textSize="11sp"
-                        android:backgroundTint="@android:color/white"
-                        android:textColor="?attr/accentColor"
-                        android:padding="8dp" />
+                        android:textColor="@android:color/white"
+                        android:layout_marginTop="4dp"
+                        android:gravity="left" />
 
                 </LinearLayout>
 
@@ -137,45 +169,37 @@
                             android:textSize="9sp" 
                             android:textColor="@color/selection_count_color" 
                             android:background="@drawable/selection_count_background" 
-                            android:padding="6dp" />
+                            android:padding="6dp" 
+                            android:layout_marginStart="10dp"
+                            />
+
 
                     </LinearLayout>
 
                     <!-- Selection Controls Row -->
-                    <LinearLayout 
-                        android:layout_width="match_parent" 
-                        android:layout_height="wrap_content" 
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
-                        <CheckBox 
-                            android:id="@+id/checkboxSelectAll" 
+                        <CheckBox
+                            android:id="@+id/checkboxSelectAll"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="All"
+                            android:textColor="@color/selection_text_color"
+                            android:layout_marginEnd="30dp" />
+
+                        <Button
+                            android:id="@+id/buttonDeleteSelected"
                             android:layout_width="wrap_content" 
-                            android:layout_height="wrap_content" 
-                            android:text="Select All" 
-                            android:textColor="@color/selection_text_color" 
-                            android:layout_marginEnd="16dp" />
-
-                        <Button 
-                            android:id="@+id/buttonDeleteSelected" 
-                            android:layout_width="0dp" 
-                            android:layout_height="wrap_content" 
-                            android:layout_weight="1" 
-                            android:text="🗑️ Delete" 
-                            android:textSize="10sp" 
-                            android:backgroundTint="@color/delete_button_color" 
-                            android:textColor="@android:color/white" 
+                            android:layout_height="36dp" 
+                            android:text="🗑️ Delete"
+                            android:textSize="10sp"
+                            android:backgroundTint="@color/delete_button_color"
+                            android:textColor="@android:color/white"
                             android:enabled="false" 
-                            android:layout_marginEnd="8dp" />
-
-                        <Button 
-                            android:id="@+id/buttonCancelSelection" 
-                            android:layout_width="0dp" 
-                            android:layout_height="wrap_content" 
-                            android:layout_weight="1" 
-                            android:text="❌ Cancel" 
-                            android:textSize="10sp" 
-                            android:backgroundTint="@color/cancel_button_color" 
-                            android:textColor="@android:color/white" />
+                            android:layout_marginStart="8dp"/>
 
                     </LinearLayout>
 

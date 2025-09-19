@@ -466,5 +466,6 @@
   "export_no_data_title": "未找到数据",
   "export_no_data_message": "未找到 {period} 的支出。\n\n💡 请尝试选择:\n• '本周' 以导出最近的支出\n• '本月' 以获取月度数据\n• 如需要，请添加今天的支出",
   "export_change_period": "更改期间",
-  "remark": "备注"
+  "remark": "备注",
+  "items": "项目"
 }
