@@ -170,4 +170,25 @@
     <string name="euro">Euro</string>
     <string name="korean_won">Korean Won</string>
     <string name="items">items</string>
+    <string name="clear">Clear</string>
+    <string name="selection_active">✅ Selection Active</string>
+    <string name="view_history">🗃️ History</string>
+    <string name="filters_applied">🔍 Filters applied</string>
+    <string name="selection_count">{count} items selected</string>
+    <string name="select_all">All</string>
+    <string name="delete_selected">🗑️ Delete</string>
+    <string name="toggle_selection">✅ Selection</string>
+    <string name="toggle_filters">🔍 Filters</string>
+    <string name="import_invalid_backup_no_data">❌ Invalid backup file: No expense data found</string>
+    <string name="import_success_title">✅ Import Successful!</string>
+    <string name="import_summary">📊 Import Summary:</string>
+    <string name="import_total_expenses">• Total expenses: {count}</string>
+    <string name="import_active_expenses">• Active expenses: {count}</string>
+    <string name="import_deleted_expenses">• Deleted expenses: {count}</string>
+    <string name="import_export_date">• Export date: {date}</string>
+    <string name="import_restart_message">\nRestart the app to see all imported data.</string>
+    <string name="import_complete_title">📥 Import Complete</string>
+    <string name="import_tip_restart">💡 Tip: Restart the app to see all imported data</string>
+    <string name="import_invalid_backup_parse_error">❌ Invalid backup file: Unable to parse expense data</string>
+    <string name="import_failed">❌ Import failed: {error}</string>
 </resources>

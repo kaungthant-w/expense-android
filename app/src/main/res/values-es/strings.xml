@@ -98,4 +98,25 @@
     <string name="currency_jpy">Yen Japonés</string>
     <string name="currency_cny">Yuan Chino</string>
     <string name="items">elementos</string>
+    <string name="clear">Limpiar</string>
+    <string name="selection_active">✅ Selección Activa</string>
+    <string name="view_history">🗃️ Historial</string>
+    <string name="filters_applied">🔍 Filtros aplicados</string>
+    <string name="selection_count">{count} elementos seleccionados</string>
+    <string name="select_all">Todos</string>
+    <string name="delete_selected">🗑️ Eliminar</string>
+    <string name="toggle_selection">✅ Selección</string>
+    <string name="toggle_filters">🔍 Filtros</string>
+    <string name="import_invalid_backup_no_data">❌ Archivo de respaldo inválido: No se encontraron datos de gastos</string>
+    <string name="import_success_title">✅ ¡Importación exitosa!</string>
+    <string name="import_summary">📊 Resumen de importación:</string>
+    <string name="import_total_expenses">• Total de gastos: {count}</string>
+    <string name="import_active_expenses">• Gastos activos: {count}</string>
+    <string name="import_deleted_expenses">• Gastos eliminados: {count}</string>
+    <string name="import_export_date">• Fecha de exportación: {date}</string>
+    <string name="import_restart_message">\nReinicia la aplicación para ver todos los datos importados.</string>
+    <string name="import_complete_title">📥 Importación completa</string>
+    <string name="import_tip_restart">💡 Consejo: Reinicia la aplicación para ver todos los datos importados</string>
+    <string name="import_invalid_backup_parse_error">❌ Archivo de respaldo inválido: No se pueden analizar los datos de gastos</string>
+    <string name="import_failed">❌ Importación fallida: {error}</string>
 </resources>

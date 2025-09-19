@@ -58,4 +58,25 @@
     <string name="euro">ယူရို</string>
     <string name="korean_won">ကိုရီးယား ဝမ်</string>
     <string name="items">ခု</string>
+    <string name="clear">ရှင်းလင်း</string>
+    <string name="selection_active">✅ ရွေးချယ်မှု အလုပ်လုပ်နေ</string>
+    <string name="view_history">🗃️ မှတ်တမ်း</string>
+    <string name="filters_applied">🔍 စစ်ဆေးမှုများ အသုံးပြုထားသည်</string>
+    <string name="selection_count">{count} ခု ရွေးချယ်ထားသည်</string>
+    <string name="select_all">အားလုံး</string>
+    <string name="delete_selected">🗑️ ဖျက်ရန်</string>
+    <string name="toggle_selection">✅ ရွေးချယ်ရန်</string>
+    <string name="toggle_filters">🔍 စစ်ဆေးရန်</string>
+    <string name="import_invalid_backup_no_data">❌ မှားယွင်းသော ဘက်အပ်ဖိုင်: ကုန်ကျစရိတ် ဒေတာ မရှိပါ</string>
+    <string name="import_success_title">✅ တင်သွင်းခြင်း အောင်မြင်ပါသည်!</string>
+    <string name="import_summary">📊 တင်သွင်းခြင်း အနှစ်ချုပ်:</string>
+    <string name="import_total_expenses">• စုစုပေါင်း ကုန်ကျစရိတ်များ: {count}</string>
+    <string name="import_active_expenses">• လက်ရှိ ကုန်ကျစရိတ်များ: {count}</string>
+    <string name="import_deleted_expenses">• ဖျက်ထားသော ကုန်ကျစရိတ်များ: {count}</string>
+    <string name="import_export_date">• ထုတ်ယူသည့်ရက်စွဲ: {date}</string>
+    <string name="import_restart_message">\nတင်သွင်းထားသော ဒေတာအားလုံးကို မြင်ရန် အက်ပ်ကို ပြန်လည် စတင်ပါ။</string>
+    <string name="import_complete_title">📥 တင်သွင်းခြင်း ပြီးမြောက်ပါပြီ</string>
+    <string name="import_tip_restart">💡 အကြံပြု: ဒေတာအားလုံးကို မြင်ရန် အက်ပ်ကို ပြန်လည် စတင်ပါ</string>
+    <string name="import_invalid_backup_parse_error">❌ မှားယွင်းသော ဘက်အပ်ဖိုင်: ကုန်ကျစရိတ် ဒေတာ ဖတ်ရှုနိုင်ခြင်း မရှိပါ</string>
+    <string name="import_failed">❌ တင်သွင်းခြင်း မအောင်မြင်ပါ: {error}</string>
 </resources>

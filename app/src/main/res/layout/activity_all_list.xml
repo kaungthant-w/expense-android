@@ -37,7 +37,7 @@
                     android:layout_width="0dp" 
                     android:layout_height="wrap_content" 
                     android:layout_weight="1" 
-                    android:text="All Expenses" 
+                    android:text="@string/all_list_title" 
                     android:textSize="18sp" 
                     android:textStyle="bold" 
                     android:gravity="center_vertical" 
@@ -47,7 +47,7 @@
                     android:id="@+id/buttonViewHistory" 
                     android:layout_width="wrap_content" 
                     android:layout_height="36dp" 
-                    android:text="🗃️ History" 
+                    android:text="@string/view_history" 
                     android:textSize="12sp" 
                     android:backgroundTint="?attr/accentColor" 
                     android:textColor="@android:color/white" 
@@ -83,7 +83,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="🔍 Filters applied"
+                            android:text="@string/filters_applied"
                             android:textSize="14sp"
                             android:textColor="@android:color/white" />
 
@@ -91,7 +91,7 @@
                             android:id="@+id/buttonClearActiveFilters"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Clear"
+                            android:text="@string/clear"
                             android:textSize="12sp"
                             android:background="@android:color/transparent"
                             android:textColor="@android:color/holo_red_dark"
@@ -156,7 +156,7 @@
                             android:layout_width="0dp" 
                             android:layout_height="wrap_content" 
                             android:layout_weight="1" 
-                            android:text="✅ Selection Active" 
+                            android:text="@string/selection_active" 
                             android:textSize="9sp" 
                             android:textStyle="bold" 
                             android:textColor="@color/selection_text_color" />
@@ -165,15 +165,13 @@
                             android:id="@+id/textViewSelectionCount" 
                             android:layout_width="wrap_content" 
                             android:layout_height="wrap_content" 
-                            android:text="0 items selected" 
+                            android:text="@string/selection_count" 
                             android:textSize="9sp" 
                             android:textColor="@color/selection_count_color" 
                             android:background="@drawable/selection_count_background" 
                             android:padding="6dp" 
                             android:layout_marginStart="10dp"
                             />
-
-
                     </LinearLayout>
 
                     <!-- Selection Controls Row -->
@@ -186,24 +184,21 @@
                             android:id="@+id/checkboxSelectAll"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="All"
+                            android:text="@string/select_all"
                             android:textColor="@color/selection_text_color"
-                            android:layout_marginEnd="30dp" />
+                            android:layout_weight="1" />
 
                         <Button
                             android:id="@+id/buttonDeleteSelected"
-                            android:layout_width="wrap_content" 
-                            android:layout_height="36dp" 
-                            android:text="🗑️ Delete"
+                            android:layout_width="wrap_content"
+                            android:layout_height="36dp"
+                            android:text="@string/delete_selected"
                             android:textSize="10sp"
                             android:backgroundTint="@color/delete_button_color"
                             android:textColor="@android:color/white"
-                            android:enabled="false" 
-                            android:layout_marginStart="8dp"/>
+                            android:enabled="false" />
 
-                    </LinearLayout>
-
-                </LinearLayout>
+                    </LinearLayout>                </LinearLayout>
 
             </androidx.cardview.widget.CardView>
             
@@ -219,7 +214,7 @@
                     android:layout_width="0dp" 
                     android:layout_height="wrap_content" 
                     android:layout_weight="1" 
-                    android:text="✅ Selection" 
+                    android:text="@string/toggle_selection" 
                     android:backgroundTint="?attr/accentColor" 
                     android:textColor="@android:color/white" 
                     android:layout_marginEnd="8dp" 
@@ -231,7 +226,7 @@
                     android:layout_width="0dp" 
                     android:layout_height="wrap_content" 
                     android:layout_weight="1" 
-                    android:text="🔍 Filters" 
+                    android:text="@string/toggle_filters" 
                     android:backgroundTint="@color/filter_button_color" 
                     android:textColor="@android:color/white" 
                     android:layout_marginStart="8dp" 

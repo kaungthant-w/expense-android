@@ -98,4 +98,25 @@
     <string name="currency_jpy">Iene Japonês</string>
     <string name="currency_cny">Yuan Chinês</string>
     <string name="items">itens</string>
+    <string name="clear">Limpar</string>
+    <string name="selection_active">✅ Seleção Ativa</string>
+    <string name="view_history">🗃️ Histórico</string>
+    <string name="filters_applied">🔍 Filtros aplicados</string>
+    <string name="selection_count">{count} itens selecionados</string>
+    <string name="select_all">Todos</string>
+    <string name="delete_selected">🗑️ Excluir</string>
+    <string name="toggle_selection">✅ Seleção</string>
+    <string name="toggle_filters">🔍 Filtros</string>
+    <string name="import_invalid_backup_no_data">❌ Arquivo de backup inválido: Nenhum dado de despesa encontrado</string>
+    <string name="import_success_title">✅ Importação bem-sucedida!</string>
+    <string name="import_summary">📊 Resumo da importação:</string>
+    <string name="import_total_expenses">• Total de despesas: {count}</string>
+    <string name="import_active_expenses">• Despesas ativas: {count}</string>
+    <string name="import_deleted_expenses">• Despesas excluídas: {count}</string>
+    <string name="import_export_date">• Data de exportação: {date}</string>
+    <string name="import_restart_message">\nReinicie o aplicativo para ver todos os dados importados.</string>
+    <string name="import_complete_title">📥 Importação concluída</string>
+    <string name="import_tip_restart">💡 Dica: Reinicie o aplicativo para ver todos os dados importados</string>
+    <string name="import_invalid_backup_parse_error">❌ Arquivo de backup inválido: Não é possível analisar os dados de despesa</string>
+    <string name="import_failed">❌ Falha na importação: {error}</string>
 </resources>
